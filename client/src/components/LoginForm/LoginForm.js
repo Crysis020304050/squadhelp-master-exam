@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { authActionLogin, clearAuth } from '../../actions/actionCreator';
-import { Redirect } from 'react-router-dom';
 import styles from './LoginForm.module.sass';
 import { Field, reduxForm } from 'redux-form';
 import FormInput from '../FormInput/FormInput';
@@ -35,7 +34,6 @@ class LoginForm extends React.Component{
       <div className={ styles.loginForm }>
         { error && <Error data={ error.data } status={ error.status }
                           clearError={ authClear }/> }
-        <h2>LOGIN TO YOUR ACCOUNT</h2>
         <form onSubmit={ handleSubmit(this.clicked) }>
           <Field
             name='email'

@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "admin",
+    "username": "crysis020304050",
+    "password": "CrysisWarhead020304050",
     "database": "todo-dev",
     "host": "localhost",
     "dialect": "postgres",

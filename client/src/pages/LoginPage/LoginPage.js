@@ -8,9 +8,7 @@ import { clearErrorSignUpAndLogin } from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 
 const LoginPage = (props) => {
-  const changeRoute = () => {
-    props.history.replace('/');
-  };
+
   return (
     <div className={ styles.mainContainer }>
       <div className={ styles.loginContainer }>
@@ -22,7 +20,8 @@ const LoginPage = (props) => {
           </div>
         </div>
         <div className={ styles.loginFormContainer }>
-          <LoginForm changeRoute={ changeRoute }/>
+          <h2>LOGIN TO YOUR ACCOUNT</h2>
+          <LoginForm/>
         </div>
       </div>
     </div>

@@ -4,79 +4,109 @@
   flex-direction: column
   align-items: center
 
-  .footer
-    padding-top: 80px
-    background: white
+.footer
+  padding-top: 80px
+  background: white
+  display: flex
+  justify-content: center
+
+.articlesMainContainer
+  width: 60%
+  display: flex
+  min-width: 300px
+  flex-direction: row
+  justify-content: center
+  align-items: flex-start
+  @media(max-width: 1000px)
+    flex-direction: column
+
+.ColumnContainer
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  align-items: flex-start
+  margin-right: 48px
+  margin-left: 48px
+  flex: 1
+
+.headerArticle
+  font-size: 16px
+  font-weight: 500
+  color: #363945
+  margin-bottom: 20px
+
+.article
+  color: #9ca8b7
+  line-height: 30px
+  padding: 0
+  font-size: 16px
+  font-weight: 500
+  margin-bottom: 10px
+
+.orangeSpan
+  color: #f18762
+
+.signUpContainer
+  width: 72%
+  padding: 20px
+  min-width: 280px
+  min-height: 650px
+  padding-top: 40px
+
+
+.headerSignUpPage
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  margin-top: 26px
+  padding-left: 45px
+  padding-right: 60px
+  @media (max-width: 530px)
+    padding: 0
+
+
+.linkLoginContainer
+    border: 1px solid white
+    width: 80px
+    border-radius: 4px
     display: flex
     justify-content: center
+    align-items: center
+    font-size: 18px
+    font-weight: bold
+    height: 40px
+    text-decoration: none
 
-    .articlesMainContainer
-      width: 60%
-      display: flex
-      min-width: 300px
-      flex-direction: row
-      justify-content: center
-      align-items: flex-start
-      @media(max-width: 1000px)
-        flex-direction: column
+    span
+      color: white
 
-      .ColumnContainer
-        display: flex
-        flex-direction: column
-        justify-content: flex-start
-        align-items: flex-start
-        margin-right: 48px
-        margin-left: 48px
-        flex: 1
-
-        .headerArticle
-          font-size: 16px
-          font-weight: 500
-          color: #363945
-          margin-bottom: 20px
-
-        .article
-          color: #9ca8b7
-          line-height: 30px
-          padding: 0
-          font-size: 16px
-          font-weight: 500
-          margin-bottom: 10px
-
-          .orangeSpan
-            color: #f18762
-
-  .signUpContainer
-    width: 72%
-    padding: 20px
-    min-width: 280px
-    min-height: 650px
-    padding-top: 40px
+.headerFormContainer
+  margin-top: 80px
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  margin-bottom: 18px
+  text-align: center
 
 
-    .headerSignUpPage
-      display: flex
-      flex-direction: row
-      justify-content: space-between
-      align-items: center
-      margin-top: 26px
-      padding-left: 45px
-      padding-right: 60px
-      @media (max-width: 530px)
-        padding: 0
+  h2
+    color: white
+    font-size: 42px
+    font-weight: 600
+    line-height: 1.1
+    margin-top: 20px
+    margin-bottom: 10px
+    letter-spacing: 1px
 
-
-    .linkLoginContainer
-        border: 1px solid white
-        width: 80px
-        border-radius: 4px
-        display: flex
-        justify-content: center
-        align-items: center
-        font-size: 18px
-        font-weight: bold
-        height: 40px
-        text-decoration: none
-
-        span
-          color: white
+  h4
+    color: white
+    font-size: 20px
+    font-weight: 500
+    word-spacing: 3px
+    width: 88%
+    margin: 0
+    margin-bottom: 13px
+    text-align: center
+    line-height: 27px
