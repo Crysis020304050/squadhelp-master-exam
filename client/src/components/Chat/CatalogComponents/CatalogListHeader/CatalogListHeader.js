@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {changeShowModeCatalog, changeRenameCatalogMode, changeCatalogName} from "../../../../actions/actionCreator";
 import {Field, reduxForm} from 'redux-form';
 import styles from './CatalogHeader.module.sass';
-import FormInput from '../../../FormInput/FormInput';
+import FieldInput from '../../../FormField/FieldInput';
+import FieldError from "../../../FormField/FieldError";
 
 
 const validate = (values) => {
@@ -21,6 +22,19 @@ const CatalogListHeader = (props) => {
         changeCatalogName({catalogName: values.catalogName, catalogId: _id});
     };
     const {handleSubmit, catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid} = props;
+
+    const formInputStyles = {
+        inputStyles: styles.input,
+        invalidStyles: styles.notValid,
+    };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
+
     return (
         <div className={styles.headerContainer}>
             <i className='fas fa-long-arrow-alt-left' onClick={() => changeShowModeCatalog()}/>
@@ -32,13 +46,7 @@ const CatalogListHeader = (props) => {
                 <form onSubmit={handleSubmit(changeCatalogName)}>
                     <Field
                         name='catalogName'
-                        classes={{
-                            container: styles.inputContainer,
-                            input: styles.input,
-                            warning: styles.fieldWarning,
-                            notValid: styles.notValid
-                        }}
-                        component={FormInput}
+                        component={renderField}
                         type='text'
                         label='Catalog Name'
                     />

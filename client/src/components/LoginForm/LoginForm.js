@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { authActionLogin, clearAuth } from '../../actions/actionCreator';
 import styles from './LoginForm.module.sass';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../FormInput/FormInput';
+import FieldInput from '../FormField/FieldInput';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import Error from '../../components/Error/Error';
+import FieldError from "../FormField/FieldError";
 
 class LoginForm extends React.Component{
 
@@ -22,13 +23,18 @@ class LoginForm extends React.Component{
     const {error, isFetching} = this.props.auth;
     const {handleSubmit, submitting, authClear} = this.props;
 
-    const formInputClasses = {
-      container: styles.inputContainer,
-      input: styles.input,
-      warning: styles.fieldWarning,
-      notValid: styles.notValid,
-      valid: styles.valid,
+    const formInputStyles = {
+      inputStyles: styles.input,
+      invalidStyles: styles.notValid,
+      validStyles: styles.valid,
     };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+          <FieldInput {...field} {...formInputStyles}/>
+          <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
 
     return (
       <div className={ styles.loginForm }>
@@ -37,15 +43,13 @@ class LoginForm extends React.Component{
         <form onSubmit={ handleSubmit(this.clicked) }>
           <Field
             name='email'
-            classes={ formInputClasses }
-            component={ FormInput }
+            component={ renderField }
             type='text'
             label='Email Address'
           />
           <Field
             name='password'
-            classes={ formInputClasses }
-            component={ FormInput }
+            component={ renderField }
             type='password'
             label='password'
           />

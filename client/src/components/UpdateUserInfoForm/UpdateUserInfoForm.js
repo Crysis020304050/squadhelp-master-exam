@@ -4,14 +4,28 @@ import {connect} from 'react-redux';
 import {clearUserError} from '../../actions/actionCreator';
 import styles from './UpdateUserInfoForm.module.sass';
 import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
-import FormInput from '../FormInput/FormInput';
+import FieldInput from '../FormField/FieldInput';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import Error from '../../components/Error/Error';
+import FieldError from "../FormField/FieldError";
 
 
 const UpdateUserInfoForm = (props) => {
     const {handleSubmit, submitting, error, clearUserError} = props;
+
+    const formInputStyles = {
+        inputStyles: styles.input,
+        invalidStyles: styles.notValid,
+    };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.error}/>
+        </label>
+    );
+
     return (
         <form onSubmit={handleSubmit} className={styles.updateContainer}>
             {error && <Error data={error.data} status={error.status} clearError={clearUserError}/>}
@@ -19,45 +33,27 @@ const UpdateUserInfoForm = (props) => {
                 <span className={styles.label}>First Name</span>
                 <Field
                     name='firstName'
-                    component={FormInput}
+                    component={renderField}
                     type='text'
                     label='First Name'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
                 />
             </div>
             <div className={styles.container}>
                 <span className={styles.label}>Last Name</span>
                 <Field
                     name='lastName'
-                    component={FormInput}
+                    component={renderField}
                     type='text'
                     label='LastName'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
                 />
             </div>
             <div className={styles.container}>
                 <span className={styles.label}>Display Name</span>
                 <Field
                     name='displayName'
-                    component={FormInput}
+                    component={renderField}
                     type='text'
                     label='Display Name'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
                 />
             </div>
             <Field

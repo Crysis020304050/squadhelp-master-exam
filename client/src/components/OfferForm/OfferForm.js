@@ -6,15 +6,29 @@ import {withRouter} from 'react-router-dom';
 import styles from './OfferForm.module.sass';
 import {reduxForm, Field} from 'redux-form';
 import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
-import FormInput from '../FormInput/FormInput';
+import FieldInput from '../FormField/FieldInput';
 import customValidator from "../../validators/validator";
 import Schems from "../../validators/validationSchems";
 import Error from '../../components/Error/Error';
+import FieldError from "../FormField/FieldError";
 
 
 let contestType;
 
 const OfferForm = (props) => {
+
+    const formInputStyles = {
+        inputStyles: styles.input,
+        invalidStyles: styles.notValid,
+    };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
+
     const renderOfferInput = () => {
         if (props.contestType === CONTANTS.LOGO_CONTEST) {
             return (
@@ -32,13 +46,7 @@ const OfferForm = (props) => {
             return (
                 <Field
                     name='offerData'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.fieldWarning,
-                        notValid: styles.notValid
-                    }}
-                    component={FormInput}
+                    component={renderField}
                     type='text'
                     label='your suggestion'
                 />

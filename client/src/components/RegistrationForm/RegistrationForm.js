@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { authActionRegister, clearAuth } from '../../actions/actionCreator';
 import styles from './RegistrationForm.module.sass';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../FormInput/FormInput';
+import FieldInput from '../FormField/FieldInput';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
   from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
 import CONSTANTS from '../../constants';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
+import FieldError from "../FormField/FieldError";
 
 class RegistrationForm extends React.Component{
 
@@ -32,13 +33,20 @@ class RegistrationForm extends React.Component{
   render () {
     const {handleSubmit, submitting, auth, authClear} = this.props;
     const {error} = auth;
-    const formInputClasses = {
-      container: styles.inputContainer,
-      input: styles.input,
-      warning: styles.fieldWarning,
-      notValid: styles.notValid,
-      valid: styles.valid,
-    };
+
+      const formInputStyles = {
+          inputStyles: styles.input,
+          invalidStyles: styles.notValid,
+          validStyles: styles.valid,
+      };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
+
     return (
       <div className={ styles.signUpFormContainer }>
         { error && <Error data={ error.data } status={ error.status }
@@ -48,15 +56,13 @@ class RegistrationForm extends React.Component{
           <div className={ styles.row }>
             <Field
               name='firstName'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='text'
               label='First name'
             />
             <Field
               name='lastName'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='text'
               label='Last name'
             />
@@ -64,15 +70,13 @@ class RegistrationForm extends React.Component{
           <div className={ styles.row }>
             <Field
               name='displayName'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='text'
               label='Display Name'
             />
             <Field
               name='email'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='text'
               label='Email Address'
             />
@@ -80,15 +84,13 @@ class RegistrationForm extends React.Component{
           <div className={ styles.row }>
             <Field
               name='password'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='password'
               label='Password'
             />
             <Field
               name='confirmPassword'
-              classes={ formInputClasses }
-              component={ FormInput }
+              component={ renderField }
               type='password'
               label='Password confirmation'
             />

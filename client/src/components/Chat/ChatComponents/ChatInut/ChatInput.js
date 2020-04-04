@@ -4,7 +4,8 @@ import {sendMessageAction} from '../../../../actions/actionCreator';
 import {Field, reduxForm} from 'redux-form';
 import styles from './ChatInput.module.sass';
 import CONSTANTS from '../../../../constants';
-import FormInput from "../../../FormInput/FormInput";
+import FieldInput from "../../../FormField/FieldInput";
+import FieldError from "../../../FormField/FieldError";
 
 
 const validate = (values) => {
@@ -29,19 +30,27 @@ const ChatInput = (props) => {
 
 
     const {handleSubmit, valid} = props;
+
+    const formInputStyles = {
+        inputStyles: styles.input,
+        invalidStyles: styles.notValid,
+    };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
+
     return (
         <div className={styles.inputContainer}>
             <form onSubmit={handleSubmit(clickButton)} className={styles.form}>
                 <Field
                     name='message'
-                    component={FormInput}
+                    component={renderField}
                     type='text'
                     label='message'
-                    classes={{
-                        container: styles.container,
-                        input: styles.input,
-                        notValid: styles.notValid
-                    }}
                 />
                 {valid &&
                 <button type='submit'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}send.png`} alt="send Message"/>

@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import FormInput from '../../../FormInput/FormInput';
+import FieldInput from '../../../FormField/FieldInput';
 import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
+import FieldError from "../../../FormField/FieldError";
 
 const validate = (values) => {
     const errors = {};
@@ -21,19 +22,26 @@ const CreateCatalog = (props) => {
         createCatalog({catalogName: values.catalogName, chatId: addChatId});
     };
     const {handleSubmit, valid} = props;
+
+    const formInputStyles = {
+        inputStyles: styles.input,
+        invalidStyles: styles.notValid,
+    };
+
+    const renderField = (field) => (
+        <label className={styles.inputContainer}>
+            <FieldInput {...field} {...formInputStyles}/>
+            <FieldError meta={field.meta} className={styles.fieldWarning}/>
+        </label>
+    );
+
     return (
         <form onSubmit={handleSubmit(click)} className={styles.form}>
             <Field
                 name='catalogName'
-                component={FormInput}
+                component={renderField}
                 type='text'
                 label='name of catalog'
-                classes={{
-                    container: styles.inputContainer,
-                    input: styles.input,
-                    warning: styles.fieldWarning,
-                    notValid: styles.notValid
-                }}
             />
             {valid && <button type='submit'>Create Catalog</button>}
         </form>
