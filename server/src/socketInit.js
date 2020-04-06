@@ -3,21 +3,22 @@ const ChatController = require('./server/controllers/sockets/ChatController');
 const NotificationController = require(
   './server/controllers/sockets/NotificationController');
 
-let notificationController;
-let chatController;
+class ConnectionController {
+  constructor(httpServer) {
+    this.io = socketio.listen(httpServer);
+    this._chatController = new ChatController();
+    this._notificationController = new NotificationController();
+    this._chatController.connect('/chat', this.io);
+    this._notificationController.connect('/notifications', this.io);
+  }
 
-module.exports.createConnection = (httpServer) => {
-  const io = socketio.listen(httpServer);
-  notificationController = new NotificationController();
-  notificationController.connect('/notifications', io);
-  chatController = new ChatController();
-  chatController.connect('/chat', io);
-};
+  get chatController() {
+    return this._chatController;
+  }
 
-module.exports.getChatController = () => {
-  return chatController;
-};
+  get notificationController() {
+    return this._notificationController;
+  }
+}
 
-module.exports.getNotificationController = () => {
-  return notificationController;
-};
+module.exports = ConnectionController;

@@ -3,7 +3,7 @@ const http = require('http');
 const express = require('express');
 const router = require('./server/router');
 const cors = require('cors');
-const controller = require('./socketInit');
+const ConnectionController = require('./socketInit');
 const handlerError = require('./server/handlerError/handler');
 
 const PORT = process.env.PORT || 9632;
@@ -18,6 +18,8 @@ app.use(handlerError);
 const server = http.createServer(app);
 server.listen(PORT/*,
   () => console.log(`Example app listening on port ${ PORT }!`)*/);
-controller.createConnection(server);
+const controller = new ConnectionController(server);
+
+module.exports.controller = controller;
 
 
