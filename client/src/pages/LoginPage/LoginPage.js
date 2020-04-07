@@ -4,10 +4,13 @@ import Logo from '../../components/Logo';
 import styles from './LoginPage.module.sass';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrorSignUpAndLogin } from '../../actions/actionCreator';
+import {clearAuth} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
+import Error from "../../components/Error/Error";
 
 const LoginPage = (props) => {
+
+  const {error, authClear} = props;
 
   return (
     <div className={ styles.mainContainer }>
@@ -21,6 +24,8 @@ const LoginPage = (props) => {
         </div>
         <div className={ styles.loginFormContainer }>
           <h2>LOGIN TO YOUR ACCOUNT</h2>
+          { error && <Error data={ error.data } status={ error.status }
+                            clearError={ authClear }/> }
           <LoginForm/>
         </div>
       </div>
@@ -29,10 +34,12 @@ const LoginPage = (props) => {
 
 };
 
+const mapStateToProps = state => state.auth;
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    clearError: () => dispatch(clearErrorSignUpAndLogin()),
+    authClear: () => dispatch(clearAuth()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

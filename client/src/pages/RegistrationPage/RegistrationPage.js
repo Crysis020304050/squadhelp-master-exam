@@ -5,13 +5,14 @@ import RegistrationForm
 import styles from './RegistrationPage.module.sass';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {clearAuth} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 import Article from "../../components/Article";
 import articlesData from './articlesData';
+import Error from "../../components/Error/Error";
 
 const RegistrationPage = (props) => {
-    props.clearError();
+    const {error, authClear} = props;
 
     return (
         <div className={styles.signUpPage}>
@@ -30,6 +31,8 @@ const RegistrationPage = (props) => {
                     <h4>
                         We always keep your name and email address private.
                     </h4>
+                    { error && <Error data={ error.data } status={ error.status }
+                                      clearError={ authClear }/> }
                 </div>
                 <RegistrationForm/>
             </div>
@@ -69,10 +72,12 @@ const RegistrationPage = (props) => {
     );
 };
 
+const mapStateToProps = state => state.auth;
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        clearError: () => dispatch(clearErrorSignUpAndLogin()),
+        authClear: () => dispatch(clearAuth()),
     };
 };
 
-export default connect(null, mapDispatchToProps)(RegistrationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage);
