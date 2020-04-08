@@ -11,11 +11,14 @@ module.exports = {
       {
         cardNumber: '4111111111111111',
         name: 'yriy',
-        expiry: '09/19',
+        expiry: '09/29',
         cvc: '043',
-        balance: 5000,
+        balance: 500000,
       },
     ], {});
   },
+  down: (queryInterface) => {
+    return queryInterface.bulkDelete('Banks', null, {});
+  }
 
 };
