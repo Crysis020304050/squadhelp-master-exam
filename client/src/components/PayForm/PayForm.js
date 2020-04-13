@@ -32,7 +32,7 @@ const PayForm = (props) => {
           number={ number ? number : '' }
           name={ name ? name : '' }
           expiry={ expiry ? expiry : '' }
-          cvc={ cvc ? cvc : '' }
+          cvc={ cvc ? cvc.replace(/[0-9]/g, "*") : '' }
           focused={ focusOnElement }
         />
       </div>
