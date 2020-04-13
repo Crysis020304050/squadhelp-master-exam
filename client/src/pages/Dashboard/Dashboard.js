@@ -5,7 +5,6 @@ import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard
 import Header from '../../components/Header/Header';
 import {connect} from 'react-redux';
 
-
 const Dashboard = (props) => {
     const {role, history} = props;
     return (
