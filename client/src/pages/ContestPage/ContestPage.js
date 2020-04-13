@@ -32,15 +32,14 @@ class ContestPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getData();
+        this.props.changeContestViewMode(true);
     }
-
 
     getData = () => {
         const {params} = this.props.match;
         this.props.getData({contestId: params.id});
     };
-
 
     setOffersList = () => {
         const array = [];
@@ -53,14 +52,12 @@ class ContestPage extends React.Component {
         return array.length !== 0 ? array : <div className={styles.notFound}>There is no suggestion at this moment</div>
     };
 
-
     needButtons = (offerStatus) => {
         const contestCreatorId = this.props.contestByIdStore.contestData.User.id;
         const userId = this.props.userStore.data.id;
         const contestStatus = this.props.contestByIdStore.contestData.status;
         return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_PENDING);
     };
-
 
     setOfferStatus = (creatorId, offerId, command) => {
         this.props.clearSetOfferStatusError();
@@ -75,7 +72,6 @@ class ContestPage extends React.Component {
         };
         this.props.setOfferStatus(obj);
     };
-
 
     findConversationInfo = (interlocutorId) => {
         const {messagesPreview} = this.props.chatStore;
@@ -109,7 +105,6 @@ class ContestPage extends React.Component {
         const {isShowOnFull, imagePath, error, isFetching, isBrief, contestData, offers, setOfferStatusError} = contestByIdStore;
         return (
             <div>
-                {/*<Chat/>*/}
                 {isShowOnFull && <LightBox
                     mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
                     onCloseRequest={() => changeShowImage({isShowOnFull: false, imagePath: null})}
@@ -127,8 +122,10 @@ class ContestPage extends React.Component {
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        <span onClick={() => changeContestViewMode(false)}
+                                        {
+                                            (offers.length > 0 || role === CONSTANTS.CREATOR) && <span onClick={() => changeContestViewMode(false)}
                                               className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
+                                        }
                                     </div>
                                     {
                                         isBrief ?
