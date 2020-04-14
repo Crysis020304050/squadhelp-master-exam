@@ -8,7 +8,7 @@ import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
 import {connect} from 'react-redux';
 import Spinner from '../../components/Spinner/Spinner';
-import StartContestPanel from "../../components/StartContestPanel";
+import StartContestPanel from '../../components/StartContestPanel';
 
 
 const Home = (props) => {
