@@ -436,3 +436,17 @@ export const changeModalShow=(data)=>{
         data: data
     }
 };
+
+export const selectContestType = data => {
+    return {
+        type: ACTION.SELECT_CONTEST_TYPE,
+        data: data,
+    }
+};
+
+export const unSelectContestType = data => {
+    return {
+        type: ACTION.UNSELECT_CONTEST_TYPE,
+        data: data,
+    }
+};

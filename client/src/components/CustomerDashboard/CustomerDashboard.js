@@ -11,7 +11,6 @@ import TryAgain from '../../components/TryAgain/TryAgain';
 
 class CustomerDashboard extends React.Component {
 
-
     loadMore = (startFrom) => {
         this.props.getContests({
             limit: 8,
@@ -19,7 +18,6 @@ class CustomerDashboard extends React.Component {
             contestStatus: this.props.customerFilter
         });
     };
-
 
     componentDidMount() {
         this.getContests();

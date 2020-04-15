@@ -5,7 +5,7 @@ import {
     getContestsForCreative,
     clearContestList,
     setNewCreatorFilter,
-    getDataForContest
+    getDataForContest, selectContestType, unSelectContestType
 } from '../../actions/actionCreator';
 import ContestsContainer from '../../components/ContestsContainer/ContestsContainer';
 import ContestBox from "../ContestBox/ContestBox";
@@ -15,25 +15,38 @@ import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import TryAgain from '../../components/TryAgain/TryAgain';
 
-
-const types = ['', 'name,tagline,logo', 'name', 'tagline', 'logo', 'name,tagline', 'logo,tagline', 'name,logo'];
-
+const types = ['name', 'tagline', 'logo'];
 
 class CreatorDashboard extends React.Component {
 
+    renderSelectedTypeBadges = () => {
+        const {creatorFilter: {selectedContestTypes}, unSelectContestType} = this.props;
+        return [...selectedContestTypes].map(selectedType => (
+            <div key={selectedType} onClick={() => {
+                unSelectContestType(selectedType);
+            }}>{selectedType}
+                <i className="fa fa-times" aria-hidden="true"/>
+            </div>
+
+        ))
+    };
 
     renderSelectType = () => {
-        const array = [];
-        const {creatorFilter} = this.props;
-        types.forEach((el, i) => !i || array.push(<option key={i - 1} value={el}>{el}</option>));
-        return (
-            <select onChange={({target}) => this.changePredicate({
-                name: 'typeIndex',
-                value: types.indexOf(target.value)
-            })} value={types[creatorFilter.typeIndex]} className={styles.input}>
-                {array}
+        const {selectContestType} = this.props;
+        return (<select className={styles.input} onChange={e => {
+                selectContestType(e.currentTarget.value)
+            }}>{
+                types.map((type) => {
+                    return (
+                        <option key={type} value={type}>
+                            {
+                                type
+                            }
+                        </option>)
+                })
+            }
             </select>
-        );
+        )
     };
 
     renderIndustryType = () => {
@@ -52,18 +65,22 @@ class CreatorDashboard extends React.Component {
         );
     };
 
-
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.location.search !== this.props.location.search) {
             this.parseUrlForParams(nextProps.location.search);
         }
     }
 
-
     componentDidMount() {
         this.props.getDataForContest();
         if (this.parseUrlForParams(this.props.location.search) && !this.props.contests.length)
             this.getContests(this.props.creatorFilter);
+    }
+
+    componentDidUpdate( prevProps, prevState, snapshot ) {
+        if(this.props.creatorFilter.selectedContestTypes !== prevProps.creatorFilter.selectedContestTypes) {
+            this.getContests( this.props.creatorFilter );
+        }
     }
 
     getContests = (filter) => {
@@ -79,7 +96,6 @@ class CreatorDashboard extends React.Component {
         this.parseParamsToUrl({...creatorFilter, ...{[name]: value === 'Choose industry' ? null : value}});
     };
 
-
     parseParamsToUrl = (creatorFilter) => {
         const obj = {};
         Object.keys(creatorFilter).forEach(el => {
@@ -92,7 +108,7 @@ class CreatorDashboard extends React.Component {
     parseUrlForParams = (search) => {
         const obj = queryString.parse(search);
         const filter = {
-            typeIndex: obj.typeIndex || 1,
+            selectedContestTypes: obj.selectedContestTypes || [],
             contestId: obj.contestId ? obj.contestId : '',
             industry: obj.industry ? obj.industry : '',
             awardSort: obj.awardSort || 'asc',
@@ -145,7 +161,6 @@ class CreatorDashboard extends React.Component {
         this.props.getContests({limit: 8, offset: 0, ...this.getPredicateOfRequest()});
     };
 
-
     render() {
         const {error, haveMore, creatorFilter} = this.props;
         const {isFetching} = this.props.dataForContest;
@@ -160,6 +175,7 @@ class CreatorDashboard extends React.Component {
                             Entries
                         </div>
                         <div className={styles.inputContainer}>
+                            <div className={styles.selectedBadgesContainer}>{this.renderSelectedTypeBadges()}</div>
                             <span>By contest type</span>
                             {this.renderSelectType()}
                         </div>
@@ -215,7 +231,9 @@ const mapDispatchToProps = (dispatch) => {
         getContests: (data) => dispatch(getContestsForCreative(data)),
         clearContestsList: () => dispatch(clearContestList()),
         newFilter: (filter) => dispatch(setNewCreatorFilter(filter)),
-        getDataForContest: () => dispatch(getDataForContest())
+        getDataForContest: () => dispatch(getDataForContest()),
+        selectContestType: (data) => dispatch(selectContestType(data)),
+        unSelectContestType: (data) => dispatch(unSelectContestType(data)),
     }
 };
 

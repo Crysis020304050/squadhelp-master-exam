@@ -74,6 +74,8 @@
           width: 100%
           text-align: center
           margin: 0 10px
+          margin-bottom: 60px
+
       .activeMyEntries
         border-radius: 6px
         padding: 10px 20px
@@ -104,3 +106,30 @@
           font-weight: 700
           font-size: 15px
           color: #333
+
+.selectedBadgesContainer
+  display: flex
+  flex-wrap: wrap
+  max-width: 250px
+  margin-top: -60px
+  position: absolute
+
+  @media screen and (min-width: 1000px)
+    position: unset
+    margin-top: unset
+
+  @media screen and (max-width: 1000px)
+    max-width: 150px
+
+  & div
+    padding: 5px 8px
+    background-color: #1973E8
+    color: white
+    font-size: 14px
+    text-transform: capitalize
+    border-radius: 15px
+    margin: 2px
+    cursor: pointer
+
+    & i
+      margin-left: 2px

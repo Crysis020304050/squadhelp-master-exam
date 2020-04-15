@@ -2,11 +2,13 @@ import {put,select} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import * as restController from '../api/rest/restController';
 
-
-
 export function* activeContestsSaga(action){
     yield put({type: ACTION.GET_CONTESTS_ACTION_REQUEST});
     try{
+        if (typeof action.data.selectedContestTypes === 'string') {
+            const state = yield select();
+            action.data.selectedContestTypes = state.contestsList.creatorFilter.selectedContestTypes || new Set();
+        }
         const {data}=yield  restController.getActiveContests(action.data);
         yield  put({type: ACTION.GET_CONTESTS_ACTION_SUCCESS, data: data});
     }

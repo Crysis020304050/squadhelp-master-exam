@@ -1,5 +1,6 @@
 import ACTION from '../actions/actionTypes';
 import CONSTANTS from '../constants';
+import _ from 'lodash';
 
 const initialState = {
     isFetching: true,
@@ -7,7 +8,7 @@ const initialState = {
     contests: [],
     customerFilter: CONSTANTS.CONTEST_STATUS_ACTIVE,
     creatorFilter: {
-        typeIndex: 1,
+        selectedContestTypes: new Set(),
         contestId: '',
         industry: '',
         awardSort: 'asc',
@@ -15,7 +16,6 @@ const initialState = {
     },
     haveMore: true
 };
-
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 error: null,
-                contests: [...state.contests, ...action.data.contests],
+                contests: [...action.data.contests],
                 haveMore: action.data.haveMore
             }
         }
@@ -58,10 +58,29 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.SET_NEW_CREATOR_FILTER: {
+            const removeSelectedTypesProperty = ({selectedContestTypes, ...rest}) => rest;
             return {
                 ...initialState,
                 isFetching: false,
-                creatorFilter: {...state.creatorFilter,...action.filter}
+                creatorFilter: {...state.creatorFilter, ...removeSelectedTypesProperty(action.filter)}
+            }
+        }
+        case ACTION.SELECT_CONTEST_TYPE: {
+            const updatedFilter = _.clone(state.creatorFilter);
+            updatedFilter.selectedContestTypes = new Set(updatedFilter.selectedContestTypes).add(action.data);
+            return {
+                ...initialState,
+                creatorFilter: updatedFilter,
+            }
+        }
+        case ACTION.UNSELECT_CONTEST_TYPE: {
+            const updatedFilter = _.clone(state.creatorFilter);
+            const newSet = new Set(updatedFilter.selectedContestTypes);
+            newSet.delete(action.data);
+            updatedFilter.selectedContestTypes = newSet;
+            return {
+                ...initialState,
+                creatorFilter: updatedFilter,
             }
         }
         default:
