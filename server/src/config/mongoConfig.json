@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "shm-chat",
+    "database": "shm-chat-3",
     "host": "localhost",
     "port": 27017
   },

@@ -49,3 +49,11 @@ module.exports.createOffer = async (data) => {
     return result.get({ plain: true });
   }
 };
+
+module.exports.getOffersData = async (filter) => {
+  const result = await bd.Offers.findAll(filter);
+  if (result) {
+    return result;
+  }
+  throw new ServerError('cannot get offer files');
+};
