@@ -1,43 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from './TransactionTable.module.sass';
 import constants from "../../constants";
+import {connect} from 'react-redux';
 
-const transactions = [
-    {
-        id: 1,
-        type: constants.INCOME_TRANSACTION,
-        sum: '100$',
-    },
-    {
-        id: 2,
-        type: constants.INCOME_TRANSACTION,
-        sum: '200$',
-    },
-    {
-        id: 3,
-        type: constants.CONSUMPTION_TRANSACTION,
-        sum: '500$',
-    },
-    {
-        id: 4,
-        type: constants.INCOME_TRANSACTION,
-        sum: '1500$',
-    },
-    {
-        id: 5,
-        type: constants.CONSUMPTION_TRANSACTION,
-        sum: '400$',
-    },
-];
+const TransactionsTable = ({transactionHistory, transactionStatement}) => {
 
-const TransactionsTable = props => {
-
-    const renderTransactions = transactions => {
-        return transactions.map(({id, type, sum}) => (
-            <tr>
+    const renderTransactionsHistory = transactions => {
+        return transactions.map(({id, typeOperation, sum}) => (
+            <tr key={id}>
                 <td>{id}</td>
-                <td>{type === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
-                <td>{type === constants.INCOME_TRANSACTION ? sum : `-${sum}`}</td>
+                <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
+                <td>{typeOperation === constants.INCOME_TRANSACTION ? sum : `-${sum}`}</td>
+            </tr>
+        ))
+    };
+
+    const renderTransactionsStatement = statement => {
+        return Object.entries(statement).map(([typeOperation, sum], index) => (
+            <tr key={index}>
+                <th>Total</th>
+                <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
+                <td>{typeOperation === constants.INCOME_TRANSACTION ? (sum || 0) : (sum ? `-${sum}`: 0)}</td>
             </tr>
         ))
     };
@@ -50,10 +33,15 @@ const TransactionsTable = props => {
                 <th>Sum</th>
             </tr>
             {
-                renderTransactions(transactions)
+                transactionHistory && renderTransactionsHistory(transactionHistory)
+            }
+            {
+                transactionStatement && renderTransactionsStatement(transactionStatement)
             }
         </table>
     )
 };
 
-export default TransactionsTable;
+const mapStateToProps = state => state.transactionsStore;
+
+export default connect(mapStateToProps)(TransactionsTable);

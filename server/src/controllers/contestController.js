@@ -3,11 +3,13 @@ import ServerError from '../errors/ServerError';
 
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
+const transactionQueries = require('./queries/transactionsQueries.js');
 const controller = require('../index.js');
 const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../constants/constants');
 const moment = require('moment');
+import {INCOME_TRANSACTION} from '../constants/constants.js';
 
 module.exports.dataForContest = async (req, res, next) => {
     let response = {};
@@ -190,7 +192,7 @@ const resolveOffer = async (
         'Someone of yours offers was rejected', contestId);
     controller.controller.notificationController.emitChangeOfferStatus(creatorId,
         'Someone of your offers WIN', contestId);
-    return updatedOffers[0].dataValues;
+    return {...updatedOffers[0].dataValues, prize: finishedContest.prize};
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
@@ -209,6 +211,13 @@ module.exports.setOfferStatus = async (req, res, next) => {
             const winningOffer = await resolveOffer(req.body.contestId,
                 req.body.creatorId, req.body.orderId, req.body.offerId,
                 req.body.priority, transaction);
+
+            await transactionQueries.newIncomeTransaction({
+                typeOperation: INCOME_TRANSACTION,
+                sum: winningOffer.prize,
+                userId: winningOffer.userId,
+            });
+            //
             res.send(winningOffer);
         } catch (err) {
             transaction.rollback();

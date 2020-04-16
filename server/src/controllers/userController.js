@@ -205,40 +205,15 @@ module.exports.cashout = async (req, res, next) => {
       },
       transaction);
     transaction.commit();
+    await transactionsQueries.newConsumptionTransaction({
+      typeOperation: CONSUMPTION_TRANSACTION,
+      sum: req.body.sum,
+      userId: updatedUser.id,
+    });
     res.send({ balance: updatedUser.balance });
   } catch (err) {
     transaction.rollback();
     next(err);
-  }
-};
-
-module.exports.getUserTransactions = async (req, res, next) => {
-  try {
-    const {userId} = req.tokenData;
-    const searchFilter = {
-      where: {
-        userId,
-      }
-    };
-    const result = await transactionsQueries.getTransactionsHistory(searchFilter);
-    return res.send(result);
-  } catch (e) {
-    next(e);
-  }
-};
-
-module.exports.getUserTransactionsHistory = async (req, res, next) => {
-  try {
-    const {userId} = req.tokenData;
-    const searchFilter = {
-      where: {
-        userId,
-      }
-    };
-    const result = await transactionsQueries.getTransactionsHistory(searchFilter);
-    return res.send(result);
-  } catch (e) {
-    next(e);
   }
 };
 

@@ -450,3 +450,43 @@ export const unSelectContestType = data => {
         data: data,
     }
 };
+
+export const getUserTransactionsHistoryRequest = () => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_HISTORY_REQUEST,
+    }
+};
+
+export const getUserTransactionsHistorySuccess= (data) => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_HISTORY_SUCCESS,
+        transactionHistory: data,
+    }
+};
+
+export const getUserTransactionsHistoryError = (data) => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_HISTORY_ERROR,
+        error: data,
+    }
+};
+
+export const getUserTransactionsStatementRequest = () => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_STATEMENT_REQUEST,
+    }
+};
+
+export const getUserTransactionsStatementSuccess= (data) => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_STATEMENT_SUCCESS,
+        transactionStatement: data,
+    }
+};
+
+export const getUserTransactionsStatementError = (data) => {
+    return {
+        type: ACTION.GET_USER_TRANSACTIONS_STATEMENT_ERROR,
+        error: data,
+    }
+};

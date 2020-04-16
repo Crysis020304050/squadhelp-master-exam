@@ -25,6 +25,7 @@ import {
     removeChatFromCatalogSaga,
     changeCatalogName
 } from './chatSagas';
+import {getUserTransactionsHistorySaga, getUserTransactionsStatementSaga} from './transactionsSaga';
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -52,9 +53,11 @@ function* rootSaga() {
     yield  takeLatest(ACTION.GET_CATALOG_LIST_ASYNC, getCatalogListSaga);
     yield  takeLatest(ACTION.ADD_CHAT_TO_CATALOG_ASYNC, addChatToCatalog);
     yield  takeLatest(ACTION.CREATE_CATALOG_REQUEST, createCatalog);
-    yield  takeLatest(ACTION.DELETE_CATALOG_REQUEST,deleteCatalog);
-    yield  takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST,removeChatFromCatalogSaga);
-    yield  takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST,changeCatalogName);
+    yield  takeLatest(ACTION.DELETE_CATALOG_REQUEST, deleteCatalog);
+    yield  takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST, removeChatFromCatalogSaga);
+    yield  takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST, changeCatalogName);
+    yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_HISTORY_REQUEST, getUserTransactionsHistorySaga);
+    yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_STATEMENT_REQUEST, getUserTransactionsStatementSaga);
 }
 
 export default rootSaga;
