@@ -7,8 +7,9 @@ export function* activeContestsSaga(action){
     try{
         if (typeof action.data.selectedContestTypes === 'string') {
             const state = yield select();
-            action.data.selectedContestTypes = state.contestsList.creatorFilter.selectedContestTypes || new Set();
+            action.data.selectedContestTypes = [...state.contestsList.creatorFilter.selectedContestTypes] || [];
         }
+        action.data.selectedContestTypes = [...action.data.selectedContestTypes];
         const {data}=yield  restController.getActiveContests(action.data);
         yield  put({type: ACTION.GET_CONTESTS_ACTION_SUCCESS, data: data});
     }
