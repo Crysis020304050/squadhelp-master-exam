@@ -13,6 +13,8 @@ const controller = require('../index.js');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const transactionsQueries = require('./queries/transactionsQueries.js');
+const {INCOME_TRANSACTION, CONSUMPTION_TRANSACTION} = require('../constants/constants.js');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -210,4 +212,77 @@ module.exports.cashout = async (req, res, next) => {
   }
 };
 
+module.exports.getUserTransactions = async (req, res, next) => {
+  try {
+    const {userId} = req.tokenData;
+    const searchFilter = {
+      where: {
+        userId,
+      }
+    };
+    const result = await transactionsQueries.getTransactionsHistory(searchFilter);
+    return res.send(result);
+  } catch (e) {
+    next(e);
+  }
+};
 
+module.exports.getUserTransactionsHistory = async (req, res, next) => {
+  try {
+    const {userId} = req.tokenData;
+    const searchFilter = {
+      where: {
+        userId,
+      }
+    };
+    const result = await transactionsQueries.getTransactionsHistory(searchFilter);
+    return res.send(result);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports.getUserTransactionsHistory = async (req, res, next) => {
+  try {
+    const {userId} = req.tokenData;
+    const searchFilter = {
+      where: {
+        userId,
+      }
+    };
+    const result = await transactionsQueries.getTransactions(searchFilter);
+    return res.send(result);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports.getUserTransactionsStatement = async (req, res, next) => {
+  try {
+    const {userId} = req.tokenData;
+    const searchFilterForIncomeTransactions = {
+      where: {
+        userId,
+        typeOperation: INCOME_TRANSACTION,
+
+      },
+      raw: true,
+      attributes: [[bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), INCOME_TRANSACTION]],
+    };
+    const searchFilterForConsumptionTransactions = {
+      where: {
+        userId,
+        typeOperation: CONSUMPTION_TRANSACTION,
+
+      },
+      raw: true,
+      attributes: [[bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), CONSUMPTION_TRANSACTION]],
+    };
+    const incomeTransactions = await transactionsQueries.getTransactions(searchFilterForIncomeTransactions);
+    const consumptionTransactions = await transactionsQueries.getTransactions(searchFilterForConsumptionTransactions);
+    const result = {...incomeTransactions[0], ...consumptionTransactions[0]};
+    return res.send(result);
+  } catch (e) {
+    next(e);
+  }
+};
