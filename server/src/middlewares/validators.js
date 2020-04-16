@@ -20,6 +20,15 @@ module.exports.validateLogin = async (req, res, next) => {
   }
 };
 
+module.exports.validateGetOffersFilesData = async (req, res, next) => {
+
+  const validationResult = await schems.getOffersFilesDataSchem.isValid(req.body);
+  if (validationResult) {
+    return next();
+  }
+  return next(new BadRequestError('Invalid from date value'));
+};
+
 module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
   req.body.contests.forEach(el => {

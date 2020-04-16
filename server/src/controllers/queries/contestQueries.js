@@ -1,5 +1,6 @@
 const bd = require('../../models');
 const ServerError = require('../../errors/ServerError');
+const NotFoundError = require('../../errors/UserNotFoundError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await bd.Contests.update(data,
@@ -52,8 +53,8 @@ module.exports.createOffer = async (data) => {
 
 module.exports.getOffersData = async (filter) => {
   const result = await bd.Offers.findAll(filter);
-  if (result) {
+  if (result.length > 0) {
     return result;
   }
-  throw new ServerError('cannot get offer files');
+  throw new NotFoundError('cannot get offers files');
 };
