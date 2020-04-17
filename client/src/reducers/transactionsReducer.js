@@ -3,7 +3,7 @@ import ACTION from '../actions/actionTypes';
 
 const initialState = {
     transactionHistory: [],
-    transactionStatement: {},
+    transactionStatement: [],
     isFetching: false,
     error: null,
 };

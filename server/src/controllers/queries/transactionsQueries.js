@@ -1,13 +1,12 @@
 const bd = require('../../models');
-const NotFoundError = require('../../errors/UserNotFoundError');
 const ServerError = require('../../errors/ServerError');
 
 module.exports.getTransactions = async (filter) => {
-    const result = await bd.TransactionHistory.findAll(filter);
-    if (result.length > 0) {
-        return result;
+    try {
+        return await bd.TransactionHistory.findAll(filter);
+    } catch (e) {
+        throw e;
     }
-    throw new NotFoundError('cannot get transactions');
 };
 
 module.exports.newIncomeTransaction = async (data) => {

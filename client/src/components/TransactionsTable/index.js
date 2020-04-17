@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from './TransactionTable.module.sass';
 import constants from "../../constants";
 import {connect} from 'react-redux';
@@ -16,7 +16,7 @@ const TransactionsTable = ({transactionHistory, transactionStatement}) => {
     };
 
     const renderTransactionsStatement = statement => {
-        return Object.entries(statement).map(([typeOperation, sum], index) => (
+        return statement.map(({typeOperation, sum}, index) => (
             <tr key={index}>
                 <th>Total</th>
                 <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>

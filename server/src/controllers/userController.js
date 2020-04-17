@@ -235,27 +235,15 @@ module.exports.getUserTransactionsHistory = async (req, res, next) => {
 module.exports.getUserTransactionsStatement = async (req, res, next) => {
   try {
     const {userId} = req.tokenData;
-    const searchFilterForIncomeTransactions = {
+    const searchFilter = {
       where: {
         userId,
-        typeOperation: INCOME_TRANSACTION,
-
       },
       raw: true,
-      attributes: [[bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), INCOME_TRANSACTION]],
+      attributes: ['typeOperation', [bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), 'sum']],
+      group: ['typeOperation'],
     };
-    const searchFilterForConsumptionTransactions = {
-      where: {
-        userId,
-        typeOperation: CONSUMPTION_TRANSACTION,
-
-      },
-      raw: true,
-      attributes: [[bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), CONSUMPTION_TRANSACTION]],
-    };
-    const incomeTransactions = await transactionsQueries.getTransactions(searchFilterForIncomeTransactions);
-    const consumptionTransactions = await transactionsQueries.getTransactions(searchFilterForConsumptionTransactions);
-    const result = {...incomeTransactions[0], ...consumptionTransactions[0]};
+    const result = await transactionsQueries.getTransactions(searchFilter);
     return res.send(result);
   } catch (e) {
     next(e);
