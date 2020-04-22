@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const FieldError = props => {
-    const { meta: { touched, error }, className } = props;
+const FieldError = ({className, touched, error}) => {
+
     return (
         <>
             {
-                touched && error && <div className={className}>{error}</div>
+                touched && error && <span className={className}>{error}</span>
             }
         </>
     );
@@ -15,7 +15,8 @@ const FieldError = props => {
 
 FieldError.propTypes = {
     className: PropTypes.string,
-    meta: PropTypes.object,
+    touched: PropTypes.bool,
+    error: PropTypes.string,
 };
 
 export default FieldError;

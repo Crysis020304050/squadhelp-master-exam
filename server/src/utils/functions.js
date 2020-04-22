@@ -35,13 +35,3 @@ function getPredicateTypes(arrOfTypes) {
     return {[bd.Sequelize.Op.or]: arrOfTypes};
 }
 
-const types = [
-    '',
-    'name,tagline,logo',
-    'name',
-    'tagline',
-    'logo',
-    'name,tagline',
-    'logo,tagline',
-    'name,logo'
-];

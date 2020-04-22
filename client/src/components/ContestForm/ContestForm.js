@@ -6,14 +6,13 @@ import {withRouter} from 'react-router-dom';
 import styles from './ContestForm.module.sass';
 import Spinner from '../Spinner/Spinner';
 import {Field, reduxForm} from 'redux-form';
-import FieldInput from '../FormField/FieldInput';
 import SelectInput from '../SelectInput/SelectInput';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FieldFileInput from '../InputComponents/FieldFileInput/FieldFileInput';
 import FormTextArea from '../InputComponents/FormTextArea/FormTextArea';
 import TryAgain from '../TryAgain/TryAgain';
-import FieldError from "../FormField/FieldError";
+import FormField from "../FormField";
 
 let submitFunc;
 
@@ -42,19 +41,18 @@ class ContestForm extends React.Component {
         }
     };
 
-    renderField = (field) => (
-        <label className={styles.inputContainer}>
-            <FieldInput {...field} inputStyles={styles.input}/>
-            <FieldError meta={field.meta} className={styles.warning}/>
-        </label>
-    );
-
     componentDidMount() {
         this.getPreference(this.props.contestType);
         this.props.initialize(this.props.defaultData);
     }
 
     renderSpecialInputs = () => {
+
+        const formInputClasses = {
+            containerStyle: styles.inputContainer,
+            className: styles.input,
+            warningStyle: styles.warning,
+        };
 
         switch (this.props.contestType) {
             case CONSTANTS.NAME_CONTEST: {
@@ -93,7 +91,8 @@ class ContestForm extends React.Component {
                   className={styles.inputHeader}>What name of your venture?</span>
                             <Field
                                 name='nameVenture'
-                                component={this.renderField}
+                                {...formInputClasses}
+                                component={FormField}
                                 type='text'
                                 label='name of venture'
                             />
@@ -120,7 +119,8 @@ class ContestForm extends React.Component {
                   className={styles.inputHeader}>What name of your venture?</span>
                             <Field
                                 name='nameVenture'
-                                component={this.renderField}
+                                {...formInputClasses}
+                                component={FormField}
                                 type='text'
                                 label='name of venture'
                             />
@@ -145,6 +145,13 @@ class ContestForm extends React.Component {
     render() {
         const {isFetching, error} = this.props.dataForContest;
         const {handleSubmit, submitting} = this.props;
+
+        const formInputClasses = {
+            containerStyle: styles.inputContainer,
+            className: styles.input,
+            warningStyle: styles.warning,
+        };
+
         if (error) {
             return <TryAgain getData={this.getPreference}/>;
         } else {
@@ -160,7 +167,8 @@ class ContestForm extends React.Component {
                         className={styles.inputHeader}>Title of contest</span>
                                         <Field
                                             name='title'
-                                            component={this.renderField}
+                                            {...formInputClasses}
+                                            component={FormField}
                                             type='text'
                                             label='Title'
                                         />

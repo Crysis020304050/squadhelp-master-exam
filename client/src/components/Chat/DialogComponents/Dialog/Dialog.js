@@ -10,12 +10,16 @@ import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 
 class Dialog extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.messagesEnd = React.createRef();
+    }
+
     componentDidMount() {
         this.props.getDialog({interlocutorId: this.props.interlocutor.id});
         this.scrollToBottom();
     }
 
-    messagesEnd = React.createRef();
 
     scrollToBottom = () => {
         this.messagesEnd.current.scrollIntoView({behavior: 'smooth'})
@@ -73,7 +77,7 @@ class Dialog extends React.Component {
         let message;
         if (chatData && blackList[userIndex]) {
             message = 'You block him';
-        } else if (chatData && blackList.includes(true)) {
+        } else if (chatData && chatData.blackList && blackList.includes(true)) {
             message = 'He block you';
         }
         return (
@@ -89,7 +93,7 @@ class Dialog extends React.Component {
                 <ChatHeader userId={userId}/>
                 {this.renderMainDialog()}
                 <div ref={this.messagesEnd}/>
-                {(chatData && chatData.blackList.includes(true)) ? this.blockMessage() : <ChatInput/>}
+                {(chatData && chatData.blackList && chatData.blackList.includes(true)) ? this.blockMessage() : <ChatInput/>}
             </>
         )
     }

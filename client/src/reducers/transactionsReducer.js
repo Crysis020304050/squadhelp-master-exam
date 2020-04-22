@@ -51,6 +51,9 @@ export default function (state = initialState, action) {
                 error: action.error,
             }
         }
+        case ACTION.CLEAR_TRANSACTIONS_STORE_ERROR: {
+            return initialState;
+        }
         default:
             return state;
     }

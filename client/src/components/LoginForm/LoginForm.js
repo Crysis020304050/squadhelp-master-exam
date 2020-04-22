@@ -3,14 +3,11 @@ import {connect} from 'react-redux';
 import {authActionLogin, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import styles from './LoginForm.module.sass';
 import {Field, reduxForm} from 'redux-form';
-import FieldInput from '../FormField/FieldInput';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
-import FieldError from "../FormField/FieldError";
+import FormField from "../FormField";
 
-const LoginForm = props => {
-
-    const {handleSubmit, submitting, isFetching, loginRequest, clearError} = props;
+const LoginForm = ({handleSubmit, submitting, isFetching, loginRequest, clearError}) => {
 
     useEffect(() => {
         clearError();
@@ -20,31 +17,28 @@ const LoginForm = props => {
         loginRequest(values);
     };
 
-    const formInputStyles = {
-        inputStyles: styles.input,
-        invalidStyles: styles.notValid,
-        validStyles: styles.valid,
+    const formInputClasses = {
+        containerStyle: styles.inputContainer,
+        className: styles.input,
+        warningStyle: styles.fieldWarning,
+        invalidStyle: styles.notValid,
+        validStyle: styles.valid,
     };
-
-    const renderField = (field) => (
-        <label className={styles.inputContainer}>
-            <FieldInput {...field} {...formInputStyles}/>
-            <FieldError meta={field.meta} className={styles.fieldWarning}/>
-        </label>
-    );
 
     return (
         <div className={styles.loginForm}>
             <form onSubmit={handleSubmit(clicked)}>
                 <Field
                     name='email'
-                    component={renderField}
+                    {...formInputClasses}
+                    component={FormField}
                     type='text'
                     label='Email Address'
                 />
                 <Field
                     name='password'
-                    component={renderField}
+                    {...formInputClasses}
+                    component={FormField}
                     type='password'
                     label='password'
                 />
@@ -58,6 +52,7 @@ const LoginForm = props => {
         </div>
     );
 };
+
 
 const mapStateToProps = state => state.auth;
 

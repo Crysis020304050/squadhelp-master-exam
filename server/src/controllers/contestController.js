@@ -6,7 +6,6 @@ const userQueries = require('./queries/userQueries');
 const transactionQueries = require('./queries/transactionsQueries.js');
 const controller = require('../index.js');
 const UtilFunctions = require('../utils/functions');
-const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../constants/constants');
 const moment = require('moment');
 import {INCOME_TRANSACTION} from '../constants/constants.js';

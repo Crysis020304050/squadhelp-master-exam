@@ -4,27 +4,21 @@ import {connect} from 'react-redux';
 import {clearUserError} from '../../actions/actionCreator';
 import styles from './UpdateUserInfoForm.module.sass';
 import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
-import FieldInput from '../FormField/FieldInput';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import Error from '../../components/Error/Error';
-import FieldError from "../FormField/FieldError";
+import FormField from "../FormField";
 
 
 const UpdateUserInfoForm = (props) => {
     const {handleSubmit, submitting, error, clearUserError} = props;
 
-    const formInputStyles = {
-        inputStyles: styles.input,
-        invalidStyles: styles.notValid,
+    const formInputClasses = {
+        containerStyle: styles.inputContainer,
+        className: styles.input,
+        warningStyle: styles.error,
+        invalidStyle: styles.notValid,
     };
-
-    const renderField = (field) => (
-        <label className={styles.inputContainer}>
-            <FieldInput {...field} {...formInputStyles}/>
-            <FieldError meta={field.meta} className={styles.error}/>
-        </label>
-    );
 
     return (
         <form onSubmit={handleSubmit} className={styles.updateContainer}>
@@ -33,7 +27,8 @@ const UpdateUserInfoForm = (props) => {
                 <span className={styles.label}>First Name</span>
                 <Field
                     name='firstName'
-                    component={renderField}
+                    {...formInputClasses}
+                    component={FormField}
                     type='text'
                     label='First Name'
                 />
@@ -42,7 +37,8 @@ const UpdateUserInfoForm = (props) => {
                 <span className={styles.label}>Last Name</span>
                 <Field
                     name='lastName'
-                    component={renderField}
+                    {...formInputClasses}
+                    component={FormField}
                     type='text'
                     label='LastName'
                 />
@@ -51,7 +47,8 @@ const UpdateUserInfoForm = (props) => {
                 <span className={styles.label}>Display Name</span>
                 <Field
                     name='displayName'
-                    component={renderField}
+                    {...formInputClasses}
+                    component={FormField}
                     type='text'
                     label='Display Name'
                 />

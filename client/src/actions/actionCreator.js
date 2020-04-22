@@ -490,3 +490,9 @@ export const getUserTransactionsStatementError = (data) => {
         error: data,
     }
 };
+
+export const clearTransactionsStoreError = () => {
+  return {
+      type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
+  }
+};

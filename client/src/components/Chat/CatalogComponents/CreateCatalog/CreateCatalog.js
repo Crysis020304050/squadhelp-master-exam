@@ -1,10 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import FieldInput from '../../../FormField/FieldInput';
 import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
-import FieldError from "../../../FormField/FieldError";
+import FormField from "../../../FormField";
 
 const validate = (values) => {
     const errors = {};
@@ -23,23 +22,19 @@ const CreateCatalog = (props) => {
     };
     const {handleSubmit, valid} = props;
 
-    const formInputStyles = {
-        inputStyles: styles.input,
-        invalidStyles: styles.notValid,
+    const formInputClasses = {
+        containerStyle: styles.inputContainer,
+        className: styles.input,
+        warningStyle: styles.fieldWarning,
+        invalidStyle: styles.notValid,
     };
-
-    const renderField = (field) => (
-        <label className={styles.inputContainer}>
-            <FieldInput {...field} {...formInputStyles}/>
-            <FieldError meta={field.meta} className={styles.fieldWarning}/>
-        </label>
-    );
 
     return (
         <form onSubmit={handleSubmit(click)} className={styles.form}>
             <Field
                 name='catalogName'
-                component={renderField}
+                {...formInputClasses}
+                component={FormField}
                 type='text'
                 label='name of catalog'
             />

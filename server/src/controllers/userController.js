@@ -244,6 +244,8 @@ module.exports.getUserTransactionsStatement = async (req, res, next) => {
       group: ['typeOperation'],
     };
     const result = await transactionsQueries.getTransactions(searchFilter);
+    /*const [el1, el2] = result.map(obj => Object.fromEntries([Object.values(obj)]));
+    console.log({...el1, ...el2});*/
     return res.send(result);
   } catch (e) {
     next(e);

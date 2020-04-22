@@ -3,14 +3,13 @@ import {connect} from 'react-redux';
 import {authActionRegister, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import styles from './RegistrationForm.module.sass';
 import {Field, reduxForm} from 'redux-form';
-import FieldInput from '../FormField/FieldInput';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
     from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
 import CONSTANTS from '../../constants';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
-import FieldError from "../FormField/FieldError";
+import FormField from "../FormField";
 
 const RegistrationForm = props => {
 
@@ -31,18 +30,13 @@ const RegistrationForm = props => {
         });
     };
 
-    const formInputStyles = {
-        inputStyles: styles.input,
-        invalidStyles: styles.notValid,
-        validStyles: styles.valid,
+    const formInputClasses = {
+        containerStyle: styles.inputContainer,
+        className: styles.input,
+        warningStyle: styles.fieldWarning,
+        invalidStyle: styles.notValid,
+        validStyle: styles.valid,
     };
-
-    const renderField = (field) => (
-        <label className={styles.inputContainer}>
-            <FieldInput {...field} {...formInputStyles}/>
-            <FieldError meta={field.meta} className={styles.fieldWarning}/>
-        </label>
-    );
 
     return (
         <div className={styles.signUpFormContainer}>
@@ -50,13 +44,15 @@ const RegistrationForm = props => {
                 <div className={styles.row}>
                     <Field
                         name='firstName'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='text'
                         label='First name'
                     />
                     <Field
                         name='lastName'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='text'
                         label='Last name'
                     />
@@ -64,13 +60,15 @@ const RegistrationForm = props => {
                 <div className={styles.row}>
                     <Field
                         name='displayName'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='text'
                         label='Display Name'
                     />
                     <Field
                         name='email'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='text'
                         label='Email Address'
                     />
@@ -78,13 +76,15 @@ const RegistrationForm = props => {
                 <div className={styles.row}>
                     <Field
                         name='password'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='password'
                         label='Password'
                     />
                     <Field
                         name='confirmPassword'
-                        component={renderField}
+                        {...formInputClasses}
+                        component={FormField}
                         type='password'
                         label='Password confirmation'
                     />
