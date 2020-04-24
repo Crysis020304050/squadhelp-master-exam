@@ -6,14 +6,13 @@ const exists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
-const appendFile = util.promisify(fs.appendFile);
 
 module.exports = async (err, req, res, next) => {
     try {
-        const logsFilePath = path.resolve(__dirname, '../../logs');
+        const logsFolderPath = path.resolve(__dirname, '../../logs');
 
-        if (! await exists(logsFilePath)) {
-            await mkdir(logsFilePath, {
+        if (! await exists(logsFolderPath)) {
+            await mkdir(logsFolderPath, {
                 recursive: true,
             });
         }
@@ -25,15 +24,15 @@ module.exports = async (err, req, res, next) => {
             stackTrace: err.stack,
         };
 
-        const pathToFile = path.resolve(logsFilePath, 'logs.json');
+        const pathToFile = path.resolve(logsFolderPath, 'logs.json');
 
-        if (await exists(pathToFile)) {
+        if (await exists(pathToFile) && 0 !== Number(JSON.stringify(JSON.parse(await readFile(pathToFile))))) {
             const data = await readFile(pathToFile);
             const json = JSON.parse(data);
             json.push(obj);
             await writeFile(pathToFile, JSON.stringify(json, null, 2), 'utf-8');
         } else {
-            await appendFile(pathToFile, JSON.stringify([obj], null, 2), 'utf-8');
+            await writeFile(pathToFile, JSON.stringify([obj], null, 2), 'utf-8');
         }
         next(err);
     } catch (e) {

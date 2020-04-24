@@ -5,7 +5,9 @@ const router = require('./router');
 const cors = require('cors');
 const ConnectionController = require('./socketInit');
 const handlerError = require('./handlerError/handler');
-const errorsLogger = require('./utils/errorsLogger');
+const errorsLogger = require('./utils/errorsLogger/logger.js');
+const loggerSchedule = require('./utils/errorsLogger/loggerSchedule.js');
+const schedule = require('node-schedule');
 
 const PORT = process.env.PORT || 9632;
 const app = express();
@@ -17,6 +19,7 @@ app.use(router);
 app.use(errorsLogger);
 app.use(handlerError);
 
+schedule.scheduleJob('0 0 * * *', loggerSchedule);
 
 const server = http.createServer(app);
 server.listen(PORT/*,
