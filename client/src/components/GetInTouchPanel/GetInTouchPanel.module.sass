@@ -1,0 +1,73 @@
+.getInTouchPanelWrapper
+  display: flex
+  justify-content: center
+  padding: 35px 0
+  background-color: #455A89
+
+.getInTouchPanel
+  max-width: 1170px
+  width: 100%
+  padding: 0 15px
+  display: flex
+
+  @media screen and (max-width: 1170px)
+    flex-direction: column
+    align-items: center
+    text-align: center
+
+.iconWrapper
+  min-width: 100px
+  min-height: 100px
+  max-width: 100px
+  max-height: 100px
+  border-radius: 50%
+  background-color: white
+  display: flex
+  align-items: center
+  justify-content: center
+  text-align: center
+
+  @media screen and (max-width: 1170px)
+    display: none
+
+  & i
+    color: #455A89
+    font-size: 40px
+
+.getInTouchPanelText
+  color: white
+  padding: 0 45px 30px 45px
+  max-width: 800px
+  font-size: 20px
+
+  @media screen and (max-width: 1170px)
+    max-width: unset
+
+  a
+    color: #D88067
+    font-size: 20px
+    font-weight: 500
+    text-decoration: none
+
+  h5
+    font-size: 25px
+    font-weight: 600
+    padding: 12px 0 40px 0
+
+.getInTouchPanelButton
+  padding: 22px 40px
+  border: 2px solid white
+  color: white
+  font-size: 20px
+  border-radius: 5px
+  text-transform: uppercase
+  align-self: flex-start
+  cursor: pointer
+  font-weight: 500
+
+  @media screen and (max-width: 1170px)
+    align-self: flex-end
+
+  &:hover
+    background-color: white
+    color: #28d2d0

@@ -1,0 +1,202 @@
+.page
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+  font-family: 'Raleway', sans-serif !important
+
+.contentContainer
+  max-width: 1170px
+  width: 100%
+  align-self: center
+  display: flex
+  flex-direction: column
+  padding: 0 15px
+
+  h2, h3, h5
+    color: #515B5F
+    font-weight: 700
+
+  h2
+    text-transform: capitalize
+
+.videoPlayerSection
+  display: flex
+  justify-content: flex-start
+  padding: 80px 0
+
+  &:first-child div
+    max-height: 320px
+
+  & > *
+    flex: 1
+    max-width: 100%
+
+  @media screen and (max-width: 767px)
+    flex-direction: column
+    align-items: center
+
+.textContainer
+  display: flex
+  flex-direction: column
+  padding: 0 30px
+
+  h2
+    font-size: 36px
+    margin-bottom: 45px
+    line-height: 40px
+
+    @media screen and (max-width: 767px)
+      font-size: 22px
+      margin-bottom: 15px
+
+  p
+    color: #333333
+    line-height: 25px
+
+
+.stepsSection
+  display: flex
+  flex-direction: column
+
+  @media screen and (max-width: 350px)
+    margin-top: 40px
+
+  h2
+    font-size: 36px
+    align-self: center
+    padding: 50px 0
+
+.stepsContainer
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  padding: 40px 0
+
+  @media screen and (max-width: 1030px)
+    & > li
+      margin-right: auto
+
+  @media screen and (max-width: 645px)
+    & > li
+      margin-right: unset
+      width: 100%
+
+
+.step
+  display: flex
+  flex-direction: column
+  align-items: center
+  max-width: 165px
+  text-align: center
+  padding: 0 15px
+  box-sizing: unset
+
+  @media screen and (max-width: 1030px)
+    max-width: inherit
+    width: 45%
+    margin-bottom: 20px
+
+
+  &:first-child div
+    background-color: #28D2D0
+    color: white
+
+  div
+    width: 90px
+    height: 90px
+    border-radius: 50%
+    background-color: #EBEBEB
+    color: black
+    font-size: 30px
+    font-weight: 600
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+
+    &:hover
+      background-color: #28D2D0
+      color: white
+
+  h5
+    padding: 20px 0
+    margin-bottom: 20px
+
+  p
+    font-size: 14px
+    line-height: 18px
+
+.startContestButtonWrapper
+  display: flex
+  justify-content: center
+  align-items: center
+  background-color: #28D2D0
+  padding: 35px 0
+
+.startContestButton
+  width: 235px
+  border: 2px solid white
+  border-radius: 5px
+  padding: 18px 0
+  font-size: 20px
+  text-align: center
+  text-transform: uppercase
+  color: white
+  cursor: pointer
+  text-decoration: none
+
+  &:hover
+    background-color: white
+    color: #28D2D0
+
+
+.frequencyAskedQuestionsContainer
+  padding: 20px 0 60px 0
+
+  a
+    color: #28D2D0
+
+.frequencyAskedQuestionsHeader
+  display: flex
+  align-items: center
+  padding: 40px 10px
+  border-bottom: 1px solid #e1e1e1
+
+  h3
+    font-size: 30px
+    padding: 10px 15px
+
+.questionMark
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 50%
+  font-size: 36px
+  min-width: 60px
+  min-height: 60px
+  max-width: 60px
+  max-height: 60px
+  text-align: center
+  border: 2px solid #28d2d0
+  color: #28d2d0
+
+.questionsListItem
+  padding: 15px 25px
+  display: flex
+  flex-direction: column
+
+  h5
+    align-self: flex-start
+    font-size: 18px
+    padding: 15px 0
+
+  p 
+    margin-top: 15px
+    line-height: 20px
+
+  ol
+    padding: 20px 25px 0 25px
+
+  strong
+    font-weight: 600
+
