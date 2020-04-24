@@ -1,0 +1,12 @@
+[
+  {
+    "message": "user with this data didn`t exist",
+    "time": 1587758606167,
+    "code": 404
+  },
+  {
+    "message": "user with this data didn`t exist",
+    "time": 1587758617492,
+    "code": 404
+  }
+]

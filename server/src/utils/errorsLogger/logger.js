@@ -26,7 +26,7 @@ module.exports = async (err, req, res, next) => {
 
         const pathToFile = path.resolve(logsFolderPath, 'logs.json');
 
-        if (await exists(pathToFile) && 0 !== Number(JSON.stringify(JSON.parse(await readFile(pathToFile))))) {
+        if (await exists(pathToFile) && JSON.parse(await readFile(pathToFile))) {
             const data = await readFile(pathToFile);
             const json = JSON.parse(data);
             json.push(obj);

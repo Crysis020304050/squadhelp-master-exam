@@ -20,7 +20,6 @@ app.use(errorsLogger);
 app.use(handlerError);
 
 schedule.scheduleJob('0 0 * * *', loggerSchedule);
-
 const server = http.createServer(app);
 server.listen(PORT/*,
   () => console.log(`Example app listening on port ${ PORT }!`)*/);
