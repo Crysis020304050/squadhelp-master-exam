@@ -1,0 +1,22 @@
+[
+  {
+    "message": "user with this data didn`t exist",
+    "time": 1587758722524,
+    "code": 404
+  },
+  {
+    "message": "user with this data didn`t exist",
+    "time": 1587758728365,
+    "code": 404
+  },
+  {
+    "message": "need token",
+    "time": 1587761398381,
+    "code": 408
+  },
+  {
+    "message": "need token",
+    "time": 1587761445831,
+    "code": 408
+  }
+]
