@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import valid from 'card-validator';
+import moment from "moment";
 
 
 
@@ -61,5 +62,11 @@ export default {
         lastName: yup.string().test('test-lastName','required',value => (value && value.trim().length>=1)).required('required'),
         displayName: yup.string().test('test-displayName','required',value => (value && value.trim().length>=1)).required('required'),
         file: yup.mixed()
-    })
+    }),
+    EventSchema: yup.object().shape({
+        eventName: yup.string().min(1).max(64).required().label('Event name'),
+        endTime: yup.date().min(new Date(), 'End event time must be greater than now').required().label('End time'),
+        reminderTime: yup.date().min(new Date(), 'Reminder time must be greater than now').label('Reminder time').required().when('endTime', (endTime, yap) => endTime && yap.max(endTime, 'Reminder time cannot be after event end time')),
+
+    }),
 }

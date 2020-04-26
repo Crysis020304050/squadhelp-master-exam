@@ -496,3 +496,10 @@ export const clearTransactionsStoreError = () => {
       type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
   }
 };
+
+export const createNewEvent = (event) => {
+  return {
+      type: ACTION.CREATE_NEW_EVENT,
+      event,
+  }
+};
