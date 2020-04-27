@@ -4,7 +4,7 @@ import {toast} from 'react-toastify';
 import styles from './EventTimer.module.sass';
 import {connect} from 'react-redux';
 
-const EventTimer = ({eventName, endTime, reminderTime, index, events}) => {
+const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}) => {
 
     const calculateTimeLeft = () => {
         const diffTime = moment(endTime).diff(moment());
@@ -43,6 +43,7 @@ const EventTimer = ({eventName, endTime, reminderTime, index, events}) => {
 
     return (
         <li key={index} className={styles.container}>
+            {timerComponents.length && <div style={{width: `${Math.round(((new Date()- startDate) / (endTime- startDate)) * 100)}%`}} className={styles.progressBar}/>}
             {timerComponents.length ? null : <div className={styles.eventsCircle}>{countActiveEvents()}</div> }
             <div>{eventName}</div>
             <div>

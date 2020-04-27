@@ -21,6 +21,7 @@ const DatePickerField = ({input, label, meta: {touched, error, visited}, warning
                         selected={(input.value instanceof Date) ? input.value : null}
                         placeholderText={label}
                         className={inputClassName}
+                        autoComplete='off'
             />
             <FieldError className={warningStyle} touched={touched} error={error}/>
         </div>

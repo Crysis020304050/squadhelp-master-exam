@@ -31,3 +31,7 @@
     transform: rotate(360deg);
   }
 }
+
+.react-datepicker-popper {
+  z-index: 100 !important
+}

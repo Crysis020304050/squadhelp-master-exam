@@ -11,7 +11,7 @@ import {createNewEvent} from '../../actions/actionCreator';
 const CreateEventForm = ({handleSubmit, createEvent}) => {
 
     const onSubmit = (values) => {
-        createEvent(values);
+        createEvent({...values, startDate: new Date});
     };
 
     const formInputClasses = {
