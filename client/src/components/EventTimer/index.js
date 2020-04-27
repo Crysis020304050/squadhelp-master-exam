@@ -15,10 +15,10 @@ const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}
             });
         }
         return duration > 0 ? {
-            ...(duration.days() > 0 && {d: Math.floor(duration.asDays())}),
-            ...((duration.days() > 0 ? duration.hours() >= 0 : duration.hours() > 0) && {h: duration.hours()}),
-            ...((duration.days() > 0 || duration.days() > 0 ? duration.minutes() >= 0 : duration.minutes() > 0) && {m: duration.minutes()}),
-            ...((duration.days() > 0 || duration.days() > 0 || duration.minutes() > 0 ? duration.seconds() >= 0 : duration.seconds() > 0) && {s: duration.seconds()}),
+            ...(duration.asDays() > 1 && {d: Math.floor(duration.asDays())}),
+            ...(duration.asHours() > 1 && {h: duration.hours()}),
+            ...(duration.asMinutes() > 1 && {m: duration.minutes()}),
+            ...(duration.asSeconds() > 1 && {s: duration.seconds()}),
         } : {};
     };
 
@@ -43,8 +43,8 @@ const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}
 
     return (
         <li key={index} className={styles.container}>
-            {timerComponents.length && <div style={{width: `${Math.round(((new Date()- startDate) / (endTime- startDate)) * 100)}%`}} className={styles.progressBar}/>}
-            {timerComponents.length ? null : <div className={styles.eventsCircle}>{countActiveEvents()}</div> }
+            {timerComponents.length > 0 && <div style={{width: `${Math.round(((new Date() - startDate) / (endTime - startDate)) * 100)}%`}} className={styles.progressBar}/>}
+            {timerComponents.length === 0 && <div className={styles.eventsCircle}>{countActiveEvents()}</div> }
             <div>{eventName}</div>
             <div>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
