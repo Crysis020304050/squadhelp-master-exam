@@ -13,6 +13,7 @@ import FieldFileInput from '../InputComponents/FieldFileInput/FieldFileInput';
 import FormTextArea from '../InputComponents/FormTextArea/FormTextArea';
 import TryAgain from '../TryAgain/TryAgain';
 import FormField from "../FormField";
+import ButtonGroupComponent from "../ButtonGroupComponent";
 
 let submitFunc;
 
@@ -144,7 +145,7 @@ class ContestForm extends React.Component {
 
     render() {
         const {isFetching, error} = this.props.dataForContest;
-        const {handleSubmit, submitting} = this.props;
+        const {handleSubmit, submitting, contestType} = this.props;
 
         const formInputClasses = {
             containerStyle: styles.inputContainer,
@@ -227,6 +228,7 @@ class ContestForm extends React.Component {
                                         }}
                                         type='file'
                                     />
+                                    {contestType === CONSTANTS.NAME_CONTEST && <ButtonGroupComponent/>}
                                 </form>
                             </div>
                     }
