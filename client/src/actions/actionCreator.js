@@ -503,3 +503,56 @@ export const createNewEvent = (event) => {
       event,
   }
 };
+
+export const resetPasswordRequest = (data) => {
+    return {
+        type: ACTION.RESET_PASSWORD_REQUEST,
+        data,
+    }
+};
+
+export const resetPasswordRequestSuccess = (message) => {
+    return {
+        type: ACTION.RESET_PASSWORD_REQUEST_SUCCESS,
+        message,
+    }
+};
+
+export const resetPasswordRequestError = (error) => {
+    return {
+        type: ACTION.RESET_PASSWORD_REQUEST_ERROR,
+        error,
+    }
+};
+
+export const clearResetPasswordError = () => {
+    return {
+        type: ACTION.CLEAR_RESET_PASSWORD_ERROR,
+    }
+};
+
+export const confirmResettingPasswordRequest = (data) => {
+    return {
+        type: ACTION.CONFIRM_RESETTING_PASSWORD_REQUEST,
+        data,
+    }
+};
+
+export const confirmResettingPasswordSuccess = () => {
+    return {
+        type: ACTION.CONFIRM_RESETTING_PASSWORD_SUCCESS,
+    }
+};
+
+export const confirmResettingPasswordError = (error) => {
+    return {
+        type: ACTION.CONFIRM_RESETTING_PASSWORD_ERROR,
+        error,
+    }
+};
+
+export const clearConfirmResettingPasswordError = () => {
+    return {
+        type: ACTION.CLEAR_CONFIRM_RESETTING_PASSWORD_ERROR,
+    }
+};

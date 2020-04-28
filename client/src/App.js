@@ -21,6 +21,8 @@ import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatCo
 import TransactionsPage from './pages/TransactionsPage';
 import HowItWorksPage from "./pages/HowItWorksPage";
 import EventsPage from "./pages/EventsPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ConfirmPasswordResettingPage from "./pages/ConfirmPasswordResettingPage";
 
 
 
@@ -44,6 +46,8 @@ class App extends Component {
                     <Route exact path='/howItWorks' component={HowItWorksPage}/>
                     <Route exact path='/login' component={OnlyNotAuthorizedUserHoc(LoginPage)}/>
                     <Route exact path='/registration' component={OnlyNotAuthorizedUserHoc(RegistrationPage)}/>
+                    <Route exact path='/resetPassword' component={OnlyNotAuthorizedUserHoc(ResetPasswordPage)}/>
+                    <Route exact path='/confirmPasswordResetting/:token' component={OnlyNotAuthorizedUserHoc(ConfirmPasswordResettingPage)}/>
                     <Route exact path='/payment' component={PrivateHoc(Payment)}/>
                     <Route exact path='/startContest' component={PrivateHoc(StartContestPage)}/>
                     <Route exact path='/startContest/nameContest'

@@ -13,6 +13,8 @@ import chatReducer from './chatReducer';
 import userProfileReducer from './userProfileReducer';
 import transactionsReducer from "./transactionsReducer";
 import eventsReducer from "./eventsReducer";
+import resetPasswordReducer from "./resetPasswordReducer";
+import confirmPasswordResettingReducer from "./confirmPasswordResettingReducer";
 
 
 const appReducer=combineReducers({
@@ -30,6 +32,8 @@ const appReducer=combineReducers({
    userProfile: userProfileReducer,
    transactionsStore: transactionsReducer,
    eventsStore: eventsReducer,
+   resetPasswordStore: resetPasswordReducer,
+   confirmPasswordResettingStore: confirmPasswordResettingReducer,
 });
 
 export default appReducer;
