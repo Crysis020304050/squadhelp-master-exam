@@ -21,8 +21,9 @@ export default function (state= initialState, action) {
                 message: action.message,
             }
         }
-        case ACTION.CLEAR_RESET_PASSWORD_ERROR: {
+        case ACTION.CONFIRM_RESETTING_PASSWORD_ERROR: {
             return {
+                ...state,
                 isFetching: false,
                 error: action.error,
             }
