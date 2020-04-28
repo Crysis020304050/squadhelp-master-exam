@@ -27,6 +27,7 @@ const LoginPage = (props) => {
           { error && <Error data={ error.data } status={ error.status }
                             clearError={ authClear }/> }
           <LoginForm/>
+          <Link to='/resetPassword'>Forgot your password? Click here to reset</Link>
         </div>
       </div>
     </div>

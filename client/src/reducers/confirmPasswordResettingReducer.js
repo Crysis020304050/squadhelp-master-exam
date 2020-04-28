@@ -1,6 +1,7 @@
 import ACTION from '../actions/actionTypes';
 
 const initialState = {
+    message: null,
     isFetching: false,
     error: null
 };
@@ -17,6 +18,7 @@ export default function (state= initialState, action) {
             return {
                 ...state,
                 isFetching: false,
+                message: action.message,
             }
         }
         case ACTION.CLEAR_RESET_PASSWORD_ERROR: {

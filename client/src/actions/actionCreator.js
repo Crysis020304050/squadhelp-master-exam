@@ -531,16 +531,17 @@ export const clearResetPasswordError = () => {
     }
 };
 
-export const confirmResettingPasswordRequest = (data) => {
+export const confirmResettingPasswordRequest = (token) => {
     return {
         type: ACTION.CONFIRM_RESETTING_PASSWORD_REQUEST,
-        data,
+        token,
     }
 };
 
-export const confirmResettingPasswordSuccess = () => {
+export const confirmResettingPasswordSuccess = (message) => {
     return {
         type: ACTION.CONFIRM_RESETTING_PASSWORD_SUCCESS,
+        message,
     }
 };
 

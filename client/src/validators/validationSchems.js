@@ -69,4 +69,8 @@ export default {
         reminderTime: yup.date().min(new Date(), 'Reminder time must be greater than now').label('Reminder time').required().when('endTime', (endTime, yap) => endTime && yap.max(endTime, 'Reminder time cannot be after event end time')),
 
     }),
+    ResetPasswordSchema: yup.object().shape({
+        email: yup.string().email().required().label('Email'),
+        newPassword: yup.string().test('test-password','min 6 symbols',value => (value && value.trim().length>=6)).required().label('New password')
+    }),
 }

@@ -45,7 +45,8 @@ export const getContestById = (data) => {
 
 export const getUserTransactionsHistory = () => http.get('getUserTransactionsHistory');
 export const getUserTransactionsStatement = () => http.get('getUserTransactionsStatement');
-
+export const resetUserPasswordRequest = (data) => http.post('resetUserPasswordRequest', data);
+export const confirmPasswordResetting = (token) => http.post('confirmPasswordResetting', token);
 
 
 

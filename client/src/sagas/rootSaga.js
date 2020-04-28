@@ -26,6 +26,7 @@ import {
     changeCatalogName
 } from './chatSagas';
 import {getUserTransactionsHistorySaga, getUserTransactionsStatementSaga} from './transactionsSaga';
+import {resetPasswordRequestSaga, confirmPasswordResettingSaga} from './resetPasswordSaga';
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -58,6 +59,8 @@ function* rootSaga() {
     yield  takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST, changeCatalogName);
     yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_HISTORY_REQUEST, getUserTransactionsHistorySaga);
     yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_STATEMENT_REQUEST, getUserTransactionsStatementSaga);
+    yield  takeLatest(ACTION.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
+    yield  takeLatest(ACTION.CONFIRM_RESETTING_PASSWORD_REQUEST, confirmPasswordResettingSaga);
 }
 
 export default rootSaga;
