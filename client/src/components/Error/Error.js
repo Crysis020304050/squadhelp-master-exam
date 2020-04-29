@@ -3,7 +3,7 @@ import styles from './Error.module.sass';
 
 const Error=props=>{
     const getMessage=()=>{
-        const {status,data}=props;
+        const {status,data}=props
         switch (status) {
             case 404:
                 return data;

@@ -11,7 +11,7 @@ export function* resetPasswordRequestSaga(action) {
         history.replace('/login');
         toast(data);
     } catch (e) {
-        yield put(resetPasswordRequestError(e));
+        yield put(resetPasswordRequestError(e.response || e));
     }
 }
 
@@ -21,6 +21,6 @@ export function* confirmPasswordResettingSaga(action) {
         yield put(confirmResettingPasswordSuccess(data));
         toast(data);
     } catch (e) {
-        yield put(confirmResettingPasswordError(e))
+        yield put(confirmResettingPasswordError(e.response || e))
     }
 }

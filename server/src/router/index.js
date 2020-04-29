@@ -7,7 +7,9 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {findUserByEmail} = require("../middlewares/findUserByEmail");
 const router = express.Router();
+
 
 router.post(
     '/registration',
@@ -190,6 +192,13 @@ router.get('/getUserTransactionsHistory',
 router.get('/getUserTransactionsStatement',
     checkToken.checkToken,
     userController.getUserTransactionsStatement,
-    );
+);
+
+router.post('/resetUserPasswordRequest',
+    findUserByEmail,
+);
+
+router.post('/confirmPasswordResetting',
+);
 
 module.exports = router;
