@@ -27,14 +27,18 @@ module.exports.checkAuth = async (req, res, next) => {
 };
 
 module.exports.checkToken = async (req, res, next) => {
-  const accessToken = req.headers.authorization;
+  const accessToken = req.headers.authorization || req.body.token;
   if ( !accessToken) {
-    return next(new TokenError('need token'));
+    return next(new TokenError('Need token'));
   }
   try {
-    req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
-    next();
-  } catch (err) {
-    next(new TokenError());
+    const tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
+    if (tokenData) {
+      req.tokenData = tokenData;
+      return next()
+    }
+    return next(new TokenError('Token is invalid or expired'));
+  } catch (e) {
+    next(e);
   }
 };

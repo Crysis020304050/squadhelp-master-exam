@@ -16,7 +16,7 @@ export function* resetPasswordRequestSaga(action) {
 
 export function* confirmPasswordResettingSaga(action) {
     try {
-        const {data} = yield confirmPasswordResetting(action.token);
+        const {data} = yield confirmPasswordResetting({token: action.token});
         yield put(confirmResettingPasswordSuccess(data));
         toast(data);
         history.replace('/login');

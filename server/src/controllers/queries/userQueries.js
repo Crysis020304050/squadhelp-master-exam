@@ -7,7 +7,7 @@ module.exports.updateUser = async (data, userId, transaction) => {
   const [updatedCount, [updatedUser]] = await bd.Users.update(data,
     { where: { id: userId }, returning: true, transaction });
   if (updatedCount !== 1) {
-    throw new ServerError('cannot update user');
+    throw new ServerError('Cannot update user');
   }
   return updatedUser.dataValues;
 };

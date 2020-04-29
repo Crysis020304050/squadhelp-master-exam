@@ -5,7 +5,7 @@ const CONSTANTS = require("../constants/constants");
 module.exports.generateTokenWithNewPassword = async (req, res, next) => {
   try {
       const accessToken = jwt.sign({
-          email: req.user.email,
+          id: req.user.id,
           newPassword: req.hashPass,
       }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
       if (accessToken) {

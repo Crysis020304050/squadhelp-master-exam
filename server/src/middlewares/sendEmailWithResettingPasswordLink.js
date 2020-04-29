@@ -9,7 +9,7 @@ module.exports.sendEmailWithResettingPasswordLink = async (req, res, next) => {
             template: 'resetPasswordRequest',
             subject: 'Password help has arrived!',
             context: {
-                url: `http://localhost:3000/http://localhost:3000/confirmPasswordResetting/${accessToken}`,
+                url: `http://localhost:3000/confirmPasswordResetting/${accessToken}`,
                 name: `${firstName} ${lastName}`
             }
         };

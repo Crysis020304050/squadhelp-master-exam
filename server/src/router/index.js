@@ -7,6 +7,8 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {notifyUserAboutSuccessfulPasswordResetting} = require("../middlewares/notifyUserAboutSuccessfulPasswordResetting");
+const {resetUserPassword} = require("../middlewares/resetUserPassword");
 const {sendEmailWithResettingPasswordLink} = require("../middlewares/sendEmailWithResettingPasswordLink");
 const {generateTokenWithNewPassword} = require("../middlewares/generateTokenWithNewPassword");
 const {findUserByEmail} = require("../middlewares/findUserByEmail");
@@ -204,6 +206,9 @@ router.post('/resetUserPasswordRequest',
 );
 
 router.post('/confirmPasswordResetting',
+    checkToken.checkToken,
+    resetUserPassword,
+    notifyUserAboutSuccessfulPasswordResetting,
 );
 
 module.exports = router;
