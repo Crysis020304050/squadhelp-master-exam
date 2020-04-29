@@ -7,6 +7,8 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {sendEmailWithResettingPasswordLink} = require("../middlewares/sendEmailWithResettingPasswordLink");
+const {generateTokenWithNewPassword} = require("../middlewares/generateTokenWithNewPassword");
 const {findUserByEmail} = require("../middlewares/findUserByEmail");
 const router = express.Router();
 
@@ -196,6 +198,9 @@ router.get('/getUserTransactionsStatement',
 
 router.post('/resetUserPasswordRequest',
     findUserByEmail,
+    hashPass,
+    generateTokenWithNewPassword,
+    sendEmailWithResettingPasswordLink,
 );
 
 router.post('/confirmPasswordResetting',
