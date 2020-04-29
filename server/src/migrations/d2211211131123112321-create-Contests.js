@@ -1,4 +1,7 @@
 'use strict';
+
+const {MODERATION_STATUS_MODERATION, MODERATION_STATUS_RESOLVED, MODERATION_STATUS_REJECTED} = require("../constants/constants.js");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Contests', {
@@ -84,6 +87,11 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+      },
+      moderationStatus: {
+        type: Sequelize.ENUM(MODERATION_STATUS_MODERATION, MODERATION_STATUS_RESOLVED, MODERATION_STATUS_REJECTED),
+        allowNull: false,
+        defaultValue: MODERATION_STATUS_MODERATION,
       },
     });
   },
