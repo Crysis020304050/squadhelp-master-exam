@@ -4,6 +4,9 @@ const serverPort = env === 'production' ? 3000 : 9632;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATION_STATUS_MODERATION: 'MODERATION',
+  MODERATION_STATUS_RESOLVED: 'RESOLVED',
+  MODERATION_STATUS_REJECTED: 'REJECTED',
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',

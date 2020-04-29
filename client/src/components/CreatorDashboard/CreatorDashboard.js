@@ -14,6 +14,7 @@ import queryString from 'query-string';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import TryAgain from '../../components/TryAgain/TryAgain';
+import constants from "../../constants";
 
 const types = ['name', 'tagline', 'logo'];
 
@@ -112,7 +113,8 @@ class CreatorDashboard extends React.Component {
             contestId: obj.contestId ? obj.contestId : '',
             industry: obj.industry ? obj.industry : '',
             awardSort: obj.awardSort || 'asc',
-            ownEntries: typeof obj.ownEntries === "undefined" ? false : obj.ownEntries
+            ownEntries: typeof obj.ownEntries === "undefined" ? false : obj.ownEntries,
+            moderationStatus: constants.MODERATION_STATUS_RESOLVED,
         };
         if (!isEqual(filter, this.props.creatorFilter)) {
             this.props.newFilter(filter);
@@ -147,7 +149,7 @@ class CreatorDashboard extends React.Component {
         const {contests} = this.props;
         for (let i = 0; i < contests.length; i++) {
             array.push(<ContestBox data={contests[i]} key={contests[i].id}
-                                   goToExtended={this.goToExtended}/>)
+                                   goToExtended={this.goToExtended} role={constants.CREATOR}/>)
         }
         return array;
     };

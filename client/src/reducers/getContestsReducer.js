@@ -12,7 +12,9 @@ const initialState = {
         contestId: '',
         industry: '',
         awardSort: 'asc',
-        ownEntries: false
+        ownEntries: false,
+        moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED,
+
     },
     haveMore: true
 };
@@ -31,7 +33,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 error: null,
-                contests: [...action.data.contests],
+                contests: [...state.contests,...action.data.contests],
                 haveMore: action.data.haveMore
             }
         }

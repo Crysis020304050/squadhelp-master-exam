@@ -2,7 +2,7 @@ const bd = require('../models');
 const CONSTANTS = require('../constants/constants');
 
 module.exports.createWhereForAllContests = (
-    selectedContestTypes, contestId, industry, awardSort) => {
+    selectedContestTypes, contestId, industry, awardSort, moderationStatus) => {
     let object = {
         where: {},
         order: [],
@@ -18,6 +18,9 @@ module.exports.createWhereForAllContests = (
     }
     if (awardSort) {
         object.order.push(['prize', awardSort]);
+    }
+    if (moderationStatus) {
+        Object.assign(object.where, {moderationStatus})
     }
     Object.assign(object.where, {
         status: {

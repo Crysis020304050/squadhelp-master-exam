@@ -253,7 +253,7 @@ module.exports.getCustomersContests = (req, res, next) => {
 
 module.exports.getContests = (req, res, next) => {
     const predicates = UtilFunctions.createWhereForAllContests(req.body.selectedContestTypes,
-        req.body.contestId, req.body.industry, req.body.awardSort);
+        req.body.contestId, req.body.industry, req.body.awardSort, req.body.moderationStatus);
     db.Contests.findAll({
         where: predicates.where,
         order: predicates.order,
