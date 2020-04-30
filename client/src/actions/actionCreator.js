@@ -557,3 +557,79 @@ export const clearConfirmResettingPasswordError = () => {
         type: ACTION.CLEAR_CONFIRM_RESETTING_PASSWORD_ERROR,
     }
 };
+
+export const getContestsForModeratorRequest = (filter) => {
+    return {
+        type: ACTION.GET_CONTESTS_FOR_MODERATOR_REQUEST,
+        filter,
+    }
+};
+
+export const getContestsForModeratorSuccess = (data) => {
+    return {
+        type: ACTION.GET_CONTESTS_FOR_MODERATOR_SUCCESS,
+        data,
+    }
+};
+
+export const getContestsForModeratorError = (error) => {
+    return {
+        type: ACTION.GET_CONTESTS_FOR_MODERATOR_ERROR,
+        error,
+    }
+};
+
+export const moderateContestResolveRequest = (id) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_RESOLVE_REQUEST,
+        id,
+    }
+};
+
+export const moderateContestResolveSuccess = (id) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_RESOLVE_SUCCESS,
+        id,
+    }
+};
+
+export const moderateContestResolveError = (error) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_RESOLVE_ERROR,
+        error,
+    }
+};
+
+export const moderateContestRejectRequest = (id) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_REJECT_REQUEST,
+        id,
+    }
+};
+
+export const moderateContestRejectSuccess = (id) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_REJECT_SUCCESS,
+        id,
+    }
+};
+
+export const moderateContestRejectError = (error) => {
+    return {
+        type: ACTION.MODERATE_CONTEST_REJECT_ERROR,
+        error,
+    }
+};
+
+export const clearModerationStoreError = () => {
+    return {
+        type: ACTION.CLEAR_MODERATION_STORE_ERROR,
+    }
+};
+
+export const setNewModeratorFilter = (filter) => {
+    return {
+        type: ACTION.SET_NEW_MODERATOR_FILTER,
+        filter,
+    }
+};

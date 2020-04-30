@@ -212,7 +212,7 @@ router.post('/confirmPasswordResetting',
     notifyUserAboutSuccessfulPasswordResetting,
 );
 
-router.get('/getContestsForModerator',
+router.post('/getContestsForModerator',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     getContestsForModerator,
