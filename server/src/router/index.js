@@ -7,6 +7,7 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {getContestsForModerator} = require("../controllers/contestController");
 const {notifyUserAboutSuccessfulPasswordResetting} = require("../middlewares/notifyUserAboutSuccessfulPasswordResetting");
 const {resetUserPassword} = require("../middlewares/resetUserPassword");
 const {sendEmailWithResettingPasswordLink} = require("../middlewares/sendEmailWithResettingPasswordLink");
@@ -209,6 +210,12 @@ router.post('/confirmPasswordResetting',
     checkToken.checkToken,
     resetUserPassword,
     notifyUserAboutSuccessfulPasswordResetting,
+);
+
+router.get('/getContestsForModerator',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForModerators,
+    getContestsForModerator,
 );
 
 module.exports = router;

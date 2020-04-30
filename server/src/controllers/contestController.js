@@ -251,6 +251,21 @@ module.exports.getCustomersContests = (req, res, next) => {
         .catch(err => next(new ServerError(err)));
 };
 
+module.exports.getContestsForModerator = async (req, res, next) => {
+  try {
+      const {limit, offset, moderationStatus} = req.body;
+      const contests = await db.Contests.findAll({
+         where: {moderationStatus},
+          limit,
+          offset: offset || 0,
+      });
+      const haveMore = contests.length !== 0;
+      res.send({contests, haveMore});
+  } catch (e) {
+      next(e);
+  }
+};
+
 module.exports.getContests = (req, res, next) => {
     const predicates = UtilFunctions.createWhereForAllContests(req.body.selectedContestTypes,
         req.body.contestId, req.body.industry, req.body.awardSort, req.body.moderationStatus);
