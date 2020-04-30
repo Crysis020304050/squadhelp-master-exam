@@ -11,6 +11,7 @@ import CatalogListContainer from '../../CatalogComponents/CatalogListContainer/C
 import CatalogCreation from '../../CatalogComponents/CatalogCreation/CatalogCreation';
 import CatalogListHeader from '../../CatalogComponents/CatalogListHeader/CatalogListHeader';
 import ChatError from '../../../ChatError/ChatError';
+import constants from "../../../../constants";
 
 
 class Chat extends React.Component {
@@ -51,16 +52,16 @@ class Chat extends React.Component {
 
     render() {
         const {isExpanded, isShow, isShowCatalogCreation,error} = this.props.chatStore;
-        const {id} = this.props.userStore.data;
+        const {id, role} = this.props.userStore.data;
         const {changeShow,getPreviewChat} = this.props;
         return (
-            <div className={classNames(styles.chatContainer, {[styles.showChat]: isShow})}>
+            role !== constants.MODERATOR && (<div className={classNames(styles.chatContainer, {[styles.showChat]: isShow})}>
                 {error && <ChatError getData={getPreviewChat}/>}
                 {isShowCatalogCreation && <CatalogCreation/>}
                 {isExpanded ? <Dialog userId={id}/> : this.renderDialogList()}
                 <div className={styles.toggleChat}
                      onClick={() => changeShow()}>{isShow ? 'Hide Chat' : 'Show Chat'}</div>
-            </div>
+            </div>)
         )
     }
 }
