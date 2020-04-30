@@ -7,15 +7,28 @@ import {connect} from 'react-redux';
 
 const Dashboard = (props) => {
     const {role, history} = props;
+
+    const getUserDashboard = () => {
+        switch (role) {
+            case CONSTANTS.CUSTOMER: {
+                return <CustomerDashboard history={history} match={props.match}/>
+            }
+            case CONSTANTS.CREATOR: {
+                return <CreatorDashboard history={history} match={props.match}/>
+            }
+            case CONSTANTS.MODERATOR: {
+                return null;
+            }
+            default: {
+                return null;
+            }
+        }
+    };
+
     return (
         <div>
             <Header/>
-            {
-                role === CONSTANTS.CUSTOMER ?
-                    <CustomerDashboard history={history} match={props.match}/>
-                    :
-                    <CreatorDashboard history={history} match={props.match}/>
-            }
+            {getUserDashboard()}
         </div>
     );
 };
