@@ -1,5 +1,7 @@
 'use strict';
 
+const {CUSTOMER, CREATOR, MODERATOR} = require('../constants/constants.js');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('Users', {
       id: {
@@ -35,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'anon.png',
       },
       role: {
-        type: DataTypes.ENUM('customer', 'creator'),
+        type: DataTypes.ENUM(CUSTOMER, CREATOR, MODERATOR),
         allowNull: false,
       },
       balance: {

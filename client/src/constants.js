@@ -4,6 +4,7 @@ const serverPort = env === 'production' ? 3000 : 9632;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATOR: 'moderator',
   MODERATION_STATUS_MODERATION: 'MODERATION',
   MODERATION_STATUS_RESOLVED: 'RESOLVED',
   MODERATION_STATUS_REJECTED: 'REJECTED',

@@ -1,4 +1,6 @@
 'use strict';
+const {CUSTOMER, CREATOR, MODERATOR} = require('../constants/constants.js');
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
@@ -35,7 +37,7 @@ module.exports = {
         defaultValue: 'anon.png',
       },
       role: {
-        type: Sequelize.ENUM('customer', 'creator'),
+        type: Sequelize.ENUM(CUSTOMER, CREATOR, MODERATOR),
         allowNull: false,
       },
       balance: {
