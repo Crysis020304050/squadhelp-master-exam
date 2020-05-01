@@ -3,6 +3,7 @@ import styles from './ContestBox.module.sass';
 import moment from 'moment';
 import CONSTANTS from '../../constants';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 
 const ContestBox = (props) => {
@@ -18,6 +19,11 @@ const ContestBox = (props) => {
             str = 'less than one hour';
         return str;
     };
+
+    const goToExtended = (contest_id) => {
+        props.history.push('/contest/' + contest_id);
+    };
+
 
     const getPreferenceContest = () => {
         const data = props.data;
@@ -37,18 +43,19 @@ const ContestBox = (props) => {
     const moderationStatusClassName = props.role === CONSTANTS.CREATOR
         ? null
         : classNames(styles.moderationStatus,
-        {[styles.moderation]: moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION},
-        {[styles.resolved]: moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED},
-        {[styles.rejected]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED},
-    );
+            {[styles.moderation]: moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION},
+            {[styles.resolved]: moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED},
+            {[styles.rejected]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED},
+        );
 
     return (
-        <div className={styles.contestBoxContainer} onClick={() => props.goToExtended(id)}>
+        <div key={id} className={styles.contestBoxContainer} onClick={() => goToExtended(id)}>
             <div className={styles.mainContestInfo}>
                 <div className={styles.titleAndIdContainer}>
                     <span className={styles.title}>{title}</span>
                     <span className={styles.id}>{`(#${id})`}</span>
-                    {props.role !== CONSTANTS.CREATOR && <span className={moderationStatusClassName}>{moderationStatus}</span>}
+                    {props.role !== CONSTANTS.CREATOR &&
+                    <span className={moderationStatusClassName}>{moderationStatus}</span>}
                 </div>
                 <div className={styles.contestType}>
                     <span>{`${ucFirstLetter(contestType)} / ${getPreferenceContest()}`}</span>
@@ -84,6 +91,12 @@ const ContestBox = (props) => {
             </div>
         </div>
     )
+};
+
+ContestBox.propTypes = {
+    data: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    role: PropTypes.string,
 };
 
 export default ContestBox;

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'intersection-observer/intersection-observer.js';
 import Setup from './boot/setup';
 import * as serviceWorker from './serviceWorker';
 

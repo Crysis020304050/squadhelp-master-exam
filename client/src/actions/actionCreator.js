@@ -621,12 +621,6 @@ export const moderateContestRejectError = (error) => {
     }
 };
 
-export const clearModerationStoreError = () => {
-    return {
-        type: ACTION.CLEAR_MODERATION_STORE_ERROR,
-    }
-};
-
 export const setNewModeratorFilter = (filter) => {
     return {
         type: ACTION.SET_NEW_MODERATOR_FILTER,

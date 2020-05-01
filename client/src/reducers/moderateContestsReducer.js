@@ -57,10 +57,11 @@ export default function (state = initialState, action) {
                 filter: action.filter,
             }
         }
-        case ACTION.CLEAR_MODERATION_STORE_ERROR: {
+        case ACTION.CLEAR_CONTESTS_LIST: {
             return {
                 ...state,
                 error: null,
+                contests: new Map(),
             }
         }
         case ACTION.MODERATE_CONTEST_RESOLVE_REQUEST:

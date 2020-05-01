@@ -1,42 +1,33 @@
 import React from 'react';
-import {withRouter} from 'react-router';
 import styles from './ContestContainer.module.sass';
 import Spinner from '../../components/Spinner/Spinner';
+import PropTypes from 'prop-types';
+import InfiniteList from "react-infinite-scroll-list";
 
 
-class ContestsContainer extends React.Component {
+const ContestsContainer = ({children, isFetching, loadMore, haveMore}) => {
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.scrollHandler);
-    };
+    const isListOfChildrenEmpty = () => (
+        !isFetching && children.length === 0
+    );
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.scrollHandler);
-    };
+    return (
+        <>
+            {isListOfChildrenEmpty() && <div className={styles.notFound}>Nothing not found</div>}
+            {!isListOfChildrenEmpty() && <InfiniteList root='viewport' isLoading={isFetching} isEndReached={!haveMore} onReachThreshold={() => loadMore(children.length)}>
+                {children}
+                {isFetching && <Spinner/>}
+            </InfiniteList>}
+        </>
+    );
+};
 
-
-    scrollHandler = () => {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            if (this.props.haveMore) {
-                this.props.loadMore(this.props.children.length);
-            }
-        }
-    };
-
-    render() {
-        const {isFetching} = this.props;
-        if (!isFetching && this.props.children.length === 0) {
-            return <div className={styles.notFound}>Nothing not found</div>;
-        } else return (
-            <div>
-                {this.props.children}
-                {isFetching && <div className={styles.spinnerContainer}><Spinner/></div>}
-            </div>
-        )
-    }
-
-}
-
+ContestsContainer.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    loadMore: PropTypes.func.isRequired,
+    haveMore: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+};
 
 export default ContestsContainer;
 

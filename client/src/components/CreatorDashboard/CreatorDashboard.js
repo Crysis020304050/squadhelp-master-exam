@@ -148,14 +148,10 @@ class CreatorDashboard extends React.Component {
         const array = [];
         const {contests} = this.props;
         for (let i = 0; i < contests.length; i++) {
-            array.push(<ContestBox data={contests[i]} key={contests[i].id}
-                                   goToExtended={this.goToExtended} role={constants.CREATOR}/>)
+            array.push(<ContestBox key={contests[i].id} data={contests[i]} history={this.props.history}
+                                   role={constants.CREATOR}/>)
         }
         return array;
-    };
-
-    goToExtended = (contestId) => {
-        this.props.history.push('/contest/' + contestId);
     };
 
     tryLoadAgain = () => {

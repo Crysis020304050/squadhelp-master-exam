@@ -34,17 +34,11 @@ class CustomerDashboard extends React.Component {
         }
     }
 
-    goToExtended = (contest_id) => {
-        this.props.history.push('/contest/' + contest_id);
-    };
-
-
     setContestList = () => {
         const array = [];
         const {contests} = this.props;
         for (let i = 0; i < contests.length; i++) {
-            array.push(<ContestBox data={contests[i]} key={contests[i].id}
-                                   goToExtended={this.goToExtended}/>)
+            array.push(<ContestBox key={contests[i].id} data={contests[i]} history={this.props.history}/>)
         }
         return array;
     };
@@ -91,7 +85,7 @@ class CustomerDashboard extends React.Component {
                             :
                             <ContestsContainer isFetching={this.props.isFetching}
                                                loadMore={this.loadMore}
-                                               history={this.props.history} haveMore={haveMore}>
+                                               haveMore={haveMore}>
                                 {this.setContestList()}
                             </ContestsContainer>
                     }
