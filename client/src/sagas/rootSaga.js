@@ -27,6 +27,7 @@ import {
 } from './chatSagas';
 import {getUserTransactionsHistorySaga, getUserTransactionsStatementSaga} from './transactionsSaga';
 import {resetPasswordRequestSaga, confirmPasswordResettingSaga} from './resetPasswordSaga';
+import {getContestsForModeratorSaga} from "./moderateContestsSaga";
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -61,6 +62,8 @@ function* rootSaga() {
     yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_STATEMENT_REQUEST, getUserTransactionsStatementSaga);
     yield  takeLatest(ACTION.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
     yield  takeLatest(ACTION.CONFIRM_RESETTING_PASSWORD_REQUEST, confirmPasswordResettingSaga);
+    yield  takeLatest(ACTION.GET_CONTESTS_FOR_MODERATOR_REQUEST, getContestsForModeratorSaga);
+    yield  takeLatest(ACTION.SET_NEW_MODERATOR_FILTER, getContestsForModeratorSaga);
 }
 
 export default rootSaga;

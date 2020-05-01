@@ -5,7 +5,7 @@ export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
   MODERATOR: 'moderator',
-  MODERATOR_ACCEPTED_PAGES: ['/account', '/dashboard'],
+  MODERATOR_ACCEPTED_PAGES: ['/account', '/dashboard', '/contest/:id'],
   MODERATION_STATUS_MODERATION: 'MODERATION',
   MODERATION_STATUS_RESOLVED: 'RESOLVED',
   MODERATION_STATUS_REJECTED: 'REJECTED',

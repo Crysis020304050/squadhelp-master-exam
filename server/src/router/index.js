@@ -54,7 +54,6 @@ router.post(
 router.get(
     '/getContestById',
     checkToken.checkToken,
-    basicMiddlewares.canGetContest,
     contestController.getContestById,
 );
 

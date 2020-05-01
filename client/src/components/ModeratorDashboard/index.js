@@ -6,13 +6,14 @@ import {
     getContestsForModeratorRequest,
     moderateContestResolveRequest,
     moderateContestRejectRequest,
-    setNewModeratorFilter,
     clearContestList
 } from '../../actions/actionCreator.js';
 import ContestBox from "../ContestBox/ContestBox";
 import ContestsContainer from "../ContestsContainer/ContestsContainer";
+import ModeratorFilter from "../ModeratorFilter";
+import constants from "../../constants";
 
-const ModeratorDashboard = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history}) => {
+const ModeratorDashboard = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest}) => {
 
     useEffect(() => {
         getContests(filter);
@@ -32,20 +33,28 @@ const ModeratorDashboard = ({contests, isFetching, error, haveMore, filter, getC
     };
 
     const renderContests = () => (
-        [...contests.values()].map(contest => <ContestBox key={contest.id} history={history} data={contest}/>)
+        [...contests.values()].map(contest => <ContestBox key={contest.id}
+                                                          history={history}
+                                                          data={contest}
+                                                          role={constants.MODERATOR}
+                                                          resolveContest={resolveContest}
+                                                          rejectContest={rejectContest}/>)
     );
 
     return (
-        <div>
-            {
-                error
-                    ? <TryAgain getData={tryToGetContestsAgain}/>
-                    : <ContestsContainer isFetching={isFetching} loadMore={loadMore} haveMore={haveMore}>
-                        {
-                            renderContests()
-                        }
-                    </ContestsContainer>
-            }
+        <div className={styles.mainContainer}>
+            <ModeratorFilter filter={filter}/>
+            <div className={styles.contestsContainer}>
+                {
+                    error
+                        ? <TryAgain getData={tryToGetContestsAgain}/>
+                        : <ContestsContainer isFetching={isFetching} loadMore={loadMore} haveMore={haveMore}>
+                            {
+                                renderContests()
+                            }
+                        </ContestsContainer>
+                }
+            </div>
         </div>
     );
 };
@@ -55,6 +64,8 @@ const mapStateToProps = state => state.moderationStore;
 const mapDispatchToProps = dispatch => ({
     getContests: (filter) => dispatch(getContestsForModeratorRequest(filter)),
     clearContests: () => dispatch(clearContestList()),
+    resolveContest: (id) => dispatch(moderateContestResolveRequest(id)),
+    rejectContest: (id) => dispatch(moderateContestRejectRequest(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeratorDashboard);

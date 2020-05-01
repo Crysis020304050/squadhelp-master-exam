@@ -41,7 +41,7 @@ module.exports.dataForContest = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
     try {
-        let contestInfo = await db.Contests.findOne({
+        const contestInfo = await db.Contests.findOne({
             where: {id: req.headers.contestid},
             order: [
                 [db.Offers, 'id', 'asc'],
@@ -89,16 +89,19 @@ module.exports.getContestById = async (req, res, next) => {
                 },
             ],
         });
-        contestInfo = contestInfo.get({plain: true});
-        contestInfo.Offers.forEach(offer => {
-            if (offer.Rating) {
-                offer.mark = offer.Rating.mark;
-            }
-            delete offer.Rating;
-        });
-        res.send(contestInfo);
+        if (contestInfo) {
+            const preparedContestInfo = contestInfo.get({plain: true});
+            preparedContestInfo.Offers.forEach(offer => {
+                if (offer.Rating) {
+                    offer.mark = offer.Rating.mark;
+                }
+                delete offer.Rating;
+            });
+            return res.send(preparedContestInfo);
+        }
+        return next(new ServerError('Cannot get contest'));
     } catch (e) {
-        next(new ServerError());
+        next(e);
     }
 };
 
@@ -252,18 +255,26 @@ module.exports.getCustomersContests = (req, res, next) => {
 };
 
 module.exports.getContestsForModerator = async (req, res, next) => {
-  try {
-      const {limit, offset, moderationStatus} = req.body;
-      const contests = await db.Contests.findAll({
-         where: {moderationStatus},
-          limit,
-          offset: offset || 0,
-      });
-      const haveMore = contests.length !== 0;
-      res.send({contests, haveMore});
-  } catch (e) {
-      next(e);
-  }
+    try {
+        const {limit, offset, moderationStatus} = req.body;
+        const contests = await db.Contests.findAll({
+            where: {moderationStatus},
+            limit,
+            offset: offset || 0,
+            include: [
+                {
+                    model: db.Offers,
+                    required: false,
+                    attributes: ['id'],
+                },
+            ],
+        });
+        contests.forEach(contest => contest.dataValues.count = contest.dataValues.Offers.length);
+        const haveMore = contests.length !== 0;
+        res.send({contests, haveMore});
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.getContests = (req, res, next) => {

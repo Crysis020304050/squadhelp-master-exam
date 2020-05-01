@@ -27,7 +27,7 @@ const ContestInfo = (props) => {
                         <div onClick={() => changeEditContest(true)} className={styles.editBtn}>Edit</div>
                     }
                     {
-                        role !== CONSTANTS.CUSTOMER
+                        role === CONSTANTS.CREATOR
                         &&
                         <i onClick={goChat} className='fas fa-comments'/>
                     }

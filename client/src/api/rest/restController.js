@@ -36,7 +36,7 @@ export const getActiveContests = ({offset, limit, selectedContestTypes, contestI
 };
 
 export const getContestForModerator = ({offset, limit, moderationStatus}) => {
-    http.post('getContestsForModerator', {offset, limit, moderationStatus});
+    return http.post('getContestsForModerator', {offset, limit, moderationStatus});
 };
 
 export const getContestById = (data) => {
