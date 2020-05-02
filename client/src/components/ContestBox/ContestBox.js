@@ -92,8 +92,11 @@ const ContestBox = (props) => {
                 </div>
             </div>
             {props.role === CONSTANTS.MODERATOR && <div className={styles.setContestStatusButtonsContainer}>
-                <div onClick={() => props.resolveContest(id)}>RESOLVE</div>
-                <div onClick={() => props.rejectContest(id)}>REJECT</div>
+                {moderationStatus !== CONSTANTS.MODERATION_STATUS_RESOLVED && <div
+                    className={classNames({[styles.singleResolveContestsButton]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED})}
+                    onClick={() => props.resolveContest(id)}>RESOLVE</div>}
+                {moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION &&
+                <div onClick={() => props.rejectContest(id)}>REJECT</div>}
             </div>}
         </div>
     )

@@ -7,6 +7,7 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {resolveContest, rejectContest} = require("../controllers/contestController");
 const {getContestsForModerator} = require("../controllers/contestController");
 const {notifyUserAboutSuccessfulPasswordResetting} = require("../middlewares/notifyUserAboutSuccessfulPasswordResetting");
 const {resetUserPassword} = require("../middlewares/resetUserPassword");
@@ -215,6 +216,18 @@ router.post('/getContestsForModerator',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     getContestsForModerator,
+);
+
+router.post('/resolveContest',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForModerators,
+    resolveContest,
+);
+
+router.post('/rejectContest',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForModerators,
+    rejectContest,
 );
 
 module.exports = router;

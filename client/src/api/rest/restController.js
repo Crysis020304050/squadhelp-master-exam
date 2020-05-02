@@ -51,9 +51,8 @@ export const getUserTransactionsHistory = () => http.get('getUserTransactionsHis
 export const getUserTransactionsStatement = () => http.get('getUserTransactionsStatement');
 export const resetUserPasswordRequest = (data) => http.post('resetUserPasswordRequest', data);
 export const confirmPasswordResetting = (data) => http.post('confirmPasswordResetting', data);
-
-
-
+export const resolveContest = (id) => http.post('resolveContest', {id});
+export const rejectContest = (id) => http.post('rejectContest', {id});
 
 
 

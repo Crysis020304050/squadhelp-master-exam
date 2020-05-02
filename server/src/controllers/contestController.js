@@ -264,6 +264,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
             where: {moderationStatus},
             limit,
             offset: offset || 0,
+            order: [['id', 'DESC']],
             include: [
                 {
                     model: db.Offers,
@@ -330,6 +331,27 @@ module.exports.getOffersFiles = async (req, res, next) => {
 
         const result = await contestQueries.getOffersData(searchFilter);
         return res.send(result);
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.resolveContest = async (req, res, next) => {
+  try {
+      const {id} = req.body;
+      const updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+      res.send({id: updatedContest.id});
+  } catch (e) {
+      console.log(e);
+      next(e);
+  }
+};
+
+module.exports.rejectContest = async (req, res, next) => {
+    try {
+        const {id} = req.body;
+        const updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
+        res.send({id: updatedContest.id});
     } catch (e) {
         next(e);
     }

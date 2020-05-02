@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styles from './StartContestPanel.module.sass';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import Icon from '@mdi/react'
 import { mdiLightbulbOutline } from '@mdi/js';
 
@@ -18,6 +18,8 @@ const StartContestPanel = ({data}) => {
     );
 };
 
-const mapStateToProps = state => state.userStore;
+StartContestPanel.propTypes = {
+  data: PropTypes.object,
+};
 
-export default connect(mapStateToProps)(StartContestPanel);
+export default StartContestPanel;
