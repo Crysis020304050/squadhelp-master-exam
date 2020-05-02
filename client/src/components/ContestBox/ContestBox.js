@@ -94,9 +94,16 @@ const ContestBox = (props) => {
             {props.role === CONSTANTS.MODERATOR && <div className={styles.setContestStatusButtonsContainer}>
                 {moderationStatus !== CONSTANTS.MODERATION_STATUS_RESOLVED && <div
                     className={classNames({[styles.singleResolveContestsButton]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED})}
-                    onClick={() => props.resolveContest(id)}>RESOLVE</div>}
+                    onClick={() => {
+                        if (!props.isFetching)
+                        props.resolveContest(id)}
+                    }>RESOLVE</div>}
                 {moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION &&
-                <div onClick={() => props.rejectContest(id)}>REJECT</div>}
+                <div onClick={() => {
+                    if (!props.isFetching) {
+                        props.rejectContest(id)
+                    }
+                }}>REJECT</div>}
             </div>}
         </div>
     )
@@ -108,6 +115,7 @@ ContestBox.propTypes = {
     role: PropTypes.string,
     resolveContest: PropTypes.func,
     rejectContest: PropTypes.func,
+    isFetching: PropTypes.bool,
 };
 
 export default ContestBox;

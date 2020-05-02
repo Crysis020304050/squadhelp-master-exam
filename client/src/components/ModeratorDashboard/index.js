@@ -38,7 +38,8 @@ const ModeratorDashboard = ({contests, isFetching, error, haveMore, filter, getC
                                                           data={contest}
                                                           role={constants.MODERATOR}
                                                           resolveContest={resolveContest}
-                                                          rejectContest={rejectContest}/>)
+                                                          rejectContest={rejectContest}
+                                                          isFetching={isFetching}/>)
     );
 
     return (

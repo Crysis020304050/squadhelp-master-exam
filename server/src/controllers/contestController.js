@@ -8,6 +8,7 @@ const controller = require('../index.js');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants/constants');
 const moment = require('moment');
+const bd = require("../models");
 import {INCOME_TRANSACTION} from '../constants/constants.js';
 
 module.exports.dataForContest = async (req, res, next) => {
@@ -232,8 +233,17 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
+
     db.Contests.findAll({
-        where: {status: req.headers.status, userId: req.tokenData.userId},
+        where: {
+            status: req.headers.status,
+            userId: req.tokenData.userId,
+            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING && {status: {
+                    [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
+                },
+            })
+        },
         limit: req.body.limit,
         offset: req.body.offset ? req.body.offset : 0,
         order: [['id', 'DESC']],
@@ -246,13 +256,17 @@ module.exports.getCustomersContests = (req, res, next) => {
         ],
     })
         .then(contests => {
-            contests.forEach(
-                contest => contest.dataValues.count = contest.dataValues.Offers.length);
-            let haveMore = true;
-            if (contests.length === 0) {
-                haveMore = false;
+            let preparedContests = contests;
+            if (req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING) {
+                preparedContests = preparedContests.filter(contest => {
+                    return !(contest.status === CONSTANTS.CONTEST_STATUS_ACTIVE && contest.moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED);
+                })
             }
-            res.send({contests, haveMore});
+            preparedContests.forEach(contest => {
+                contest.dataValues.count = contest.dataValues.Offers.length;
+            });
+
+            res.send({contests: preparedContests, haveMore: preparedContests.length >= req.body.limit});
         })
         .catch(err => next(new ServerError(err)));
 };
@@ -274,8 +288,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
             ],
         });
         contests.forEach(contest => contest.dataValues.count = contest.dataValues.Offers.length);
-        const haveMore = contests.length !== 0;
-        res.send({contests, haveMore});
+        res.send({contests, haveMore: contests.length >= req.body.limit});
     } catch (e) {
         next(e);
     }
@@ -301,11 +314,7 @@ module.exports.getContests = (req, res, next) => {
         .then(contests => {
             contests.forEach(
                 contest => contest.dataValues.count = contest.dataValues.Offers.length);
-            let haveMore = true;
-            if (contests.length === 0 || contests.length <= req.body.limit) {
-                haveMore = false;
-            }
-            res.send({contests, haveMore});
+            res.send({contests, haveMore: contests.length >= req.body.limit});
         })
         .catch(err => {
             next(new ServerError());
@@ -339,10 +348,9 @@ module.exports.getOffersFiles = async (req, res, next) => {
 module.exports.resolveContest = async (req, res, next) => {
   try {
       const {id} = req.body;
-      const updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
-      res.send({id: updatedContest.id});
+      req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+      next();
   } catch (e) {
-      console.log(e);
       next(e);
   }
 };
@@ -350,8 +358,8 @@ module.exports.resolveContest = async (req, res, next) => {
 module.exports.rejectContest = async (req, res, next) => {
     try {
         const {id} = req.body;
-        const updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
-        res.send({id: updatedContest.id});
+        req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
+        next();
     } catch (e) {
         next(e);
     }

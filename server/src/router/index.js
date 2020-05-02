@@ -7,15 +7,16 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const {notifyUserAboutRejectingRequest} = require("../middlewares/emailMiddlewares");
+const {notifyUserAboutResolvingRequest} = require("../middlewares/emailMiddlewares");
 const {resolveContest, rejectContest} = require("../controllers/contestController");
 const {getContestsForModerator} = require("../controllers/contestController");
-const {notifyUserAboutSuccessfulPasswordResetting} = require("../middlewares/notifyUserAboutSuccessfulPasswordResetting");
 const {resetUserPassword} = require("../middlewares/resetUserPassword");
-const {sendEmailWithResettingPasswordLink} = require("../middlewares/sendEmailWithResettingPasswordLink");
 const {generateTokenWithNewPassword} = require("../middlewares/generateTokenWithNewPassword");
-const {findUserByEmail} = require("../middlewares/findUserByEmail");
-const router = express.Router();
+const {findUserByEmailOrId} = require("../middlewares/findUserByEmailOrId");
+const {sendEmailWithResettingPasswordLink, notifyUserAboutSuccessfulPasswordResetting} = require('../middlewares/emailMiddlewares');
 
+const router = express.Router();
 
 router.post(
     '/registration',
@@ -200,7 +201,7 @@ router.get('/getUserTransactionsStatement',
 );
 
 router.post('/resetUserPasswordRequest',
-    findUserByEmail,
+    findUserByEmailOrId,
     hashPass,
     generateTokenWithNewPassword,
     sendEmailWithResettingPasswordLink,
@@ -222,12 +223,16 @@ router.post('/resolveContest',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     resolveContest,
+    findUserByEmailOrId,
+    notifyUserAboutResolvingRequest,
 );
 
 router.post('/rejectContest',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     rejectContest,
+    findUserByEmailOrId,
+    notifyUserAboutRejectingRequest,
 );
 
 module.exports = router;
