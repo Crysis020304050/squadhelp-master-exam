@@ -13,6 +13,7 @@ const ContestInfo = (props) => {
         title, focusOfWork, targetCustomer, industry, originalFileName,
         fileName, User, status
     } = contestData;
+
     return (
         <div className={styles.mainContestInfoContainer}>
             <div className={styles.infoContainer}>

@@ -19,5 +19,341 @@
     "time": 1588366869970,
     "code": 408,
     "stackTrace": "TokenError: need token\n    at _callee$ (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:17)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:7:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:194)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:364\n    at new Promise (<anonymous>)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:97\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:6:1\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:137:13)\n    at Route.dispatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:112:3)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:281:22\n    at Function.process_params (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:335:12)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:275:10)\n    at Function.handle (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:174:3)\n    at router (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:47:12)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at trim_prefix (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:317:13)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:284:7"
+  },
+  {
+    "message": "token error",
+    "time": 1588405307537,
+    "code": 408,
+    "stackTrace": "TokenError: token error\n    at _callee$ (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:25:10)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:7:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:194)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:364\n    at new Promise (<anonymous>)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:97\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:6:1\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:137:13)\n    at Route.dispatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:112:3)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:281:22\n    at Function.process_params (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:335:12)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:275:10)\n    at Function.handle (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:174:3)\n    at router (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:47:12)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at trim_prefix (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:317:13)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:284:7"
+  },
+  {
+    "message": "token error",
+    "time": 1588405308661,
+    "code": 408,
+    "stackTrace": "TokenError: token error\n    at _callee$ (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:25:10)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:7:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:194)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:364\n    at new Promise (<anonymous>)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:97\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:6:1\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:137:13)\n    at Route.dispatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:112:3)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:281:22\n    at Function.process_params (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:335:12)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:275:10)\n    at Function.handle (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:174:3)\n    at router (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:47:12)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at trim_prefix (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:317:13)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:284:7"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405360667,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405516890,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405674160,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405748940,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405878686,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405970479,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588405997888,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406125810,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406139900,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)\n    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406186578,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406273766,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)\n    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406320364,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406370588,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406621644,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406720903,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406744783,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588406961925,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407042818,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407064042,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407074159,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407077925,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407118234,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407123645,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407128820,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407135074,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407203855,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407209819,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407224932,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407279669,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407286640,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407294368,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407345746,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407350150,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407391917,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407412472,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407453297,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407464741,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407485625,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)\n    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407694610,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)\n    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407710434,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407714250,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407728646,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407735873,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407769512,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407780196,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407793833,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588407803481,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)"
+  },
+  {
+    "message": "need token",
+    "time": 1588407994259,
+    "code": 408,
+    "stackTrace": "TokenError: need token\n    at _callee$ (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:17)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:7:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:194)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:364\n    at new Promise (<anonymous>)\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:9:97\n    at /home/danyil/IdeaProjects/big_project_exam/server/src/middlewares/checkToken.js:6:1\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:137:13)\n    at Route.dispatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/route.js:112:3)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:281:22\n    at Function.process_params (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:335:12)\n    at next (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:275:10)\n    at Function.handle (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:174:3)\n    at router (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:47:12)\n    at Layer.handle [as handle_request] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/layer.js:95:5)\n    at trim_prefix (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:317:13)\n    at /home/danyil/IdeaProjects/big_project_exam/server/node_modules/express/lib/router/index.js:284:7"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588408300706,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:15:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:194)\n    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588408598161,
+    "code": 404,
+    "stackTrace": "NotFoundError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:106:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:19:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588408629120,
+    "code": 404,
+    "stackTrace": "NotFoundError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:106:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:19:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588408640671,
+    "code": 404,
+    "stackTrace": "NotFoundError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:106:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:17:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:19:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588408984241,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:11:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:13:194)"
+  },
+  {
+    "message": "Cannot get contest",
+    "time": 1588409434959,
+    "code": 500,
+    "stackTrace": "ServerError: Cannot get contest\n    at _callee2$ (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:105:21)\n    at tryCatch (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:274:22)\n    at Generator.prototype.<computed> [as next] (/home/danyil/IdeaProjects/big_project_exam/server/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:11:103)\n    at _next (/home/danyil/IdeaProjects/big_project_exam/server/src/controllers/contestController.js:13:194)"
   }
 ]

@@ -1,5 +1,5 @@
 const db = require('../models');
-import ServerError from '../errors/ServerError';
+const ServerError = require('../errors/ServerError');
 
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
@@ -42,7 +42,10 @@ module.exports.dataForContest = async (req, res, next) => {
 module.exports.getContestById = async (req, res, next) => {
     try {
         const contestInfo = await db.Contests.findOne({
-            where: {id: req.headers.contestid},
+            where: {
+                id: req.headers.contestid,
+            ...(req.tokenData.role === CONSTANTS.CREATOR && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+            },
             order: [
                 [db.Offers, 'id', 'asc'],
             ],

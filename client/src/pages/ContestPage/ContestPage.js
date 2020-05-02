@@ -101,7 +101,7 @@ class ContestPage extends React.Component {
 
     render() {
         const {role} = this.props.userStore.data;
-        const {contestByIdStore, changeShowImage, changeContestViewMode, getData, clearSetOfferStatusError} = this.props;
+        const {contestByIdStore, changeShowImage, changeContestViewMode, clearSetOfferStatusError} = this.props;
         const {isShowOnFull, imagePath, error, isFetching, isBrief, contestData, offers, setOfferStatusError} = contestByIdStore;
         return (
             <div>
@@ -110,45 +110,40 @@ class ContestPage extends React.Component {
                     onCloseRequest={() => changeShowImage({isShowOnFull: false, imagePath: null})}
                 />}
                 <Header/>
-                {error ? <div className={styles.tryContainer}><TryAgain getData={getData}/></div> :
-                    (
-                        isFetching ?
-                            <div className={styles.containerSpinner}>
-                                <Spinner/>
-                            </div>
-                            :
-                            (<div className={styles.mainInfoContainer}>
-                                <div className={styles.infoContainer}>
-                                    <div className={styles.buttonsContainer}>
+                {error && <div className={styles.tryContainer}><TryAgain getData={this.getData}/></div>}
+                {!error && isFetching && <div className={styles.containerSpinner}>
+                    <Spinner/>
+                    </div>}
+                {!error && !isFetching && contestData && (<div className={styles.mainInfoContainer}>
+                    <div className={styles.infoContainer}>
+                        <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        {
-                                            (offers.length > 0 || role === CONSTANTS.CREATOR) && <span onClick={() => changeContestViewMode(false)}
-                                              className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
-                                        }
+                            {
+                                (offers.length > 0 || role === CONSTANTS.CREATOR) && <span onClick={() => changeContestViewMode(false)}
+                                                                                           className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
+                            }
+                        </div>
+                        {
+                            isBrief ?
+                                <Brief contestData={contestData} role={role} goChat={this.goChat}/>
+                                :
+                                <div className={styles.offersContainer}>
+                                    {(role === CONSTANTS.CREATOR && contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE) &&
+                                    <OfferForm contestType={contestData.contestType}
+                                               contestId={contestData.id}
+                                               customerId={contestData.User.id}/>}
+                                    {setOfferStatusError && <Error data={setOfferStatusError.data}
+                                                                   status={setOfferStatusError.status}
+                                                                   clearError={clearSetOfferStatusError}/>}
+                                    <div className={styles.offers}>
+                                        {this.setOffersList()}
                                     </div>
-                                    {
-                                        isBrief ?
-                                            <Brief contestData={contestData} role={role} goChat={this.goChat}/>
-                                            :
-                                            <div className={styles.offersContainer}>
-                                                {(role === CONSTANTS.CREATOR && contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE) &&
-                                                <OfferForm contestType={contestData.contestType}
-                                                           contestId={contestData.id}
-                                                           customerId={contestData.User.id}/>}
-                                                {setOfferStatusError && <Error data={setOfferStatusError.data}
-                                                                               status={setOfferStatusError.status}
-                                                                               clearError={clearSetOfferStatusError}/>}
-                                                <div className={styles.offers}>
-                                                    {this.setOffersList()}
-                                                </div>
-                                            </div>}
-                                </div>
-                                <ContestSideBar contestData={contestData}
-                                                totalEntries={offers.length}/>
-                            </div>)
-                    )
-                }
+                                </div>}
+                    </div>
+                    <ContestSideBar contestData={contestData}
+                                    totalEntries={offers.length}/>
+                </div>)}
             </div>
         )
     }
