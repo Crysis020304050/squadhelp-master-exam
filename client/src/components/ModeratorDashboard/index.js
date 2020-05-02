@@ -12,6 +12,7 @@ import ContestBox from "../ContestBox/ContestBox";
 import ContestsContainer from "../ContestsContainer/ContestsContainer";
 import ModeratorFilter from "../ModeratorFilter";
 import constants from "../../constants";
+import PropTypes from 'prop-types';
 
 const ModeratorDashboard = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest}) => {
 
@@ -68,5 +69,10 @@ const mapDispatchToProps = dispatch => ({
     resolveContest: (id) => dispatch(moderateContestResolveRequest(id)),
     rejectContest: (id) => dispatch(moderateContestRejectRequest(id)),
 });
+
+ModeratorDashboard.propTypes = {
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeratorDashboard);

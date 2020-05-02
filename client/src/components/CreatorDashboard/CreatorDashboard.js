@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import TryAgain from '../../components/TryAgain/TryAgain';
 import constants from "../../constants";
+import PropTypes from 'prop-types';
 
 const types = ['name', 'tagline', 'logo'];
 
@@ -233,6 +234,11 @@ const mapDispatchToProps = (dispatch) => {
         selectContestType: (data) => dispatch(selectContestType(data)),
         unSelectContestType: (data) => dispatch(unSelectContestType(data)),
     }
+};
+
+CreatorDashboard.propTypes = {
+    history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreatorDashboard));
