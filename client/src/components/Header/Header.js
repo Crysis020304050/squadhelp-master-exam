@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
 import {clearUserStore, headerRequest} from '../../actions/actionCreator';
-import classNames from 'classnames';
 
 
 class Header extends React.Component{
@@ -23,12 +22,6 @@ class Header extends React.Component{
     startContests = () => {
         this.props.history.push('/startContest');
     };
-
-    isRenderNotForModerator = () => {
-        const {data} = this.props;
-        return data ? data.role !== CONSTANTS.MODERATOR : true
-    };
-
     renderLoginButtons = () => {
         if (this.props.data) {
             return (
@@ -43,13 +36,11 @@ class Header extends React.Component{
                             <li><Link to='/dashboard'
                                       style={{textDecoration: 'none'}}><span>View Dashboard</span></Link></li>
                             <li><Link to='/account' style={{textDecoration: 'none'}}><span>My Account</span></Link></li>
-                           {this.props.data.role !== CONSTANTS.MODERATOR && <>
-                               <li><Link to='/transactions'><span>My Transactions</span></Link></li>
-                               <li><Link to='/events'><span>My Events</span></Link></li>
-                               <li><Link to='http:/www.google.com'
+                            <li><Link to='/transactions'><span>My Transactions</span></Link></li>
+                            <li><Link to='http:/www.google.com'
                                       style={{textDecoration: 'none'}}><span>Messages</span></Link></li>
-                               <li><Link to='http:/www.google.com' style={{textDecoration: 'none'}}><span>Affiliate Dashboard</span></Link></li>
-                           </>}
+                            <li><Link to='http:/www.google.com' style={{textDecoration: 'none'}}><span>Affiliate Dashboard</span></Link>
+                            </li>
                             <li><span onClick={this.logOut}>Logout</span></li>
                         </ul>
                     </div>
@@ -77,7 +68,7 @@ class Header extends React.Component{
                     <span className={styles.info}>Squadhelp recognized as one of the Most Innovative Companies by Inc Magazine.</span>
                     <a href="http://www.google.com">Read Announcement</a>
                 </div>
-                <div className={classNames(styles.loginSignnUpHeaders, {[styles.loginSingUpModeratorHeaders]: !this.isRenderNotForModerator()})}>
+                <div className={styles.loginSignnUpHeaders}>
                     <div className={styles.numberContainer}>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
                         <span>(877)&nbsp;355-3585</span>
@@ -86,8 +77,8 @@ class Header extends React.Component{
                         {this.renderLoginButtons()}
                     </div>
                 </div>
-                {this.isRenderNotForModerator() && <div className={styles.navContainer}>
-                    <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt='blue_logo'/>
+                <div className={styles.navContainer}>
+                    <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt='blue_logo'/></Link>
                     <div className={styles.leftNav}>
                         <div className={styles.nav}>
                             <ul>
@@ -157,10 +148,10 @@ class Header extends React.Component{
                                 </li>
                             </ul>
                         </div>
-                        {this.props.data && this.props.data.role === CONSTANTS.CUSTOMER &&
+                        {this.props.data && this.props.data.role !== CONSTANTS.CREATOR &&
                         <div className={styles.startContestBtn} onClick={this.startContests}>START CONTEST</div>}
                     </div>
-                </div>}
+                </div>
             </div>
         )
     }

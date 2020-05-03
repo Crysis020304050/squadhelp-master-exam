@@ -2,19 +2,18 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ReactHtmlParser from "react-html-parser";
 
-const FAQListItem = ({className, index, question, answer}) => {
+const FAQListItem = ({className, question, answer}) => {
 
     return (
-        <li key={index} className={className}>
+        <li className={className}>
             <h5>{question}</h5>
-            <p>{ReactHtmlParser(answer)}</p>
+            <div>{ReactHtmlParser(answer)}</div>
         </li>
     );
 };
 
 FAQListItem.propTypes = {
     className: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
 };

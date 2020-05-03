@@ -65,6 +65,7 @@
               width: 200px
 
           li
+            cursor: pointer
             display: flex
             align-items: center
             justify-content: flex-start
@@ -110,13 +111,13 @@
                 &:hover
                   background: #f9fafb
 
+                  a
+                    color: #f27e51
+
                 a
                   font-size: 12px
                   text-decoration: none
                   color: #333
-
-                  &:hover
-                    color: #f27e51
 
             span
               color: #495d8b
@@ -228,11 +229,16 @@
         margin-left: 0
 
       span
+        cursor: pointer
         color: #337ab7
         font-size: 14px
         margin-left: 10px
         @media(max-width: 360px)
           font-size: 12px
+        &:hover
+          color: #f27e51
+
+
 
   .fixedHeader
     z-index: 500

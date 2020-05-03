@@ -10,6 +10,7 @@ import questionsData from './questionsData';
 import StepCard from "../../components/StepCard";
 import FAQListItem from "../../components/FAQListItem";
 import GetInTouchPanel from "../../components/GetInTouchPanel";
+import constants from "../../constants";
 
 const HowItWorksPage = ({data}) => {
 
@@ -32,13 +33,13 @@ const HowItWorksPage = ({data}) => {
                     <h2>5 Simple Steps</h2>
                     <ul className={styles.stepsContainer}>
                         {
-                            [...stepsData].map((item, index) => <StepCard className={styles.step} index={index} {...item}/>)
+                            [...stepsData].map((item, index) => <StepCard key={index} className={styles.step} {...item}/>)
                         }
                     </ul>
                 </section>
-                <section className={styles.startContestButtonWrapper}>
+                {(data && data.role === constants.CUSTOMER || !data) && <section className={styles.startContestButtonWrapper}>
                     <Link to={data ? 'startContest' : 'login'} className={styles.startContestButton}>Start A Contest</Link>
-                </section>
+                </section>}
                 <section className={styles.frequencyAskedQuestionsContainer}>
                     <div className={styles.frequencyAskedQuestionsHeader}>
                         <div className={styles.questionMark}>?</div>
@@ -46,7 +47,7 @@ const HowItWorksPage = ({data}) => {
                     </div>
                     <ul>
                         {
-                            [...questionsData].map((item, index) => <FAQListItem className={styles.questionsListItem} index={index} {...item}/>)
+                            [...questionsData].map((item, index) => <FAQListItem key={index} className={styles.questionsListItem} {...item}/>)
                         }
                     </ul>
                 </section>

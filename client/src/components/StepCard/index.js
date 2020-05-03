@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-const StepCard = ({className, index, number, stepName, description}) => {
+const StepCard = ({className, number, stepName, description}) => {
 
     return (
-        <li key={index} className={className}>
+        <li className={className}>
             <div>{number}</div>
             <h5>{stepName}</h5>
             <p>{description}</p>
@@ -14,7 +14,6 @@ const StepCard = ({className, index, number, stepName, description}) => {
 
 StepCard.propTypes = {
     className: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,
     stepName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
