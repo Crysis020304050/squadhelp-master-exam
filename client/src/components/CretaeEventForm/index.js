@@ -8,10 +8,11 @@ import FormField from "../FormField";
 import DatePickerField from "../DatePickerField";
 import {createNewEvent} from '../../actions/actionCreator';
 
-const CreateEventForm = ({handleSubmit, createEvent}) => {
+const CreateEventForm = ({handleSubmit, createEvent, reset}) => {
 
     const onSubmit = (values) => {
         createEvent({...values, startDate: new Date});
+        reset();
     };
 
     const formInputClasses = {

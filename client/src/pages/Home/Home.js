@@ -30,7 +30,6 @@ const Home = (props) => {
 
     const {isFetching} = props;
     const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
-    console.log(isFetching);
     return (
         <>
             <Header/>

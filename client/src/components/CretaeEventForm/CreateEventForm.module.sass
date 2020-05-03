@@ -1,11 +1,15 @@
 .eventForm
-  margin-top: auto
-  width: 100%
   display: flex
   flex-direction: column
   align-items: stretch
-  justify-content: center
-  padding: 15px 10px
+  padding: 20px 20px 80px 20px
+  align-self: flex-start
+  background-color: #EEEEEE
+  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1)
+
+  @media screen and (max-width: 850px)
+    align-self: stretch
+    padding: 10px 10px 40px 10px
 
 .submitContainer
   align-self: stretch
@@ -35,18 +39,17 @@
   flex-direction: row
   justify-content: center
   align-items: center
-  color: white
+  color: black
   border: 1px solid #b72522
   margin-bottom: 15px
-  padding-bottom: 5px
-  padding-top: 5px
+  padding: 10px 10px
   text-align: center
 
 .input
   background-color: white
   border: none
   border-radius: 4px
-  color: #9ca8b7
+  color: black
   font-size: 18px
   padding: 10px
   outline: none

@@ -2,9 +2,28 @@ import React, {useEffect, useState} from "react";
 import moment from 'moment';
 import {toast} from 'react-toastify';
 import styles from './EventTimer.module.sass';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}) => {
+const EventTimerNotifyCircle = ({events}) => {
+
+    const countActiveEvents = () => {
+        return events.filter(({endTime}) => {
+            const diffTime = moment(endTime).diff(moment());
+            const duration = moment.duration(diffTime);
+            return duration < 0
+        }).length;
+    };
+
+    return (
+        <div className={styles.eventsCircle}>{countActiveEvents()}</div>
+    )
+};
+
+EventTimerNotifyCircle.propTypes = {
+  events: PropTypes.array.isRequired,
+};
+
+const EventTimer = ({eventName, endTime, startDate, reminderTime, events}) => {
 
     const calculateTimeLeft = () => {
         const diffTime = moment(endTime).diff(moment());
@@ -33,18 +52,10 @@ const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}
     const timerComponents = Object.entries(timeLeft).map(([key, value], index) => (
         <span key={index}>{`${value} ${key} `}</span>));
 
-    const countActiveEvents = () => {
-        return events.filter(({endTime}) => {
-            const diffTime = moment(endTime).diff(moment());
-            const duration = moment.duration(diffTime);
-            return duration > 0
-        }).length;
-    };
-
     return (
-        <li key={index} className={styles.container}>
+        <li className={styles.container}>
             {timerComponents.length > 0 && <div style={{width: `${Math.round(((new Date() - startDate) / (endTime - startDate)) * 100)}%`}} className={styles.progressBar}/>}
-            {timerComponents.length === 0 && <div className={styles.eventsCircle}>{countActiveEvents()}</div> }
+            {timerComponents.length === 0 && <EventTimerNotifyCircle events={events}/>}
             <div>{eventName}</div>
             <div>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
@@ -53,6 +64,12 @@ const EventTimer = ({eventName, endTime, startDate, reminderTime, index, events}
     );
 };
 
-const mapStateToProps = state => state.eventsStore;
+EventTimer.propTypes = {
+    eventName: PropTypes.string.isRequired,
+    endTime: PropTypes.instanceOf(Date).isRequired,
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    reminderTime: PropTypes.instanceOf(Date).isRequired,
+    events: PropTypes.array.isRequired,
+};
 
-export default connect(mapStateToProps)(EventTimer);
+export default EventTimer;

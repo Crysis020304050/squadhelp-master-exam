@@ -12,3 +12,4 @@
 .server/public/images
 **server/public/*
 *server/public/*
+/server/src/logs/

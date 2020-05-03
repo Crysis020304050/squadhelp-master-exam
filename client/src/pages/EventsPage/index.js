@@ -10,13 +10,15 @@ const EventsPage = ({events}) => {
     return (
         <div className={styles.page}>
             <Header/>
-            <div className={styles.contentContainer}>
-                <ul className={styles.timersList}>
-                    {
-                        events && events.map((event, index) => <Timer index={index} {...event}/>)
-                    }
-                </ul>
-                <CreateEventForm/>
+            <div className={styles.contentContainerWrapper}>
+                <div className={styles.contentContainer}>
+                    <CreateEventForm/>
+                    <ul className={styles.timersList}>
+                        {
+                            events && events.map((event, index) => <Timer key={index} {...event} events={events}/>)
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
 
