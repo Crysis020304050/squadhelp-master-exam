@@ -1,0 +1,42 @@
+import React from "react";
+import CONSTANTS from '../../constants';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+const HeaderUserInfo = ({className, logOut, data}) => {
+
+    return (
+        <>
+            {
+                data
+                    ? (<div className={className}>
+                        <img
+                            src={data.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${data.avatar}`}
+                            alt='user'/>
+                        <span>{`Hi, ${data.displayName}`}</span>
+                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
+                        <ul>
+                            <li><Link to='/dashboard'>View Dashboard</Link></li>
+                            <li><Link to='/account'>My Account</Link></li>
+                            <li><Link to='/transactions'>My Transactions</Link></li>
+                            <li><Link to='http:/www.google.com'>Messages</Link></li>
+                            <li><Link to='http:/www.google.com'>Affiliate Dashboard</Link></li>
+                            <li onClick={logOut}>Logout</li>
+                        </ul>
+                    </div>)
+                    : <>
+                        <Link to='/login'>LOGIN</Link>
+                        <Link to='/registration'>SIGN UP</Link>
+                    </>
+            }
+        </>
+    );
+};
+
+HeaderUserInfo.propTypes = {
+    className: PropTypes.string.isRequired,
+    logOut: PropTypes.func,
+    data: PropTypes.object,
+};
+
+export default HeaderUserInfo;
