@@ -28,9 +28,8 @@ const Home = (props) => {
     });
 
 
-    const {isFetching, data} = props;
+    const {isFetching} = props;
     const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
-
     return (
         <>
             <Header/>
@@ -180,7 +179,7 @@ const Home = (props) => {
                     </div>
                     <SlideBar images={carouselConstants.exampleSliderImages}
                               carouselType={carouselConstants.EXAMPLE_SLIDER}/>
-                    {(data && data.role === CONSTANTS.CUSTOMER || !data) && <StartContestPanel data={data}/>}
+                    <StartContestPanel/>
                     <div className={styles.blueContainer}>
                         <h2 className={styles.whiteUnderline}>What our customers say</h2>
                         <SlideBar images={carouselConstants.feedbackSliderImages}
@@ -194,8 +193,8 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const {isFetching, data} = state.userStore;
-    return {isFetching, data};
+    const {isFetching} = state.userStore;
+    return {isFetching};
 };
 
 export default connect(mapStateToProps, null)(Home);
