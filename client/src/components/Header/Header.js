@@ -43,32 +43,49 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
         }
     };
 
+    const isRenderNotForModerator = () => {
+        return data ? data.role !== CONSTANTS.MODERATOR : true
+    };
+
     return (
         <>
             {!isFetching && (
                 <div className={styles.headerContainer}>
-                    <div className={styles.loginSignnUpHeaders}>
-                        <div className={styles.numberContainer}>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
-                            <span>(877)&nbsp;355-3585</span>
-                        </div>
-                        <Icon onClick={toggleMenu} className={styles.burgerMenu} path={isMenuOpen ? mdiClose : mdiMenu}
-                              size={1}/>
+                    <div
+                        className={classNames(styles.loginSignnUpHeaders, {[styles.loginSingUpModeratorHeaders]: !isRenderNotForModerator()})}>
+                        {
+                            !isRenderNotForModerator() &&
+                            <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
+                                              className={styles.logoForModerator}
+                                              alt='blue_logo'/></Link>
+                        }
+                        {
+                            isRenderNotForModerator() && <>
+                                <div className={styles.numberContainer}>
+                                    <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
+                                    <span>(877)&nbsp;355-3585</span>
+                                </div>
+                                <Icon onClick={toggleMenu} className={styles.burgerMenu}
+                                      path={isMenuOpen ? mdiClose : mdiMenu} size={1}/>
+                            </>
+                        }
                         <div className={styles.userButtonsContainer}>
                             <HeaderUserInfo logOut={logOut} className={styles.userInfo} data={data}/>
                         </div>
                     </div>
-                    <div className={classNames(styles.navContainer, {[styles.navContainerMobileOpen]: isMenuOpen})}>
-                        <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
-                                          alt='blue_logo'/></Link>
-                        <div className={styles.leftNav}>
-                            <div className={styles.nav}>
-                                <HeaderLinks className={styles.navLinks}/>
+                    {isRenderNotForModerator() && (
+                        <div className={classNames(styles.navContainer, {[styles.navContainerMobileOpen]: isMenuOpen})}>
+                            <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
+                                              className={styles.logo}
+                                              alt='blue_logo'/></Link>
+                            <div className={styles.leftNav}>
+                                <div className={styles.nav}>
+                                    <HeaderLinks className={styles.navLinks}/>
+                                </div>
+                                {data && data.role === CONSTANTS.CUSTOMER &&
+                                <Link to='/startContest' className={styles.startContestBtn}>START CONTEST</Link>}
                             </div>
-                            {data && data.role !== CONSTANTS.CREATOR &&
-                            <Link to='/startContest' className={styles.startContestBtn}>START CONTEST</Link>}
-                        </div>
-                    </div>
+                        </div>)}
                 </div>
             )}
         </>

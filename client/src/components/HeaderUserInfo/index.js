@@ -18,9 +18,13 @@ const HeaderUserInfo = ({className, logOut, data}) => {
                         <ul>
                             <li><Link to='/dashboard'>View Dashboard</Link></li>
                             <li><Link to='/account'>My Account</Link></li>
-                            <li><Link to='/transactions'>My Transactions</Link></li>
-                            <li><Link to='http:/www.google.com'>Messages</Link></li>
-                            <li><Link to='http:/www.google.com'>Affiliate Dashboard</Link></li>
+                            {data.role !== CONSTANTS.MODERATOR && <>
+                                <li><Link to='/transactions'>My Transactions</Link></li>
+                                <li><Link to='/events'>My Events</Link></li>
+                                <li><Link to='/'>Messages</Link></li>
+                                <li><Link to='/'>Affiliate Dashboard</Link></li>
+                            </>
+                            }
                             <li onClick={logOut}>Logout</li>
                         </ul>
                     </div>)
