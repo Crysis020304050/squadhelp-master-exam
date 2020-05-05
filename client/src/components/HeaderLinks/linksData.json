@@ -1,0 +1,143 @@
+[
+  {
+    "categoryName": "NAME IDEAS",
+    "links": [
+      {
+        "name": "Beauty",
+        "link": "/"
+      },
+      {
+        "name": "Consulting",
+        "link": "/"
+      },
+      {
+        "name": "E-Commerce",
+        "link": "/"
+      },
+      {
+        "name": "Fashion & Clothing",
+        "link": "/"
+      },
+      {
+        "name": "Finance",
+        "link": "/"
+      },
+      {
+        "name": "Real Estate",
+        "link": "/"
+      },
+      {
+        "name": "Tech",
+        "link": "/"
+      },
+      {
+        "name": "More Categories",
+        "link": "/"
+      }
+    ]
+  },
+  {
+    "categoryName": "CONTESTS",
+    "links": [
+      {
+        "name": "HOW IT WORKS",
+        "link": "/howItWorks"
+      },
+      {
+        "name": "PRICING",
+        "link": "/"
+      },
+      {
+        "name": "AGENCY SERVICE",
+        "link": "/"
+      },
+      {
+        "name": "ACTIVE CONTESTS",
+        "link": "/"
+      },
+      {
+        "name": "WINNERS",
+        "link": "/"
+      },
+      {
+        "name": "LEADERBOARD",
+        "link": "/"
+      },
+      {
+        "name": "BECOME A CREATIVE",
+        "link": "/"
+      }
+    ]
+  },
+  {
+    "categoryName": "Our Work",
+    "links": [
+      {
+        "name": "NAMES",
+        "link": "/"
+      },
+      {
+        "name": "TAGLINES",
+        "link": "/"
+      },
+      {
+        "name": "LOGOS",
+        "link": "/"
+      },
+      {
+        "name": "TESTIMONIALS",
+        "link": "/"
+      }
+    ]
+  },
+  {
+    "categoryName": "Names For Sale",
+    "links": [
+      {
+        "name": "POPULAR NAMES",
+        "link": "/"
+      },
+      {
+        "name": "SHORT NAMES",
+        "link": "/"
+      },
+      {
+        "name": "INTRIGUING NAMES",
+        "link": "/"
+      },
+      {
+        "name": "NAMES BY CATEGORY",
+        "link": "/"
+      },
+      {
+        "name": "VISUAL NAME SEARCH",
+        "link": "/"
+      },
+      {
+        "name": "SELL YOUR DOMAINS",
+        "link": "/"
+      }
+    ]
+  },
+  {
+    "categoryName": "Blog",
+    "links": [
+      {
+        "name": "ULTIMATE NAMING GUIDE",
+        "link": "/"
+      },
+      {
+        "name": "POETIC DEVICES IN BUSINESS NAMING",
+        "link": "/"
+      },
+      {
+        "name": "CROWDED BAR THEORY",
+        "link": "/"
+      },
+      {
+        "name": "ALL ARTICLES",
+        "link": "/"
+      }
+    ]
+  }
+]
