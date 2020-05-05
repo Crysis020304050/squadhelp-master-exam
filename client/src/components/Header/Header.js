@@ -63,7 +63,7 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
                                           alt='blue_logo'/></Link>
                         <div className={styles.leftNav}>
                             <div className={styles.nav}>
-                                <HeaderLinks logOut={logOut} data={data} className={styles.navLinks}/>
+                                <HeaderLinks className={styles.navLinks}/>
                             </div>
                             {data && data.role !== CONSTANTS.CREATOR &&
                             <Link to='/startContest' className={styles.startContestBtn}>START CONTEST</Link>}

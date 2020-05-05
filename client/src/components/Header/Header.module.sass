@@ -1,9 +1,13 @@
+$screen-breakpoint: 800px
+
 .headerContainer
   display: flex
   flex-direction: column
   justify-content: flex-start
   width: 100%
   box-shadow: 0 0 12px 6px rgba(0, 0, 0, 0.1)
+  @media(max-width: $screen-breakpoint)
+    margin-bottom: 100px
 
 .navContainer
   font-family: 'Raleway', sans-serif
@@ -15,24 +19,24 @@
   border-bottom: 1px solid #ebebeb
   padding-bottom: 10px
 
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     transition: all 0.3s
     justify-content: flex-start
-    position: absolute
     background-color: white
-    top: 70px
+    top: 40px
     z-index: 500
     padding: 20px
-    transform: translateX(-200%)
+    transform: translateY(-200%)
+    position: fixed
 
 .navContainerMobileOpen
-  transform: translateX(0%)
-  z-index: 500
+  transform: translateY(0%)
+
 
 .logo
   align-self: flex-end
 
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     display: none
 
 .startContestBtn
@@ -56,7 +60,7 @@
 .leftNav
   display: flex
 
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     flex-direction: column
 
 .nav
@@ -71,7 +75,7 @@
   align-items: center
   @media(max-width: 920px)
     padding: 0
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     flex-direction: column
     align-items: flex-start
 
@@ -89,7 +93,7 @@
     @media(max-width: 1000px)
       margin-right: 10px
 
-    @media(max-width: 800px)
+    @media(max-width: $screen-breakpoint)
       width: 100%
       padding: 0 15px
 
@@ -104,10 +108,14 @@
         z-index: 1000
         top: 90px
         background-color: white
-        @media(max-width: 800px)
+        @media(max-width: $screen-breakpoint)
           top: auto
           left: 145px
-          margin-top: 60px
+          margin-top: 50px
+
+      &:first-child ul
+        @media(max-width: $screen-breakpoint)
+          margin-top: 100px
 
     ul
       padding: 0
@@ -138,6 +146,7 @@
           font-size: 12px
           text-decoration: none
           color: #333
+          width: 100%
 
     span
       color: #495d8b
@@ -154,14 +163,17 @@
   border: 1px solid #ebebeb
   margin-bottom: 13px
 
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     margin-bottom: unset
     padding: 0 15px
     z-index: 2000
+    position: fixed
+    width: 100%
+    background-color: white
 
 .burgerMenu
   display: none
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     display: block
     cursor: pointer
 
@@ -173,7 +185,7 @@
   border-left: 1px solid #ebebeb
   border-right:  1px solid #ebebeb
   align-self: stretch
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     margin-left: auto
 
   .emailIcon
@@ -253,7 +265,7 @@
   border-right: 1px solid #ebebeb
   border-left: 1px solid #ebebeb
   margin-left: 120px
-  @media(max-width: 800px)
+  @media(max-width: $screen-breakpoint)
     display: none
 
   span
