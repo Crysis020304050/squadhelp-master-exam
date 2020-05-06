@@ -10,6 +10,7 @@ import {mdiMenu} from '@mdi/js';
 import {mdiClose} from '@mdi/js';
 import {Icon} from '@mdi/react';
 import classNames from 'classnames';
+import Logo from "../Logo";
 
 const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
 
@@ -55,9 +56,7 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
                         className={classNames(styles.loginSignnUpHeaders, {[styles.loginSingUpModeratorHeaders]: !isRenderNotForModerator()})}>
                         {
                             !isRenderNotForModerator() &&
-                            <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-                                              className={styles.logoForModerator}
-                                              alt='blue_logo'/></Link>
+                            <Logo className={styles.logoForModerator}/>
                         }
                         {
                             isRenderNotForModerator() && <>
@@ -75,9 +74,7 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
                     </div>
                     {isRenderNotForModerator() && (
                         <div className={classNames(styles.navContainer, {[styles.navContainerMobileOpen]: isMenuOpen})}>
-                            <Link to='/'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-                                              className={styles.logo}
-                                              alt='blue_logo'/></Link>
+                            <Logo className={styles.logo}/>
                             <div className={styles.leftNav}>
                                 <div className={styles.nav}>
                                     <HeaderLinks className={styles.navLinks}/>

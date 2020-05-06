@@ -13,7 +13,7 @@ const ResetPasswordPage = ({error, clearError}) => {
     return (
       <div className={styles.mainContainer}>
           <header className={styles.pageHeaderContainer}>
-              <Logo src={ `${ CONSTANTS.STATIC_IMAGES_PATH }logo.png` } alt="logo"/>
+              <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`}/>
               <div className={ styles.loginButton }>
                   <Link to='/login'>Login</Link>
               </div>
