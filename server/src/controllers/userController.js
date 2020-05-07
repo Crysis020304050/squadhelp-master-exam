@@ -135,3 +135,25 @@ module.exports.resetUserPassword = async (req, res, next) => {
     next(e);
   }
 };
+
+module.exports.compareUserPasswords = async (req, res, next) => {
+  try {
+    const {body: {newPassword}, user: {password}} = req;
+    await userQueries.passwordCompareForResetting(newPassword, password);
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports.findUserByEmailOrId = async (req, res, next) => {
+  try {
+    req.user = await userQueries.findUser({
+      ...(req.body.email && {email: req.body.email}),
+      ...(req.updatedContest && {id: req.updatedContest.userId}),
+    });
+    next()
+  } catch (e) {
+    next(e);
+  }
+};

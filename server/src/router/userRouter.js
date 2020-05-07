@@ -6,7 +6,6 @@ const upload = require("../utils/fileUpload");
 const {notifyUserAboutSuccessfulPasswordResetting, sendEmailWithResettingPasswordLink} = require("../middlewares/emailMiddlewares");
 const {generateTokenWithNewPassword} = require("../middlewares/generateTokenWithNewPassword");
 const hashPass = require('../middlewares/hashPassMiddle');
-const {findUserByEmailOrId} = require("../middlewares/findUserByEmailOrId");
 
 const userRouter = require('express')();
 
@@ -43,7 +42,8 @@ userRouter.post(
 );
 
 userRouter.post('/resetUserPasswordRequest',
-    findUserByEmailOrId,
+    userController.findUserByEmailOrId,
+    userController.compareUserPasswords,
     hashPass,
     generateTokenWithNewPassword,
     sendEmailWithResettingPasswordLink,

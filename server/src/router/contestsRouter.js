@@ -4,7 +4,7 @@ const basicMiddlewares = require("../middlewares/basicMiddlewares");
 const upload = require("../utils/fileUpload");
 const validators = require("../middlewares/validators");
 const {notifyUserAboutRejectingRequest, notifyUserAboutResolvingRequest} = require("../middlewares/emailMiddlewares");
-const {findUserByEmailOrId} = require("../middlewares/findUserByEmailOrId");
+const userController = require('../controllers/userController');
 
 const contestRouter = require('express')();
 
@@ -75,7 +75,7 @@ contestRouter.post('/resolveContest',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     contestController.resolveContest,
-    findUserByEmailOrId,
+    userController.findUserByEmailOrId,
     notifyUserAboutResolvingRequest,
 );
 
@@ -83,7 +83,7 @@ contestRouter.post('/rejectContest',
     checkToken.checkToken,
     basicMiddlewares.onlyForModerators,
     contestController.rejectContest,
-    findUserByEmailOrId,
+    userController.findUserByEmailOrId,
     notifyUserAboutRejectingRequest,
 );
 

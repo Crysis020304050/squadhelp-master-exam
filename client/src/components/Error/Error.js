@@ -8,7 +8,7 @@ const Error=props=>{
             case 404:
                 return data;
             case 400:
-                return 'Check the input data';
+                return data;
             case 409:
                 return data;
             case 403:
