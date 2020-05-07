@@ -183,14 +183,6 @@ export const clearContestList = () => {
     }
 };
 
-
-export const onlyForNotAuthorize = (data) => {
-    return {
-        type: ACTION.ONLY_FOR_NOT_AUTHORIZE_USERS,
-        replace: data
-    }
-};
-
 export const headerRequest = () => {
     return {
         type: ACTION.HEADER_REQUEST_AUTHORIZE

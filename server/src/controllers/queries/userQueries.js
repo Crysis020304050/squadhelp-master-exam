@@ -1,5 +1,6 @@
 const bd = require('../../models');
 const NotFound = require('../../errors/UserNotFoundError');
+const BadRequestError = require('../../errors/BadRequestError');
 const ServerError = require('../../errors/ServerError');
 const bcrypt = require('bcrypt');
 
@@ -34,5 +35,12 @@ module.exports.passwordCompare = async (pass1, pass2) => {
   const passwordCompare = await bcrypt.compare(pass1, pass2);
   if ( !passwordCompare) {
     throw new NotFound('Wrong password');
+  }
+};
+
+module.exports.passwordCompareForResetting = async (pass1, pass2) => {
+  const passwordCompare = await bcrypt.compare(pass1, pass2);
+  if (passwordCompare) {
+    throw new BadRequestError('New password cannot be equal with old');
   }
 };

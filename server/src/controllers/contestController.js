@@ -1,6 +1,5 @@
 const db = require('../models');
 const ServerError = require('../errors/ServerError');
-
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const transactionQueries = require('./queries/transactionsQueries.js');
@@ -9,7 +8,6 @@ const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants/constants');
 const moment = require('moment');
 const bd = require("../models");
-import {INCOME_TRANSACTION} from '../constants/constants.js';
 
 module.exports.dataForContest = async (req, res, next) => {
     let response = {};
@@ -219,11 +217,10 @@ module.exports.setOfferStatus = async (req, res, next) => {
                 req.body.priority, transaction);
 
             await transactionQueries.newIncomeTransaction({
-                typeOperation: INCOME_TRANSACTION,
+                typeOperation: CONSTANTS.INCOME_TRANSACTION,
                 sum: winningOffer.prize,
                 userId: winningOffer.userId,
             });
-            //
             res.send(winningOffer);
         } catch (err) {
             transaction.rollback();
