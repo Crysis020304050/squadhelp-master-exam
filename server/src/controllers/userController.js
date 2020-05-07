@@ -5,6 +5,7 @@ const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const controller = require('../index.js');
 const userQueries = require('./queries/userQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const {prepareUserToSending} = require('../utils/functions');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -22,7 +23,7 @@ module.exports.login = async (req, res, next) => {
       rating: foundUser.rating,
     }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
     await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken });
+    res.send({ token: accessToken, user: prepareUserToSending(foundUser)});
   } catch (err) {
     next(err);
   }
@@ -43,7 +44,7 @@ module.exports.registration = async (req, res, next) => {
       rating: newUser.rating,
     }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
     await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ token: accessToken });
+    res.send({ token: accessToken, user: prepareUserToSending(newUser)});
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());

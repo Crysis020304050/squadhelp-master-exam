@@ -3,16 +3,15 @@ import styles from './Header.module.sass';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import {clearUserStore, headerRequest} from '../../actions/actionCreator';
+import {clearUserStore} from '../../actions/actionCreator';
 import HeaderUserInfo from "../HeaderUserInfo";
 import HeaderLinks from "../HeaderLinks";
-import {mdiMenu} from '@mdi/js';
-import {mdiClose} from '@mdi/js';
+import {mdiMenu, mdiClose} from '@mdi/js';
 import {Icon} from '@mdi/react';
 import classNames from 'classnames';
 import Logo from "../Logo";
 
-const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
+const Header = ({data, clearUserStore, history, isFetching}) => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -23,9 +22,6 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
     };
 
     useEffect(() => {
-        if (!data) {
-            getUser();
-        }
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -92,7 +88,6 @@ const Header = ({getUser, data, clearUserStore, history, isFetching}) => {
 const mapStateToProps = state => state.userStore;
 
 const mapDispatchToProps = dispatch => ({
-    getUser: () => dispatch(headerRequest()),
     clearUserStore: () => dispatch(clearUserStore()),
 });
 

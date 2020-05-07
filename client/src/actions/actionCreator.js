@@ -33,7 +33,6 @@ export const clearAddOfferError = () => {
     }
 };
 
-
 export const clearChangeMarkError = () => {
     return {
         type: ACTION.CLEAR_CHANGE_MARK_ERROR
@@ -46,13 +45,25 @@ export const clearSetOfferStatusError = () => {
     }
 };
 
-export const getUserAction = (data) => {
+export const getUserRequest = () => {
     return {
-        type: ACTION.GET_USER_ACTION,
-        replace: data
+        type: ACTION.GET_USER_REQUEST,
     }
 };
 
+export const getUserSuccess = (data) => {
+    return {
+        type: ACTION.GET_USER_SUCCESS,
+        data,
+    }
+};
+
+export const getUserError = error => {
+    return {
+        type: ACTION.GET_USER_ERROR,
+        error,
+    }
+};
 
 export const getDataForContest = (data) => {
     return {
@@ -71,14 +82,12 @@ export const payRequest = (data) => {
     }
 };
 
-
 export const getContestsForCreative = (data) => {
     return {
         type: ACTION.GET_CONTESTS_FOR_CREATIVE,
         data: data
     }
 };
-
 
 export const getContestsForCustomer = (data) => {
     return {
@@ -87,14 +96,12 @@ export const getContestsForCustomer = (data) => {
     }
 };
 
-
 export const getContestById = (data) => {
     return {
         type: ACTION.GET_CONTEST_BY_ID_ACTION,
         data: data
     }
 };
-
 
 export const selectBundle = (bundle) => {
     return {
@@ -109,18 +116,12 @@ export const clearBundle = () => {
     }
 };
 
-
-
-
 export const updateContest = (data) => {
     return {
         type: ACTION.UPDATE_CONTEST_ACTION,
         data: data
     }
 };
-
-
-
 
 export const saveContestToStore = (data) => {
     return {
@@ -129,14 +130,12 @@ export const saveContestToStore = (data) => {
     }
 };
 
-
 export const changeMark = (data) => {
     return {
         type: ACTION.CHANGE_MARK_ACTION,
         data: data
     }
 };
-
 
 export const setOffer = (data) => {
     return {
@@ -152,9 +151,8 @@ export const setOfferStatus = (data) => {
     }
 };
 
-
-export const createCatalog=(data)=>{
-    return{
+export const createCatalog = (data) => {
+    return {
         type: ACTION.CREATE_CATALOG_REQUEST,
         data: data
     }
@@ -166,9 +164,6 @@ export const updateUserData = (data) => {
         data: data
     }
 };
-
-
-
 
 export const cashOut = (data) => {
     return {
@@ -183,18 +178,11 @@ export const clearContestList = () => {
     }
 };
 
-export const headerRequest = () => {
-    return {
-        type: ACTION.HEADER_REQUEST_AUTHORIZE
-    }
-};
-
 export const clearAuth = () => {
     return {
         type: ACTION.AUTH_ACTION_CLEAR
     }
 };
-
 
 export const getPreviewChat = () => {
     return {
@@ -237,193 +225,193 @@ export const addMessage = (data) => {
     }
 };
 
-export const clearMessageList=()=>{
-    return{
+export const clearMessageList = () => {
+    return {
         type: ACTION.CLEAR_MESSAGE_LIST
     }
 };
 
-export const changeChatShow=()=>{
-    return{
+export const changeChatShow = () => {
+    return {
         type: ACTION.CHANGE_CHAT_SHOW
     }
 };
 
-export const setNewCustomerFilter=(filter)=>{
-    return{
+export const setNewCustomerFilter = (filter) => {
+    return {
         type: ACTION.SET_NEW_CUSTOMER_FILTER,
         filter: filter
     }
 };
 
-export const setNewCreatorFilter=(filter)=>{
-    return{
+export const setNewCreatorFilter = (filter) => {
+    return {
         type: ACTION.SET_NEW_CREATOR_FILTER,
         filter: filter
     }
 };
 
 
-export const setPreviewChatMode=(mode)=>{
+export const setPreviewChatMode = (mode) => {
     return {
         type: ACTION.SET_CHAT_PREVIEW_MODE,
         mode: mode
     }
 };
 
-export const changeChatFavorite=(data)=>{
-    return{
+export const changeChatFavorite = (data) => {
+    return {
         type: ACTION.SET_CHAT_FAVORITE_FLAG,
         data: data
     }
 };
 
-export const changeChatBlock=(data)=>{
-    return{
+export const changeChatBlock = (data) => {
+    return {
         type: ACTION.SET_CHAT_BLOCK_FLAG,
         data: data
     }
 };
 
-export const changeBlockStatusInStore=(data)=>{
-    return{
+export const changeBlockStatusInStore = (data) => {
+    return {
         type: ACTION.CHANGE_CHAT_BLOCK,
         data: data
     }
 };
 
-export const getCatalogList=(data)=>{
-    return{
+export const getCatalogList = (data) => {
+    return {
         type: ACTION.GET_CATALOG_LIST_ASYNC,
         data: data
     }
 };
 
 
-export const changeShowModeCatalog=(data)=>{
-    return{
+export const changeShowModeCatalog = (data) => {
+    return {
         type: ACTION.CHANGE_SHOW_MODE_CATALOG,
         data: data
     }
 };
 
-export const changeTypeOfChatAdding=(data)=>{
-    return{
+export const changeTypeOfChatAdding = (data) => {
+    return {
         type: ACTION.CHANGE_TYPE_ADDING_CHAT_IN_CATALOG,
         data: data
     }
 };
 
-export const changeShowAddChatToCatalogMenu=(data)=>{
-    return{
+export const changeShowAddChatToCatalogMenu = (data) => {
+    return {
         type: ACTION.CHANGE_SHOW_ADD_CHAT_TO_CATALOG,
         data: data
     }
 };
 
-export const addChatToCatalog=(data)=>{
+export const addChatToCatalog = (data) => {
     return {
         type: ACTION.ADD_CHAT_TO_CATALOG_ASYNC,
         data: data
     }
 };
 
-export const deleteCatalog=(data)=>{
-    return{
+export const deleteCatalog = (data) => {
+    return {
         type: ACTION.DELETE_CATALOG_REQUEST,
         data: data
     }
 };
 
-export const removeChatFromCatalog=(data)=>{
-    return{
+export const removeChatFromCatalog = (data) => {
+    return {
         type: ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST,
         data: data
     }
 };
 
-export const changeRenameCatalogMode=()=>{
-    return{
+export const changeRenameCatalogMode = () => {
+    return {
         type: ACTION.CHANGE_RENAME_CATALOG_MODE
     }
 };
 
-export const changeCatalogName=(data)=>{
-    return{
+export const changeCatalogName = (data) => {
+    return {
         type: ACTION.CHANGE_CATALOG_NAME_REQUEST,
         data: data
     }
 };
 
-export const changeEditContest=(data)=>{
-    return{
+export const changeEditContest = (data) => {
+    return {
         type: ACTION.CHANGE_EDIT_CONTEST,
         data: data
     }
 };
 
-export const changeContestViewMode=(data)=>{
-    return{
+export const changeContestViewMode = (data) => {
+    return {
         type: ACTION.CHANGE_CONTEST_VIEW_MODE,
         data: data
     }
 };
 
-export const changeShowImage=(data)=>{
-    return{
+export const changeShowImage = (data) => {
+    return {
         type: ACTION.CHANGE_SHOW_IMAGE,
         data: data
     }
 };
 
-export const changeFocusOnCard=(data)=>{
-    return{
+export const changeFocusOnCard = (data) => {
+    return {
         type: ACTION.CHANGE_FOCUS_ON_CARD,
         data: data
     }
 };
 
 
-export const changeProfileModeView=(data)=>{
-    return{
+export const changeProfileModeView = (data) => {
+    return {
         type: ACTION.CHANGE_PROFILE_MODE_VIEW,
         data: data
     }
 };
 
-export const changeEditModeOnUserProfile=(data)=>{
-    return{
+export const changeEditModeOnUserProfile = (data) => {
+    return {
         type: ACTION.CHANGE_EDIT_MODE_ON_USER_PROFILE,
         data: data
     }
 };
 
-export const clearPaymentStore=()=>{
-    return{
+export const clearPaymentStore = () => {
+    return {
         type: ACTION.CLEAR_PAYMENT_STORE
     }
 };
 
-export const clearUpdateContestStore=()=>{
-    return{
+export const clearUpdateContestStore = () => {
+    return {
         type: ACTION.CLEAR_UPDATE_CONTEST_STORE
     }
 };
 
-export const clearUserError=()=>{
-    return{
+export const clearUserError = () => {
+    return {
         type: ACTION.CLEAR_USER_ERROR
     }
 };
 
-export const clearChatError=()=>{
-    return{
+export const clearChatError = () => {
+    return {
         type: ACTION.CLEAR_CHAT_ERROR
     }
 };
 
-export const changeModalShow=(data)=>{
-    return{
+export const changeModalShow = (data) => {
+    return {
         type: ACTION.CHANGE_SHOW_MODAL,
         data: data
     }
@@ -449,7 +437,7 @@ export const getUserTransactionsHistoryRequest = () => {
     }
 };
 
-export const getUserTransactionsHistorySuccess= (data) => {
+export const getUserTransactionsHistorySuccess = (data) => {
     return {
         type: ACTION.GET_USER_TRANSACTIONS_HISTORY_SUCCESS,
         transactionHistory: data,
@@ -469,7 +457,7 @@ export const getUserTransactionsStatementRequest = () => {
     }
 };
 
-export const getUserTransactionsStatementSuccess= (data) => {
+export const getUserTransactionsStatementSuccess = (data) => {
     return {
         type: ACTION.GET_USER_TRANSACTIONS_STATEMENT_SUCCESS,
         transactionStatement: data,
@@ -484,16 +472,16 @@ export const getUserTransactionsStatementError = (data) => {
 };
 
 export const clearTransactionsStoreError = () => {
-  return {
-      type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
-  }
+    return {
+        type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
+    }
 };
 
 export const createNewEvent = (event) => {
-  return {
-      type: ACTION.CREATE_NEW_EVENT,
-      event,
-  }
+    return {
+        type: ACTION.CREATE_NEW_EVENT,
+        event,
+    }
 };
 
 export const resetPasswordRequest = (data) => {

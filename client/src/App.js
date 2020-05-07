@@ -23,10 +23,18 @@ import HowItWorksPage from "./pages/HowItWorksPage";
 import EventsPage from "./pages/EventsPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ConfirmPasswordResettingPage from "./pages/ConfirmPasswordResettingPage";
-
-
+import {getUserRequest} from './actions/actionCreator';
+import {connect} from 'react-redux';
+import constants from "./constants";
 
 class App extends Component {
+
+    componentDidMount() {
+        if (localStorage.getItem(constants.ACCESS_TOKEN)) {
+            this.props.getUser();
+        }
+    }
+
     render() {
         return (
             <Router history={browserHistory}>
@@ -78,6 +86,10 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+   getUser: () => dispatch(getUserRequest()),
+});
+
+export default connect(null, mapDispatchToProps)(App);
 
 

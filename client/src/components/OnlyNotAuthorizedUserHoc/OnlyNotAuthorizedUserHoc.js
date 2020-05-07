@@ -1,24 +1,32 @@
-import React from 'react';
-import constants from "../../constants";
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import Spinner from '../Spinner/Spinner';
 
 const OnlyNotAuthorizedUserHoc = (Component) => {
 
-    class HocForLoginSignUp extends React.Component {
-        componentDidMount() {
-            if (localStorage.getItem(constants.ACCESS_TOKEN)) {
-                this.props.history.replace('/');
-            }
-        }
+    const mapStateToProps = state => state.userStore;
 
-        render() {
-            if (!localStorage.getItem(constants.ACCESS_TOKEN)) {
-                return <Component history={this.props.history} match={this.props.match}/>
-            }
-            return null;
-        }
-    }
+    const Hoc = ({data, history, match, isFetching}) => {
 
-    return HocForLoginSignUp;
+        useEffect(() => {
+            if (data) {
+                history.replace('/');
+            }
+        });
+
+        return (
+            <>
+                {
+                    !data && !isFetching
+                    ? <Component history={history} match={match}/>
+                    : <Spinner/>
+                }
+            </>
+        );
+
+    };
+
+    return connect(mapStateToProps)(Hoc);
 };
 
 export default OnlyNotAuthorizedUserHoc;

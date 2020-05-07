@@ -2,7 +2,7 @@ import ACTION from '../actions/actionTypes';
 
 
 const initialState = {
-    isFetching: true,
+    isFetching: false,
     error: null,
     data: null
 };

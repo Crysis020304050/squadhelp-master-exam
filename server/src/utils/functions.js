@@ -38,3 +38,4 @@ function getPredicateTypes(arrOfTypes) {
     return {[bd.Sequelize.Op.or]: arrOfTypes};
 }
 
+module.exports.prepareUserToSending = ({password, accessToken, ...rest}) => rest;
