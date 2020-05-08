@@ -38,7 +38,7 @@ const HowItWorksPage = ({data}) => {
                     </ul>
                 </section>
                 {(data && data.role === constants.CUSTOMER || !data) && <section className={styles.startContestButtonWrapper}>
-                    <Link to={data ? 'startContest' : 'login'} className={styles.startContestButton}>Start A Contest</Link>
+                    <Link to='startContest' className={styles.startContestButton}>Start A Contest</Link>
                 </section>}
                 <section className={styles.frequencyAskedQuestionsContainer}>
                     <div className={styles.frequencyAskedQuestionsHeader}>

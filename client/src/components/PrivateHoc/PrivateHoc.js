@@ -12,7 +12,7 @@ const PrivateHoc = (Component, props) => {
 
         componentDidMount() {
             if (!localStorage.getItem(constants.ACCESS_TOKEN)) {
-                this.props.history.replace('/');
+                this.props.history.replace('/login');
             }
         }
 
@@ -20,7 +20,7 @@ const PrivateHoc = (Component, props) => {
             const {data, history, match} = this.props;
 
             if (prevProps.isFetching === true && data === null) {
-                history.replace('/');
+                history.replace('/login');
             }
 
             if (data && data.role === constants.MODERATOR && !constants.MODERATOR_ACCEPTED_PAGES.some(elem => elem === match.path)) {

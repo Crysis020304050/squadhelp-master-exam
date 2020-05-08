@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 import valid from 'card-validator';
-import moment from "moment";
 
 
 
@@ -33,7 +32,6 @@ export default {
         brandStyle: yup.string()
     }),
     filterSchem: yup.object().shape({
-        typeIndex: yup.number().oneOf[1, 2, 3, 4, 5, 6, 7],
         contestId: yup.string(),
         awardSort: yup.string().matches(/(desc|asc)/),
         industry: yup.string()

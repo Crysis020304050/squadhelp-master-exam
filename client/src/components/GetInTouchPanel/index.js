@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './GetInTouchPanel.module.sass';
+import {Link} from "react-router-dom";
 
 const GetInTouchPanel = props => {
     return (
@@ -10,9 +11,9 @@ const GetInTouchPanel = props => {
                 </div>
                 <div className={styles.getInTouchPanelText}>
                     <h5>Questions?</h5>
-                    <p>Check out our <a href=''>FAQs</a> or send us a <a href=''>message</a>. For assistance with launching a contest, you can also call us at (877) 355-3585 or schedule a <a href=''>Branding Consultation</a></p>
+                    <p>Check out our <Link to='/'>FAQs</Link> or send us a <Link to='/'>message</Link>. For assistance with launching a contest, you can also call us at (877) 355-3585 or schedule a <Link to='/'>Branding Consultation</Link></p>
                 </div>
-                <div className={styles.getInTouchPanelButton}>Get In Touch</div>
+                <Link to='/' className={styles.getInTouchPanelButton}>Get In Touch</Link>
             </div>
         </div>
     );

@@ -39,7 +39,8 @@ const RegistrationPage = (props) => {
                 <div className={styles.articlesMainContainer}>
                     <div className={styles.ColumnContainer}>
                         {
-                            [articlesData[0], articlesData[1], articlesData[2]].map(article => <Article
+                            [articlesData[0], articlesData[1], articlesData[2]].map((article, index) => <Article
+                                key={index}
                                 header={article.header}
                                 body={article.body}
                                 bodyStyles={styles.article}
@@ -49,7 +50,8 @@ const RegistrationPage = (props) => {
                     </div>
                     <div className={styles.ColumnContainer}>
                         {
-                            [articlesData[3], articlesData[4], articlesData[5]].map(article => <Article
+                            [articlesData[3], articlesData[4], articlesData[5]].map((article, index) => <Article
+                                key={index}
                                 header={article.header}
                                 body={article.body}
                                 bodyStyles={styles.article}

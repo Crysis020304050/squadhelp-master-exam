@@ -2,7 +2,7 @@ import React from "react";
 import styles from './EventsPage.module.sass'
 import Header from "../../components/Header/Header";
 import Timer from "../../components/EventTimer";
-import CreateEventForm from "../../components/CretaeEventForm";
+import CreateEventForm from "../../components/CreateEventForm";
 import {connect} from 'react-redux';
 
 const EventsPage = ({events}) => {

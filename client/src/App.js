@@ -1,42 +1,43 @@
-import React, {Component} from 'react';
+import React, {lazy, Suspense, useEffect} from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import './App.css';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
-import Payment from './pages/Payment/Payment';
-import StartContestPage from './pages/StartContestPage/StartContestPage';
-import Dashboard from './pages/Dashboard/Dashboard'
 import PrivateHoc from './components/PrivateHoc/PrivateHoc';
 import NotFound from './components/NotFound/NotFound';
-import Home from './pages/Home/Home';
 import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';
-import ContestPage from './pages/ContestPage/ContestPage';
-import UserProfile from './pages/UserProfile/UserProfile';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
-import ContestCreationPage from './pages/ContestCreation/ContestCreationPage';
 import CONSTANTS from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
-import TransactionsPage from './pages/TransactionsPage';
-import HowItWorksPage from "./pages/HowItWorksPage";
-import EventsPage from "./pages/EventsPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import ConfirmPasswordResettingPage from "./pages/ConfirmPasswordResettingPage";
 import {getUserRequest} from './actions/actionCreator';
 import {connect} from 'react-redux';
-import constants from "./constants";
+import SpinnerLoader from "./components/Spinner/Spinner";
 
-class App extends Component {
+const Home = lazy(() => import('./pages/Home/Home'));
+const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage'));
+const RegistrationPage = lazy(() => import('./pages/RegistrationPage/RegistrationPage'));
+const Payment = lazy(() => import('./pages/Payment/Payment'));
+const StartContestPage = lazy(() => import('./pages/StartContestPage/StartContestPage'));
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
+const ContestPage = lazy(() => import('./pages/ContestPage/ContestPage'));
+const UserProfile = lazy(() => import('./pages/UserProfile/UserProfile'));
+const ContestCreationPage = lazy(() => import('./pages/ContestCreation/ContestCreationPage'));
+const TransactionsPage = lazy(() => import('./pages/TransactionsPage'));
+const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
+const EventsPage = lazy(() => import("./pages/EventsPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
+const ConfirmPasswordResettingPage = lazy(() => import("./pages/ConfirmPasswordResettingPage"));
 
-    componentDidMount() {
-        if (localStorage.getItem(constants.ACCESS_TOKEN)) {
-            this.props.getUser();
+const App = ({getUser}) => {
+
+    useEffect(() => {
+        if (localStorage.getItem(CONSTANTS.ACCESS_TOKEN)) {
+            getUser();
         }
-    }
+    });
 
-    render() {
-        return (
+    return (
+        <Suspense fallback={SpinnerLoader}>
             <Router history={browserHistory}>
                 <ToastContainer
                     position="top-center"
@@ -82,9 +83,9 @@ class App extends Component {
                 </Switch>
                 <ChatContainer/>
             </Router>
-        );
-    }
-}
+        </Suspense>
+    );
+};
 
 const mapDispatchToProps = dispatch => ({
    getUser: () => dispatch(getUserRequest()),

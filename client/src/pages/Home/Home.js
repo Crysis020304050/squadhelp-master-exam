@@ -11,7 +11,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import StartContestPanel from '../../components/StartContestPanel';
 
 
-const Home = (props) => {
+const Home = ({isFetching, data}) => {
     const [index, setIndex] = useState(0);
     const [styleName, setStyle] = useState(styles.headline__static);
     let timeout;
@@ -28,7 +28,6 @@ const Home = (props) => {
     });
 
 
-    const {isFetching} = props;
     const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
     return (
         <>
@@ -179,7 +178,7 @@ const Home = (props) => {
                     </div>
                     <SlideBar images={carouselConstants.exampleSliderImages}
                               carouselType={carouselConstants.EXAMPLE_SLIDER}/>
-                    <StartContestPanel/>
+                    {(data && data.role === CONSTANTS.CUSTOMER || !data) && <StartContestPanel/>}
                     <div className={styles.blueContainer}>
                         <h2 className={styles.whiteUnderline}>What our customers say</h2>
                         <SlideBar images={carouselConstants.feedbackSliderImages}
@@ -193,8 +192,8 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const {isFetching} = state.userStore;
-    return {isFetching};
+    const {isFetching, data} = state.userStore;
+    return {isFetching, data};
 };
 
 export default connect(mapStateToProps, null)(Home);
