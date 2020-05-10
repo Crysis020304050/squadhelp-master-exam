@@ -5,14 +5,16 @@ import {Link} from "react-router-dom";
 import {confirmResettingPasswordRequest, clearConfirmResettingPasswordError} from '../../actions/actionCreator';
 import Error from "../../components/Error/Error";
 
-const ConfirmPasswordResettingPage = ({match: {params: {token}}, error, confirmPasswordResetting, clearError}) => {
+const ConfirmPasswordResettingPage = ({match: {params: {token}}, error, confirmPasswordResetting, clearError, isFetching}) => {
 
     useEffect(() => {
         clearError()
     }, []);
 
     const onClickHandler = e => {
-        confirmPasswordResetting(token);
+        if (!isFetching) {
+            confirmPasswordResetting(token);
+        }
     };
 
     return (
