@@ -62,7 +62,7 @@ export default {
         file: yup.mixed()
     }),
     EventSchema: yup.object().shape({
-        eventName: yup.string().min(1).max(64).required().label('Event name'),
+        eventName: yup.string().matches(/(?!^ +$)^.+$/, 'Event name must has at least one non whitespace character').required().label('Event name'),
         endTime: yup.date().min(new Date(), 'End event time must be greater than now').required().label('End time'),
         reminderTime: yup.date().min(new Date(), 'Reminder time must be greater than now').label('Reminder time').required().when('endTime', (endTime, yap) => endTime && yap.max(endTime, 'Reminder time cannot be after event end time')),
 
