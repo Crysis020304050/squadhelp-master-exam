@@ -1,4 +1,3 @@
-const validators = require("../middlewares/validators");
 const userController = require("../controllers/userController");
 const basicMiddlewares = require("../middlewares/basicMiddlewares");
 const checkToken = require("../middlewares/checkToken");
@@ -8,19 +7,6 @@ const {generateTokenWithNewPassword} = require("../middlewares/generateTokenWith
 const hashPass = require('../middlewares/hashPassMiddle');
 
 const userRouter = require('express')();
-
-userRouter.post(
-    '/registration',
-    validators.validateRegistrationData,
-    hashPass,
-    userController.registration,
-);
-
-userRouter.post(
-    '/login',
-    validators.validateLogin,
-    userController.login,
-);
 
 userRouter.post(
     '/getUser',
