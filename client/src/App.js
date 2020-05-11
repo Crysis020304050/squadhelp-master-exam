@@ -37,8 +37,8 @@ const App = ({getUser}) => {
     });
 
     return (
-        <Suspense fallback={SpinnerLoader}>
-            <Router history={browserHistory}>
+        <Router history={browserHistory}>
+            <Suspense fallback={SpinnerLoader}>
                 <ToastContainer
                     position="top-center"
                     autoClose={5000}
@@ -56,7 +56,8 @@ const App = ({getUser}) => {
                     <Route exact path='/login' component={OnlyNotAuthorizedUserHoc(LoginPage)}/>
                     <Route exact path='/registration' component={OnlyNotAuthorizedUserHoc(RegistrationPage)}/>
                     <Route exact path='/resetPassword' component={OnlyNotAuthorizedUserHoc(ResetPasswordPage)}/>
-                    <Route exact path='/confirmPasswordResetting/:token' component={OnlyNotAuthorizedUserHoc(ConfirmPasswordResettingPage)}/>
+                    <Route exact path='/confirmPasswordResetting/:token'
+                           component={OnlyNotAuthorizedUserHoc(ConfirmPasswordResettingPage)}/>
                     <Route exact path='/payment' component={PrivateHoc(Payment)}/>
                     <Route exact path='/startContest' component={PrivateHoc(StartContestPage)}/>
                     <Route exact path='/startContest/nameContest'
@@ -82,13 +83,13 @@ const App = ({getUser}) => {
                     <Route component={NotFound}/>
                 </Switch>
                 <ChatContainer/>
-            </Router>
-        </Suspense>
+            </Suspense>
+        </Router>
     );
 };
 
 const mapDispatchToProps = dispatch => ({
-   getUser: () => dispatch(getUserRequest()),
+    getUser: () => dispatch(getUserRequest()),
 });
 
 export default connect(null, mapDispatchToProps)(App);
