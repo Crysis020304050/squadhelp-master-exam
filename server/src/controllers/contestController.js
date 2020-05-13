@@ -65,7 +65,7 @@ module.exports.getContestById = async (req, res, next) => {
                     model: db.Offers,
                     required: false,
                     where: req.tokenData.role === CONSTANTS.CREATOR
-                        ? {userId: req.tokenData.userId}
+                        ? {userId: req.tokenData.id}
                         : {},
                     attributes: {exclude: ['userId', 'contestId']},
                     include: [
@@ -84,7 +84,7 @@ module.exports.getContestById = async (req, res, next) => {
                         {
                             model: db.Ratings,
                             required: false,
-                            where: {userId: req.tokenData.userId},
+                            where: {userId: req.tokenData.id},
                             attributes: {exclude: ['userId', 'offerId']},
                         },
                     ],
@@ -122,7 +122,7 @@ module.exports.updateContest = async (req, res, next) => {
     try {
         const updatedContest = await contestQueries.updateContest(req.body, {
             id: contestId,
-            userId: req.tokenData.userId,
+            userId: req.tokenData.id,
         });
         res.send(updatedContest);
     } catch (e) {
@@ -138,7 +138,7 @@ module.exports.setNewOffer = async (req, res, next) => {
     } else {
         obj.text = req.body.offerData;
     }
-    obj.userId = req.tokenData.userId;
+    obj.userId = req.tokenData.id;
     obj.contestId = req.body.contestId;
     try {
         let result = await contestQueries.createOffer(obj);
@@ -146,7 +146,7 @@ module.exports.setNewOffer = async (req, res, next) => {
         delete result.userId;
         controller.controller.notificationController.emitEntryCreated(
             req.body.customerId);
-        const User = Object.assign({}, req.tokenData, {id: req.tokenData.userId});
+        const User = Object.assign({}, req.tokenData, {id: req.tokenData.id});
         res.send(Object.assign({}, result, {User}));
     } catch (e) {
         return next(new ServerError());
@@ -234,7 +234,7 @@ module.exports.getCustomersContests = (req, res, next) => {
     db.Contests.findAll({
         where: {
             status: req.headers.status,
-            userId: req.tokenData.userId,
+            userId: req.tokenData.id,
             ...(req.headers.status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
             ...(req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING && {status: {
                     [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
@@ -303,7 +303,7 @@ module.exports.getContests = (req, res, next) => {
             {
                 model: db.Offers,
                 required: req.body.ownEntries,
-                where: req.body.ownEntries ? {userId: req.tokenData.userId} : {},
+                where: req.body.ownEntries ? {userId: req.tokenData.id} : {},
                 attributes: ['id'],
             },
         ],

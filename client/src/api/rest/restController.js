@@ -1,7 +1,6 @@
-import http from '../interceptor';
+import http from '../index';
 
-export const registerRequest = (data) => http.post('registration', data);
-export const loginRequest = (data) => http.post('login', data);
+export const refreshTokens = data => http.post('refreshTokens', data);
 export const getUser = () => http.post('getUser');
 export const updateContest = data => http.post('updateContest', data);
 export const setNewOffer = data => http.post('setNewOffer', data);

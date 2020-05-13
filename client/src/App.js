@@ -9,7 +9,7 @@ import {ToastContainer} from 'react-toastify';
 import CONSTANTS from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
-import {getUserRequest} from './actions/actionCreator';
+import {authActionRefreshLogin} from './actions/actionCreator';
 import {connect} from 'react-redux';
 import SpinnerLoader from "./components/Spinner/Spinner";
 
@@ -31,8 +31,9 @@ const ConfirmPasswordResettingPage = lazy(() => import("./pages/ConfirmPasswordR
 const App = ({getUser}) => {
 
     useEffect(() => {
-        if (localStorage.getItem(CONSTANTS.ACCESS_TOKEN)) {
-            getUser();
+        const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN);
+        if (refreshToken) {
+            getUser({refreshToken});
         }
     });
 
@@ -89,7 +90,7 @@ const App = ({getUser}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    getUser: () => dispatch(getUserRequest()),
+    getUser: (data) => dispatch(authActionRefreshLogin(data)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

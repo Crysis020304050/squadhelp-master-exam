@@ -4,14 +4,21 @@ import ACTION from './actionTypes';
 export const authActionLogin = (data) => {
     return {
         type: ACTION.AUTH_ACTION_LOGIN,
-        data: data
+        data
     }
 };
 
 export const authActionRegister = (data) => {
     return {
         type: ACTION.AUTH_ACTION_REGISTER,
-        data: data
+        data
+    }
+};
+
+export const authActionRefreshLogin = (data) => {
+    return {
+        type: ACTION.AUTH_ACTION_REFRESH_LOGIN,
+        data
     }
 };
 

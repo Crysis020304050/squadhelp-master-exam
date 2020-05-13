@@ -7,30 +7,26 @@ const userQueries = require('./queries/userQueries');
 const ratingQueries = require('./queries/ratingQueries');
 const {prepareUserToSending} = require('../utils/functions');
 
-module.exports.login = async (req, res, next) => {
+module.exports.createUser = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
-    const accessToken = jwt.sign(prepareUserToSending(foundUser), CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken, user: prepareUserToSending(foundUser)});
-  } catch (err) {
-    next(err);
+    const {body, hashPass} = req;
+    req.user = await userQueries.userCreation({...body, password: hashPass});
+    next();
+  } catch (e) {
+    next(e);
   }
 };
-module.exports.registration = async (req, res, next) => {
+
+module.exports.checkIfUserExist = async (req, res, next) => {
   try {
-    const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass }));
-    const accessToken = jwt.sign(prepareUserToSending(newUser), CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
-    await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ token: accessToken, user: prepareUserToSending(newUser)});
-  } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
-      next(new NotUniqueEmail());
-    } else {
-      next(err);
+    const {body: {email}} = req;
+    const result = await userQueries.findUserToCheckExistence({email});
+    if (result) {
+      return next(new NotUniqueEmail())
     }
+    return next();
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -50,7 +46,7 @@ module.exports.changeMark = async (req, res, next) => {
   let avg = 0;
   let transaction;
   const { isFirst, offerId, mark, creatorId } = req.body;
-  const userId = req.tokenData.userId;
+  const userId = req.tokenData.id;
   try {
     transaction = await bd.sequelize.transaction(
       { isolationLevel: bd.Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED });
@@ -87,7 +83,7 @@ module.exports.updateUser = async (req, res, next) => {
       req.body.avatar = req.file.filename;
     }
     const updatedUser = await userQueries.updateUser(req.body,
-      req.tokenData.userId);
+      req.tokenData.id);
     res.send(prepareUserToSending(updatedUser));
   } catch (err) {
     next(err);
@@ -103,6 +99,16 @@ module.exports.resetUserPassword = async (req, res, next) => {
       return next();
     }
     return next(new ServerError('Something wrong with updating user password'))
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports.verifyUserPassword = async (req, res, next) => {
+  try {
+    const {body, user: {password}} = req;
+    await userQueries.passwordCompare(body.password, password);
+    next();
   } catch (e) {
     next(e);
   }

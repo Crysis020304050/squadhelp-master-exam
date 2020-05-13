@@ -14,6 +14,11 @@ module.exports.loginSchem = yup.object().shape({
   password: yup.string().required().min(1),
 });
 
+module.exports.resetPasswordSchema = yup.object().shape({
+  email: yup.string().email().required().label('Email'),
+  newPassword: yup.string().test('test-password','min 6 symbols',value => (value && value.trim().length>=6)).required().label('New password')
+});
+
 module.exports.getOffersFilesDataSchem = yup.object().shape({
   dateFrom: yup.date(),
 });

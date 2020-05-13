@@ -12,7 +12,6 @@ const hbs = require('nodemailer-express-handlebars');
 const nodemailer = require('nodemailer');
 const path = require('path');
 
-
 const email = process.env.MAILER_EMAIL_ID || 'crysiswarhead1112@gmail.com';
 const pass = process.env.MAILER_PASSWORD || 'BobaFet123';
 const smtpTransport = nodemailer.createTransport({
@@ -43,7 +42,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/public', express.static('public'));
 app.use(router);
-app.use(errorsLogger);
+
+//app.use(errorsLogger);
 app.use(handlerError);
 
 schedule.scheduleJob('0 0 * * *', loggerSchedule);

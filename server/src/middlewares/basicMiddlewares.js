@@ -3,96 +3,127 @@ const NotFound = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
 import CONSTANTS from '../constants/constants';
+const {prepareUserToSending} = require('../utils/functions');
 
 module.exports.parseBody = (req, res, next) => {
-  req.body.contests = JSON.parse(req.body.contests);
-  for (let i = 0; i < req.body.contests.length; i++) {
-    if (req.body.contests[ i ].haveFile) {
-      const file = req.files.splice(0, 1);
-      req.body.contests[ i ].fileName = file[ 0 ].filename;
-      req.body.contests[ i ].originalFileName = file[ 0 ].originalname;
+    req.body.contests = JSON.parse(req.body.contests);
+    for (let i = 0; i < req.body.contests.length; i++) {
+        if (req.body.contests[i].haveFile) {
+            const file = req.files.splice(0, 1);
+            req.body.contests[i].fileName = file[0].filename;
+            req.body.contests[i].originalFileName = file[0].originalname;
+        }
     }
-  }
-  next();
+    next();
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CREATOR) {
-    return next();
-  }
-  next(new RightsError('This page is only for creators'));
+    try {
+        if (req.tokenData.role === CONSTANTS.CREATOR) {
+            return next();
+        }
+        return next(new RightsError('This page is only for creators'));
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.onlyForCustomer = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
-    return next();
-  }
-  return next(new RightsError('This page is only for customers'));
+    try {
+        if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+            return next();
+        }
+        return next(new RightsError('This page is only for customers'));
+    } catch (e) {
+        next(e);
+    }
 };
 
-module.exports.onlyForModerators = (req, res,next) => {
-  if (req.tokenData.role === CONSTANTS.MODERATOR) {
-    return next();
-  }
-  return next(new RightsError('This page is only for moderators'))
+module.exports.onlyForModerators = (req, res, next) => {
+    try {
+        if (req.tokenData.role === CONSTANTS.MODERATOR) {
+            return next();
+        }
+        return next(new RightsError('This page is only for moderators'))
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
-    return next(new RightsError());
-  }
-  try {
-    const result = await bd.Contests.findOne({
-      where: {
-        id: req.body.contestId,
-      },
-      attributes: ['status'],
-    });
-    if (result.get({ plain: true }).status ===
-      CONSTANTS.CONTEST_STATUS_ACTIVE) {
-      next();
-    } else {
-      return next(new RightsError());
+    if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+        return next(new RightsError());
     }
-  } catch (e) {
-    next(new ServerError());
-  }
+    try {
+        const result = await bd.Contests.findOne({
+            where: {
+                id: req.body.contestId,
+            },
+            attributes: ['status'],
+        });
+        if (result.get({plain: true}).status ===
+            CONSTANTS.CONTEST_STATUS_ACTIVE) {
+            next();
+        } else {
+            return next(new RightsError());
+        }
+    } catch (e) {
+        next(new ServerError());
+    }
 
 };
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
-  try {
-    const result = await bd.Contests.findOne({
-      where: {
-        userId: req.tokenData.userId,
-        id: req.body.contestId,
-        status: CONSTANTS.CONTEST_STATUS_ACTIVE,
-      },
-    });
-    if ( !result) {
-      return next(new RightsError());
+    try {
+        const result = await bd.Contests.findOne({
+            where: {
+                userId: req.tokenData.id,
+                id: req.body.contestId,
+                status: CONSTANTS.CONTEST_STATUS_ACTIVE,
+            },
+        });
+        if (!result) {
+            return next(new RightsError());
+        }
+        next();
+    } catch (e) {
+        next(new ServerError());
     }
-    next();
-  } catch (e) {
-    next(new ServerError());
-  }
 };
 
 module.exports.canUpdateContest = async (req, res, next) => {
-  try {
-    const result = bd.Contests.findOne({
-      where: {
-        userId: req.tokenData.userId,
-        id: req.body.contestId,
-        status: { [ bd.Sequelize.Op.not ]: CONSTANTS.CONTEST_STATUS_FINISHED },
-      },
-    });
-    if ( !result) {
-      return next(new RightsError());
+    try {
+        const result = bd.Contests.findOne({
+            where: {
+                userId: req.tokenData.id,
+                id: req.body.contestId,
+                status: {[bd.Sequelize.Op.not]: CONSTANTS.CONTEST_STATUS_FINISHED},
+            },
+        });
+        if (!result) {
+            return next(new RightsError());
+        }
+        next();
+    } catch (e) {
+        next(new ServerError());
     }
-    next();
-  } catch (e) {
-    next(new ServerError());
-  }
 };
 
+module.exports.sendAuthData = (req, res, next) => {
+    const {accessTokenValue, refreshTokenValue, user} = req;
+    res.send({
+        user: prepareUserToSending(user),
+        tokenPair: {
+            accessToken: accessTokenValue,
+            refreshToken: refreshTokenValue,
+        },
+    });
+};
+
+module.exports.sendTokens = (req, res, next) => {
+    const {accessTokenValue, refreshTokenValue} = req;
+    res.send({
+        accessToken: accessTokenValue,
+        refreshToken: refreshTokenValue,
+    });
+};

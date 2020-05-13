@@ -36,7 +36,7 @@ module.exports.payment = async (req, res, next) => {
                 : Math.floor(req.body.price / req.body.contests.length);
             contest = Object.assign(contest, {
                 status: index === 0 ? 'active' : 'pending',
-                userId: req.tokenData.userId,
+                userId: req.tokenData.id,
                 priority: index + 1,
                 orderId,
                 createdAt: moment().format('YYYY-MM-DD HH:mm'),
@@ -58,7 +58,7 @@ module.exports.cashout = async (req, res, next) => {
         transaction = await bd.sequelize.transaction();
         const updatedUser = await userQueries.updateUser(
             { balance: bd.sequelize.literal('balance - ' + req.body.sum) },
-            req.tokenData.userId, transaction);
+            req.tokenData.id, transaction);
         await bankQueries.updateBankBalance({
                 balance: bd.sequelize.literal(`CASE 
                 WHEN "cardNumber"='${ req.body.number.replace(/ /g,
@@ -93,10 +93,10 @@ module.exports.cashout = async (req, res, next) => {
 
 module.exports.getUserTransactionsHistory = async (req, res, next) => {
     try {
-        const {userId} = req.tokenData;
+        const {tokenData: {id}} = req;
         const searchFilter = {
             where: {
-                userId,
+                userId: id,
             }
         };
         const result = await transactionsQueries.getTransactions(searchFilter);
@@ -108,10 +108,10 @@ module.exports.getUserTransactionsHistory = async (req, res, next) => {
 
 module.exports.getUserTransactionsStatement = async (req, res, next) => {
     try {
-        const {userId} = req.tokenData;
+        const {tokenData: {id}} = req;
         const searchFilter = {
             where: {
-                userId,
+                userId: id,
             },
             raw: true,
             attributes: ['typeOperation', [bd.Sequelize.fn('sum', bd.Sequelize.col('sum')), 'sum']],

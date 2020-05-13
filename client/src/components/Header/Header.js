@@ -27,7 +27,8 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
     }, []);
 
     const logOut = () => {
-        localStorage.clear();
+        localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
+        sessionStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
         clearUserStore();
         history.replace('/login');
     };

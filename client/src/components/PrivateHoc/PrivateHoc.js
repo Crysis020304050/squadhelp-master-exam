@@ -11,7 +11,7 @@ const PrivateHoc = (Component, props) => {
     class Hoc extends React.Component {
 
         componentDidMount() {
-            if (!localStorage.getItem(constants.ACCESS_TOKEN)) {
+            if (!localStorage.getItem(constants.REFRESH_TOKEN)) {
                 this.props.history.replace('/login');
             }
         }

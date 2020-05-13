@@ -22,6 +22,10 @@ module.exports.findUser = async (predicate, transaction) => {
   }
 };
 
+module.exports.findUserToCheckExistence = async (predicate) => {
+  return await bd.Users.findOne({where: predicate});
+};
+
 module.exports.userCreation = async (data) => {
   const newUser = await bd.Users.create(data);
   if ( !newUser) {
