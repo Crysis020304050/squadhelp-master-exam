@@ -1,5 +1,7 @@
 import http from '../index';
 import CONSTANTS from '../../constants';
+import {clearStorage} from '../../utils';
+import history from "../../browserHistory";
 
 const authenticateUser = async (url, data) => {
     try {
@@ -9,8 +11,8 @@ const authenticateUser = async (url, data) => {
         localStorage.setItem( CONSTANTS.REFRESH_TOKEN, tokenPair.refreshToken );
         return response;
     } catch (e) {
-        sessionStorage.removeItem( CONSTANTS.ACCESS_TOKEN );
-        localStorage.removeItem( CONSTANTS.REFRESH_TOKEN);
+        clearStorage();
+        history.replace('/login');
         throw e;
     }
 };
