@@ -43,7 +43,7 @@ app.use(express.json());
 app.use('/public', express.static('public'));
 app.use(router);
 
-//app.use(errorsLogger);
+app.use(errorsLogger);
 app.use(handlerError);
 
 schedule.scheduleJob('0 0 * * *', loggerSchedule);
