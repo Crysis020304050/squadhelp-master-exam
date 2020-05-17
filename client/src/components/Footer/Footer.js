@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styles from './Footer.module.sass';
 import CONSTANTS from '../../constants';
+import {Link} from "react-router-dom";
 
 
 class Footer extends Component {
@@ -9,7 +10,7 @@ class Footer extends Component {
         return (
             <div key={item.title}>
                 <h4>{item.title}</h4>
-                {item.items.map(i => <a key={i} href="https://google.com">{i}</a>)}
+                {item.items.map(i => <Link key={i} to="/">{i}</Link>)}
             </div>
         );
     };
