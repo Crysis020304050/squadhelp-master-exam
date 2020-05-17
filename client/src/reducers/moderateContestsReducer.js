@@ -55,6 +55,7 @@ export default function (state = initialState, action) {
             return {
                 ...initialState,
                 filter: action.filter,
+                isFetching: true,
             }
         }
         case ACTION.CLEAR_CONTESTS_LIST: {

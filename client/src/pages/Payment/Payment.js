@@ -6,6 +6,7 @@ import styles from './Payment.module.sass';
 import isEmpty from 'lodash/isEmpty';
 import CONSTANTS from '../../constants';
 import Error from '../../components/Error/Error';
+import Logo from "../../components/Logo";
 
 const Payment = (props) => {
 
@@ -43,7 +44,7 @@ const Payment = (props) => {
     return (
         <div>
             <div className={styles.header}>
-                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} alt='blue-logo'/>
+                <Logo/>
             </div>
             <div className={styles.mainContainer}>
                 <div className={styles.paymentContainer}>
