@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './ContestContainer.module.sass';
+import styles from './InfinityScrollListContainer.module.sass';
 import Spinner from '../../components/Spinner/Spinner';
 import PropTypes from 'prop-types';
 import InfiniteList from "react-infinite-scroll-list";
 
 
-const ContestsContainer = ({children, isFetching, loadMore, haveMore}) => {
+const InfinityScrollListContainer = ({children, isFetching, loadMore, haveMore}) => {
 
     const isListOfChildrenEmpty = () => (
         !isFetching && children.length === 0
@@ -22,13 +22,13 @@ const ContestsContainer = ({children, isFetching, loadMore, haveMore}) => {
     );
 };
 
-ContestsContainer.propTypes = {
+InfinityScrollListContainer.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     loadMore: PropTypes.func.isRequired,
     haveMore: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
 };
 
-export default ContestsContainer;
+export default InfinityScrollListContainer;
 
 

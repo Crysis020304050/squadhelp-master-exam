@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {getContestsForCustomer, clearContestList, setNewCustomerFilter} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
-import ContestsContainer from '../../components/ContestsContainer/ContestsContainer';
+import InfinityScrollListContainer from '../../components/InfinityScrollListContainer';
 import ContestBox from "../ContestBox/ContestBox";
 import styles from './CustomerDashboard.module.sass';
 import classNames from 'classnames';
@@ -81,11 +81,11 @@ class CustomerDashboard extends React.Component {
                         error ?
                             <TryAgain getData={this.tryToGetContest()}/>
                             :
-                            <ContestsContainer isFetching={this.props.isFetching}
+                            <InfinityScrollListContainer isFetching={this.props.isFetching}
                                                loadMore={this.loadMore}
                                                haveMore={haveMore}>
                                 {this.setContestList()}
-                            </ContestsContainer>
+                            </InfinityScrollListContainer>
                     }
                 </div>
             </div>

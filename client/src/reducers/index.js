@@ -16,6 +16,7 @@ import eventsReducer from "./eventsReducer";
 import resetPasswordReducer from "./resetPasswordReducer";
 import confirmPasswordResettingReducer from "./confirmPasswordResettingReducer";
 import moderateContestsReducer from "./moderateContestsReducer";
+import moderateOffersReducer from "./moderateOffersReducer";
 
 const appReducer=combineReducers({
    form: formReducer,
@@ -34,7 +35,8 @@ const appReducer=combineReducers({
    eventsStore: eventsReducer,
    resetPasswordStore: resetPasswordReducer,
    confirmPasswordResettingStore: confirmPasswordResettingReducer,
-   moderationStore: moderateContestsReducer,
+   moderationContestsStore: moderateContestsReducer,
+   moderationOffersStore: moderateOffersReducer,
 });
 
 export default appReducer;

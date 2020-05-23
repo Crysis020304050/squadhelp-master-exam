@@ -7,7 +7,7 @@ import {
     setNewCreatorFilter,
     getDataForContest, selectContestType, unSelectContestType
 } from '../../actions/actionCreator';
-import ContestsContainer from '../../components/ContestsContainer/ContestsContainer';
+import InfinityScrollListContainer from '../../components/InfinityScrollListContainer';
 import ContestBox from "../ContestBox/ContestBox";
 import styles from './CreatorDashboard.module.sass';
 import queryString from 'query-string';
@@ -208,11 +208,11 @@ class CreatorDashboard extends React.Component {
                             <TryAgain getData={this.tryLoadAgain}/>
                         </div>
                         :
-                        <ContestsContainer isFetching={this.props.isFetching}
+                        <InfinityScrollListContainer isFetching={this.props.isFetching}
                                            loadMore={this.loadMore}
                                            history={this.props.history} haveMore={haveMore}>
                             {this.setContestList()}
-                        </ContestsContainer>
+                        </InfinityScrollListContainer>
                 }
             </div>
         )

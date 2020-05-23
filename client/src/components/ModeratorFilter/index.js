@@ -1,8 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import CONSTANTS from '../../constants';
 import classNames from 'classnames';
-import {setNewContestsModerationFilter} from '../../actions/actionCreator.js';
 import styles from './ModeratorFilter.module.sass';
 import PropTypes from 'prop-types';
 
@@ -24,28 +22,25 @@ const ModeratorFilter = ({filter: {limit, offset, moderationStatus}, setNewFilte
             <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_MODERATION)}
                  className={classNames(styles.filter, {
                      [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_MODERATION === moderationStatus,
-                 })}>Moderation Contests
+                 })}>Moderation
             </div>
             <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_RESOLVED)}
                  className={classNames(styles.filter, {
                      [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_RESOLVED === moderationStatus,
-                 })}>Resolved Contests
+                 })}>Resolved
             </div>
             <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_REJECTED)}
                  className={classNames(styles.filter, {
                      [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_REJECTED === moderationStatus,
-                 })}>Rejected Contests
+                 })}>Rejected
             </div>
         </div>
     );
 };
 
-const mapDispatchToProps = dispatch => ({
-    setNewFilter: (filter) => dispatch(setNewContestsModerationFilter(filter)),
-});
-
 ModeratorFilter.propTypes = {
     filter: PropTypes.object.isRequired,
+    setNewFilter: PropTypes.object.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(ModeratorFilter);
+export default ModeratorFilter;
