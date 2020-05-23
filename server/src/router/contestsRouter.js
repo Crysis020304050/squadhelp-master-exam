@@ -30,7 +30,7 @@ contestRouter.post(
     '/getAllContests',
     checkToken.checkToken,
     basicMiddlewares.onlyForCreative,
-    contestController.getContests,
+    contestController.getContestsForCreative,
 );
 
 contestRouter.get(
