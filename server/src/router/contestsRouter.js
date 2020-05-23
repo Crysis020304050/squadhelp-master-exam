@@ -75,4 +75,9 @@ contestRouter.post('/rejectContest',
     notifyUserAboutRejectingRequest,
 );
 
+contestRouter.post('/getOffersForModerator',
+    basicMiddlewares.onlyForModerators,
+    contestController.getOffersForModerator,
+);
+
 module.exports = contestRouter;

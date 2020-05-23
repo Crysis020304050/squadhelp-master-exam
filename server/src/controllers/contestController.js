@@ -229,6 +229,27 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
 };
 
+module.exports.getOffersForModerator = async (req, res, next) => {
+    try {
+        const {limit, offset, moderationStatus} = req.body;
+        const offers = await db.Offers.findAll({
+            where: {moderationStatus},
+            limit,
+            offset: offset || 0,
+            order: [['id', 'DESC']],
+            include: [
+                {
+                    model: db.Contests,
+                    attributes: ['contestType'],
+                },
+            ],
+        });
+        res.send({offers, haveMore: offers.length >= limit});
+    } catch (e) {
+        next(e);
+    }
+};
+
 module.exports.getCustomersContests = async (req, res, next) => {
     try {
         const {headers: {status}, tokenData: {id}, body: {limit, offset}} = req;
@@ -281,7 +302,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
             ],
         });
         contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
-        res.send({contests, haveMore: contests.length >= req.body.limit});
+        res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
     }
