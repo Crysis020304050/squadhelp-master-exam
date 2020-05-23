@@ -9,7 +9,7 @@ import {ToastContainer} from 'react-toastify';
 import CONSTANTS from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
-import {authActionRefreshLogin} from './actions/actionCreator';
+import {authActionRequest} from './actions/actionCreator';
 import {connect} from 'react-redux';
 import SpinnerLoader from "./components/Spinner/Spinner";
 
@@ -90,7 +90,7 @@ const App = ({getUser}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    getUser: (data) => dispatch(authActionRefreshLogin(data)),
+    getUser: (data) => dispatch(authActionRequest(data)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

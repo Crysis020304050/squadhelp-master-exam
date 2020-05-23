@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {authActionLogin, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {authActionRequest, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import styles from './LoginForm.module.sass';
 import {Field, reduxForm} from 'redux-form';
 import customValidator from '../../validators/validator';
@@ -58,7 +58,7 @@ const mapStateToProps = state => state.auth;
 
 const mapDispatchToProps = (dispatch) => (
     {
-        loginRequest: (data) => dispatch(authActionLogin(data)),
+        loginRequest: (data) => dispatch(authActionRequest(data)),
         clearError: () => dispatch(clearErrorSignUpAndLogin()),
     }
 );

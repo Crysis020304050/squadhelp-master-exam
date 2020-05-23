@@ -1,24 +1,23 @@
 import ACTION from './actionTypes';
 
 
-export const authActionLogin = (data) => {
+export const authActionRequest = data => {
     return {
-        type: ACTION.AUTH_ACTION_LOGIN,
+        type: ACTION.AUTH_ACTION_REQUEST,
         data
     }
 };
 
-export const authActionRegister = (data) => {
+export const authActionSuccess = () => {
     return {
-        type: ACTION.AUTH_ACTION_REGISTER,
-        data
+        type: ACTION.AUTH_ACTION_SUCCESS,
     }
 };
 
-export const authActionRefreshLogin = (data) => {
+export const authActionError = error => {
     return {
-        type: ACTION.AUTH_ACTION_REFRESH_LOGIN,
-        data
+        type: ACTION.AUTH_ACTION_ERROR,
+        error
     }
 };
 
@@ -52,23 +51,10 @@ export const clearSetOfferStatusError = () => {
     }
 };
 
-export const getUserRequest = () => {
-    return {
-        type: ACTION.GET_USER_REQUEST,
-    }
-};
-
 export const getUserSuccess = (data) => {
     return {
         type: ACTION.GET_USER_SUCCESS,
         data,
-    }
-};
-
-export const getUserError = error => {
-    return {
-        type: ACTION.GET_USER_ERROR,
-        error,
     }
 };
 

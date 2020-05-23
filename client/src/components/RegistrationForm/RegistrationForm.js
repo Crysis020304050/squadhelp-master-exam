@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {authActionRegister, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {authActionRequest, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import styles from './RegistrationForm.module.sass';
 import {Field, reduxForm} from 'redux-form';
 import RoleInput from '../RoleInput/RoleInput';
@@ -131,7 +131,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => (
     {
-        register: (data) => dispatch(authActionRegister(data)),
+        register: (data) => dispatch(authActionRequest(data)),
         clearError: () => dispatch(clearErrorSignUpAndLogin()),
     }
 );
