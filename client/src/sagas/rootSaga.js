@@ -59,7 +59,7 @@ function* rootSaga() {
     yield  takeLatest(ACTION.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
     yield  takeLatest(ACTION.CONFIRM_RESETTING_PASSWORD_REQUEST, confirmPasswordResettingSaga);
     yield  takeLatest(ACTION.GET_CONTESTS_FOR_MODERATOR_REQUEST, getContestsForModeratorSaga);
-    yield  takeLatest(ACTION.SET_NEW_MODERATOR_FILTER, getContestsForModeratorSaga);
+    yield  takeLatest(ACTION.SET_NEW_CONTESTS_MODERATION_FILTER, getContestsForModeratorSaga);
     yield  takeLatest(ACTION.MODERATE_CONTEST_RESOLVE_REQUEST, resolveContestSaga);
     yield  takeLatest(ACTION.MODERATE_CONTEST_REJECT_REQUEST, rejectContestSaga);
 }

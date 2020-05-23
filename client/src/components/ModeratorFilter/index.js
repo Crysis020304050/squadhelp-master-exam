@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import CONSTANTS from '../../constants';
 import classNames from 'classnames';
-import {setNewModeratorFilter} from '../../actions/actionCreator.js';
+import {setNewContestsModerationFilter} from '../../actions/actionCreator.js';
 import styles from './ModeratorFilter.module.sass';
 import PropTypes from 'prop-types';
 
@@ -41,7 +41,7 @@ const ModeratorFilter = ({filter: {limit, offset, moderationStatus}, setNewFilte
 };
 
 const mapDispatchToProps = dispatch => ({
-    setNewFilter: (filter) => dispatch(setNewModeratorFilter(filter)),
+    setNewFilter: (filter) => dispatch(setNewContestsModerationFilter(filter)),
 });
 
 ModeratorFilter.propTypes = {

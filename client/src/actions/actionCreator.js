@@ -418,7 +418,61 @@ export const moderateContestRejectError = error => ({
     error,
 });
 
-export const setNewModeratorFilter = filter => ({
-    type: ACTION.SET_NEW_MODERATOR_FILTER,
+export const setNewContestsModerationFilter = filter => ({
+    type: ACTION.SET_NEW_CONTESTS_MODERATION_FILTER,
     filter,
+});
+
+export const getOffersForModeratorRequest = filter => ({
+    type: ACTION.GET_OFFERS_FOR_MODERATOR_REQUEST,
+    filter,
+});
+
+export const getOffersForModeratorSuccess = data => ({
+    type: ACTION.GET_OFFERS_FOR_MODERATOR_SUCCESS,
+    data,
+});
+
+export const getOffersForModeratorError = error => ({
+    type: ACTION.GET_OFFERS_FOR_MODERATOR_ERROR,
+    error,
+});
+
+export const moderateOffersResolveRequest = id => ({
+    type: ACTION.MODERATE_OFFERS_RESOLVE_REQUEST,
+    id,
+});
+
+export const moderateOffersResolveSuccess = id => ({
+    type: ACTION.MODERATE_OFFERS_RESOLVE_SUCCESS,
+    id,
+});
+
+export const moderateOffersResolveError = error => ({
+    type: ACTION.MODERATE_OFFERS_RESOLVE_ERROR,
+    error,
+});
+
+export const moderateOffersRejectRequest = id => ({
+    type: ACTION.MODERATE_OFFERS_REJECT_REQUEST,
+    id,
+});
+
+export const moderateOffersRejectSuccess = id => ({
+    type: ACTION.MODERATE_OFFERS_REJECT_SUCCESS,
+    id,
+});
+
+export const moderateOffersRejectError = error => ({
+    type: ACTION.MODERATE_OFFERS_REJECT_ERROR,
+    error,
+});
+
+export const setNewOffersModerationFilter = filter => ({
+    type: ACTION.SET_NEW_OFFERS_MODERATION_FILTER,
+    filter,
+});
+
+export const clearOffersList = () => ({
+   type: ACTION.CLEAR_OFFERS_LIST,
 });

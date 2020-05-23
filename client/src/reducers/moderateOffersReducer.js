@@ -3,7 +3,7 @@ import CONSTANTS from '../constants';
 import {loadDataToMap, removeItemFromMap} from "../utils";
 
 const initialState = {
-    contests: new Map(),
+    offers: new Map(),
     isFetching: false,
     error: null,
     haveMore: true,
@@ -16,58 +16,58 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case ACTION.GET_CONTESTS_FOR_MODERATOR_REQUEST: {
+        case ACTION.GET_OFFERS_FOR_MODERATOR_REQUEST: {
             return {
                 ...state,
                 isFetching: true,
             }
         }
-        case ACTION.GET_CONTESTS_FOR_MODERATOR_SUCCESS: {
+        case ACTION.GET_OFFERS_FOR_MODERATOR_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
-                contests: loadDataToMap(state.contests, action.data.contests),
+                offers: loadDataToMap(state.offers, action.data.offers),
                 haveMore: action.data.haveMore,
             }
         }
-        case ACTION.GET_CONTESTS_FOR_MODERATOR_ERROR: {
+        case ACTION.GET_OFFERS_FOR_MODERATOR_ERROR: {
             return {
                 ...state,
                 isFetching: false,
                 error: action.error,
             }
         }
-        case ACTION.SET_NEW_CONTESTS_MODERATION_FILTER: {
+        case ACTION.SET_NEW_OFFERS_MODERATION_FILTER: {
             return {
                 ...initialState,
                 filter: action.filter,
                 isFetching: true,
             }
         }
-        case ACTION.CLEAR_CONTESTS_LIST: {
+        case ACTION.CLEAR_OFFERS_LIST: {
             return {
                 ...state,
                 error: null,
-                contests: new Map(),
+                offers: new Map(),
             }
         }
-        case ACTION.MODERATE_CONTEST_RESOLVE_REQUEST:
-        case ACTION.MODERATE_CONTEST_REJECT_REQUEST:
+        case ACTION.MODERATE_OFFERS_RESOLVE_REQUEST:
+        case ACTION.MODERATE_OFFERS_REJECT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
 
-        case ACTION.MODERATE_CONTEST_RESOLVE_SUCCESS:
-        case ACTION.MODERATE_CONTEST_REJECT_SUCCESS:
+        case ACTION.MODERATE_OFFERS_RESOLVE_SUCCESS:
+        case ACTION.MODERATE_OFFERS_REJECT_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
-                contests: removeItemFromMap(state.contests, action.id),
+                offers: removeItemFromMap(state.offers, action.id),
             };
 
-        case ACTION.MODERATE_CONTEST_RESOLVE_ERROR:
-        case ACTION.MODERATE_CONTEST_REJECT_ERROR:
+        case ACTION.MODERATE_OFFERS_RESOLVE_ERROR:
+        case ACTION.MODERATE_OFFERS_REJECT_ERROR:
             return {
                 ...state,
                 isFetching: false,
