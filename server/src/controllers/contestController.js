@@ -229,43 +229,41 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-
-    db.Contests.findAll({
-        where: {
-            status: req.headers.status,
-            userId: req.tokenData.userId,
-            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
-            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING && {status: {
-                    [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
-                },
-            })
-        },
-        limit: req.body.limit,
-        offset: req.body.offset ? req.body.offset : 0,
-        order: [['id', 'DESC']],
-        include: [
-            {
-                model: db.Offers,
-                required: false,
-                attributes: ['id'],
-            },
-        ],
-    })
-        .then(contests => {
-            let preparedContests = contests;
-            if (req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING) {
-                preparedContests = preparedContests.filter(contest => {
-                    return !(contest.status === CONSTANTS.CONTEST_STATUS_ACTIVE && contest.moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED);
+module.exports.getCustomersContests = async (req, res, next) => {
+    try {
+        const {headers: {status}, tokenData: {userId}, body: {limit, offset}} = req;
+        let contests = await db.Contests.findAll({
+            where: {
+                status,
+                userId,
+                ...(status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+                ...(status === CONSTANTS.CONTEST_STATUS_PENDING && {
+                    status: {
+                        [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
+                    },
                 })
-            }
-            preparedContests.forEach(contest => {
-                contest.dataValues.count = contest.dataValues.Offers.length;
-            });
-
-            res.send({contests: preparedContests, haveMore: preparedContests.length >= req.body.limit});
-        })
-        .catch(err => next(new ServerError(err)));
+            },
+            limit,
+            offset: offset || 0,
+            order: [['id', 'DESC']],
+            include: [
+                {
+                    model: db.Offers,
+                    required: false,
+                    attributes: ['id'],
+                },
+            ],
+        });
+        if (status === CONSTANTS.CONTEST_STATUS_PENDING) {
+            contests = contests.filter(({status, moderationStatus}) => !(status === CONSTANTS.CONTEST_STATUS_ACTIVE && moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED));
+        }
+        contests.forEach(contest => {
+            contest.dataValues.count = contest.Offers.length;
+        });
+        res.send({contests, haveMore: contests.length >= limit});
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.getContestsForModerator = async (req, res, next) => {
