@@ -229,43 +229,39 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-
-    db.Contests.findAll({
-        where: {
-            status: req.headers.status,
-            userId: req.tokenData.id,
-            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
-            ...(req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING && {status: {
-                    [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
-                },
-            })
-        },
-        limit: req.body.limit,
-        offset: req.body.offset ? req.body.offset : 0,
-        order: [['id', 'DESC']],
-        include: [
-            {
-                model: db.Offers,
-                required: false,
-                attributes: ['id'],
-            },
-        ],
-    })
-        .then(contests => {
-            let preparedContests = contests;
-            if (req.headers.status === CONSTANTS.CONTEST_STATUS_PENDING) {
-                preparedContests = preparedContests.filter(contest => {
-                    return !(contest.status === CONSTANTS.CONTEST_STATUS_ACTIVE && contest.moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED);
+module.exports.getCustomersContests = async (req, res, next) => {
+    try {
+        const {headers: {status}, tokenData: {userId}, body: {limit, offset}} = req;
+        let contests = await db.Contests.findAll({
+            where: {
+                status,
+                userId,
+                ...(status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+                ...(status === CONSTANTS.CONTEST_STATUS_PENDING && {
+                    status: {
+                        [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
+                    },
                 })
-            }
-            preparedContests.forEach(contest => {
-                contest.dataValues.count = contest.dataValues.Offers.length;
-            });
-
-            res.send({contests: preparedContests, haveMore: preparedContests.length >= req.body.limit});
-        })
-        .catch(err => next(new ServerError(err)));
+            },
+            limit,
+            offset: offset || 0,
+            order: [['id', 'DESC']],
+            include: [
+                {
+                    model: db.Offers,
+                    required: false,
+                    attributes: ['id'],
+                },
+            ],
+        });
+        if (status === CONSTANTS.CONTEST_STATUS_PENDING) {
+            contests = contests.filter(({status, moderationStatus}) => !(status === CONSTANTS.CONTEST_STATUS_ACTIVE && moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED));
+        }
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
+        res.send({contests, haveMore: contests.length >= limit});
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.getContestsForModerator = async (req, res, next) => {
@@ -284,38 +280,37 @@ module.exports.getContestsForModerator = async (req, res, next) => {
                 },
             ],
         });
-        contests.forEach(contest => contest.dataValues.count = contest.dataValues.Offers.length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
         res.send({contests, haveMore: contests.length >= req.body.limit});
     } catch (e) {
         next(e);
     }
 };
 
-module.exports.getContests = (req, res, next) => {
-    const predicates = UtilFunctions.createWhereForAllContests(req.body.selectedContestTypes,
-        req.body.contestId, req.body.industry, req.body.awardSort, req.body.moderationStatus);
-    db.Contests.findAll({
-        where: predicates.where,
-        order: predicates.order,
-        limit: req.body.limit,
-        offset: req.body.offset ? req.body.offset : 0,
-        include: [
-            {
-                model: db.Offers,
-                required: req.body.ownEntries,
-                where: req.body.ownEntries ? {userId: req.tokenData.id} : {},
-                attributes: ['id'],
-            },
-        ],
-    })
-        .then(contests => {
-            contests.forEach(
-                contest => contest.dataValues.count = contest.dataValues.Offers.length);
-            res.send({contests, haveMore: contests.length >= req.body.limit});
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
+module.exports.getContestsForCreative = async (req, res, next) => {
+    try {
+        const {body: {selectedContestTypes, contestId, industry, awardSort, moderationStatus, limit, offset, ownEntries}, tokenData: {userId}} = req;
+        const {where, order} = UtilFunctions.createWhereForAllContests(selectedContestTypes,
+            contestId, industry, awardSort, moderationStatus);
+        const contests = await db.Contests.findAll({
+            where,
+            order,
+            limit,
+            offset: offset || 0,
+            include: [
+                {
+                    model: db.Offers,
+                    required: ownEntries,
+                    where: ownEntries ? {userId} : {},
+                    attributes: ['id'],
+                },
+            ],
+        });
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
+        res.send({contests, haveMore: contests.length >= limit});
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.getOffersFiles = async (req, res, next) => {

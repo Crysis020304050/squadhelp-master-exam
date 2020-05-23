@@ -25,7 +25,7 @@ contestRouter.get(
 contestRouter.post(
     '/getAllContests',
     basicMiddlewares.onlyForCreative,
-    contestController.getContests,
+    contestController.getContestsForCreative,
 );
 
 contestRouter.get(
