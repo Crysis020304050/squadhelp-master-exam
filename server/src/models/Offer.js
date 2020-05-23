@@ -1,5 +1,7 @@
 'use strict';
 
+const {MODERATION_STATUS_MODERATION, MODERATION_STATUS_RESOLVED, MODERATION_STATUS_REJECTED} = require("../constants/constants.js");
+
 module.exports = (sequelize, DataTypes) => {
     const Offer = sequelize.define('Offers', {
             id: {
@@ -38,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: false,
                 defaultValue: sequelize.fn('now'),
+            },
+            moderationStatus: {
+                type: DataTypes.ENUM(MODERATION_STATUS_MODERATION, MODERATION_STATUS_RESOLVED, MODERATION_STATUS_REJECTED),
+                allowNull: false,
+                defaultValue: MODERATION_STATUS_MODERATION,
             },
         },
         {

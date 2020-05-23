@@ -2,7 +2,7 @@
   "development": {
     "username": "crysis020304050",
     "password": "CrysisWarhead020304050",
-    "database": "todo_dev_2",
+    "database": "squadhelp_dev",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op"
