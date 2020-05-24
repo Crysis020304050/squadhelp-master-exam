@@ -74,7 +74,6 @@ const mapDispatchToProps = dispatch => ({
 
 ContestsModerationBox.propTypes = {
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContestsModerationBox);

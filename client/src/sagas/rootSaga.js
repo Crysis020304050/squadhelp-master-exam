@@ -28,6 +28,7 @@ import {
 import {getUserTransactionsHistorySaga, getUserTransactionsStatementSaga} from './transactionsSaga';
 import {resetPasswordRequestSaga, confirmPasswordResettingSaga} from './resetPasswordSaga';
 import {getContestsForModeratorSaga, rejectContestSaga, resolveContestSaga} from "./moderateContestsSaga";
+import {getOffersForModeratorSaga, resolveOfferSaga, rejectOfferSaga} from './moderateOffersSaga';
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REQUEST, authSaga);
@@ -62,6 +63,10 @@ function* rootSaga() {
     yield  takeLatest(ACTION.SET_NEW_CONTESTS_MODERATION_FILTER, getContestsForModeratorSaga);
     yield  takeLatest(ACTION.MODERATE_CONTEST_RESOLVE_REQUEST, resolveContestSaga);
     yield  takeLatest(ACTION.MODERATE_CONTEST_REJECT_REQUEST, rejectContestSaga);
+    yield  takeLatest(ACTION.GET_OFFERS_FOR_MODERATOR_REQUEST, getOffersForModeratorSaga);
+    yield  takeLatest(ACTION.SET_NEW_OFFERS_MODERATION_FILTER, getOffersForModeratorSaga);
+    yield  takeLatest(ACTION.MODERATE_OFFERS_RESOLVE_REQUEST, resolveOfferSaga);
+    yield  takeLatest(ACTION.MODERATE_OFFERS_REJECT_REQUEST, rejectOfferSaga);
 }
 
 export default rootSaga;

@@ -12,6 +12,8 @@ const initialState = {
         offset: 0,
         moderationStatus: CONSTANTS.MODERATION_STATUS_MODERATION,
     },
+    isShowOnFull: false,
+    imagePath: null,
 };
 
 export default function (state = initialState, action) {
@@ -73,6 +75,14 @@ export default function (state = initialState, action) {
                 isFetching: false,
                 error: action.error,
             };
+
+        case ACTION.CHANGE_SHOW_IMAGE:{
+            return{
+                ...state,
+                isShowOnFull: action.data.isShowOnFull,
+                imagePath: action.data.imagePath
+            }
+        }
         default: {
             return state
         }

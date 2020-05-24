@@ -1,0 +1,60 @@
+.container
+  display: flex
+  flex-direction: column
+  padding: 10px
+
+.boxHeader
+  display: flex
+  padding: 10px 0
+  justify-content: flex-start
+  align-items: center
+
+.offerContent
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 10px 0
+
+  img
+    width: auto
+    height: 100px
+
+.moderationStatus
+  margin-left: auto
+  font-size: 14px
+
+.moderation
+  color: #28D2D0
+.resolved
+  color: #556da5
+.rejected
+  color: #EE3932
+
+.setContestStatusButtonsContainer
+  display: flex
+
+  div:first-child
+    margin-right: 30px
+    background-color: #415DCB
+    &:hover
+      background-color: #28D2D0
+
+  div:last-child
+    background-color: #E9362F
+    &:hover
+      background-color: red
+
+  div
+    flex: 1
+    cursor: pointer
+    text-align: center
+    padding: 10px 20px
+    border-radius: 5px
+    color: white
+    text-transform: uppercase
+
+.singleResolveContestsButton
+  margin-right: unset !important
+  background-color: #415DCB !important
+  &:hover
+    background-color: #28D2D0 !important

@@ -40,7 +40,7 @@ const ModeratorFilter = ({filter: {limit, offset, moderationStatus}, setNewFilte
 
 ModeratorFilter.propTypes = {
     filter: PropTypes.object.isRequired,
-    setNewFilter: PropTypes.object.isRequired,
+    setNewFilter: PropTypes.func.isRequired,
 };
 
 export default ModeratorFilter;

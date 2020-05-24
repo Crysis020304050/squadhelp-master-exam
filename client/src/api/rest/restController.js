@@ -53,7 +53,12 @@ export const confirmPasswordResetting = (data) => http.post('confirmPasswordRese
 export const resolveContest = (id) => http.post('resolveContest', {id});
 export const rejectContest = (id) => http.post('rejectContest', {id});
 
+export const getOffersForModerator = ({offset, limit, moderationStatus}) => {
+    return http.post('getOffersForModerator', {offset, limit, moderationStatus});
+};
 
+export const resolveOffer = (id) => http.post('resolveOffer', {id});
+export const rejectOffer = (id) => http.post('rejectOffer', {id});
 
 
 

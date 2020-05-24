@@ -6,7 +6,7 @@ import ContestsModerationBox from "../ContestsModerationBox";
 import OffersModerationBox from "../OffersModerationBox";
 import Select from 'react-select';
 
-const ModeratorDashboard = ({history, match}) => {
+const ModeratorDashboard = ({history}) => {
 
     const moderationBoxes = [
         {
@@ -24,10 +24,10 @@ const ModeratorDashboard = ({history, match}) => {
     const getModerationBox = () => {
         switch (moderationBox.value) {
             case constants.MODERATION_CONTESTS_BOX: {
-                return <ContestsModerationBox history={history} match={match}/>
+                return <ContestsModerationBox history={history}/>
             }
             case constants.MODERATION_OFFERS_BOX: {
-                return <OffersModerationBox history={history} match={match}/>
+                return <OffersModerationBox/>
             }
             default: {
                 return null;
@@ -49,7 +49,6 @@ const ModeratorDashboard = ({history, match}) => {
 
 ModeratorDashboard.propTypes = {
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
 };
 
 export default ModeratorDashboard;

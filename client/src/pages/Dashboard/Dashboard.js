@@ -18,7 +18,7 @@ const Dashboard = (props) => {
                 return <CreatorDashboard history={history} match={props.match}/>
             }
             case CONSTANTS.MODERATOR: {
-                return <ModeratorDashboard history={history} match={props.match}/>
+                return <ModeratorDashboard history={history}/>
             }
             default: {
                 return null;
