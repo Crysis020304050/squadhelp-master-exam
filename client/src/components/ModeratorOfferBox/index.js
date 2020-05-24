@@ -14,9 +14,10 @@ const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Co
 
     return (
         <div className={styles.container}>
-            <div className={styles.boxHeader}>
+            <span className={moderationStatusClassName}>{moderationStatus}</span>
+            <div className={styles.contestTypeAndIdContainer}>
                 <span>{contestType}</span>
-                <span className={moderationStatusClassName}>{moderationStatus}</span>
+                <span>{`(#${id})`}</span>
             </div>
             <div className={styles.offerContent}>
                 {
