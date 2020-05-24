@@ -46,7 +46,7 @@ module.exports.notifyUserAboutSuccessfulPasswordResetting = async (req, res, nex
     }
 };
 
-module.exports.notifyUserAboutResolvingRequest = async (req, res, next) => {
+module.exports.notifyUserAboutResolvingContest = async (req, res, next) => {
     try {
         const {user: {firstName, lastName, email}, updatedContest: {title, id}} = req;
         const data = {
@@ -69,7 +69,7 @@ module.exports.notifyUserAboutResolvingRequest = async (req, res, next) => {
     }
 };
 
-module.exports.notifyUserAboutRejectingRequest = async (req, res, next) => {
+module.exports.notifyUserAboutRejectingContest = async (req, res, next) => {
     try {
         const {user: {firstName, lastName, email}, updatedContest: {title, id}} = req;
         const data = {
@@ -86,6 +86,52 @@ module.exports.notifyUserAboutRejectingRequest = async (req, res, next) => {
             return res.send({id});
         }
         return next(new ServerError('Contest has been successful reject, but something wrong with sending message to user email'))
+    } catch (e) {
+        e.code = 500;
+        next(e);
+    }
+};
+
+//
+
+module.exports.notifyUserAboutResolvingOffer = async (req, res, next) => {
+    try {
+        const {user: {firstName, lastName, email}, updatedOffer: {id}} = req;
+        const data = {
+            to: email,
+            template: 'resolvingUserOffer',
+            subject: 'You offer is resolved',
+            context: {
+                name: `${firstName} ${lastName}`,
+            }
+        };
+        const result = await smtpTransport.smtpTransport.sendMail(data);
+        if (result) {
+            return res.send({id});
+        }
+        return next(new ServerError('Offer has been successful resolve, but something wrong with sending message to user email'))
+    } catch (e) {
+        e.code = 500;
+        next(e);
+    }
+};
+
+module.exports.notifyUserAboutRejectingOffer = async (req, res, next) => {
+    try {
+        const {user: {firstName, lastName, email}, updatedOffer: {id}} = req;
+        const data = {
+            to: email,
+            template: 'rejectingUserOffer',
+            subject: 'You offer is rejected',
+            context: {
+                name: `${firstName} ${lastName}`,
+            }
+        };
+        const result = await smtpTransport.smtpTransport.sendMail(data);
+        if (result) {
+            return res.send({id});
+        }
+        return next(new ServerError('Offer has been successful reject, but something wrong with sending message to user email'))
     } catch (e) {
         e.code = 500;
         next(e);

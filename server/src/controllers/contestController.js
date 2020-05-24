@@ -377,3 +377,23 @@ module.exports.rejectContest = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.resolveOffer= async (req, res, next) => {
+    try {
+        const {id} = req.body;
+        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+        next();
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.rejectOffer = async (req, res, next) => {
+    try {
+        const {id} = req.body;
+        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
+        next();
+    } catch (e) {
+        next(e);
+    }
+};

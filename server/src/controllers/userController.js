@@ -129,6 +129,7 @@ module.exports.findUserByEmailOrId = async (req, res, next) => {
     req.user = await userQueries.findUser({
       ...(req.body.email && {email: req.body.email}),
       ...(req.updatedContest && {id: req.updatedContest.userId}),
+      ...(req.updatedOffer && {id: req.updatedOffer.userId}),
     });
     next()
   } catch (e) {

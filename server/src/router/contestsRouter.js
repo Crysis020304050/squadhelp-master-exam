@@ -2,7 +2,7 @@ const contestController = require("../controllers/contestController");
 const basicMiddlewares = require("../middlewares/basicMiddlewares");
 const upload = require("../utils/fileUpload");
 const validators = require("../middlewares/validators");
-const {notifyUserAboutRejectingRequest, notifyUserAboutResolvingRequest} = require("../middlewares/emailMiddlewares");
+const {notifyUserAboutRejectingContest, notifyUserAboutResolvingContest, notifyUserAboutResolvingOffer, notifyUserAboutRejectingOffer} = require("../middlewares/emailMiddlewares");
 const userController = require('../controllers/userController');
 
 const contestRouter = require('express')();
@@ -65,19 +65,33 @@ contestRouter.post('/resolveContest',
     basicMiddlewares.onlyForModerators,
     contestController.resolveContest,
     userController.findUserByEmailOrId,
-    notifyUserAboutResolvingRequest,
+    notifyUserAboutResolvingContest,
 );
 
 contestRouter.post('/rejectContest',
     basicMiddlewares.onlyForModerators,
     contestController.rejectContest,
     userController.findUserByEmailOrId,
-    notifyUserAboutRejectingRequest,
+    notifyUserAboutRejectingContest,
 );
 
 contestRouter.post('/getOffersForModerator',
     basicMiddlewares.onlyForModerators,
     contestController.getOffersForModerator,
+);
+
+contestRouter.post('/resolveOffer',
+    basicMiddlewares.onlyForModerators,
+    contestController.resolveOffer,
+    userController.findUserByEmailOrId,
+    notifyUserAboutResolvingOffer
+);
+
+contestRouter.post('/rejectOffer',
+    basicMiddlewares.onlyForModerators,
+    contestController.rejectOffer,
+    userController.findUserByEmailOrId,
+    notifyUserAboutRejectingOffer
 );
 
 module.exports = contestRouter;

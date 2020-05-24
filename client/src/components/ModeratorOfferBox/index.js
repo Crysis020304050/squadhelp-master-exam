@@ -38,7 +38,7 @@ const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Co
                     }>RESOLVE</div>}
                 {moderationStatus === constants.MODERATION_STATUS_MODERATION &&
                 <div onClick={() => {
-                    if (isFetching) {
+                    if (!isFetching) {
                         rejectOffer(id)
                     }
                 }}>REJECT</div>}
