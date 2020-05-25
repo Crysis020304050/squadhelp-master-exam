@@ -40,10 +40,11 @@ module.exports.dataForContest = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
     try {
+        const {tokenData: {role, id}, headers: {contestid}} = req;
         const contestInfo = await db.Contests.findOne({
             where: {
-                id: req.headers.contestid,
-            ...(req.tokenData.role === CONSTANTS.CREATOR && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+                id: contestid,
+                ...(role === CONSTANTS.CREATOR && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
             },
             order: [
                 [db.Offers, 'id', 'asc'],
@@ -64,9 +65,11 @@ module.exports.getContestById = async (req, res, next) => {
                 {
                     model: db.Offers,
                     required: false,
-                    where: req.tokenData.role === CONSTANTS.CREATOR
-                        ? {userId: req.tokenData.id}
-                        : {},
+                    where: {
+                        ...(role === CONSTANTS.CREATOR && {userId: id}),
+                        ...(role === CONSTANTS.CUSTOMER && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+
+                    },
                     attributes: {exclude: ['userId', 'contestId']},
                     include: [
                         {
@@ -84,7 +87,7 @@ module.exports.getContestById = async (req, res, next) => {
                         {
                             model: db.Ratings,
                             required: false,
-                            where: {userId: req.tokenData.id},
+                            where: {userId: id},
                             attributes: {exclude: ['userId', 'offerId']},
                         },
                     ],
@@ -271,14 +274,14 @@ module.exports.getCustomersContests = async (req, res, next) => {
                 {
                     model: db.Offers,
                     required: false,
-                    attributes: ['id'],
+                    attributes: ['id', 'moderationStatus'],
                 },
             ],
         });
         if (status === CONSTANTS.CONTEST_STATUS_PENDING) {
             contests = contests.filter(({status, moderationStatus}) => !(status === CONSTANTS.CONTEST_STATUS_ACTIVE && moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED));
         }
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -297,11 +300,11 @@ module.exports.getContestsForModerator = async (req, res, next) => {
                 {
                     model: db.Offers,
                     required: false,
-                    attributes: ['id'],
+                    attributes: ['id', 'moderationStatus'],
                 },
             ],
         });
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -323,11 +326,11 @@ module.exports.getContestsForCreative = async (req, res, next) => {
                     model: db.Offers,
                     required: ownEntries,
                     where: ownEntries ? {userId: id} : {},
-                    attributes: ['id'],
+                    attributes: ['id', 'moderationStatus'],
                 },
             ],
         });
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -359,13 +362,13 @@ module.exports.getOffersFiles = async (req, res, next) => {
 };
 
 module.exports.resolveContest = async (req, res, next) => {
-  try {
-      const {id} = req.body;
-      req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
-      next();
-  } catch (e) {
-      next(e);
-  }
+    try {
+        const {id} = req.body;
+        req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+        next();
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports.rejectContest = async (req, res, next) => {
@@ -378,7 +381,7 @@ module.exports.rejectContest = async (req, res, next) => {
     }
 };
 
-module.exports.resolveOffer= async (req, res, next) => {
+module.exports.resolveOffer = async (req, res, next) => {
     try {
         const {id} = req.body;
         req.updatedOffer = await contestQueries.updateOffer({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
