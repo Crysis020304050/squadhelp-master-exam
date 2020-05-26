@@ -13,9 +13,9 @@ import InfinityScrollListContainer from "../InfinityScrollListContainer";
 import constants from "../../constants";
 import PropTypes from 'prop-types';
 import ModeratorFilter from "../ModeratorFilter";
-import styles from "./ContestsModerationBox.module.sass";
+import styles from "./ContestsModerationSpace.module.sass";
 
-const ContestsModerationBox = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest, setNewContestsModerationFilter}) => {
+const ContestsModerationSpace = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest, setNewContestsModerationFilter}) => {
 
     useEffect(() => {
         getContests(filter);
@@ -72,8 +72,8 @@ const mapDispatchToProps = dispatch => ({
     setNewContestsModerationFilter: filter => dispatch(setNewContestsModerationFilter(filter)),
 });
 
-ContestsModerationBox.propTypes = {
+ContestsModerationSpace.propTypes = {
     history: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContestsModerationBox);
+export default connect(mapStateToProps, mapDispatchToProps)(ContestsModerationSpace);

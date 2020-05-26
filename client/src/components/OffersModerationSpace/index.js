@@ -10,14 +10,14 @@ import {
     changeShowImage,
 } from '../../actions/actionCreator.js';
 import ModeratorFilter from "../ModeratorFilter";
-import styles from "./OffersModerationBox.module.sass";
+import styles from "./OffersModerationSpace.module.sass";
 import InfinityScrollListContainer from "../InfinityScrollListContainer";
 import LightBox from "react-image-lightbox";
 import 'react-image-lightbox/style.css';
 import constants from "../../constants";
 import ModeratorOfferBox from "../ModeratorOfferBox";
 
-const OffersModerationBox = ({offers, isFetching, error, haveMore, filter, getOffers, clearOffers, resolveOffer, rejectOffer, setNewOffersModerationFilter, isShowOnFull, changeShowImage, imagePath}) => {
+const OffersModerationSpace = ({offers, isFetching, error, haveMore, filter, getOffers, clearOffers, resolveOffer, rejectOffer, setNewOffersModerationFilter, isShowOnFull, changeShowImage, imagePath}) => {
 
     useEffect(() => {
         getOffers(filter);
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
     changeShowImage: data => dispatch(changeShowImage(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(OffersModerationBox);
+export default connect(mapStateToProps, mapDispatchToProps)(OffersModerationSpace);
