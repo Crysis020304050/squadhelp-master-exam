@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import './confirmStyle.css';
+import ModerationStatus from "../ModerationStatus";
 
 
 const OfferBox = (props) => {
@@ -95,17 +96,11 @@ const OfferBox = (props) => {
         props.goToExpandedDialog({interlocutor: props.data.User, conversationData: findConversationInfo()});
     };
 
-    const moderationStatusClassName = classNames(styles.moderationStatus,
-        {[styles.moderation]: props.data.moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION},
-        {[styles.resolved]: props.data.moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED},
-        {[styles.rejected]: props.data.moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED},
-    );
-
     const {data, role, id, contestType} = props;
     const {avatar, firstName, lastName, email, rating} = props.data.User;
     return (
         <div className={styles.offerContainer}>
-            {role === CONSTANTS.CREATOR && <span className={moderationStatusClassName}>{props.data.moderationStatus}</span>}
+            {role === CONSTANTS.CREATOR && <ModerationStatus moderationStatus={props.data.moderationStatus}/>}
             {offerStatus()}
             <div className={styles.mainInfoContainer}>
                 <div className={styles.userInfo}>

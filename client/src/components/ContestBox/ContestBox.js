@@ -4,6 +4,7 @@ import moment from 'moment';
 import CONSTANTS from '../../constants';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import ModerationStatus from "../ModerationStatus";
 
 
 const ContestBox = (props) => {
@@ -40,18 +41,10 @@ const ContestBox = (props) => {
     };
 
     const {id, title, contestType, prize, count, moderationStatus} = props.data;
-    const moderationStatusClassName = props.role === CONSTANTS.CREATOR
-        ? null
-        : classNames(styles.moderationStatus,
-            {[styles.moderation]: moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION},
-            {[styles.resolved]: moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED},
-            {[styles.rejected]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED},
-        );
 
     return (
         <div className={styles.contestBoxContainerWrapper}>
-            {props.role !== CONSTANTS.CREATOR &&
-            <span className={moderationStatusClassName}>{moderationStatus}</span>}
+            {props.role !== CONSTANTS.CREATOR && <ModerationStatus moderationStatus={moderationStatus}/>}
             <div key={id} className={styles.contestBoxContainer} onClick={() => goToExtended(id)}>
                 <div className={styles.mainContestInfo}>
                     <div className={styles.titleAndIdContainer}>

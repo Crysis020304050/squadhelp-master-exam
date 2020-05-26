@@ -3,49 +3,41 @@ import constants from "../../constants";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 import styles from './ModeratorOfferBox.module.sass';
+import ModerationStatus from "../ModerationStatus";
 
-const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Contest: {contestType}, changeShowImage, resolveOffer, rejectOffer}) => {
-
-    const moderationStatusClassName = classNames(styles.moderationStatus,
-        {[styles.moderation]: moderationStatus === constants.MODERATION_STATUS_MODERATION},
-        {[styles.resolved]: moderationStatus === constants.MODERATION_STATUS_RESOLVED},
-        {[styles.rejected]: moderationStatus === constants.MODERATION_STATUS_REJECTED},
-    );
-
-    return (
-        <div className={styles.container}>
-            <span className={moderationStatusClassName}>{moderationStatus}</span>
-            <div className={styles.contestTypeAndIdContainer}>
-                <span>{contestType}</span>
-                <span>{`(#${id})`}</span>
-            </div>
-            <div className={styles.offerContent}>
-                {
-                    contestType === constants.LOGO_CONTEST ?
-                        <img onClick={() => changeShowImage({imagePath: fileName, isShowOnFull: true})}
-                             src={`${constants.publicURL}${fileName}`} alt='logo'/>
-                        :
-                        <span>{text}</span>
-                }
-            </div>
-            <div className={styles.setContestStatusButtonsContainer}>
-                {moderationStatus !== constants.MODERATION_STATUS_RESOLVED && <div
-                    className={classNames({[styles.singleResolveContestsButton]: moderationStatus === constants.MODERATION_STATUS_REJECTED})}
-                    onClick={() => {
-                        if (!isFetching)
-                            resolveOffer(id)
-                    }
-                    }>RESOLVE</div>}
-                {moderationStatus === constants.MODERATION_STATUS_MODERATION &&
-                <div onClick={() => {
-                    if (!isFetching) {
-                        rejectOffer(id)
-                    }
-                }}>REJECT</div>}
-            </div>
+const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Contest: {contestType}, changeShowImage, resolveOffer, rejectOffer}) => (
+    <div className={styles.container}>
+        <ModerationStatus moderationStatus={moderationStatus}/>
+        <div className={styles.contestTypeAndIdContainer}>
+            <span>{contestType}</span>
+            <span>{`(#${id})`}</span>
         </div>
-    );
-};
+        <div className={styles.offerContent}>
+            {
+                contestType === constants.LOGO_CONTEST ?
+                    <img onClick={() => changeShowImage({imagePath: fileName, isShowOnFull: true})}
+                         src={`${constants.publicURL}${fileName}`} alt='logo'/>
+                    :
+                    <span>{text}</span>
+            }
+        </div>
+        <div className={styles.setContestStatusButtonsContainer}>
+            {moderationStatus !== constants.MODERATION_STATUS_RESOLVED && <div
+                className={classNames({[styles.singleResolveContestsButton]: moderationStatus === constants.MODERATION_STATUS_REJECTED})}
+                onClick={() => {
+                    if (!isFetching)
+                        resolveOffer(id)
+                }
+                }>RESOLVE</div>}
+            {moderationStatus === constants.MODERATION_STATUS_MODERATION &&
+            <div onClick={() => {
+                if (!isFetching) {
+                    rejectOffer(id)
+                }
+            }}>REJECT</div>}
+        </div>
+    </div>
+);
 
 ModeratorOfferBox.propTypes = {
     fileName: PropTypes.string,
