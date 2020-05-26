@@ -438,33 +438,33 @@ export const getOffersForModeratorError = error => ({
     error,
 });
 
-export const moderateOffersResolveRequest = id => ({
-    type: ACTION.MODERATE_OFFERS_RESOLVE_REQUEST,
+export const moderateOfferResolveRequest = id => ({
+    type: ACTION.MODERATE_OFFER_RESOLVE_REQUEST,
     id,
 });
 
-export const moderateOffersResolveSuccess = id => ({
-    type: ACTION.MODERATE_OFFERS_RESOLVE_SUCCESS,
+export const moderateOfferResolveSuccess = id => ({
+    type: ACTION.MODERATE_OFFER_RESOLVE_SUCCESS,
     id,
 });
 
-export const moderateOffersResolveError = error => ({
-    type: ACTION.MODERATE_OFFERS_RESOLVE_ERROR,
+export const moderateOfferResolveError = error => ({
+    type: ACTION.MODERATE_OFFER_RESOLVE_ERROR,
     error,
 });
 
-export const moderateOffersRejectRequest = id => ({
-    type: ACTION.MODERATE_OFFERS_REJECT_REQUEST,
+export const moderateOfferRejectRequest = id => ({
+    type: ACTION.MODERATE_OFFER_REJECT_REQUEST,
     id,
 });
 
-export const moderateOffersRejectSuccess = id => ({
-    type: ACTION.MODERATE_OFFERS_REJECT_SUCCESS,
+export const moderateOfferRejectSuccess = id => ({
+    type: ACTION.MODERATE_OFFER_REJECT_SUCCESS,
     id,
 });
 
-export const moderateOffersRejectError = error => ({
-    type: ACTION.MODERATE_OFFERS_REJECT_ERROR,
+export const moderateOfferRejectError = error => ({
+    type: ACTION.MODERATE_OFFER_REJECT_ERROR,
     error,
 });
 

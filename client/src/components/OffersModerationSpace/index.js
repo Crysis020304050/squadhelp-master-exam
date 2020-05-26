@@ -3,8 +3,8 @@ import TryAgain from '../../components/TryAgain/TryAgain';
 import {connect} from 'react-redux';
 import {
     getOffersForModeratorRequest,
-    moderateOffersResolveRequest,
-    moderateOffersRejectRequest,
+    moderateOfferResolveRequest,
+    moderateOfferRejectRequest,
     clearOffersList,
     setNewOffersModerationFilter,
     changeShowImage,
@@ -69,8 +69,8 @@ const mapStateToProps = state => state.moderationOffersStore;
 const mapDispatchToProps = dispatch => ({
     getOffers: filter => dispatch(getOffersForModeratorRequest(filter)),
     clearOffers: () => dispatch(clearOffersList()),
-    resolveOffer: id => dispatch(moderateOffersResolveRequest(id)),
-    rejectOffer: id => dispatch(moderateOffersRejectRequest(id)),
+    resolveOffer: id => dispatch(moderateOfferResolveRequest(id)),
+    rejectOffer: id => dispatch(moderateOfferRejectRequest(id)),
     setNewOffersModerationFilter: filter => dispatch(setNewOffersModerationFilter(filter)),
     changeShowImage: data => dispatch(changeShowImage(data)),
 });

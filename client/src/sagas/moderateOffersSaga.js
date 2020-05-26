@@ -3,10 +3,10 @@ import {getOffersForModerator, resolveOffer, rejectOffer} from '../api/rest/rest
 import {
     getOffersForModeratorSuccess,
     getOffersForModeratorError,
-    moderateOffersResolveSuccess,
-    moderateOffersResolveError,
-    moderateOffersRejectSuccess,
-    moderateOffersRejectError
+    moderateOfferResolveSuccess,
+    moderateOfferResolveError,
+    moderateOfferRejectSuccess,
+    moderateOfferRejectError
 } from '../actions/actionCreator.js';
 
 export function* getOffersForModeratorSaga(action) {
@@ -21,17 +21,17 @@ export function* getOffersForModeratorSaga(action) {
 export function* resolveOfferSaga(action) {
     try {
         const {data} = yield resolveOffer(action.id);
-        yield put(moderateOffersResolveSuccess(data.id));
+        yield put(moderateOfferResolveSuccess(data.id));
     } catch (e) {
-        yield put(moderateOffersResolveError(e.response || e));
+        yield put(moderateOfferResolveError(e.response || e));
     }
 }
 
 export function* rejectOfferSaga(action) {
     try {
         const {data} = yield rejectOffer(action.id);
-        yield put(moderateOffersRejectSuccess(data.id))
+        yield put(moderateOfferRejectSuccess(data.id))
     } catch (e) {
-        yield put(moderateOffersRejectError(e.response || e));
+        yield put(moderateOfferRejectError(e.response || e));
     }
 }

@@ -53,23 +53,23 @@ export default function (state = initialState, action) {
                 offers: new Map(),
             }
         }
-        case ACTION.MODERATE_OFFERS_RESOLVE_REQUEST:
-        case ACTION.MODERATE_OFFERS_REJECT_REQUEST:
+        case ACTION.MODERATE_OFFER_RESOLVE_REQUEST:
+        case ACTION.MODERATE_OFFER_REJECT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
 
-        case ACTION.MODERATE_OFFERS_RESOLVE_SUCCESS:
-        case ACTION.MODERATE_OFFERS_REJECT_SUCCESS:
+        case ACTION.MODERATE_OFFER_RESOLVE_SUCCESS:
+        case ACTION.MODERATE_OFFER_REJECT_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
                 offers: removeItemFromMap(state.offers, action.id),
             };
 
-        case ACTION.MODERATE_OFFERS_RESOLVE_ERROR:
-        case ACTION.MODERATE_OFFERS_REJECT_ERROR:
+        case ACTION.MODERATE_OFFER_RESOLVE_ERROR:
+        case ACTION.MODERATE_OFFER_REJECT_ERROR:
             return {
                 ...state,
                 isFetching: false,

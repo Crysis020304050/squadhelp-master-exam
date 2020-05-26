@@ -65,8 +65,8 @@ function* rootSaga() {
     yield  takeLatest(ACTION.MODERATE_CONTEST_REJECT_REQUEST, rejectContestSaga);
     yield  takeLatest(ACTION.GET_OFFERS_FOR_MODERATOR_REQUEST, getOffersForModeratorSaga);
     yield  takeLatest(ACTION.SET_NEW_OFFERS_MODERATION_FILTER, getOffersForModeratorSaga);
-    yield  takeLatest(ACTION.MODERATE_OFFERS_RESOLVE_REQUEST, resolveOfferSaga);
-    yield  takeLatest(ACTION.MODERATE_OFFERS_REJECT_REQUEST, rejectOfferSaga);
+    yield  takeLatest(ACTION.MODERATE_OFFER_RESOLVE_REQUEST, resolveOfferSaga);
+    yield  takeLatest(ACTION.MODERATE_OFFER_REJECT_REQUEST, rejectOfferSaga);
 }
 
 export default rootSaga;
