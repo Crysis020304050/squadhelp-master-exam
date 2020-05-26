@@ -1,5 +1,5 @@
 import ACTION from '../actions/actionTypes';
-import CONSTANTS from '../constants';
+import constants from '../constants';
 
 
 
@@ -15,11 +15,11 @@ const initialState = {
     interlocutor: [],
     messagesPreview: [],
     isShow: false,
-    chatMode: CONSTANTS.NORMAL_PREVIEW_CHAT_MODE,
+    chatMode: constants.NORMAL_PREVIEW_CHAT_MODE,
     catalogList: [],
     isRenameCatalog: false,
     isShowChatsInCatalog: false,
-    catalogCreationMode:    CONSTANTS.ADD_CHAT_TO_OLD_CATALOG
+    catalogCreationMode:    constants.ADD_CHAT_TO_OLD_CATALOG
 };
 
 export default function (state = initialState, action) {

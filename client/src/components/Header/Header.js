@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './Header.module.sass';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import {clearUserStore} from '../../actions/actionCreator';
 import HeaderUserInfo from "../HeaderUserInfo";
 import HeaderLinks from "../HeaderLinks";
@@ -27,8 +27,8 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
     }, []);
 
     const logOut = () => {
-        localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
-        sessionStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
+        localStorage.removeItem(constants.REFRESH_TOKEN);
+        sessionStorage.removeItem(constants.ACCESS_TOKEN);
         clearUserStore();
         history.replace('/login');
     };
@@ -42,7 +42,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
     };
 
     const isRenderNotForModerator = () => {
-        return data ? data.role !== CONSTANTS.MODERATOR : true
+        return data ? data.role !== constants.MODERATOR : true
     };
 
     return (
@@ -58,7 +58,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
                         {
                             isRenderNotForModerator() && <>
                                 <div className={styles.numberContainer}>
-                                    <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
+                                    <img src={`${constants.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
                                     <span>(877)&nbsp;355-3585</span>
                                 </div>
                                 <Icon onClick={toggleMenu} className={styles.burgerMenu}
@@ -76,7 +76,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
                                 <div className={styles.nav}>
                                     <HeaderLinks className={styles.navLinks}/>
                                 </div>
-                                {data && data.role === CONSTANTS.CUSTOMER &&
+                                {data && data.role === constants.CUSTOMER &&
                                 <Link to='/startContest' className={styles.startContestBtn}>START CONTEST</Link>}
                             </div>
                         </div>)}

@@ -2,7 +2,7 @@ const bd = require('../models');
 const moment = require('moment');
 const uuid = require('uuid/v1');
 const bankQueries = require('./queries/bankQueries');
-const CONSTANTS = require('../constants/constants');
+const constants = require('../constants/constants');
 const userQueries = require('./queries/userQueries');
 const transactionsQueries = require('./queries/transactionsQueries.js');
 
@@ -16,14 +16,14 @@ module.exports.payment = async (req, res, next) => {
             WHEN "cardNumber"='${ req.body.number.replace(/ /g,
                     '') }' AND "cvc"='${ req.body.cvc }' AND "expiry"='${ req.body.expiry }'
                 THEN "balance"-${ req.body.price }
-            WHEN "cardNumber"='${ CONSTANTS.SQUADHELP_BANK_NUMBER }' AND "cvc"='${ CONSTANTS.SQUADHELP_BANK_CVC }' AND "expiry"='${ CONSTANTS.SQUADHELP_BANK_EXPIRY }'
+            WHEN "cardNumber"='${ constants.SQUADHELP_BANK_NUMBER }' AND "cvc"='${ constants.SQUADHELP_BANK_CVC }' AND "expiry"='${ constants.SQUADHELP_BANK_EXPIRY }'
                 THEN "balance"+${ req.body.price } END
         `),
             },
             {
                 cardNumber: {
                     [ bd.sequelize.Op.in ]: [
-                        CONSTANTS.SQUADHELP_BANK_NUMBER,
+                        constants.SQUADHELP_BANK_NUMBER,
                         req.body.number.replace(/ /g, ''),
                     ],
                 },
@@ -64,7 +64,7 @@ module.exports.cashout = async (req, res, next) => {
                 WHEN "cardNumber"='${ req.body.number.replace(/ /g,
                     '') }' AND "expiry"='${ req.body.expiry }' AND "cvc"='${ req.body.cvc }'
                     THEN "balance"+${ req.body.sum }
-                WHEN "cardNumber"='${ CONSTANTS.SQUADHELP_BANK_NUMBER }' AND "expiry"='${ CONSTANTS.SQUADHELP_BANK_EXPIRY }' AND "cvc"='${ CONSTANTS.SQUADHELP_BANK_CVC }'
+                WHEN "cardNumber"='${ constants.SQUADHELP_BANK_NUMBER }' AND "expiry"='${ constants.SQUADHELP_BANK_EXPIRY }' AND "cvc"='${ constants.SQUADHELP_BANK_CVC }'
                     THEN "balance"-${ req.body.sum }
                  END
                 `),
@@ -72,7 +72,7 @@ module.exports.cashout = async (req, res, next) => {
             {
                 cardNumber: {
                     [ bd.sequelize.Op.in ]: [
-                        CONSTANTS.SQUADHELP_BANK_NUMBER,
+                        constants.SQUADHELP_BANK_NUMBER,
                         req.body.number.replace(/ /g, ''),
                     ],
                 },
@@ -80,7 +80,7 @@ module.exports.cashout = async (req, res, next) => {
             transaction);
         transaction.commit();
         await transactionsQueries.newConsumptionTransaction({
-            typeOperation: CONSTANTS.CONSUMPTION_TRANSACTION,
+            typeOperation: constants.CONSUMPTION_TRANSACTION,
             sum: req.body.sum,
             userId: updatedUser.id,
         });

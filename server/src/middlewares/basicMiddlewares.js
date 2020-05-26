@@ -1,8 +1,7 @@
 const bd = require('../models');
-const NotFound = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
-import CONSTANTS from '../constants/constants';
+import constants from '../constants/constants';
 const {prepareUserToSending} = require('../utils/functions');
 
 module.exports.parseBody = (req, res, next) => {
@@ -19,7 +18,7 @@ module.exports.parseBody = (req, res, next) => {
 
 module.exports.onlyForCreative = (req, res, next) => {
     try {
-        if (req.tokenData.role === CONSTANTS.CREATOR) {
+        if (req.tokenData.role === constants.CREATOR) {
             return next();
         }
         return next(new RightsError('This page is only for creators'));
@@ -30,7 +29,7 @@ module.exports.onlyForCreative = (req, res, next) => {
 
 module.exports.onlyForCustomer = (req, res, next) => {
     try {
-        if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+        if (req.tokenData.role === constants.CUSTOMER) {
             return next();
         }
         return next(new RightsError('This page is only for customers'));
@@ -41,7 +40,7 @@ module.exports.onlyForCustomer = (req, res, next) => {
 
 module.exports.onlyForModerators = (req, res, next) => {
     try {
-        if (req.tokenData.role === CONSTANTS.MODERATOR) {
+        if (req.tokenData.role === constants.MODERATOR) {
             return next();
         }
         return next(new RightsError('This page is only for moderators'))
@@ -51,7 +50,7 @@ module.exports.onlyForModerators = (req, res, next) => {
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-    if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+    if (req.tokenData.role === constants.CUSTOMER) {
         return next(new RightsError());
     }
     try {
@@ -62,7 +61,7 @@ module.exports.canSendOffer = async (req, res, next) => {
             attributes: ['status'],
         });
         if (result.get({plain: true}).status ===
-            CONSTANTS.CONTEST_STATUS_ACTIVE) {
+            constants.CONTEST_STATUS_ACTIVE) {
             next();
         } else {
             return next(new RightsError());
@@ -79,7 +78,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
             where: {
                 userId: req.tokenData.id,
                 id: req.body.contestId,
-                status: CONSTANTS.CONTEST_STATUS_ACTIVE,
+                status: constants.CONTEST_STATUS_ACTIVE,
             },
         });
         if (!result) {
@@ -97,7 +96,7 @@ module.exports.canUpdateContest = async (req, res, next) => {
             where: {
                 userId: req.tokenData.id,
                 id: req.body.contestId,
-                status: {[bd.Sequelize.Op.not]: CONSTANTS.CONTEST_STATUS_FINISHED},
+                status: {[bd.Sequelize.Op.not]: constants.CONTEST_STATUS_FINISHED},
             },
         });
         if (!result) {

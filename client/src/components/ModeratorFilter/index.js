@@ -1,5 +1,5 @@
 import React from 'react';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import classNames from 'classnames';
 import styles from './ModeratorFilter.module.sass';
 import PropTypes from 'prop-types';
@@ -19,19 +19,19 @@ const ModeratorFilter = ({filter: {limit, offset, moderationStatus}, setNewFilte
 
     return (
         <div className={styles.filterContainer}>
-            <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_MODERATION)}
+            <div onClick={() => setFilter(constants.MODERATION_STATUS_MODERATION)}
                  className={classNames(styles.filter, {
-                     [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_MODERATION === moderationStatus,
+                     [styles.activeFilter]: constants.MODERATION_STATUS_MODERATION === moderationStatus,
                  })}>Moderation
             </div>
-            <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_RESOLVED)}
+            <div onClick={() => setFilter(constants.MODERATION_STATUS_RESOLVED)}
                  className={classNames(styles.filter, {
-                     [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_RESOLVED === moderationStatus,
+                     [styles.activeFilter]: constants.MODERATION_STATUS_RESOLVED === moderationStatus,
                  })}>Resolved
             </div>
-            <div onClick={() => setFilter(CONSTANTS.MODERATION_STATUS_REJECTED)}
+            <div onClick={() => setFilter(constants.MODERATION_STATUS_REJECTED)}
                  className={classNames(styles.filter, {
-                     [styles.activeFilter]: CONSTANTS.MODERATION_STATUS_REJECTED === moderationStatus,
+                     [styles.activeFilter]: constants.MODERATION_STATUS_REJECTED === moderationStatus,
                  })}>Rejected
             </div>
         </div>

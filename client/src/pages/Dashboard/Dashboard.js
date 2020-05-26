@@ -1,5 +1,5 @@
 import React from 'react';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashboard';
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import ModeratorDashboard from "../../components/ModeratorDashboard";
@@ -11,13 +11,13 @@ const Dashboard = (props) => {
 
     const getUserDashboard = () => {
         switch (role) {
-            case CONSTANTS.CUSTOMER: {
+            case constants.CUSTOMER: {
                 return <CustomerDashboard history={history} match={props.match}/>
             }
-            case CONSTANTS.CREATOR: {
+            case constants.CREATOR: {
                 return <CreatorDashboard history={history} match={props.match}/>
             }
-            case CONSTANTS.MODERATOR: {
+            case constants.MODERATOR: {
                 return <ModeratorDashboard history={history}/>
             }
             default: {

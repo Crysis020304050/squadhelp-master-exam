@@ -1,16 +1,16 @@
 'use strict';
 const bcrypt = require('bcrypt');
-const CONSTANTS = require('../constants/constants');
+const constants = require('../constants/constants');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const hashPassword = await bcrypt.hash('moderator', CONSTANTS.SALT_ROUNDS);
+    const hashPassword = await bcrypt.hash('moderator', constants.SALT_ROUNDS);
     const moderator = {
       firstName: 'moderator',
       lastName: 'moderator',
       displayName: 'moderator',
       email: 'moderator@gmail.com',
-      role: CONSTANTS.MODERATOR,
+      role: constants.MODERATOR,
       password: hashPassword,
 
     };

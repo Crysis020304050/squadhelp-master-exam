@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./DialogBox.module.sass";
-import CONSTANTS from "../../../../constants";
+import constants from "../../../../constants";
 import classNames from 'classnames';
 
 
@@ -21,7 +21,7 @@ const DialogBox = (props) => {
                     favoriteList: favoriteList
                 }
             })}>
-                <img src={interlocutor.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${interlocutor.avatar}`} alt='user'/>
+                <img src={interlocutor.avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${interlocutor.avatar}`} alt='user'/>
                 <div className={styles.infoContainer}>
                     <div className={styles.interlocutorInfo}>
                         <span className={styles.interlocutorName}>{interlocutor.firstName}</span>
@@ -39,8 +39,8 @@ const DialogBox = (props) => {
                         }, event)}
                            className={classNames({['fas fa-user-lock']: !isBlocked, ['fas fa-unlock']: isBlocked})}/>
                         <i onClick={(event) => catalogOperation(event, _id)} className={classNames({
-                            ['far fa-plus-square']: chatMode !== CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,
-                            ['fas fa-minus-circle']: chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE
+                            ['far fa-plus-square']: chatMode !== constants.CATALOG_PREVIEW_CHAT_MODE,
+                            ['fas fa-minus-circle']: chatMode === constants.CATALOG_PREVIEW_CHAT_MODE
                         })}/>
                     </div>
                 </div>

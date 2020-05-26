@@ -1,5 +1,5 @@
 import ACTION from '../actions/actionTypes';
-import CONSTANTS from '../constants';
+import constants from '../constants';
 import {loadDataToMap, removeItemFromMap} from "../utils";
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
     filter: {
         limit: 8,
         offset: 0,
-        moderationStatus: CONSTANTS.MODERATION_STATUS_MODERATION,
+        moderationStatus: constants.MODERATION_STATUS_MODERATION,
     },
 };
 

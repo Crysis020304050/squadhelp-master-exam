@@ -5,7 +5,7 @@ const userQueries = require('./queries/userQueries');
 const transactionQueries = require('./queries/transactionsQueries.js');
 const controller = require('../index.js');
 const UtilFunctions = require('../utils/functions');
-const CONSTANTS = require('../constants/constants');
+const constants = require('../constants/constants');
 const moment = require('moment');
 const bd = require("../models");
 
@@ -44,7 +44,7 @@ module.exports.getContestById = async (req, res, next) => {
         const contestInfo = await db.Contests.findOne({
             where: {
                 id: contestid,
-                ...(role === CONSTANTS.CREATOR && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+                ...(role === constants.CREATOR && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
             },
             order: [
                 [db.Offers, 'id', 'asc'],
@@ -66,8 +66,8 @@ module.exports.getContestById = async (req, res, next) => {
                     model: db.Offers,
                     required: false,
                     where: {
-                        ...(role === CONSTANTS.CREATOR && {userId: id}),
-                        ...(role === CONSTANTS.CUSTOMER && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
+                        ...(role === constants.CREATOR && {userId: id}),
+                        ...(role === constants.CUSTOMER && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
 
                     },
                     attributes: {exclude: ['userId', 'contestId']},
@@ -111,7 +111,7 @@ module.exports.getContestById = async (req, res, next) => {
 };
 
 module.exports.downloadFile = async (req, res, next) => {
-    const file = CONSTANTS.CONTESTS_DEFAULT_DIR + req.params.fileName;
+    const file = constants.CONTESTS_DEFAULT_DIR + req.params.fileName;
     res.download(file);
 };
 
@@ -135,7 +135,7 @@ module.exports.updateContest = async (req, res, next) => {
 
 module.exports.setNewOffer = async (req, res, next) => {
     const obj = {};
-    if (req.body.contestType === CONSTANTS.LOGO_CONTEST) {
+    if (req.body.contestType === constants.LOGO_CONTEST) {
         obj.fileName = req.file.filename;
         obj.originalFileName = req.file.originalname;
     } else {
@@ -158,7 +158,7 @@ module.exports.setNewOffer = async (req, res, next) => {
 
 const rejectOffer = async (offerId, creatorId, contestId) => {
     const rejectedOffer = await contestQueries.updateOffer(
-        {status: CONSTANTS.OFFER_STATUS_REJECTED}, {id: offerId});
+        {status: constants.OFFER_STATUS_REJECTED}, {id: offerId});
     controller.controller.notificationController.emitChangeOfferStatus(creatorId,
         'Someone of yours offers was rejected', contestId);
     return rejectedOffer;
@@ -168,10 +168,10 @@ const resolveOffer = async (
     contestId, creatorId, orderId, offerId, priority, transaction) => {
     const finishedContest = await contestQueries.updateContestStatus({
         status: db.sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${CONSTANTS.CONTEST_STATUS_FINISHED}'
+            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${constants.CONTEST_STATUS_FINISHED}'
             WHEN "orderId"='${orderId}' AND "priority"=${priority +
-        1}  THEN '${CONSTANTS.CONTEST_STATUS_ACTIVE}'
-            ELSE '${CONSTANTS.CONTEST_STATUS_PENDING}'
+        1}  THEN '${constants.CONTEST_STATUS_ACTIVE}'
+            ELSE '${constants.CONTEST_STATUS_PENDING}'
             END
     `),
     }, {orderId: orderId}, transaction);
@@ -180,8 +180,8 @@ const resolveOffer = async (
         creatorId, transaction);
     const updatedOffers = await contestQueries.updateOfferStatus({
         status: db.sequelize.literal(` CASE
-            WHEN "id"=${offerId} THEN '${CONSTANTS.OFFER_STATUS_WON}'
-            ELSE '${CONSTANTS.OFFER_STATUS_REJECTED}'
+            WHEN "id"=${offerId} THEN '${constants.OFFER_STATUS_WON}'
+            ELSE '${constants.OFFER_STATUS_REJECTED}'
             END
     `),
     }, {
@@ -190,7 +190,7 @@ const resolveOffer = async (
     transaction.commit();
     const arrayRoomsId = [];
     updatedOffers.forEach(offer => {
-        if (offer.status === CONSTANTS.OFFER_STATUS_REJECTED && creatorId !==
+        if (offer.status === constants.OFFER_STATUS_REJECTED && creatorId !==
             offer.userId) {
             arrayRoomsId.push(offer.userId);
         }
@@ -220,7 +220,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
                 req.body.priority, transaction);
 
             await transactionQueries.newIncomeTransaction({
-                typeOperation: CONSTANTS.INCOME_TRANSACTION,
+                typeOperation: constants.INCOME_TRANSACTION,
                 sum: winningOffer.prize,
                 userId: winningOffer.userId,
             });
@@ -260,10 +260,10 @@ module.exports.getCustomersContests = async (req, res, next) => {
             where: {
                 status,
                 userId: id,
-                ...(status === CONSTANTS.CONTEST_STATUS_ACTIVE && {moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}),
-                ...(status === CONSTANTS.CONTEST_STATUS_PENDING && {
+                ...(status === constants.CONTEST_STATUS_ACTIVE && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
+                ...(status === constants.CONTEST_STATUS_PENDING && {
                     status: {
-                        [bd.Sequelize.Op.or]: [CONSTANTS.CONTEST_STATUS_ACTIVE, CONSTANTS.CONTEST_STATUS_PENDING]
+                        [bd.Sequelize.Op.or]: [constants.CONTEST_STATUS_ACTIVE, constants.CONTEST_STATUS_PENDING]
                     },
                 })
             },
@@ -278,10 +278,10 @@ module.exports.getCustomersContests = async (req, res, next) => {
                 },
             ],
         });
-        if (status === CONSTANTS.CONTEST_STATUS_PENDING) {
-            contests = contests.filter(({status, moderationStatus}) => !(status === CONSTANTS.CONTEST_STATUS_ACTIVE && moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED));
+        if (status === constants.CONTEST_STATUS_PENDING) {
+            contests = contests.filter(({status, moderationStatus}) => !(status === constants.CONTEST_STATUS_ACTIVE && moderationStatus === constants.MODERATION_STATUS_RESOLVED));
         }
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -304,7 +304,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
                 },
             ],
         });
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -330,7 +330,7 @@ module.exports.getContestsForCreative = async (req, res, next) => {
                 },
             ],
         });
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === CONSTANTS.MODERATION_STATUS_RESOLVED).length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -364,7 +364,7 @@ module.exports.getOffersFiles = async (req, res, next) => {
 module.exports.resolveContest = async (req, res, next) => {
     try {
         const {id} = req.body;
-        req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+        req.updatedContest = await contestQueries.updateContest({moderationStatus: constants.MODERATION_STATUS_RESOLVED}, {id});
         next();
     } catch (e) {
         next(e);
@@ -374,7 +374,7 @@ module.exports.resolveContest = async (req, res, next) => {
 module.exports.rejectContest = async (req, res, next) => {
     try {
         const {id} = req.body;
-        req.updatedContest = await contestQueries.updateContest({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
+        req.updatedContest = await contestQueries.updateContest({moderationStatus: constants.MODERATION_STATUS_REJECTED}, {id});
         next();
     } catch (e) {
         next(e);
@@ -384,7 +384,7 @@ module.exports.rejectContest = async (req, res, next) => {
 module.exports.resolveOffer = async (req, res, next) => {
     try {
         const {id} = req.body;
-        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED}, {id});
+        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: constants.MODERATION_STATUS_RESOLVED}, {id});
         next();
     } catch (e) {
         next(e);
@@ -394,7 +394,7 @@ module.exports.resolveOffer = async (req, res, next) => {
 module.exports.rejectOffer = async (req, res, next) => {
     try {
         const {id} = req.body;
-        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: CONSTANTS.MODERATION_STATUS_REJECTED}, {id});
+        req.updatedOffer = await contestQueries.updateOffer({moderationStatus: constants.MODERATION_STATUS_REJECTED}, {id});
         next();
     } catch (e) {
         next(e);

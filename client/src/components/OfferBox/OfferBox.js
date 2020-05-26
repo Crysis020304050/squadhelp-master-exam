@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './OfferBox.module.sass';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import {connect} from 'react-redux';
 import Rating from 'react-rating';
 import {
@@ -83,9 +83,9 @@ const OfferBox = (props) => {
 
     const offerStatus = () => {
         const {status} = props.data;
-        if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
+        if (status === constants.OFFER_STATUS_REJECTED) {
             return <i className={classNames("fas fa-times-circle reject", styles.reject)}/>
-        } else if (status === CONSTANTS.OFFER_STATUS_WON) {
+        } else if (status === constants.OFFER_STATUS_WON) {
             return <i className={classNames("fas fa-check-circle resolve", styles.resolve)}/>
         }
         return null;
@@ -100,13 +100,13 @@ const OfferBox = (props) => {
     const {avatar, firstName, lastName, email, rating} = props.data.User;
     return (
         <div className={styles.offerContainer}>
-            {role === CONSTANTS.CREATOR && <ModerationStatus moderationStatus={props.data.moderationStatus}/>}
+            {role === constants.CREATOR && <ModerationStatus moderationStatus={props.data.moderationStatus}/>}
             {offerStatus()}
             <div className={styles.mainInfoContainer}>
                 <div className={styles.userInfo}>
                     <div className={styles.creativeInfoContainer}>
                         <img
-                            src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`}
+                            src={avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${avatar}`}
                             alt='user'/>
                         <div className={styles.nameAndEmail}>
                             <span>{firstName + ' ' + lastName}</span>
@@ -118,9 +118,9 @@ const OfferBox = (props) => {
                         <Rating
                             initialRating={rating}
                             fractions={2}
-                            fullSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
-                            placeholderSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
-                            emptySymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
+                            fullSymbol={<img src={`${constants.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
+                            placeholderSymbol={<img src={`${constants.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
+                            emptySymbol={<img src={`${constants.STATIC_IMAGES_PATH}star-outline.png`}
                                               alt='star-outline'/>}
                             readonly={true}
                         />
@@ -128,23 +128,23 @@ const OfferBox = (props) => {
                 </div>
                 <div className={styles.responseConainer}>
                     {
-                        contestType === CONSTANTS.LOGO_CONTEST ?
+                        contestType === constants.LOGO_CONTEST ?
                             <img onClick={() => props.changeShowImage({imagePath: data.fileName, isShowOnFull: true})}
                                  className={styles.responseLogo}
-                                 src={`${CONSTANTS.publicURL}${data.fileName}`} alt='logo'/>
+                                 src={`${constants.publicURL}${data.fileName}`} alt='logo'/>
                             :
                             <span className={styles.response}>{data.text}</span>
                     }
                     {data.User.id !== id && <Rating
                         fractions={2}
-                        fullSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
-                        placeholderSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
-                        emptySymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`} alt='star'/>}
+                        fullSymbol={<img src={`${constants.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
+                        placeholderSymbol={<img src={`${constants.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
+                        emptySymbol={<img src={`${constants.STATIC_IMAGES_PATH}star-outline.png`} alt='star'/>}
                         onClick={changeMark}
                         placeholderRating={data.mark}
                     />}
                 </div>
-                {role !== CONSTANTS.CREATOR && <i onClick={goChat} className="fas fa-comments"/>}
+                {role !== constants.CREATOR && <i onClick={goChat} className="fas fa-comments"/>}
             </div>
             {props.needButtons(data.status) && <div className={styles.btnsContainer}>
                 <div onClick={resolveOffer} className={styles.resolveBtn}>Resolve</div>

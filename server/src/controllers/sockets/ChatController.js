@@ -1,5 +1,5 @@
 const WebSocket = require('./WebSocket');
-const CONSTANTS = require('../../constants/constants');
+const constants = require('../../constants/constants');
 
 class ChatController extends WebSocket{
 
@@ -21,12 +21,12 @@ class ChatController extends WebSocket{
   }
 
   emitNewMessage (target, message) {
-    this.io.to(parseInt(target)).emit(CONSTANTS.NEW_MESSAGE,
+    this.io.to(parseInt(target)).emit(constants.NEW_MESSAGE,
       { message });
   }
 
   emitChangeBlockStatus (target, message) {
-    this.io.to(parseInt(target)).emit(CONSTANTS.CHANGE_BLOCK_STATUS,
+    this.io.to(parseInt(target)).emit(constants.CHANGE_BLOCK_STATUS,
       { message });
   }
 }

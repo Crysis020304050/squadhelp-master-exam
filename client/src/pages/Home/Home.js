@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../../components/Header/Header';
 import {Link} from "react-router-dom";
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import SlideBar from '../../components/SlideBar/SlideBar';
 import Footer from '../../components/Footer/Footer';
 import styles from './Home.module.sass';
@@ -28,7 +28,7 @@ const Home = ({isFetching, data}) => {
     });
 
 
-    const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
+    const text = constants.HEADER_ANIMATION_TEXT[index % constants.HEADER_ANIMATION_TEXT.length];
     return (
         <>
             <Header/>
@@ -55,7 +55,7 @@ const Home = ({isFetching, data}) => {
                         <h2 className={styles.blueUnderline}>Why Squadhelp?</h2>
                         <div className={styles.cardContainer}>
                             <div className={styles.card}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-world-icon.png`} alt="globe"/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}more-benifits-world-icon.png`} alt="globe"/>
                                 <h3>Largest Naming Community</h3>
                                 <p>Our unique approach allows you to receive an unmatched breadth of business
                                     name ideas from world's largest community of naming experts.
@@ -63,7 +63,7 @@ const Home = ({isFetching, data}) => {
                                     Squadhelp is by far the largest naming platform across the globe .</p>
                             </div>
                             <div className={styles.card}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-high-quality-icon.png`}
+                                <img src={`${constants.STATIC_IMAGES_PATH}more-benifits-high-quality-icon.png`}
                                      alt="desktop"/>
                                 <h3>High Quality & Collaboration</h3>
                                 <p>Using an advanced Quality Scoring Algorithm and Machine Learning,
@@ -72,7 +72,7 @@ const Home = ({isFetching, data}) => {
                                     contest.</p>
                             </div>
                             <div className={styles.card}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-trademark-icon.png`}
+                                <img src={`${constants.STATIC_IMAGES_PATH}more-benifits-trademark-icon.png`}
                                      alt="cards"/>
                                 <h3>Agency-Level Features</h3>
                                 <p>Squadhelp's high end Audience Testing service allows you to poll your target
@@ -85,18 +85,18 @@ const Home = ({isFetching, data}) => {
                     <div className={styles.greyContainer}>
                         <div className={styles.adv}>
                             <div className={styles.images}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/Forbes-inactive.png`} alt="forbes"/>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/Forbes-active.png`} alt="forbes"/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/Forbes-inactive.png`} alt="forbes"/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/Forbes-active.png`} alt="forbes"/>
                             </div>
                             <div className={styles.images}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/the_next_web_inactive.png`}
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/the_next_web_inactive.png`}
                                      alt="web"/>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/the_next_web_active.png`} alt="web"/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/the_next_web_active.png`} alt="web"/>
                             </div>
                             <div className={styles.images}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/mashable-inactive.png`}
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/mashable-inactive.png`}
                                      alt="mashable"/>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/mashable-active.png`}
+                                <img src={`${constants.STATIC_IMAGES_PATH}sponsors/mashable-active.png`}
                                      alt="mashable"/>
                             </div>
                         </div>
@@ -130,12 +130,12 @@ const Home = ({isFetching, data}) => {
                                     in order to get an awesome Name</span>
                                 </p>
                             </div>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/1-compressed.gif`} alt="compressed"/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}gif/1-compressed.gif`} alt="compressed"/>
                         </div>
                     </div>
                     <div className={styles.greenContainer}>
                         <div className={styles.step}>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/2-compressed-new.gif`} alt="compressed"/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}gif/2-compressed-new.gif`} alt="compressed"/>
                             <div className={styles.greenStep}>
                                 <h3>Step 2: Ideas start pouring in within minutes</h3>
                                 <p>
@@ -166,7 +166,7 @@ const Home = ({isFetching, data}) => {
                                     <span>The more entries you rate - the submissions get better and better</span>
                                 </p>
                             </div>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/3-compressed.gif`} alt="compressed"/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}gif/3-compressed.gif`} alt="compressed"/>
                         </div>
                     </div>
                     <div className={styles.headerBar}>
@@ -178,7 +178,7 @@ const Home = ({isFetching, data}) => {
                     </div>
                     <SlideBar images={carouselConstants.exampleSliderImages}
                               carouselType={carouselConstants.EXAMPLE_SLIDER}/>
-                    {(data && data.role === CONSTANTS.CUSTOMER || !data) && <StartContestPanel/>}
+                    {(data && data.role === constants.CUSTOMER || !data) && <StartContestPanel/>}
                     <div className={styles.blueContainer}>
                         <h2 className={styles.whiteUnderline}>What our customers say</h2>
                         <SlideBar images={carouselConstants.feedbackSliderImages}

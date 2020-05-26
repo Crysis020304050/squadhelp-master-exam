@@ -1,19 +1,19 @@
 import ACTION from '../actions/actionTypes';
-import CONSTANTS from '../constants';
+import constants from '../constants';
 import _ from 'lodash';
 
 const initialState = {
     isFetching: true,
     error: null,
     contests: [],
-    customerFilter: CONSTANTS.CONTEST_STATUS_ACTIVE,
+    customerFilter: constants.CONTEST_STATUS_ACTIVE,
     creatorFilter: {
         selectedContestTypes: new Set(),
         contestId: '',
         industry: '',
         awardSort: 'asc',
         ownEntries: false,
-        moderationStatus: CONSTANTS.MODERATION_STATUS_RESOLVED,
+        moderationStatus: constants.MODERATION_STATUS_RESOLVED,
 
     },
     haveMore: true

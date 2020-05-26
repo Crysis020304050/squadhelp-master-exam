@@ -1,7 +1,7 @@
 import React from "react";
 import linksData from './linksData.json';
 import PropTypes from 'prop-types';
-import CONSTANTS from "../../constants";
+import constants from "../../constants";
 import {Link} from "react-router-dom";
 
 
@@ -10,7 +10,7 @@ const HeaderLinks = ({className}) => {
     const renderLink = ({categoryName, links}, index) => {
         return (
             <li key={index}>
-                <span>{categoryName}</span><img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
+                <span>{categoryName}</span><img src={`${constants.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
                 <ul>
                     {
                         links.map(({name, link}, index) => (

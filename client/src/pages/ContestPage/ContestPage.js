@@ -14,7 +14,7 @@ import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
 import styles from './ContestPage.module.sass';
 import OfferBox from '../../components/OfferBox/OfferBox';
 import OfferForm from '../../components/OfferForm/OfferForm';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import Brief from '../../components/Brief/Brief';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
@@ -56,7 +56,7 @@ class ContestPage extends React.Component {
         const contestCreatorId = this.props.contestByIdStore.contestData.User.id;
         const userId = this.props.userStore.data.id;
         const contestStatus = this.props.contestByIdStore.contestData.status;
-        return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_PENDING);
+        return (contestCreatorId === userId && contestStatus === constants.CONTEST_STATUS_ACTIVE && offerStatus === constants.OFFER_STATUS_PENDING);
     };
 
     setOfferStatus = (creatorId, offerId, command) => {
@@ -106,7 +106,7 @@ class ContestPage extends React.Component {
         return (
             <div>
                 {isShowOnFull && <LightBox
-                    mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
+                    mainSrc={`${constants.publicURL}${imagePath}`}
                     onCloseRequest={() => changeShowImage({isShowOnFull: false, imagePath: null})}
                 />}
                 <Header/>
@@ -120,7 +120,7 @@ class ContestPage extends React.Component {
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
                             {
-                                (offers.length > 0 && role !== CONSTANTS.MODERATOR || role === CONSTANTS.CREATOR) && <span onClick={() => changeContestViewMode(false)}
+                                (offers.length > 0 && role !== constants.MODERATOR || role === constants.CREATOR) && <span onClick={() => changeContestViewMode(false)}
                                                                                            className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
                             }
                         </div>
@@ -129,7 +129,7 @@ class ContestPage extends React.Component {
                                 <Brief contestData={contestData} role={role} goChat={this.goChat}/>
                                 :
                                 <div className={styles.offersContainer}>
-                                    {(role === CONSTANTS.CREATOR && contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE) &&
+                                    {(role === constants.CREATOR && contestData.status === constants.CONTEST_STATUS_ACTIVE) &&
                                     <OfferForm contestType={contestData.contestType}
                                                contestId={contestData.id}
                                                customerId={contestData.User.id}/>}

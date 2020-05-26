@@ -1,5 +1,5 @@
 import React from "react";
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -11,14 +11,14 @@ const HeaderUserInfo = ({className, logOut, data}) => {
                 data
                     ? (<div className={className}>
                         <img
-                            src={data.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${data.avatar}`}
+                            src={data.avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${data.avatar}`}
                             alt='user'/>
                         <span>{`Hi, ${data.displayName}`}</span>
-                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
+                        <img src={`${constants.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
                         <ul>
                             <li><Link to='/dashboard'>View Dashboard</Link></li>
                             <li><Link to='/account'>My Account</Link></li>
-                            {data.role !== CONSTANTS.MODERATOR && <>
+                            {data.role !== constants.MODERATOR && <>
                                 <li><Link to='/transactions'>My Transactions</Link></li>
                                 <li><Link to='/events'>My Events</Link></li>
                                 <li><Link to='/'>Messages</Link></li>

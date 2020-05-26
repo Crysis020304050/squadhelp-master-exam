@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import CONSTANTS from '../../../../constants';
+import constants from '../../../../constants';
 import {
     goToExpandedDialog,
     changeChatFavorite,
@@ -59,7 +59,7 @@ const DialogList = (props) => {
                 interlocutor={chatPreview.interlocutor}
                 chatPreview={chatPreview} userId={userId} key={index} getTimeStr={getTimeStr}
                 changeFavorite={changeFavorite} changeBlackList={changeBlackList} chatMode={chatMode}
-                catalogOperation={chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE ? removeChat : changeShowCatalogCreation}
+                catalogOperation={chatMode === constants.CATALOG_PREVIEW_CHAT_MODE ? removeChat : changeShowCatalogCreation}
                 goToExpandedDialog={goToExpandedDialog}/>;
             if (filterFunc && filterFunc(chatPreview, userId)) {
                 arrayList.push(dialogNode);
@@ -73,9 +73,9 @@ const DialogList = (props) => {
 
     const renderChatPreview = () => {
         const {chatMode} = props;
-        if (chatMode === CONSTANTS.FAVORITE_PREVIEW_CHAT_MODE)
+        if (chatMode === constants.FAVORITE_PREVIEW_CHAT_MODE)
             return renderPreview(onlyFavoriteDialogs);
-        else if (chatMode === CONSTANTS.BLOCKED_PREVIEW_CHAT_MODE)
+        else if (chatMode === constants.BLOCKED_PREVIEW_CHAT_MODE)
             return renderPreview(onlyBlockDialogs);
         else
             return renderPreview();

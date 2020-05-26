@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import UpdateUserInfoForm from '../../components/UpdateUserInfoForm/UpdateUserInfoForm';
 import {updateUserData, changeEditModeOnUserProfile} from '../../actions/actionCreator';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import styles from './UserInfo.module.sass';
 
 const UserInfo = (props) => {
@@ -24,7 +24,7 @@ const UserInfo = (props) => {
             {isEdit ? <UpdateUserInfoForm onSubmit={updateUserData}/>
                 :
                 <div className={styles.infoContainer}>
-                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`} className={styles.avatar} alt='user'/>
+                    <img src={avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${avatar}`} className={styles.avatar} alt='user'/>
                     <div className={styles.infoContainer}>
                         <div className={styles.infoBlock}>
                             <span className={styles.label}>First Name</span>
@@ -46,7 +46,7 @@ const UserInfo = (props) => {
                             <span className={styles.label}>Role</span>
                             <span className={styles.info}>{role}</span>
                         </div>
-                        {role === CONSTANTS.CREATOR && <div className={styles.infoBlock}>
+                        {role === constants.CREATOR && <div className={styles.infoBlock}>
                             <span className={styles.label}>Balance</span>
                             <span className={styles.info}>{`${balance}$`}</span>
                         </div>}

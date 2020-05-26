@@ -6,7 +6,7 @@ import NotFound from './components/NotFound/NotFound';
 import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
-import CONSTANTS from './constants';
+import constants from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import {authActionRequest} from './actions/actionCreator';
@@ -31,7 +31,7 @@ const ConfirmPasswordResettingPage = lazy(() => import("./pages/ConfirmPasswordR
 const App = ({getUser}) => {
 
     useEffect(() => {
-        const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN);
+        const refreshToken = localStorage.getItem(constants.REFRESH_TOKEN);
         if (refreshToken) {
             getUser({refreshToken});
         }
@@ -63,17 +63,17 @@ const App = ({getUser}) => {
                     <Route exact path='/startContest' component={PrivateHoc(StartContestPage)}/>
                     <Route exact path='/startContest/nameContest'
                            component={PrivateHoc(ContestCreationPage, {
-                               contestType: CONSTANTS.NAME_CONTEST,
+                               contestType: constants.NAME_CONTEST,
                                title: 'Company Name'
                            })}/>
                     <Route exact path='/startContest/taglineContest'
                            component={PrivateHoc(ContestCreationPage, {
-                               contestType: CONSTANTS.TAGLINE_CONTEST,
+                               contestType: constants.TAGLINE_CONTEST,
                                title: 'TAGLINE'
                            })}/>
                     <Route exact path='/startContest/logoContest'
                            component={PrivateHoc(ContestCreationPage, {
-                               contestType: CONSTANTS.LOGO_CONTEST,
+                               contestType: constants.LOGO_CONTEST,
                                title: 'LOGO'
                            })}/>
                     <Route exact path='/dashboard' component={PrivateHoc(Dashboard)}/>

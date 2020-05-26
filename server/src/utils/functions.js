@@ -1,5 +1,5 @@
 const bd = require('../models');
-const CONSTANTS = require('../constants/constants');
+const constants = require('../constants/constants');
 
 module.exports.createWhereForAllContests = (
     selectedContestTypes, contestId, industry, awardSort, moderationStatus) => {
@@ -25,8 +25,8 @@ module.exports.createWhereForAllContests = (
     Object.assign(object.where, {
         status: {
             [bd.Sequelize.Op.or]: [
-                CONSTANTS.CONTEST_STATUS_FINISHED,
-                CONSTANTS.CONTEST_STATUS_ACTIVE,
+                constants.CONTEST_STATUS_FINISHED,
+                constants.CONTEST_STATUS_ACTIVE,
             ],
         },
     });

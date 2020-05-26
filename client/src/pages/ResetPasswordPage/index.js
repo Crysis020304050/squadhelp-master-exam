@@ -5,7 +5,7 @@ import Error from "../../components/Error/Error";
 import {clearResetPasswordError} from "../../actions/actionCreator";
 import ResetPasswordForm from "../../components/ResetPasswordForm";
 import Logo from "../../components/Logo";
-import CONSTANTS from "../../constants";
+import constants from "../../constants";
 import {Link} from "react-router-dom";
 
 const ResetPasswordPage = ({error, clearError}) => {
@@ -13,7 +13,7 @@ const ResetPasswordPage = ({error, clearError}) => {
     return (
       <div className={styles.mainContainer}>
           <header className={styles.pageHeaderContainer}>
-              <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`}/>
+              <Logo src={`${constants.STATIC_IMAGES_PATH}logo.png`}/>
               <div className={ styles.loginButton }>
                   <Link to='/login'>Login</Link>
               </div>

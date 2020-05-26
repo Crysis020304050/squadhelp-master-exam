@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ContestBox.module.sass';
 import moment from 'moment';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import PropTypes from 'prop-types';
 import ModerationStatus from "../ModerationStatus";
 import ModeratorButtonGroup from "../ModeratorButtonGroup";
@@ -27,13 +27,13 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
 
     const getPreferenceContest = () => {
         switch (contestType) {
-            case CONSTANTS.NAME_CONTEST: {
+            case constants.NAME_CONTEST: {
                 return typeOfName;
             }
-            case CONSTANTS.LOGO_CONTEST: {
+            case constants.LOGO_CONTEST: {
                 return brandStyle;
             }
-            case CONSTANTS.TAGLINE_CONTEST: {
+            case constants.TAGLINE_CONTEST: {
                 return typeOfTagline;
             }
             default: {
@@ -48,7 +48,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
 
     return (
         <div className={styles.contestBoxContainerWrapper}>
-            {role !== CONSTANTS.CREATOR && <ModerationStatus moderationStatus={moderationStatus}/>}
+            {role !== constants.CREATOR && <ModerationStatus moderationStatus={moderationStatus}/>}
             <div key={id} className={styles.contestBoxContainer} onClick={() => goToExtended(id)}>
                 <div className={styles.mainContestInfo}>
                     <div className={styles.titleAndIdContainer}>
@@ -64,12 +64,12 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                     <div className={styles.prizeContainer}>
                         <div className={styles.guaranteedContainer}>
                             <div>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
                             </div>
                             <span>Guaranteed prize</span>
                         </div>
                         <div className={styles.prize}>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}diamond.png`} alt='diamond'/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}diamond.png`} alt='diamond'/>
                             <span>{`$${prize}`}</span>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                 <div className={styles.entryAndTimeContainer}>
                     <div className={styles.entriesContainer}>
                         <div className={styles.entriesCounter}>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}entrieImage.png`} alt='logo'/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}entrieImage.png`} alt='logo'/>
                             <span>{count}</span>
                         </div>
                         <span>Entries</span>
@@ -88,7 +88,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                     </div>
                 </div>
             </div>
-            {role === CONSTANTS.MODERATOR &&
+            {role === constants.MODERATOR &&
             <ModeratorButtonGroup rejectFunc={rejectContest} isFetching={isFetching} id={id}
                                   resolveFunc={resolveContest} moderationStatus={moderationStatus}/>}
         </div>

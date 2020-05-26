@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../../Brief/Brief.module.sass";
-import CONSTANTS from "../../../constants";
+import constants from "../../../constants";
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
 import TaglineContestSpecialInfo from './TaglineContestSpecialInfo';
@@ -23,12 +23,12 @@ const ContestInfo = (props) => {
                         <span className={styles.data}>{contestType}</span>
                     </div>
                     {
-                        (User.id === userId && status !== CONSTANTS.CONTEST_STATUS_FINISHED)
+                        (User.id === userId && status !== constants.CONTEST_STATUS_FINISHED)
                         &&
                         <div onClick={() => changeEditContest(true)} className={styles.editBtn}>Edit</div>
                     }
                     {
-                        role === CONSTANTS.CREATOR
+                        role === constants.CREATOR
                         &&
                         <i onClick={goChat} className='fas fa-comments'/>
                     }
@@ -38,11 +38,11 @@ const ContestInfo = (props) => {
                     <span className={styles.data}>{title}</span>
                 </div>
                 {
-                    contestType === CONSTANTS.NAME_CONTEST ?
+                    contestType === constants.NAME_CONTEST ?
                         <NameContestSpecialInfo typeOfName={typeOfName} styleName={styleName}/>
                         :
                         (
-                            contestType === CONSTANTS.TAGLINE_CONTEST ?
+                            contestType === constants.TAGLINE_CONTEST ?
                                 <TaglineContestSpecialInfo typeOfTagline={typeOfTagline}
                                                            nameVenture={contestData.nameVenture}/>
                                 :
@@ -64,7 +64,7 @@ const ContestInfo = (props) => {
                 {originalFileName && <div className={styles.dataContainer}>
                     <span className={styles.label}>Additional File</span>
                     <a target="_blank" className={styles.file}
-                       href={`${CONSTANTS.publicURL}${fileName}`}
+                       href={`${constants.publicURL}${fileName}`}
                        download={originalFileName}>{originalFileName}</a>
                 </div>}
             </div>

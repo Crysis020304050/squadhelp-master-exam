@@ -6,7 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
     from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
@@ -90,14 +90,14 @@ const RegistrationForm = props => {
                     />
                 </div>
                 <div className={styles.choseRoleContainer}>
-                    <Field name='role' type='radio' value={CONSTANTS.CUSTOMER}
+                    <Field name='role' type='radio' value={constants.CUSTOMER}
                            strRole='Join As a Buyer'
                            infoRole='I am looking for a Name, Logo or Tagline for my business, brand or product.'
-                           component={RoleInput} id={CONSTANTS.CUSTOMER}/>
-                    <Field name='role' type='radio' value={CONSTANTS.CREATOR}
+                           component={RoleInput} id={constants.CUSTOMER}/>
+                    <Field name='role' type='radio' value={constants.CREATOR}
                            strRole='Join As a Creative'
                            infoRole='I plan to submit name ideas, Logo designs or sell names in Domain Marketplace.'
-                           component={RoleInput} id={CONSTANTS.CREATOR}/>
+                           component={RoleInput} id={constants.CREATOR}/>
                 </div>
                 <div className={styles.termsOfService}>
                     <Field
@@ -124,7 +124,7 @@ const RegistrationForm = props => {
 const mapStateToProps = (state) => {
     return {
         initialValues: {
-            role: CONSTANTS.CUSTOMER,
+            role: constants.CUSTOMER,
         },
     };
 };

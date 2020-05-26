@@ -1,9 +1,9 @@
-import CONSTANTS from '../constants';
+import constants from '../constants';
 import _ from "lodash";
 
 export const clearStorage = () => {
-    sessionStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
-    localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
+    sessionStorage.removeItem(constants.ACCESS_TOKEN);
+    localStorage.removeItem(constants.REFRESH_TOKEN);
 };
 
 export const loadDataToMap = (map, data) => {

@@ -3,7 +3,7 @@ import {selectBundle} from '../../actions/actionCreator';
 import {connect} from 'react-redux';
 import BundleBox from '../../components/BundleBox/BundleBox';
 import {Route} from 'react-router-dom';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
@@ -12,7 +12,7 @@ import Header from "../../components/Header/Header";
 
 const StartContestPage = (props) => {
 
-    if (props.userStore.data.role !== CONSTANTS.CUSTOMER) {
+    if (props.userStore.data.role !== constants.CUSTOMER) {
         props.history.replace('/');
     }
 

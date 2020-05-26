@@ -1,5 +1,5 @@
 import React from 'react';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import {connect} from 'react-redux';
 import {getDataForContest} from '../../actions/actionCreator';
 import {withRouter} from 'react-router-dom';
@@ -26,16 +26,16 @@ class ContestForm extends React.Component {
     getPreference = () => {
         const {contestType} = this.props;
         switch (contestType) {
-            case CONSTANTS.NAME_CONTEST: {
+            case constants.NAME_CONTEST: {
                 this.props.getData(
                     {characteristic1: 'nameStyle', characteristic2: 'typeOfName'});
                 break;
             }
-            case CONSTANTS.TAGLINE_CONTEST: {
+            case constants.TAGLINE_CONTEST: {
                 this.props.getData({characteristic1: 'typeOfTagline'});
                 break;
             }
-            case CONSTANTS.LOGO_CONTEST: {
+            case constants.LOGO_CONTEST: {
                 this.props.getData({characteristic1: 'brandStyle'});
                 break;
             }
@@ -59,7 +59,7 @@ class ContestForm extends React.Component {
         };
 
         switch (this.props.contestType) {
-            case CONSTANTS.NAME_CONTEST: {
+            case constants.NAME_CONTEST: {
                 return (
                     <>
                         <Field
@@ -87,7 +87,7 @@ class ContestForm extends React.Component {
                     </>
                 );
             }
-            case CONSTANTS.LOGO_CONTEST: {
+            case constants.LOGO_CONTEST: {
                 return (
                     <>
                         <div className={styles.inputContainer}>
@@ -115,7 +115,7 @@ class ContestForm extends React.Component {
                     </>
                 );
             }
-            case CONSTANTS.TAGLINE_CONTEST: {
+            case constants.TAGLINE_CONTEST: {
                 return (
                     <>
                         <div className={styles.inputContainer}>
@@ -231,7 +231,7 @@ class ContestForm extends React.Component {
                                         }}
                                         type='file'
                                     />
-                                    {contestType === CONSTANTS.NAME_CONTEST && <ButtonGroupComponent/>}
+                                    {contestType === constants.NAME_CONTEST && <ButtonGroupComponent/>}
                                 </form>
                             </div>
                     }

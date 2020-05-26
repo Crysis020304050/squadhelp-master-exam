@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {backToDialogList, changeChatFavorite, changeChatBlock} from "../../../../actions/actionCreator";
 import styles from './ChatHeader.module.sass';
-import CONSTANTS from '../../../../constants';
+import constants from '../../../../constants';
 import classNames from 'classnames';
 
 const ChatHeader = (props) => {
@@ -33,11 +33,11 @@ const ChatHeader = (props) => {
     return (
         <div className={styles.chatHeader}>
             <div className={styles.buttonContainer} onClick={() => backToDialogList()}>
-                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}arrow-left-thick.png`} alt='back'/>
+                <img src={`${constants.STATIC_IMAGES_PATH}arrow-left-thick.png`} alt='back'/>
             </div>
             <div className={styles.infoContainer}>
                 <div>
-                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`} alt='user'/>
+                    <img src={avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${avatar}`} alt='user'/>
                     <span>{firstName}</span>
                 </div>
                 {chatData &&

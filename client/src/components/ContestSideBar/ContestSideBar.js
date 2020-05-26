@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styles from './ContestSideBar.module.sass';
 import {withRouter} from 'react-router-dom';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import moment from 'moment';
 
 
@@ -28,19 +28,19 @@ const ContestSideBar = (props) => {
                 <div className={styles.contestInfo}>
                     <div className={styles.awardAndTimeContainer}>
                         <div className={styles.prizeContainer}>
-                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}big-diamond.png`} alt='diamond'/>
+                            <img src={`${constants.STATIC_IMAGES_PATH}big-diamond.png`} alt='diamond'/>
                             <span>{`$ ${prize}`}</span>
                         </div>
                         <div className={styles.timeContainer}>
                             <div className={styles.timeDesc}>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`} alt='clock'/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}clock.png`} alt='clock'/>
                                 <span>Going</span>
                             </div>
                             <span className={styles.time}>{getTimeStr()}</span>
                         </div>
                         <div className={styles.guaranteedPrize}>
                             <div>
-                                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
+                                <img src={`${constants.STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
                             </div>
                             <span>Guaranteed prize</span>
                         </div>
@@ -53,10 +53,10 @@ const ContestSideBar = (props) => {
                         </div>
                     </div>
                 </div>
-                {props.data.id !== User.id && props.data.role !== CONSTANTS.MODERATOR && <div className={styles.infoCustomerContainer}>
+                {props.data.id !== User.id && props.data.role !== constants.MODERATOR && <div className={styles.infoCustomerContainer}>
                     <span className={styles.labelCustomerInfo}>About Contest Holder</span>
                     <div className={styles.customerInfo}>
-                        <img src={User.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${User.avatar}`} alt='user'/>
+                        <img src={User.avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${User.avatar}`} alt='user'/>
                         <div className={styles.customerNameContainer}>
                             <span>{User.firstName + ' ' + User.lastName}</span>
                             <span>{User.displayName}</span>

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {sendMessageAction} from '../../../../actions/actionCreator';
 import {Field, reduxForm} from 'redux-form';
 import styles from './ChatInput.module.sass';
-import CONSTANTS from '../../../../constants';
+import constants from '../../../../constants';
 import FormField from "../../../FormField";
 
 
@@ -48,7 +48,7 @@ const ChatInput = (props) => {
                     label='message'
                 />
                 {valid &&
-                <button type='submit'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}send.png`} alt="send Message"/>
+                <button type='submit'><img src={`${constants.STATIC_IMAGES_PATH}send.png`} alt="send Message"/>
                 </button>}
             </form>
         </div>

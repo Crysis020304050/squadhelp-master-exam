@@ -5,7 +5,7 @@ import styles from './LoginPage.module.sass';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {clearAuth} from '../../actions/actionCreator';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import Error from "../../components/Error/Error";
 
 const LoginPage = (props) => {
@@ -16,7 +16,7 @@ const LoginPage = (props) => {
     <div className={ styles.mainContainer }>
       <div className={ styles.loginContainer }>
         <div className={ styles.headerSignUpPage }>
-          <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`}/>
+          <Logo src={`${constants.STATIC_IMAGES_PATH}logo.png`}/>
           <div className={ styles.linkLoginContainer }>
             <Link to='/registration'>Signup</Link>
           </div>

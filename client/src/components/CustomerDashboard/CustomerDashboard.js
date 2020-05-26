@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getContestsForCustomer, clearContestList, setNewCustomerFilter} from '../../actions/actionCreator';
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 import InfinityScrollListContainer from '../../components/InfinityScrollListContainer';
 import ContestBox from "../ContestBox/ContestBox";
 import styles from './CustomerDashboard.module.sass';
@@ -60,19 +60,19 @@ class CustomerDashboard extends React.Component {
         return (
             <div className={styles.mainContainer}>
                 <div className={styles.filterContainer}>
-                    <div onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)}
+                    <div onClick={() => this.props.newFilter(constants.CONTEST_STATUS_ACTIVE)}
                          className={classNames(styles.filter, {
-                             [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
+                             [styles.activeFilter]: constants.CONTEST_STATUS_ACTIVE === customerFilter,
                          })}>Active Contests
                     </div>
-                    <div onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)}
+                    <div onClick={() => this.props.newFilter(constants.CONTEST_STATUS_FINISHED)}
                          className={classNames(styles.filter, {
-                             [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
+                             [styles.activeFilter]: constants.CONTEST_STATUS_FINISHED === customerFilter,
                          })}>Completed contests
                     </div>
-                    <div onClick={() => this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)}
+                    <div onClick={() => this.props.newFilter(constants.CONTEST_STATUS_PENDING)}
                          className={classNames(styles.filter, {
-                             [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
+                             [styles.activeFilter]: constants.CONTEST_STATUS_PENDING === customerFilter,
                          })}>Inactive contests
                     </div>
                 </div>
