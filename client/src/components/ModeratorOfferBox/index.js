@@ -1,9 +1,9 @@
 import React from "react";
 import constants from "../../constants";
 import PropTypes from 'prop-types';
-import classNames from "classnames";
 import styles from './ModeratorOfferBox.module.sass';
 import ModerationStatus from "../ModerationStatus";
+import ModeratorButtonGroup from "../ModeratorButtonGroup";
 
 const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Contest: {contestType}, changeShowImage, resolveOffer, rejectOffer}) => (
     <div className={styles.container}>
@@ -21,25 +21,13 @@ const ModeratorOfferBox = ({id, isFetching, fileName, text, moderationStatus, Co
                     <span>{text}</span>
             }
         </div>
-        <div className={styles.setContestStatusButtonsContainer}>
-            {moderationStatus !== constants.MODERATION_STATUS_RESOLVED && <div
-                className={classNames({[styles.singleResolveContestsButton]: moderationStatus === constants.MODERATION_STATUS_REJECTED})}
-                onClick={() => {
-                    if (!isFetching)
-                        resolveOffer(id)
-                }
-                }>RESOLVE</div>}
-            {moderationStatus === constants.MODERATION_STATUS_MODERATION &&
-            <div onClick={() => {
-                if (!isFetching) {
-                    rejectOffer(id)
-                }
-            }}>REJECT</div>}
-        </div>
+        <ModeratorButtonGroup rejectFunc={rejectOffer} isFetching={isFetching} id={id} resolveFunc={resolveOffer} moderationStatus={moderationStatus}/>
     </div>
 );
 
 ModeratorOfferBox.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    id: PropTypes.number.isRequired,
     fileName: PropTypes.string,
     text: PropTypes.string,
     moderationStatus: PropTypes.string.isRequired,

@@ -37,7 +37,7 @@ const OffersModerationBox = ({offers, isFetching, error, haveMore, filter, getOf
     };
 
     const renderOffers = () => (
-        [...offers.values()].map(offer => <ModeratorOfferBox key={offer.id} {...offer} changeShowImage={changeShowImage}
+        [...offers.values()].map(offer => <ModeratorOfferBox isFetching={isFetching} key={offer.id} {...offer} changeShowImage={changeShowImage}
                                                              resolveOffer={resolveOffer} rejectOffer={rejectOffer}/>)
     );
 

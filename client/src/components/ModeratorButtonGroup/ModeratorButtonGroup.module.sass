@@ -1,0 +1,36 @@
+.buttonGroupContainer
+  display: flex
+
+  div:first-child
+    margin-right: 30px
+    background-color: #415DCB
+    &:hover
+      background-color: #28D2D0
+
+  div:last-child
+    background-color: #E9362F
+    &:hover
+      background-color: red
+
+  div
+    flex: 1
+    cursor: pointer
+    text-align: center
+    padding: 10px 20px
+    border-radius: 5px
+    color: white
+    text-transform: uppercase
+
+.singleResolveButton
+  margin-right: unset !important
+  background-color: #415DCB !important
+  &:hover
+    background-color: #28D2D0 !important
+
+.disabledButton
+  background-color: #BABCBE !important
+  cursor: unset !important
+  color: black
+
+  &:hover
+    background-color: #BABCBE !important

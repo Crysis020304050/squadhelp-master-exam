@@ -2,15 +2,15 @@ import React from 'react';
 import styles from './ContestBox.module.sass';
 import moment from 'moment';
 import CONSTANTS from '../../constants';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import ModerationStatus from "../ModerationStatus";
+import ModeratorButtonGroup from "../ModeratorButtonGroup";
 
 
-const ContestBox = (props) => {
+const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, typeOfTagline, id, title, prize, count, moderationStatus}, history, role, resolveContest, rejectContest, isFetching}) => {
 
     const getTimeStr = () => {
-        const diff = (moment.duration(moment().diff(moment(props.data.createdAt))));
+        const diff = (moment.duration(moment().diff(moment(createdAt))));
         let str = '';
         if (diff._data.days !== 0)
             str = `${diff._data.days}d `;
@@ -22,29 +22,33 @@ const ContestBox = (props) => {
     };
 
     const goToExtended = (contest_id) => {
-        props.history.push('/contest/' + contest_id);
+        history.push('/contest/' + contest_id);
     };
 
-
     const getPreferenceContest = () => {
-        const data = props.data;
-        if (data.contestType === CONSTANTS.NAME_CONTEST)
-            return data.typeOfName;
-        else if (data.contestType === CONSTANTS.LOGO_CONTEST)
-            return data.brandStyle;
-        else
-            return data.typeOfTagline;
+        switch (contestType) {
+            case CONSTANTS.NAME_CONTEST: {
+                return typeOfName;
+            }
+            case CONSTANTS.LOGO_CONTEST: {
+                return brandStyle;
+            }
+            case CONSTANTS.TAGLINE_CONTEST: {
+                return typeOfTagline;
+            }
+            default: {
+                return null;
+            }
+        }
     };
 
     const ucFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    const {id, title, contestType, prize, count, moderationStatus} = props.data;
-
     return (
         <div className={styles.contestBoxContainerWrapper}>
-            {props.role !== CONSTANTS.CREATOR && <ModerationStatus moderationStatus={moderationStatus}/>}
+            {role !== CONSTANTS.CREATOR && <ModerationStatus moderationStatus={moderationStatus}/>}
             <div key={id} className={styles.contestBoxContainer} onClick={() => goToExtended(id)}>
                 <div className={styles.mainContestInfo}>
                     <div className={styles.titleAndIdContainer}>
@@ -84,20 +88,9 @@ const ContestBox = (props) => {
                     </div>
                 </div>
             </div>
-            {props.role === CONSTANTS.MODERATOR && <div className={styles.setContestStatusButtonsContainer}>
-                {moderationStatus !== CONSTANTS.MODERATION_STATUS_RESOLVED && <div
-                    className={classNames({[styles.singleResolveContestsButton]: moderationStatus === CONSTANTS.MODERATION_STATUS_REJECTED})}
-                    onClick={() => {
-                        if (!props.isFetching)
-                        props.resolveContest(id)}
-                    }>RESOLVE</div>}
-                {moderationStatus === CONSTANTS.MODERATION_STATUS_MODERATION &&
-                <div onClick={() => {
-                    if (!props.isFetching) {
-                        props.rejectContest(id)
-                    }
-                }}>REJECT</div>}
-            </div>}
+            {role === CONSTANTS.MODERATOR &&
+            <ModeratorButtonGroup rejectFunc={rejectContest} isFetching={isFetching} id={id}
+                                  resolveFunc={resolveContest} moderationStatus={moderationStatus}/>}
         </div>
     )
 };
