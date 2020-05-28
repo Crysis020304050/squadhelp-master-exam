@@ -1,4 +1,4 @@
-FROM node:10.13.0
+FROM node
 
 ARG NODE_ENV="development"
 
@@ -17,6 +17,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 9632
 
 CMD npm start

@@ -9,11 +9,12 @@ services:
       NODE_ENV: development
     depends_on:
       - server-dev
+    stdin_open: true
     volumes:
       - ./client:/client
       - /client/node_modules
     ports:
-      - "5000:5000"
+      - "3000:3000"
 
   server-dev:
     build:
@@ -22,7 +23,7 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - "3000:3000"
+      - "9632:9632"
     depends_on:
       - db-dev
       - mongo-dev
@@ -33,7 +34,7 @@ services:
 
 
   mongo-dev:
-    image: mongo:3.6
+    image: mongo
     #     environment:
     #      - MONGO_INITDB_ROOT_USERNAME=mongo
     #      - MONGO_INITDB_ROOT_PASSWORD=password
@@ -43,7 +44,6 @@ services:
 
 
   db-dev:
-    image: postgres:10
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres

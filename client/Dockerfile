@@ -1,4 +1,4 @@
-FROM node:10.15.0-alpine
+FROM node
 
 ARG NODE_ENV="development"
 
@@ -12,7 +12,7 @@ COPY . .
 
 
 
-EXPOSE 5000
+EXPOSE 3000
 
 RUN npm install
 CMD npm start

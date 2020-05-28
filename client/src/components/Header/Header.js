@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import styles from './Header.module.sass';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
@@ -15,15 +15,27 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const toggleContainer = useRef();
+
     const handleResize = () => {
         if (window.innerWidth > 800) {
             setIsMenuOpen(false);
         }
     };
 
+    const onClickOutsideHandler = e => {
+        if (!toggleContainer.current.contains(e.target)) {
+            setIsMenuOpen(false);
+        }
+    };
+
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        window.addEventListener('mousedown', onClickOutsideHandler);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousedown', onClickOutsideHandler);
+        };
     }, []);
 
     const logOut = () => {
@@ -48,7 +60,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
     return (
         <>
             {!isFetching && (
-                <div className={styles.headerContainer}>
+                <div ref={toggleContainer} className={styles.headerContainer}>
                     <div
                         className={classNames(styles.loginSignnUpHeaders, {[styles.loginSingUpModeratorHeaders]: !isRenderNotForModerator()})}>
                         {
