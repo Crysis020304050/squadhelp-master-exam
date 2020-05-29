@@ -7,18 +7,21 @@ import ModerationStatus from "../ModerationStatus";
 import ModeratorButtonGroup from "../ModeratorButtonGroup";
 
 
-const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, typeOfTagline, id, title, prize, count, moderationStatus}, history, role, resolveContest, rejectContest, isFetching}) => {
+const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, typeOfTagline, id, title, prize, count, status, moderationStatus}, history, role, resolveContest, rejectContest, isFetching}) => {
 
     const getTimeStr = () => {
-        const diff = (moment.duration(moment().diff(moment(createdAt))));
-        let str = '';
-        if (diff._data.days !== 0)
-            str = `${diff._data.days}d `;
-        if (diff._data.hours !== 0)
-            str += `${diff._data.hours}h`;
-        if (str.length === 0)
-            str = 'less than one hour';
-        return str;
+        if (status === constants.CONTEST_STATUS_FINISHED) {
+            return 'Finished';
+        } else {
+            const diff = (moment.duration(moment().diff(moment(createdAt))));
+            if (diff.asHours() < 1) {
+                return 'Less than one hour';
+            } else if (diff.asHours() < 24) {
+                return `${diff.hours()}h`;
+            } else if (diff.asDays() > 1) {
+                return `${Math.floor(diff.asDays())}d ${diff.hours()}h`
+            }
+        }
     };
 
     const goToExtended = (contest_id) => {
@@ -84,7 +87,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                     </div>
                     <div className={styles.timeContainer}>
                         <span className={styles.timeContest}>{getTimeStr()}</span>
-                        <span>Going</span>
+                        {status !== constants.CONTEST_STATUS_FINISHED && <span>Going</span>}
                     </div>
                 </div>
             </div>

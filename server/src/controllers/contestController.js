@@ -4,7 +4,6 @@ const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const transactionQueries = require('./queries/transactionsQueries.js');
 const controller = require('../index.js');
-const UtilFunctions = require('../utils/functions');
 const constants = require('../constants/constants');
 const moment = require('moment');
 const bd = require("../models");
@@ -313,22 +312,40 @@ module.exports.getContestsForModerator = async (req, res, next) => {
 
 module.exports.getContestsForCreative = async (req, res, next) => {
     try {
-        const {body: {selectedContestTypes, contestId, industry, awardSort, moderationStatus, limit, offset, ownEntries}, tokenData: {id}} = req;
-        const {where, order} = UtilFunctions.createWhereForAllContests(selectedContestTypes,
-            contestId, industry, awardSort, moderationStatus);
-        const contests = await db.Contests.findAll({
-            where,
-            order,
+        const {body: {selectedContestTypes, contestId, industry, awardSort, limit, offset, ownEntries}, tokenData: {id}} = req;
+        let contests = await db.Contests.findAll({
+            where: {
+                ...(selectedContestTypes && {contestType: {[bd.Sequelize.Op.or]: selectedContestTypes}}),
+                ...(contestId && {id: contestId}),
+                ...(industry && {industry}),
+                status: {
+                    [bd.Sequelize.Op.or]: [
+                        constants.CONTEST_STATUS_FINISHED,
+                        constants.CONTEST_STATUS_ACTIVE,
+                    ],
+                },
+                moderationStatus: constants.MODERATION_STATUS_RESOLVED,
+            },
+            order: [['status', 'asc'], (awardSort && ['prize', awardSort]), ['id', 'desc']],
             limit,
             offset: offset || 0,
             include: [
                 {
                     model: db.Offers,
                     required: ownEntries,
-                    where: ownEntries ? {userId: id} : {},
-                    attributes: ['id', 'moderationStatus'],
+                    where: {
+                        ...(ownEntries && {userId: id}),
+                    },
+                    attributes: ['id', 'moderationStatus', 'userId'],
                 },
             ],
+        });
+        contests = contests.filter(({status, Offers}) => {
+            if (Offers.some(({userId}) => userId === id)) {
+                return true;
+            } else {
+                return status !== constants.CONTEST_STATUS_FINISHED;
+            }
         });
         contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});

@@ -13,3 +13,4 @@
 **server/public/*
 *server/public/*
 /server/src/logs/
+/var/
