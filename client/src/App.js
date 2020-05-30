@@ -1,6 +1,5 @@
 import React, {lazy, Suspense, useEffect} from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
-import './App.css';
 import PrivateHoc from './components/PrivateHoc/PrivateHoc';
 import NotFound from './components/NotFound/NotFound';
 import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';

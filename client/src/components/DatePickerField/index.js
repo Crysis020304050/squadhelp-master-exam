@@ -22,6 +22,7 @@ const DatePickerField = ({input, label, meta: {touched, error, visited}, warning
                         placeholderText={label}
                         className={inputClassName}
                         autoComplete='off'
+                        withPortal
             />
             <FieldError className={warningStyle} touched={touched} error={error}/>
         </div>

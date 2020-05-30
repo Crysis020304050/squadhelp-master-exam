@@ -7,7 +7,7 @@ import classNames from "classnames";
 const ModeratorButtonGroup = ({id, moderationStatus, isFetching, resolveFunc, rejectFunc}) => (
     <div className={styles.buttonGroupContainer}>
         {moderationStatus !== constants.MODERATION_STATUS_RESOLVED && <div
-            className={classNames({[styles.singleResolveButton]: moderationStatus === constants.MODERATION_STATUS_REJECTED},
+            className={classNames(styles.resolveButton, {[styles.singleResolveButton]: moderationStatus === constants.MODERATION_STATUS_REJECTED},
                 {[styles.disabledButton]: isFetching}
             )}
             onClick={() => {
@@ -16,7 +16,7 @@ const ModeratorButtonGroup = ({id, moderationStatus, isFetching, resolveFunc, re
             }
             }>RESOLVE</div>}
         {moderationStatus === constants.MODERATION_STATUS_MODERATION &&
-        <div className={classNames({[styles.disabledButton]: isFetching})} onClick={() => {
+        <div className={classNames(styles.rejectButton, {[styles.disabledButton]: isFetching})} onClick={() => {
             if (!isFetching) {
                 rejectFunc(id)
             }
