@@ -5,6 +5,7 @@ import {loadDataToMap, removeItemFromMap} from "../utils";
 const initialState = {
     contests: new Map(),
     isFetching: false,
+    moderateActionIsFetching: false,
     error: null,
     haveMore: true,
     filter: {
@@ -55,14 +56,14 @@ export default function (state = initialState, action) {
         case ACTION.MODERATE_CONTEST_REJECT_REQUEST:
             return {
                 ...state,
-                isFetching: true,
+                moderateActionIsFetching: true,
             };
 
         case ACTION.MODERATE_CONTEST_RESOLVE_SUCCESS:
         case ACTION.MODERATE_CONTEST_REJECT_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
+                moderateActionIsFetching: false,
                 contests: removeItemFromMap(state.contests, action.id),
             };
 
@@ -70,7 +71,7 @@ export default function (state = initialState, action) {
         case ACTION.MODERATE_CONTEST_REJECT_ERROR:
             return {
                 ...state,
-                isFetching: false,
+                moderateActionIsFetching: false,
                 error: action.error,
             };
         default: {

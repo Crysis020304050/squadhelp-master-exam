@@ -1,16 +1,16 @@
 .buttonGroupContainer
   display: flex
 
+  div:last-child
+    background-color: #E9362F
+    &:hover
+      background-color: red
+
   div:first-child
     margin-right: 30px
     background-color: #415DCB
     &:hover
       background-color: #28D2D0
-
-  div:last-child
-    background-color: #E9362F
-    &:hover
-      background-color: red
 
   div
     flex: 1
@@ -23,14 +23,10 @@
 
 .singleResolveButton
   margin-right: unset !important
-  background-color: #415DCB !important
-  &:hover
-    background-color: #28D2D0 !important
 
 .disabledButton
   background-color: #BABCBE !important
-  cursor: unset !important
-  color: black
-
+  cursor: initial !important
+  color: black !important
   &:hover
     background-color: #BABCBE !important

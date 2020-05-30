@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import ModeratorFilter from "../ModeratorFilter";
 import styles from "./ContestsModerationSpace.module.sass";
 
-const ContestsModerationSpace = ({contests, isFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest, setNewContestsModerationFilter}) => {
+const ContestsModerationSpace = ({contests, isFetching, moderateActionIsFetching, error, haveMore, filter, getContests, clearContests, history, resolveContest, rejectContest, setNewContestsModerationFilter}) => {
 
     useEffect(() => {
         getContests(filter);
@@ -41,7 +41,7 @@ const ContestsModerationSpace = ({contests, isFetching, error, haveMore, filter,
                                                           role={constants.MODERATOR}
                                                           resolveContest={resolveContest}
                                                           rejectContest={rejectContest}
-                                                          isFetching={isFetching}/>)
+                                                          isFetching={moderateActionIsFetching}/>)
     );
 
     return (

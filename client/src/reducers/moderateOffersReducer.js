@@ -5,6 +5,7 @@ import {loadDataToMap, removeItemFromMap} from "../utils";
 const initialState = {
     offers: new Map(),
     isFetching: false,
+    moderateActionIsFetching: false,
     error: null,
     haveMore: true,
     filter: {
@@ -57,14 +58,14 @@ export default function (state = initialState, action) {
         case ACTION.MODERATE_OFFER_REJECT_REQUEST:
             return {
                 ...state,
-                isFetching: true,
+                moderateActionIsFetching: true,
             };
 
         case ACTION.MODERATE_OFFER_RESOLVE_SUCCESS:
         case ACTION.MODERATE_OFFER_REJECT_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
+                moderateActionIsFetching: false,
                 offers: removeItemFromMap(state.offers, action.id),
             };
 
@@ -72,7 +73,7 @@ export default function (state = initialState, action) {
         case ACTION.MODERATE_OFFER_REJECT_ERROR:
             return {
                 ...state,
-                isFetching: false,
+                moderateActionIsFetching: false,
                 error: action.error,
             };
 

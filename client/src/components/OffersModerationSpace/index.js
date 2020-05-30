@@ -17,7 +17,7 @@ import 'react-image-lightbox/style.css';
 import constants from "../../constants";
 import ModeratorOfferBox from "../ModeratorOfferBox";
 
-const OffersModerationSpace = ({offers, isFetching, error, haveMore, filter, getOffers, clearOffers, resolveOffer, rejectOffer, setNewOffersModerationFilter, isShowOnFull, changeShowImage, imagePath}) => {
+const OffersModerationSpace = ({offers, isFetching, moderateActionIsFetching, error, haveMore, filter, getOffers, clearOffers, resolveOffer, rejectOffer, setNewOffersModerationFilter, isShowOnFull, changeShowImage, imagePath}) => {
 
     useEffect(() => {
         getOffers(filter);
@@ -37,7 +37,7 @@ const OffersModerationSpace = ({offers, isFetching, error, haveMore, filter, get
     };
 
     const renderOffers = () => (
-        [...offers.values()].map(offer => <ModeratorOfferBox isFetching={isFetching} key={offer.id} {...offer} changeShowImage={changeShowImage}
+        [...offers.values()].map(offer => <ModeratorOfferBox isFetching={moderateActionIsFetching} key={offer.id} {...offer} changeShowImage={changeShowImage}
                                                              resolveOffer={resolveOffer} rejectOffer={rejectOffer}/>)
     );
 
