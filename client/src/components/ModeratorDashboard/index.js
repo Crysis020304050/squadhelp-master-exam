@@ -21,7 +21,7 @@ const ModeratorDashboard = ({history}) => {
 
     const [moderationSpace, setModerationSpace] = useState(moderationSpaces[0]);
 
-    const getModerationBox = () => {
+    const getModerationSpace = () => {
         switch (moderationSpace.value) {
             case constants.MODERATION_CONTESTS_SPACE: {
                 return <ContestsModerationSpace history={history}/>
@@ -40,7 +40,7 @@ const ModeratorDashboard = ({history}) => {
             <Select className={styles.selectContainer} value={moderationSpace} onChange={setModerationSpace} options={moderationSpaces}/>
             <div className={styles.contentContainer}>
                 {
-                    getModerationBox()
+                    getModerationSpace()
                 }
             </div>
         </div>
