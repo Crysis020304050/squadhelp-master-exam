@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import UpdateUserInfoForm from '../../components/UpdateUserInfoForm/UpdateUserInfoForm';
 import {updateUserData, changeEditModeOnUserProfile} from '../../actions/actionCreator';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import styles from './UserInfo.module.sass';
 
 const UserInfo = (props) => {

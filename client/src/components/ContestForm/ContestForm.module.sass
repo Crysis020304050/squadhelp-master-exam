@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .errorContainer
   display: flex
   flex-direction: column
@@ -47,7 +49,7 @@
     @media(max-width: 700px)
       width: auto
     &:focus
-      border: 2px solid #28d2d0
+      border: 2px solid $accent-color-2
   .input
     width: 550px
     height: 46px
@@ -68,7 +70,7 @@
     @media(max-width: 700px)
       width: auto
     &:focus
-      border: 2px solid #28d2d0
+      border: 2px solid $accent-color-2
 
 
 
@@ -104,7 +106,7 @@
       @media(max-width: 700px)
         width: min-content
       &:focus
-        border: 2px solid #28d2d0
+        border: 2px solid $accent-color-2
     .selectHeader
       display: inline-block
       font-size: 19px

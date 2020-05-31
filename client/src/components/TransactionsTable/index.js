@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './TransactionTable.module.sass';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import {connect} from 'react-redux';
 
 const TransactionsTable = ({transactionHistory, transactionStatement}) => {

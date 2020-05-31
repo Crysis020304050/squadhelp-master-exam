@@ -4,7 +4,7 @@ import {payRequest, clearPaymentStore} from '../../actions/actionCreator';
 import PayForm from '../../components/PayForm/PayForm';
 import styles from './Payment.module.sass';
 import isEmpty from 'lodash/isEmpty';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import Error from '../../components/Error/Error';
 import Logo from "../../components/Logo";
 

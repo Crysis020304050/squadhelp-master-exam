@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Spinner from '../Spinner/Spinner';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 
 
 const PrivateHoc = (Component, props) => {

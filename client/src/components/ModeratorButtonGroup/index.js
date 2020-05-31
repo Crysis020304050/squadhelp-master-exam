@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './ModeratorButtonGroup.module.sass';
 import PropTypes from 'prop-types';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import classNames from "classnames";
 
 const ModeratorButtonGroup = ({id, moderationStatus, isFetching, resolveFunc, rejectFunc}) => (

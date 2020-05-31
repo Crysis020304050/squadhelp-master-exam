@@ -1,4 +1,4 @@
-$screen-breakpoint: 800px
+@import "src/styles/styles"
 
 .headerContainer
   display: flex
@@ -17,7 +17,7 @@ $screen-breakpoint: 800px
   border-bottom: 1px solid #ebebeb
   padding-bottom: 10px
 
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     transition: all 0.3s
     justify-content: flex-start
     background-color: white
@@ -34,14 +34,14 @@ $screen-breakpoint: 800px
 .logo
   align-self: flex-end
 
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     display: none
 
 .logoForModerator
   align-self: flex-end
   padding: 10px 0
 
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     width: 80px
 
 .startContestBtn
@@ -52,20 +52,20 @@ $screen-breakpoint: 800px
   text-align: center
   max-width: 340px
   padding: 10px 22px
-  border: 2px solid #28d2d0
-  color: #28d2d0
+  border: 2px solid $accent-color-2
+  color: $accent-color-2
   border-radius: 5px
   font-size: 14px
   font-weight: 400
 
   &:hover
     color: white
-    background-color: #28d2d0
+    background-color: $accent-color-2
 
 .leftNav
   display: flex
 
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     flex-direction: column
 
 .nav
@@ -80,7 +80,7 @@ $screen-breakpoint: 800px
   align-items: center
   @media(max-width: 920px)
     padding: 0
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     flex-direction: column
     align-items: flex-start
 
@@ -98,13 +98,13 @@ $screen-breakpoint: 800px
     @media(max-width: 1000px)
       margin-right: 10px
 
-    @media(max-width: $screen-breakpoint)
+    @media(max-width: $header-breakpoint)
       width: 100%
       padding: 0 15px
 
     &:hover
       span
-        color: #f27e51
+        color: $accent-color-3
 
       ul
         display: block
@@ -113,13 +113,13 @@ $screen-breakpoint: 800px
         z-index: 1000
         top: 90px
         background-color: white
-        @media(max-width: $screen-breakpoint)
+        @media(max-width: $header-breakpoint)
           top: auto
           left: 145px
           margin-top: 50px
 
       &:first-child ul
-        @media(max-width: $screen-breakpoint)
+        @media(max-width: $header-breakpoint)
           margin-top: 100px
 
     ul
@@ -145,7 +145,7 @@ $screen-breakpoint: 800px
           background: oldlace
 
           a
-            color: #f27e51
+            color: $accent-color-3
 
         a
           font-size: 12px
@@ -168,7 +168,7 @@ $screen-breakpoint: 800px
   border: 1px solid #ebebeb
   margin-bottom: 13px
 
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     margin-bottom: unset
     padding: 0 15px
     z-index: 2000
@@ -182,7 +182,7 @@ $screen-breakpoint: 800px
 
 .burgerMenu
   display: none
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     display: block
     cursor: pointer
 
@@ -194,7 +194,7 @@ $screen-breakpoint: 800px
   border-left: 1px solid #ebebeb
   border-right:  1px solid #ebebeb
   align-self: stretch
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     margin-left: auto
 
 
@@ -272,7 +272,7 @@ $screen-breakpoint: 800px
   border-right: 1px solid #ebebeb
   border-left: 1px solid #ebebeb
   margin-left: 120px
-  @media(max-width: $screen-breakpoint)
+  @media(max-width: $header-breakpoint)
     display: none
 
   span
@@ -284,7 +284,7 @@ $screen-breakpoint: 800px
     @media(max-width: 360px)
       font-size: 12px
     &:hover
-      color: #f27e51
+      color: $accent-color-3
 
 
 

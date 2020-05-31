@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .mainContainer
   margin: 0 auto
   display: flex
@@ -5,12 +7,12 @@
   align-items: flex-start
   justify-content: flex-start
   padding: 100px 15px
-  @media(max-width: 800px)
+  @media(max-width: $header-breakpoint)
     flex-direction: column
 
   .notMoney
     margin-bottom: 20px
-    color: #455a89
+    color: $accent-color-4
     font-size: 18px
     font-weight: 500
   .container
@@ -27,7 +29,7 @@
     align-items: flex-start
     justify-content: flex-start
     box-shadow: 0 5px 10px 3px rgba(0,0,0,0.1)
-    @media(max-width: 800px)
+    @media(max-width: $header-breakpoint)
       align-self: stretch
       margin-right: 0
       margin-bottom: 15px
@@ -49,16 +51,16 @@
         border-radius: 8px
         margin-top: 5px
         cursor: pointer
-        color: #455a89
+        color: $accent-color-4
         font-size: 16px
         font-weight: 600
         padding: 14px 58px
         align-self: stretch
-        @media(max-width: 800px)
+        @media(max-width: $header-breakpoint)
           text-align: center
         &:hover
-          background-color: #455a89
+          background-color: $accent-color-4
           color: white
       .currentOption
-        background-color: #455a89
+        background-color: $accent-color-4
         color: white

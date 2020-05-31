@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .offerContainer
   display: flex
   margin-top: 15px
@@ -84,7 +86,7 @@
   flex-direction: column
   justify-content: flex-start
   align-items: center
-  @media(max-width: 800px)
+  @media(max-width: $header-breakpoint)
     margin-top: 10px
     max-width: 200px
 .responseLogo
@@ -95,7 +97,7 @@
   overflow-wrap: break-word
   align-self: stretch
   margin-left: 10px
-  color: #556da5
+  color: $accent-color-1
   margin-bottom: 10px
   font-size: 18px
 .creativeRating
@@ -104,7 +106,7 @@
   align-items: center
 .userScoreLabel
   margin-right: 10px
-  color:  #556da5
+  color:  $accent-color-1
   font-size: 15px
 .creativeInfoContainer
   display: flex
@@ -117,7 +119,7 @@
     align-items: flex-start
     justify-content: flex-start
     span
-      color: #556da5
+      color: $accent-color-1
       font-size: 16px
       font-weight: 500
       margin-left: 10px

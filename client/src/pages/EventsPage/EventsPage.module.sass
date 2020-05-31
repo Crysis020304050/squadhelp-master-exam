@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .page
   min-height: 100vh
   display: flex
@@ -10,7 +12,7 @@
   flex: 1
   display: flex
 
-  @media(max-width: 800px)
+  @media(max-width: $header-breakpoint)
     padding-top: 100px
 
 .contentContainer

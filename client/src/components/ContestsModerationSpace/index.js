@@ -10,7 +10,7 @@ import {
 } from '../../actions/actionCreator.js';
 import ContestBox from "../ContestBox/ContestBox";
 import InfinityScrollListContainer from "../InfinityScrollListContainer";
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import PropTypes from 'prop-types';
 import ModeratorFilter from "../ModeratorFilter";
 import styles from "./ContestsModerationSpace.module.sass";

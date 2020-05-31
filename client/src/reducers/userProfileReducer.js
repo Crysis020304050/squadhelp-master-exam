@@ -1,5 +1,5 @@
 import ACTION from '../actions/actionTypes';
-import constants from '../constants';
+import constants from '../constants/constants';
 
 const initialState = {
     profileModeView: constants.USER_INFO_MODE,

@@ -14,7 +14,7 @@ import styles from "./OffersModerationSpace.module.sass";
 import InfinityScrollListContainer from "../InfinityScrollListContainer";
 import LightBox from "react-image-lightbox";
 import 'react-image-lightbox/style.css';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import ModeratorOfferBox from "../ModeratorOfferBox";
 
 const OffersModerationSpace = ({offers, isFetching, moderateActionIsFetching, error, haveMore, filter, getOffers, clearOffers, resolveOffer, rejectOffer, setNewOffersModerationFilter, isShowOnFull, changeShowImage, imagePath}) => {

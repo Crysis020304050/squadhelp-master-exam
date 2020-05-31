@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .mainContainer
   display: flex
   flex-direction: row
@@ -13,19 +15,20 @@
   .buttonEdit
     padding: 15px 35px
     border-radius: 12px
-    background-color: #455a89
+    background-color: $accent-color-4
     color: white
     font-weight: 500
     margin-top: 100px
     font-size: 18px
     margin-left: 50px
     transition: background-color  0.2s
+    cursor: pointer
     @media(max-width: 420px)
       margin: 20px 0
       margin-left: 0
     &:hover
       transition: background-color  0.2s
-      background-color: #f27e51
+      background-color: $accent-color-3
       color: white
   .infoContainer
     display: flex
@@ -50,5 +53,5 @@
         color: #515b5f
       .info
         font-size: 16px
-        color: #455a89
+        color: $accent-color-4
 

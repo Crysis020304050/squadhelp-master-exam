@@ -1,7 +1,7 @@
 import {put} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import history from '../browserHistory';
-import constants from '../constants';
+import constants from '../constants/constants';
 import * as restController from '../api/rest/restController';
 
 

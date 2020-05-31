@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './ModerationStatus.module.sass';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 

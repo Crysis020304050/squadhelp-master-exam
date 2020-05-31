@@ -5,7 +5,7 @@ import Error from "../../components/Error/Error";
 import {clearResetPasswordError} from "../../actions/actionCreator";
 import ResetPasswordForm from "../../components/ResetPasswordForm";
 import Logo from "../../components/Logo";
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import {Link} from "react-router-dom";
 
 const ResetPasswordPage = ({error, clearError}) => {

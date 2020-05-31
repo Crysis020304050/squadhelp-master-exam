@@ -1,5 +1,5 @@
 import http from '../index';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import {clearStorage} from '../../utils';
 import history from "../../browserHistory";
 

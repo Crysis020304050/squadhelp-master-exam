@@ -1,5 +1,5 @@
 import React from "react";
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import PropTypes from 'prop-types';
 import styles from './ModeratorOfferBox.module.sass';
 import ModerationStatus from "../ModerationStatus";

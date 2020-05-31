@@ -1,5 +1,5 @@
 import React from 'react';
-import CONTANTS from '../../constants';
+import CONTANTS from '../../constants/constants';
 import {connect} from 'react-redux';
 import {setOffer, clearAddOfferError} from '../../actions/actionCreator';
 import styles from './OfferForm.module.sass';

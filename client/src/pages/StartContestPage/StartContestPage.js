@@ -3,7 +3,7 @@ import {selectBundle} from '../../actions/actionCreator';
 import {connect} from 'react-redux';
 import BundleBox from '../../components/BundleBox/BundleBox';
 import {Route} from 'react-router-dom';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';

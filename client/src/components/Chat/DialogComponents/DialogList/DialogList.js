@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import constants from '../../../../constants';
+import constants from '../../../../constants/constants';
 import {
     goToExpandedDialog,
     changeChatFavorite,

@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import classNames from 'classnames';
 import styles from './ModeratorFilter.module.sass';
 import PropTypes from 'prop-types';

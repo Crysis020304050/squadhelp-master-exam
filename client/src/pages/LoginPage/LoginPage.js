@@ -5,7 +5,7 @@ import styles from './LoginPage.module.sass';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {clearAuth} from '../../actions/actionCreator';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import Error from "../../components/Error/Error";
 
 const LoginPage = (props) => {

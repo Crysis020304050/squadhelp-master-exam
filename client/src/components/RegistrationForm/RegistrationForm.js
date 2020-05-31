@@ -6,7 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
     from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";

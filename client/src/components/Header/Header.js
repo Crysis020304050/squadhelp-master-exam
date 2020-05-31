@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import styles from './Header.module.sass';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import {clearUserStore} from '../../actions/actionCreator';
 import HeaderUserInfo from "../HeaderUserInfo";
 import HeaderLinks from "../HeaderLinks";

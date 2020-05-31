@@ -1,5 +1,5 @@
 import ACTION from '../actions/actionTypes';
-import constants from '../constants';
+import constants from '../constants/constants';
 import _ from 'lodash';
 
 const initialState = {

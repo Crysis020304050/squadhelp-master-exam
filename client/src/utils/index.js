@@ -1,4 +1,4 @@
-import constants from '../constants';
+import constants from '../constants/constants';
 import _ from "lodash";
 
 export const clearStorage = () => {

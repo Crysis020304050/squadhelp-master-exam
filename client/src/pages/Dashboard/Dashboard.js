@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashboard';
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import ModeratorDashboard from "../../components/ModeratorDashboard";

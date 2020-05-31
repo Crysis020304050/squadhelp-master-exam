@@ -5,7 +5,7 @@ import NotFound from './components/NotFound/NotFound';
 import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
-import constants from './constants';
+import constants from './constants/constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import {authActionRequest} from './actions/actionCreator';

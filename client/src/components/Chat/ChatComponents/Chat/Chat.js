@@ -10,7 +10,7 @@ import CatalogListContainer from '../../CatalogComponents/CatalogListContainer/C
 import CatalogCreation from '../../CatalogComponents/CatalogCreation/CatalogCreation';
 import CatalogListHeader from '../../CatalogComponents/CatalogListHeader/CatalogListHeader';
 import ChatError from '../../../ChatError/ChatError';
-import constants from "../../../../constants";
+import constants from "../../../../constants/constants";
 
 
 class Chat extends React.Component {

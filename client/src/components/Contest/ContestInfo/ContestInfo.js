@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../../Brief/Brief.module.sass";
-import constants from "../../../constants";
+import constants from "../../../constants/constants";
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
 import TaglineContestSpecialInfo from './TaglineContestSpecialInfo';

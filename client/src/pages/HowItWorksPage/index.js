@@ -10,7 +10,7 @@ import questionsData from './questionsData';
 import StepCard from "../../components/StepCard";
 import FAQListItem from "../../components/FAQListItem";
 import GetInTouchPanel from "../../components/GetInTouchPanel";
-import constants from "../../constants";
+import constants from "../../constants/constants";
 
 const HowItWorksPage = ({data}) => {
 

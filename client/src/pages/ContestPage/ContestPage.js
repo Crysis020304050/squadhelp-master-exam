@@ -14,7 +14,7 @@ import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
 import styles from './ContestPage.module.sass';
 import OfferBox from '../../components/OfferBox/OfferBox';
 import OfferForm from '../../components/OfferForm/OfferForm';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import Brief from '../../components/Brief/Brief';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';

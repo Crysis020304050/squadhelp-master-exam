@@ -14,7 +14,7 @@ import queryString from 'query-string';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import TryAgain from '../../components/TryAgain/TryAgain';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import PropTypes from 'prop-types';
 
 const types = ['name', 'tagline', 'logo'];

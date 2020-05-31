@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styles from './ContestSideBar.module.sass';
 import {withRouter} from 'react-router-dom';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import moment from 'moment';
 
 

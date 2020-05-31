@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import constants from '../../constants.js';
+import constants from '../../constants/constants.js';
 
 const Logo = ({to, ...props}) => {
   return (

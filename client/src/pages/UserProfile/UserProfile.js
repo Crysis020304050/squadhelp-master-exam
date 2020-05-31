@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../components/Header/Header';
 import {connect} from 'react-redux';
 import styles from './UserProfile.module.sass';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import PayForm from '../../components/PayForm/PayForm';
 import classNames from 'classnames';

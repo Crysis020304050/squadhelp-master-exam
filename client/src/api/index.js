@@ -1,5 +1,5 @@
 import axios from 'axios';
-import constants from '../constants';
+import constants from '../constants/constants';
 import {refreshTokens} from './rest/restController';
 import history from "../browserHistory";
 import {clearStorage} from '../utils';

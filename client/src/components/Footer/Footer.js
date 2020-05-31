@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './Footer.module.sass';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import {Link} from "react-router-dom";
 
 

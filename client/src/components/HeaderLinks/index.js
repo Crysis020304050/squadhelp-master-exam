@@ -1,7 +1,7 @@
 import React from "react";
 import linksData from './linksData.json';
 import PropTypes from 'prop-types';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import {Link} from "react-router-dom";
 
 

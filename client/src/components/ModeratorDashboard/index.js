@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styles from './ModeratorDashboard.module.sass';
-import constants from "../../constants";
+import constants from "../../constants/constants";
 import PropTypes from 'prop-types';
 import ContestsModerationSpace from "../ContestsModerationSpace";
 import OffersModerationSpace from "../OffersModerationSpace";

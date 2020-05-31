@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getContestsForCustomer, clearContestList, setNewCustomerFilter} from '../../actions/actionCreator';
-import constants from '../../constants';
+import constants from '../../constants/constants';
 import InfinityScrollListContainer from '../../components/InfinityScrollListContainer';
 import ContestBox from "../ContestBox/ContestBox";
 import styles from './CustomerDashboard.module.sass';

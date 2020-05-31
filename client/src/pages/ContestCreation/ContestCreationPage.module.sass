@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .startContestHeader
   display: flex
   flex-direction: row
@@ -5,7 +7,7 @@
   box-sizing: border-box
   justify-content: center
 
-  @media(max-width: 800px)
+  @media(max-width: $header-breakpoint)
     padding-top: 80px
 
   .startContestInfo

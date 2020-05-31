@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {sendMessageAction} from '../../../../actions/actionCreator';
 import {Field, reduxForm} from 'redux-form';
 import styles from './ChatInput.module.sass';
-import constants from '../../../../constants';
+import constants from '../../../../constants/constants';
 import FormField from "../../../FormField";
 
 
