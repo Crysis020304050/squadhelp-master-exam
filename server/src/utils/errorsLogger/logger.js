@@ -1,14 +1,10 @@
-const fs = require('fs');
 const path = require('path');
-const util = require('util');
-
-const exists = util.promisify(fs.exists);
-const mkdir = util.promisify(fs.mkdir);
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
+const {exists, readFile, mkdir, writeFile} = require('../nodeFunctions');
 
 module.exports = async (err, req, res, next) => {
     try {
+        const {message, code, stack} = err;
+
         const logsFolderPath = path.resolve(__dirname, '../../logs');
 
         if (! await exists(logsFolderPath)) {
@@ -18,10 +14,10 @@ module.exports = async (err, req, res, next) => {
         }
 
         const obj = {
-            message: err.message,
+            message,
             time: Date.now(),
-            code: err.code,
-            stackTrace: err.stack,
+            code,
+            stackTrace: stack,
         };
 
         const pathToFile = path.resolve(logsFolderPath, 'logs.json');
