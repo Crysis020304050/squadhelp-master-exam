@@ -38,7 +38,7 @@ const App = ({getUser}) => {
 
     return (
         <Router history={browserHistory}>
-            <Suspense fallback={SpinnerLoader}>
+            <Suspense fallback={<SpinnerLoader/>}>
                 <ToastContainer
                     position="top-center"
                     autoClose={5000}

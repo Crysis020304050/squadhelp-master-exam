@@ -20,13 +20,14 @@ const TransactionsTable = ({transactionHistory, transactionStatement}) => {
             <tr key={index}>
                 <th>Total</th>
                 <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
-                <td>{typeOperation === constants.INCOME_TRANSACTION ? (sum || 0) : (sum ? `-${sum}`: 0)}</td>
+                <td>{typeOperation === constants.INCOME_TRANSACTION ? (sum || 0) : (sum ? `-${sum}` : 0)}</td>
             </tr>
         ))
     };
 
     return (
         <table className={styles.table}>
+            <tbody>
             <tr>
                 <th>Transaction ID</th>
                 <th>Income/Consumption</th>
@@ -38,6 +39,7 @@ const TransactionsTable = ({transactionHistory, transactionStatement}) => {
             {
                 transactionStatement && renderTransactionsStatement(transactionStatement)
             }
+            </tbody>
         </table>
     )
 };
