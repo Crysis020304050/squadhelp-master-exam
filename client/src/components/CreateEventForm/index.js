@@ -14,7 +14,7 @@ const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
         const {endTime, reminderTime} = values;
         const now = new Date();
         if (endTime > now && reminderTime > now) {
-            createEvent({...values, startDate: now});
+            createEvent({...values, startDate: now, timestamp: Date.now()});
             reset();
         } else {
             dispatch(updateSyncErrors('event', {

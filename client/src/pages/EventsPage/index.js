@@ -1,11 +1,12 @@
 import React from "react";
 import styles from './EventsPage.module.sass'
 import Header from "../../components/Header/Header";
-import Timer from "../../components/EventTimer";
-import CreateEventForm from "../../components/CretaeEventForm";
+import EventTimer from "../../components/EventTimer";
+import CreateEventForm from "../../components/CreateEventForm";
 import {connect} from 'react-redux';
+import {setStartedEvent} from "../../actions/actionCreator";
 
-const EventsPage = ({events}) => {
+const EventsPage = ({events, setStartedEvent, activeEvents}) => {
 
     return (
         <div className={styles.page}>
@@ -15,7 +16,7 @@ const EventsPage = ({events}) => {
                     <CreateEventForm/>
                     <ul className={styles.timersList}>
                         {
-                            events && events.map((event, index) => <Timer key={index} {...event} events={events}/>)
+                            events && events.map(event => <EventTimer key={event.startDate} {...event} setStartedEvent={setStartedEvent} activeEvents={activeEvents}/>)
                         }
                     </ul>
                 </div>
@@ -27,4 +28,8 @@ const EventsPage = ({events}) => {
 
 const mapStateToProps = state => state.eventsStore;
 
-export default connect(mapStateToProps)(EventsPage);
+const mapDispatchToProps = dispatch => ({
+   setStartedEvent: timestamp => dispatch(setStartedEvent(timestamp)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventsPage);

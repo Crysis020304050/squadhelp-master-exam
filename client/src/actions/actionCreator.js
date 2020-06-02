@@ -503,3 +503,8 @@ export const createNewEvent = (event) => {
       event,
   }
 };
+
+export const setStartedEvent = timestamp => ({
+   type: ACTION.SET_STARTED_EVENT,
+   timestamp,
+});
