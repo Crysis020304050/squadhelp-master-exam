@@ -335,6 +335,11 @@ export const createNewEvent = event => ({
     event,
 });
 
+export const setStartedEvent = timestamp => ({
+    type: ACTION.SET_STARTED_EVENT,
+    timestamp,
+});
+
 export const resetPasswordRequest = data => ({
     type: ACTION.RESET_PASSWORD_REQUEST,
     data,

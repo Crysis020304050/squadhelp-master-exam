@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const initialState = {
     events: [],
+    activeEvents: new Set(),
 };
 
 export default function (state = initialState, action) {
@@ -21,7 +22,16 @@ export default function (state = initialState, action) {
                 return 0;
             });
             return {
+                ...state,
                 events: sortedEvents,
+            }
+        }
+        case ACTION.SET_STARTED_EVENT: {
+            const updatedSet = _.clone(state.activeEvents);
+            updatedSet.add(action.timestamp);
+            return {
+                ...state,
+                activeEvents: updatedSet,
             }
         }
         default:
