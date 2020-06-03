@@ -4,11 +4,15 @@ const bd = require('../models');
 const {prepareUserToSending} = require('../utils/functions');
 const AuthorizationError = require('../errors/AuthorizationError');
 const AuthenticationTimeoutError = require('../errors/AuthenticationTimeoutError');
+const util = require('util');
 
-module.exports.signRefreshToken = (req, res, next) => {
+const sign = util.promisify(jwt.sign);
+const verify = util.promisify(jwt.verify);
+
+module.exports.signRefreshToken = async (req, res, next) => {
     try {
         const {user: {id}} = req;
-        req.refreshTokenValue = jwt.sign({userId: id}, constants.JWT_SECRET, {
+        req.refreshTokenValue = await sign({userId: id}, constants.JWT_SECRET, {
             expiresIn: constants.REFRESH_TOKEN_TIME,
         });
         next();
@@ -16,10 +20,10 @@ module.exports.signRefreshToken = (req, res, next) => {
         next(e);
     }
 };
-module.exports.signAccessToken = (req, res, next) => {
+module.exports.signAccessToken = async (req, res, next) => {
     try {
         const {user} = req;
-        req.accessTokenValue = jwt.sign(prepareUserToSending(user), constants.JWT_SECRET, {
+        req.accessTokenValue = await sign(prepareUserToSending(user), constants.JWT_SECRET, {
             expiresIn: constants.ACCESS_TOKEN_TIME,
         });
         next();
@@ -28,21 +32,21 @@ module.exports.signAccessToken = (req, res, next) => {
     }
 };
 
-module.exports.verifyRefreshToken = (req, res, next) => {
+module.exports.verifyRefreshToken = async (req, res, next) => {
     try {
         const {body: {refreshToken}} = req;
-        req.refreshTokenPayload = jwt.verify(refreshToken, constants.JWT_SECRET);
+        req.refreshTokenPayload = await verify(refreshToken, constants.JWT_SECRET);
         next();
     } catch (e) {
         next(new AuthorizationError());
     }
 };
 
-module.exports.verifyAccessToken = (req, res, next) => {
+module.exports.verifyAccessToken = async (req, res, next) => {
     try {
         const accessToken = req.body.token || req.headers.authorization;
         if (accessToken) {
-            req.tokenData = jwt.verify(accessToken, constants.JWT_SECRET);
+            req.tokenData = await verify(accessToken, constants.JWT_SECRET);
             return next();
         } else {
             return next(new AuthorizationError());
@@ -121,7 +125,7 @@ module.exports.saveRefreshToken = async (req, res, next) => {
 module.exports.generateTokenWithNewPassword = async (req, res, next) => {
     try {
         const {user, hashPass} = req;
-        req.accessToken = jwt.sign({
+        req.accessToken = await sign({
             id: user.id,
             newPassword: hashPass,
         }, constants.JWT_SECRET, {expiresIn: 60 * 60 * 24});
