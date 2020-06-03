@@ -9,6 +9,7 @@ export function* resetPasswordRequestSaga(action) {
         const {data} = yield resetUserPasswordRequest(action.data);
         yield put(resetPasswordRequestSuccess(data));
         toast(data);
+        history.replace('/login');
     } catch (e) {
         yield put(resetPasswordRequestError(e.response || e));
     }

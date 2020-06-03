@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 import {confirmResettingPasswordRequest, clearConfirmResettingPasswordError} from '../../actions/actionCreator';
 import Error from "../../components/Error/Error";
+import classNames from 'classnames';
 
 const ConfirmPasswordResettingPage = ({match: {params: {token}}, error, confirmPasswordResetting, clearError, isFetching}) => {
 
@@ -22,7 +23,7 @@ const ConfirmPasswordResettingPage = ({match: {params: {token}}, error, confirmP
             <div className={styles.contentContainer}>
                 {error && <Error data={error.data} status={error.status} clearError={clearError}/>}
                 <h2>Are you sure you want to reset the password?</h2>
-                <div className={styles.choseAnswerContainer}>
+                <div className={classNames(styles.choseAnswerContainer, {[styles.disabledButtons]: isFetching})}>
                     <div onClick={onClickHandler}>YES</div>
                     <Link to='/'>NO</Link>
                 </div>
