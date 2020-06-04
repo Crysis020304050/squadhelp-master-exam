@@ -1,3 +1,5 @@
+@import "src/styles/styles"
+
 .errorContainer
   width: auto
   align-self: center
@@ -7,7 +9,7 @@
   align-items: center
   border-radius: 18px
   padding: 15px 10px
-  background-color: red
+  background-color: $invalid-error-color
   position: absolute
   top: 80px
   cursor: pointer
@@ -20,7 +22,7 @@
     align-items: center
     border-radius: 26px
     width: 120px
-    background-color: red
+    background-color: $invalid-error-color
     position: relative
     span
       font-size: 16px

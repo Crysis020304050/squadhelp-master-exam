@@ -37,7 +37,7 @@
   justify-content: center
   align-items: center
   color: white
-  border: 1px solid #b72522
+  border: 1px solid $warning-color
   margin-bottom: 15px
   padding-bottom: 5px
   padding-top: 5px
@@ -57,17 +57,17 @@
     align-self: normal
 
 .notValid
-  border: 2px solid red
+  border: 2px solid $invalid-error-color
 
 .valid
-  border: 2px solid green
+  border: 2px solid $valid-color
 
 
 .error
   align-self: stretch
   margin-right: 40px
   margin-left: 40px
-  background: red
+  background: $invalid-error-color
   color: white
   font-size: 17px
   letter-spacing: 0.6px
@@ -85,7 +85,7 @@
 .errorValid
   font-size: 14px
   text-align: center
-  border: 1px solid red
+  border: 1px solid $invalid-error-color
   align-self: stretch
   margin-left: 20px
   margin-right: 20px

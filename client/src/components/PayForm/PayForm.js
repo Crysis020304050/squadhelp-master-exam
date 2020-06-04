@@ -44,7 +44,6 @@ const PayForm = (props) => {
             name='name'
             classes={ {
               container: styles.inputContainer,
-              input: styles.input,
               notValid: styles.notValid,
               error: styles.error,
             } }
@@ -60,7 +59,6 @@ const PayForm = (props) => {
             name='sum'
             classes={ {
               container: styles.inputContainer,
-              input: styles.input,
               notValid: styles.notValid,
               error: styles.error,
             } }
@@ -77,7 +75,6 @@ const PayForm = (props) => {
             name='number'
             classes={ {
               container: styles.inputContainer,
-              input: styles.input,
               notValid: styles.notValid,
               error: styles.error,
             } }
@@ -96,7 +93,6 @@ const PayForm = (props) => {
               name='expiry'
               classes={ {
                 container: styles.inputContainer,
-                input: styles.input,
                 notValid: styles.notValid,
                 error: styles.error,
               } }
@@ -114,7 +110,6 @@ const PayForm = (props) => {
               name='cvc'
               classes={ {
                 container: styles.inputContainer,
-                input: styles.input,
                 notValid: styles.notValid,
                 error: styles.error,
               } }
