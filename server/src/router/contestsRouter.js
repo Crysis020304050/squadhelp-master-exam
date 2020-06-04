@@ -83,6 +83,7 @@ contestRouter.post('/getOffersForModerator',
 contestRouter.post('/resolveOffer',
     basicMiddlewares.onlyForModerators,
     contestController.resolveOffer,
+    contestController.findAndNotifyContestHolderAboutNewEntry,
     userController.findUserByEmailOrId,
     notifyUserAboutResolvingOffer
 );

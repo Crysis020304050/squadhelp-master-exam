@@ -146,8 +146,6 @@ module.exports.setNewOffer = async (req, res, next) => {
         let result = await contestQueries.createOffer(obj);
         delete result.contestId;
         delete result.userId;
-        controller.controller.notificationController.emitEntryCreated(
-            req.body.customerId);
         const User = Object.assign({}, req.tokenData, {id: req.tokenData.id});
         res.send(Object.assign({}, result, {User}));
     } catch (e) {
@@ -412,6 +410,17 @@ module.exports.rejectOffer = async (req, res, next) => {
     try {
         const {id} = req.body;
         req.updatedOffer = await contestQueries.updateOffer({moderationStatus: constants.MODERATION_STATUS_REJECTED}, {id});
+        next();
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.findAndNotifyContestHolderAboutNewEntry = async (req, res, next) => {
+    try {
+        const {updatedOffer: {contestId}} = req;
+        const {userId} = await contestQueries.getUserIdByContestId(contestId);
+        controller.controller.notificationController.emitEntryCreated(userId);
         next();
     } catch (e) {
         next(e);
