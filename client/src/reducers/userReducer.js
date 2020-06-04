@@ -1,4 +1,5 @@
 import ACTION from '../actions/actionTypes';
+import {controller} from '../api/ws/socketController';
 
 
 const initialState = {
@@ -18,6 +19,7 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.CLEAR_USER_STORE:{
+            controller.unsubsctibe(state.data.id);
             return{
                 ...state,
                 data: null,

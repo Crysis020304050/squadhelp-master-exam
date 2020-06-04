@@ -1,5 +1,4 @@
 import {put} from 'redux-saga/effects';
-import history from '../browserHistory';
 import * as restController from '../api/rest/auth';
 import {getUserSuccess, authActionSuccess, authActionError} from '../actions/actionCreator';
 import {controller} from '../api/ws/socketController';
@@ -14,7 +13,6 @@ export function* authSaga(action) {
         yield put(authActionSuccess());
         yield put(getUserSuccess(data.user));
         controller.subscribe(data.user.id);
-        history.replace('/');
     } catch (e) {
         yield put(authActionError(e.response || e));
     }
