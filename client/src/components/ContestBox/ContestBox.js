@@ -83,7 +83,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                             <img src={`${constants.STATIC_IMAGES_PATH}entrieImage.png`} alt='logo'/>
                             <span>{count}</span>
                         </div>
-                        <span>Entries</span>
+                        <span>Active Entries</span>
                     </div>
                     <div className={styles.timeContainer}>
                         <span className={styles.timeContest}>{getTimeStr()}</span>
