@@ -10,7 +10,7 @@ const Button = ({type, description, index, activeButtonIndex, setActiveButtonInd
     };
 
     return (
-        <li key={index} className={classNames(styles.buttonContainer, {[styles.activeButton]: index === activeButtonIndex})} onClick={onClickHandler}>
+        <li className={classNames(styles.buttonContainer, {[styles.activeButton]: index === activeButtonIndex})} onClick={onClickHandler}>
             <div>{type}</div>
             <h5>{description}</h5>
         </li>
@@ -29,7 +29,7 @@ const ButtonGroupComponent = props => {
             </div>
             <ul className={styles.buttonGroupContainer}>
                 {
-                    [...buttonsData].map((item, index) => <Button {...item} index={index}
+                    [...buttonsData].map((item, index) => <Button key={index} {...item} index={index}
                                                                   activeButtonIndex={activeButtonIndex}
                                                                   setActiveButtonIndex={setActiveButtonIndex}/>)
                 }
