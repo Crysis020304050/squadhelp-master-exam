@@ -18,13 +18,13 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
     const toggleContainer = useRef();
 
     const handleResize = () => {
-        if (window.innerWidth > 800) {
+        if (isMenuOpen && window.innerWidth > 800) {
             setIsMenuOpen(false);
         }
     };
 
     const onClickOutsideHandler = e => {
-        if (!toggleContainer.current.contains(e.target)) {
+        if (isMenuOpen && !toggleContainer.current.contains(e.target)) {
             setIsMenuOpen(false);
         }
     };
@@ -36,7 +36,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousedown', onClickOutsideHandler);
         };
-    }, []);
+    }, [isMenuOpen]);
 
     const logOut = () => {
         localStorage.removeItem(constants.REFRESH_TOKEN);
