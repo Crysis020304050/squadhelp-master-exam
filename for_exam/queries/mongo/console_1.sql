@@ -1,5 +1,5 @@
 db.messages.aggregate(
     [
-        {$match: {body: 'паровоз'}},
+        {$match: {body: /.?[П|п]аровоз.?/}},
         {$count: 'train_messages'}
     ]);
