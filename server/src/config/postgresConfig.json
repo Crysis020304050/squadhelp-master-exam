@@ -2,7 +2,7 @@
   "development": {
     "username": "crysis020304050",
     "password": "CrysisWarhead020304050",
-    "database": "squadhelp_dev",
+    "database": "without_mongo",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op"

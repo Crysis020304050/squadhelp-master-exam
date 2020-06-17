@@ -80,5 +80,37 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models.TransactionHistory, {foreignKey: 'user_id', targetKey: 'id'});
     };
 
+    User.associate = function (models) {
+        User.hasMany(models.Conversation, {foreignKey: 'participant1', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.Conversation, {foreignKey: 'participant2', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.Catalog, {foreignKey: 'user_id', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.Message, {foreignKey: 'user_id', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.BlackList, {foreignKey: 'user_id', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.BlackList, {foreignKey: 'blocked_user_id', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.FavoriteList, {foreignKey: 'user_id', targetKey: 'id'});
+    };
+
+    User.associate = function (models) {
+        User.hasMany(models.FavoriteList, {foreignKey: 'favorite_user_id', targetKey: 'id'});
+    };
+
     return User;
 };
