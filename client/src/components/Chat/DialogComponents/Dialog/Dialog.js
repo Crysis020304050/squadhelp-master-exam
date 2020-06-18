@@ -7,7 +7,6 @@ import className from 'classnames';
 import styles from './Dialog.module.sass';
 import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 
-
 class Dialog extends React.Component {
 
     constructor(props) {
@@ -69,7 +68,6 @@ class Dialog extends React.Component {
         )
     };
 
-
     blockMessage = () => {
         const {userId, chatData} = this.props;
         const {blackList, participants} = chatData;
@@ -85,7 +83,6 @@ class Dialog extends React.Component {
         )
     };
 
-
     render() {
         const {chatData, userId} = this.props;
         return (
@@ -97,19 +94,13 @@ class Dialog extends React.Component {
             </>
         )
     }
-
 }
 
+const mapStateToProps = (state) => state.chatStore;
 
-const mapStateToProps = (state) => {
-    return state.chatStore;
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getDialog: (data) => dispatch(getDialogMessages(data)),
-        clearMessageList: () => dispatch(clearMessageList())
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    getDialog: (data) => dispatch(getDialogMessages(data)),
+    clearMessageList: () => dispatch(clearMessageList())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dialog);

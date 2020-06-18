@@ -6,7 +6,6 @@ import styles from './ChatInput.module.sass';
 import constants from '../../../../constants/constants';
 import FormField from "../../../FormField";
 
-
 const validate = (values) => {
     const errors = {};
     if (!values.message || !values.message.trim().length) {
@@ -15,20 +14,16 @@ const validate = (values) => {
     return errors;
 };
 
-const ChatInput = (props) => {
+const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor}) => {
 
     const clickButton = (values) => {
-        const {reset} = props;
-        props.sendMessage({
+        sendMessage({
             messageBody: values.message,
-            recipient: props.interlocutor.id,
-            interlocutor: props.interlocutor
+            recipient: interlocutor.id,
+            interlocutor,
         });
         reset();
     };
-
-
-    const {handleSubmit, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -61,12 +56,9 @@ const mapStateToProps = (state) => {
     return {interlocutor, data};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage: (data) => dispatch(sendMessageAction(data))
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+    sendMessage: (data) => dispatch(sendMessageAction(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'messageForm',
