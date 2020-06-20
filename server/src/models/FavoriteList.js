@@ -10,13 +10,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
   }, {
-    timestamps: true
+    timestamps: false
   });
   FavoriteList.associate = function(models) {
-    FavoriteList.belongsTo(models.User, {foreignKey: 'user_id', sourceKey: 'id'});
+    FavoriteList.belongsTo(models.User, {as: 'favoriteListOwner', foreignKey: 'userId', sourceKey: 'id'});
+    FavoriteList.belongsTo(models.User, {as: 'favoriteUser', foreignKey: 'favoriteUserId', sourceKey: 'id'});
   };
-  FavoriteList.associate = function(models) {
-    FavoriteList.belongsTo(models.User, {foreignKey: 'favorite_user_id', sourceKey: 'id'});
-  };
+
   return FavoriteList;
 };

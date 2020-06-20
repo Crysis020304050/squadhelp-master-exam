@@ -13,10 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
     });
     Catalog.associate = function (models) {
-        Catalog.belongsTo(models.User, {foreignKey: 'user_id', sourceKey: 'id'});
-    };
-    Catalog.associate = function (models) {
+        Catalog.belongsTo(models.User, {foreignKey: 'userId', sourceKey: 'id'});
         Catalog.belongsToMany(models.Conversation, {through: 'ConversationsToCatalogs'});
     };
+
     return Catalog;
 };

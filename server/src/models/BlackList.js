@@ -10,13 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
   }, {
-    timestamps: true
+    timestamps: false
   });
   BlackList.associate = function(models) {
-    BlackList.belongsTo(models.User, {foreignKey: 'user_id', sourceKey: 'userId'});
-  };
-  BlackList.associate = function(models) {
-    BlackList.belongsTo(models.User, {foreignKey: 'blocked_user_id', sourceKey: 'blockedUserId'});
+    BlackList.belongsTo(models.User, {as: 'blackListOwner', foreignKey: 'userId', sourceKey: 'id'});
+    BlackList.belongsTo(models.User, {as: 'blockedUser', foreignKey: 'blockedUserId', sourceKey: 'id'});
   };
 
   return BlackList;

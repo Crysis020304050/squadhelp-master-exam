@@ -39,6 +39,22 @@ db['Users'].hasMany(db['RefreshToken'],
     {foreignKey: 'userId', targetKey: 'id'});
 db['Users'].hasMany(db['TransactionHistory'],
     {foreignKey: 'userId', targetKey: 'id'});
+db['Users'].hasMany(db['Conversation'],
+    {as: 'owner', foreignKey: 'participantFirstId', targetKey: 'id'});
+db['Users'].hasMany(db['Conversation'],
+    {as: 'interlocutor', foreignKey: 'participantSecondId', targetKey: 'id'});
+db['Users'].hasMany(db['Catalog'],
+    {foreignKey: 'userId', targetKey: 'id'});
+db['Users'].hasMany(db['Message'],
+    {as: 'userMessages', foreignKey: 'userId', targetKey: 'id'});
+db['Users'].hasMany(db['BlackList'],
+    {as: 'blackListOwner', foreignKey: 'userId', targetKey: 'id'});
+db['Users'].hasMany(db['BlackList'],
+    {as: 'blockedUser', foreignKey: 'blockedUserId', targetKey: 'id'});
+db['Users'].hasMany(db['FavoriteList'],
+    {as: 'favoriteListOwner', foreignKey: 'userId', targetKey: 'id'});
+db['Users'].hasMany(db['FavoriteList'],
+    {as: 'favoriteUser', foreignKey: 'favoriteUserId', targetKey: 'id'});
 
 db['Offers'].belongsTo(db['Users'],
     {foreignKey: 'userId', sourceKey: 'id'});
@@ -57,6 +73,35 @@ db['RefreshToken'].belongsTo(db['Users'],
 
 db['TransactionHistory'].belongsTo(db['Users'],
     {foreignKey: 'userId', targetKey: 'id'});
+
+db['Conversation'].belongsTo(db['Users'],
+    {as: 'owner', foreignKey: 'participantFirstId', sourceKey: 'id'});
+db['Conversation'].belongsTo(db['Users'],
+    {as: 'interlocutor', foreignKey: 'participantSecondId', sourceKey: 'id'});
+db['Conversation'].belongsToMany(db['Catalog'],
+    {through: 'ConversationsToCatalogs'});
+db['Conversation'].hasMany(db['Message'],
+    {as: 'conversationMessages', foreignKey: 'conversationId', targetKey: 'id'});
+
+db['Catalog'].belongsTo(db['Users'],
+    {foreignKey: 'userId', sourceKey: 'id'});
+db['Catalog'].belongsToMany(db['Conversation'],
+    {through: 'ConversationsToCatalogs'});
+
+db['Message'].belongsTo(db['Conversation'],
+    {as: 'conversationMessages', foreignKey: 'conversationId', sourceKey: 'id'});
+db['Message'].belongsTo(db['Users'],
+    {as: 'userMessages', foreignKey: 'userId', sourceKey: 'id'});
+
+db['FavoriteList'].belongsTo(db['Users'],
+    {as: 'favoriteListOwner', foreignKey: 'userId', sourceKey: 'id'});
+db['FavoriteList'].belongsTo(db['Users'],
+    {as: 'favoriteUser', foreignKey: 'favoriteUserId', sourceKey: 'id'});
+
+db['BlackList'].belongsTo(db['Users'],
+    {as: 'blackListOwner', foreignKey: 'userId', sourceKey: 'id'});
+db['BlackList'].belongsTo(db['Users'],
+    {as: 'blockedUser', foreignKey: 'blockedUserId', sourceKey: 'id'});
 
 
 db.sequelize = sequelize;

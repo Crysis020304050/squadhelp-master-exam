@@ -1,4 +1,5 @@
 const chatController = require("../controllers/chatController");
+const chatControllerPostgres = require("../controllers/chatControllerPostgres");
 
 const chatRouter = require('express')();
 
@@ -15,6 +16,11 @@ chatRouter.post(
 chatRouter.post(
     '/getPreview',
     chatController.getPreview,
+);
+
+chatRouter.post(
+  '/getPreviewPostgres',
+    chatControllerPostgres.getPreview,
 );
 
 chatRouter.post(

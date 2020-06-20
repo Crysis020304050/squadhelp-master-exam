@@ -17,10 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true
   });
   Message.associate = function(models) {
-    Message.belongsTo(models.User, {foreignKey: 'user_id', sourceKey: 'id'});
-  };
-  Message.associate = function(models) {
-    Message.belongsTo(models.Conversation, {foreignKey: 'conversation_id', sourceKey: 'id'});
+    Message.belongsTo(models.Conversation, {as: 'conversationMessages', foreignKey: 'conversationId', sourceKey: 'id'});
+    Message.belongsTo(models.User, {as: 'userMessages', foreignKey: 'userId', sourceKey: 'id'});
   };
   return Message;
 };

@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      participant1: {
+      participantFirstId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -16,7 +16,7 @@ module.exports = {
           key: 'id',
         },
       },
-      participant2: {
+      participantSecondId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
