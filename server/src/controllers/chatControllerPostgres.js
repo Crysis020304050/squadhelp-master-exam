@@ -82,3 +82,25 @@ from "Conversations" C
         next(err);
     }
 };
+
+module.exports.getChat = async (req, res, next) => {
+    try {
+        const {body: {conversationId}} = req;
+        const messages = await db.Message.findAll({
+            where: {conversationId}
+        });
+        res.send({messages});
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.addMessage = async (req, res, next) => {
+  try {
+      const {body: {body, conversationId}, tokenData: {id}} = req;
+      const message = await db.Message.create({conversationId, userId: id, body});
+      res.send({message});
+  } catch (e) {
+      next(e);
+  }
+};

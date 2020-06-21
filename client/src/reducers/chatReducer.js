@@ -2,7 +2,6 @@ import ACTION from '../actions/actionTypes';
 import constants from '../constants/constants';
 
 
-
 const initialState = {
     isFetching: true,
     addChatId: null,
@@ -12,7 +11,7 @@ const initialState = {
     messages: [],
     error: null,
     isExpanded: false,
-    interlocutor: [],
+    interlocutor: {},
     messagesPreview: [],
     isShow: false,
     chatMode: constants.NORMAL_PREVIEW_CHAT_MODE,
@@ -84,7 +83,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 messages: action.data.messages,
-                interlocutor: action.data.interlocutor
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ERROR: {
@@ -96,11 +94,19 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.SEND_MESSAGE: {
+            const updatedPreview = [...state.messagesPreview];
+            const {data: {message}} = action;
+            updatedPreview.forEach(preview => {
+               if (preview._id === message.conversation || preview._id === message.conversationId) {
+                   preview.sender = message.sender || message.userId;
+                   preview.text = message.body;
+                   preview.createAt = message.createdAt;
+               }
+            });
             return {
                 ...state,
-                chatData: {...state.chatData,...action.data.chatData},
-                messagesPreview: action.data.messagesPreview,
-                messages: [...state.messages, action.data.message]
+                messagesPreview: updatedPreview,
+                messages: [...state.messages, message],
             }
         }
         case ACTION.SEND_MESSAGE_ERROR: {

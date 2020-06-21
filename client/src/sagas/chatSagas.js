@@ -24,7 +24,7 @@ export function* getDialog(action) {
     }
 }
 
-export function* sendMessage(action) {
+/*export function* sendMessage(action) {
     try {
         const {data} = yield restController.newMessage(action.data);
         const {messagesPreview} = yield select(state => state.chatStore);
@@ -51,6 +51,20 @@ export function* sendMessage(action) {
                     favoriteList: data.preview.favoriteList,
                     blackList: data.preview.blackList
                 }
+            }
+        });
+    } catch (err) {
+        yield put({type: ACTION.SEND_MESSAGE_ERROR, error: err.response});
+    }
+}*/
+
+export function* sendMessage(action) {
+    try {
+        const {data} = yield restController.newMessage(action.data);
+        yield put({
+            type: ACTION.SEND_MESSAGE,
+            data: {
+                message: data.message,
             }
         });
     } catch (err) {

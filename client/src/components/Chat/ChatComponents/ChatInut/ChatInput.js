@@ -14,11 +14,13 @@ const validate = (values) => {
     return errors;
 };
 
-const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor}) => {
+const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, chatData}) => {
 
     const clickButton = (values) => {
         sendMessage({
             messageBody: values.message,
+            body: values.message,
+            conversationId: chatData._id || chatData.id,
             recipient: interlocutor.id,
             interlocutor,
         });
@@ -51,9 +53,9 @@ const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor}) => {
 };
 
 const mapStateToProps = (state) => {
-    const {interlocutor} = state.chatStore;
+    const {interlocutor, chatData} = state.chatStore;
     const {data} = state.userStore;
-    return {interlocutor, data};
+    return {interlocutor, data, chatData};
 };
 
 const mapDispatchToProps = (dispatch) => ({

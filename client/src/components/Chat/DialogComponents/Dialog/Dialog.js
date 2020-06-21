@@ -15,28 +15,22 @@ class Dialog extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getDialog({interlocutorId: this.props.interlocutor.id});
+        const {interlocutor: {id}, chatData: {_id}, getDialog} = this.props;
+        getDialog({interlocutorId: id, conversationId: _id});
         this.scrollToBottom();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.messagesEnd.current)
+            this.scrollToBottom();
+    }
 
     scrollToBottom = () => {
         this.messagesEnd.current.scrollIntoView({behavior: 'smooth'})
     };
 
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.interlocutor.id !== this.props.interlocutor.id)
-            this.props.getDialog({interlocutorId: nextProps.interlocutor.id});
-    }
-
     componentWillUnmount() {
         this.props.clearMessageList();
-    }
-
-    componentDidUpdate() {
-        if (this.messagesEnd.current)
-            this.scrollToBottom();
     }
 
     renderMainDialog = () => {
@@ -54,7 +48,7 @@ class Dialog extends React.Component {
             }
             messagesArray.push(
                 <div key={i}
-                     className={className(userId === message.sender ? styles.ownMessage : styles.message)}>
+                     className={className(userId === message.userId || userId === message.sender ? styles.ownMessage : styles.message)}>
                     <span>{message.body}</span>
                     <span className={styles.messageTime}>{moment(message.createdAt).format('HH:mm')}</span>
                     <div ref={this.messagesEnd}/>

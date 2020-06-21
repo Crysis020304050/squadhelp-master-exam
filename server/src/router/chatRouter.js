@@ -9,8 +9,18 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/newMessagePostgres',
+    chatControllerPostgres.addMessage,
+);
+
+chatRouter.post(
     '/getChat',
     chatController.getChat,
+);
+
+chatRouter.post(
+    '/getChatPostgres',
+    chatControllerPostgres.getChat,
 );
 
 chatRouter.post(
