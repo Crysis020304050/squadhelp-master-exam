@@ -41,7 +41,7 @@ module.exports.addMessage = async (req, res, next) => {
       favoriteList: newConversation.favoriteList,
     };
     controller.controller.chatController.emitNewMessage(interlocutorId, {
-      message: message,
+      message,
       preview: {
         _id: newConversation._id,
         sender: req.tokenData.id,

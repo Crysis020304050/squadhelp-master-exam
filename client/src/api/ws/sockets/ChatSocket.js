@@ -26,8 +26,8 @@ class ChatSocket extends WebSocket {
 
     onNewMessage = () => {
         this.socket.on('newMessage', (data) => {
-            const {message, preview} = data.message;
-            const {messagesPreview} = this.getState().chatStore;
+            const {message: {message, chatPreview}} = data;
+            /*const {messagesPreview} = this.getState().chatStore;
             let isNew = true;
             messagesPreview.forEach(preview => {
                 if (isEqual(preview.participants, message.participants)) {
@@ -39,8 +39,8 @@ class ChatSocket extends WebSocket {
             });
             if (isNew) {
                 messagesPreview.push(preview);
-            }
-            this.dispatch(addMessage({message, messagesPreview}));
+            }*/
+            this.dispatch(addMessage({message, chatPreview, isSocketMessage: true}));
         })
     };
 

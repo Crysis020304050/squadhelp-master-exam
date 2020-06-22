@@ -1,5 +1,6 @@
 const {findUser} = require('./queries/userQueries');
 const {getConversationsData, findMessages, createMessage, createConversation} = require('./queries/chatQueries');
+const controller = require('../index.js');
 
 module.exports.getPreview = async (req, res, next) => {
     try {
@@ -36,9 +37,10 @@ module.exports.getChat = async (req, res, next) => {
 
 module.exports.addMessage = async (req, res, next) => {
     try {
-        const {body: {body, conversationId, interlocutor}, tokenData: {id}} = req;
+        const {body: {body, conversationId, interlocutor}, tokenData: {id, firstName, lastName, displayName, avatar}} = req;
         if (conversationId) {
             const message = await createMessage({conversationId, userId: id, body});
+            controller.controller.chatController.emitNewMessage(interlocutor.id, {message});
             res.send({message});
         } else {
             const conversation = await createConversation({
@@ -56,6 +58,17 @@ module.exports.addMessage = async (req, res, next) => {
                 favoriteList: [false, false],
                 interlocutor,
             };
+            controller.controller.chatController.emitNewMessage(interlocutor.id, {
+                message, chatPreview: {
+                    ...chatPreview, interlocutor: {
+                        id,
+                        firstName,
+                        lastName,
+                        displayName,
+                        avatar
+                    }
+                }
+            });
             res.send({message, chatPreview});
         }
     } catch (e) {
