@@ -15,8 +15,8 @@ class Dialog extends React.Component {
     }
 
     componentDidMount() {
-        const {interlocutor: {id}, chatData: {_id}, getDialog} = this.props;
-        getDialog({interlocutorId: id, conversationId: _id});
+        const {interlocutor: {id}, chatData, getDialog} = this.props;
+        getDialog({interlocutorId: id, conversationId: chatData && chatData._id || null});
         this.scrollToBottom();
     }
 

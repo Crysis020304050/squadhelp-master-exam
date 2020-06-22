@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatData, userId, changeChatFavorite, changeChatBlock}) => {
 
-    const {favoriteList, blackList, participants} = chatData;
-
     const changeFavorite = (data, event) => {
         changeChatFavorite(data);
         event.stopPropagation();
@@ -19,9 +17,9 @@ const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatDa
         event.stopPropagation();
     };
 
-    const isFavorite = (userId) => favoriteList[participants.indexOf(userId)];
+    const isFavorite = (userId) => chatData.favoriteList[chatData.participants.indexOf(userId)];
 
-    const isBlocked = (userId) => blackList[participants.indexOf(userId)];
+    const isBlocked = (userId) => chatData.blackList[chatData.participants.indexOf(userId)];
 
     return (
         <div className={styles.chatHeader}>
@@ -36,7 +34,7 @@ const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatDa
                 {chatData &&
                 <div>
                     <i onClick={(event) => changeFavorite({
-                        participants,
+                        participants: chatData.participants,
                         favoriteFlag: !isFavorite(userId)
                     }, event)}
                        className={classNames({
@@ -44,7 +42,7 @@ const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatDa
                            ['fas fa-heart']: isFavorite(userId)
                        })}/>
                     <i onClick={(event) => changeBlackList({
-                        participants,
+                        participants: chatData.participants,
                         blackListFlag: !isBlocked(userId)
                     }, event)}
                        className={classNames({

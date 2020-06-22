@@ -20,7 +20,7 @@ const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, chatD
         sendMessage({
             messageBody: values.message,
             body: values.message,
-            conversationId: chatData._id || chatData.id,
+            conversationId: chatData && chatData._id || null,
             recipient: interlocutor.id,
             interlocutor,
         });

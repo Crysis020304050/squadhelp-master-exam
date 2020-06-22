@@ -21,6 +21,8 @@ const initialState = {
     catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG
 };
 
+const prepareChatData = ({sender, text, createAt, userId, createdAt, interlocutor, ...rest}) => rest;
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case ACTION.GET_PREVIEW_CHAT: {
@@ -80,9 +82,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.GET_DIALOG_MESSAGES: {
+            const {data: {messages, interlocutor}} = action;
             return {
                 ...state,
-                messages: action.data.messages,
+                ...(messages && {messages}),
+                ...(interlocutor && {interlocutor}),
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ERROR: {
@@ -94,8 +98,13 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.SEND_MESSAGE: {
+            const {data: {message, chatPreview}} = action;
             const updatedPreview = [...state.messagesPreview];
-            const {data: {message}} = action;
+            let updatedChatData;
+            if (chatPreview) {
+                updatedPreview.push(chatPreview);
+                updatedChatData = prepareChatData(chatPreview);
+            }
             updatedPreview.forEach(preview => {
                if (preview._id === message.conversation || preview._id === message.conversationId) {
                    preview.sender = message.sender || message.userId;
@@ -107,6 +116,7 @@ export default function (state = initialState, action) {
                 ...state,
                 messagesPreview: updatedPreview,
                 messages: [...state.messages, message],
+                ...(updatedChatData && {chatData: updatedChatData}),
             }
         }
         case ACTION.SEND_MESSAGE_ERROR: {

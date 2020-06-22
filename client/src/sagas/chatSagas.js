@@ -61,12 +61,7 @@ export function* getDialog(action) {
 export function* sendMessage(action) {
     try {
         const {data} = yield restController.newMessage(action.data);
-        yield put({
-            type: ACTION.SEND_MESSAGE,
-            data: {
-                message: data.message,
-            }
-        });
+        yield put({type: ACTION.SEND_MESSAGE, data});
     } catch (err) {
         yield put({type: ACTION.SEND_MESSAGE_ERROR, error: err.response});
     }
