@@ -44,6 +44,11 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/changeFavoriteUserStatusPostgres',
+    chatControllerPostgres.changeFavoriteUserStatus,
+);
+
+chatRouter.post(
     '/createCatalog',
     chatController.createCatalog,
 );

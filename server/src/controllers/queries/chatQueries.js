@@ -95,3 +95,35 @@ module.exports.createConversation = async (data) => {
     }
     throw new ServerError('Cannot create conversation');
 };
+
+module.exports.addUserToFavoriteList = async (data) => {
+    const favoriteListItem = await db.FavoriteList.create(data);
+    if (favoriteListItem) {
+        return favoriteListItem.get({plain: true});
+    }
+    throw new ServerError('Cannot add user to Favorite list');
+};
+
+module.exports.removeUserFromFavoriteList = async (predicate) => {
+    const deletedRowCount = await db.FavoriteList.destroy({where: predicate});
+    if (deletedRowCount) {
+        return true;
+    }
+    throw new ServerError('Cannot remove user from Favorite list');
+};
+
+module.exports.addUserToBlackList = async (data) => {
+    const blackListItem = await db.BlackList.create(data);
+    if (blackListItem) {
+        return blackListItem.get({plain: true});
+    }
+    throw new ServerError('Cannot add user to Black list');
+};
+
+module.exports.removeUserFromBlackList = async (predicate) => {
+    const deletedRowCount = await db.BlackList.destroy({where: predicate});
+    if (deletedRowCount) {
+        return true;
+    }
+    throw new ServerError('Cannot remove user from Black list');
+};
