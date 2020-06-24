@@ -39,6 +39,11 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/changeBlockedUserStatusPostgres',
+    chatControllerPostgres.changeBlockedUserStatus,
+);
+
+chatRouter.post(
     '/favorite',
     chatController.favoriteChat,
 );

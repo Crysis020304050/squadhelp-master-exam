@@ -5,7 +5,7 @@ import styles from './ChatHeader.module.sass';
 import constants from '../../../../constants/constants';
 import classNames from 'classnames';
 
-const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatData, userId, changeChatFavorite, changeChatBlock}) => {
+const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, chatData, userId, changeChatFavorite, changeChatBlock}) => {
 
     const changeFavorite = (data, event) => {
         changeChatFavorite(data);
@@ -34,16 +34,20 @@ const ChatHeader = ({interlocutor: {avatar, firstName}, backToDialogList, chatDa
                 {chatData &&
                 <div>
                     <i onClick={(event) => changeFavorite({
-                        participants: chatData.participants,
-                        favoriteFlag: !isFavorite(userId)
+                        conversationId: chatData._id,
+                        participantsToFavoriteListPair: [{id: chatData.participants[0], flag: chatData.favoriteList[0]}, {id: chatData.participants[1], flag: chatData.favoriteList[1]}],
+                        favoriteFlag: !isFavorite(userId),
+                        interlocutorId: id,
                     }, event)}
                        className={classNames({
                            ['far fa-heart']: !isFavorite(userId),
                            ['fas fa-heart']: isFavorite(userId)
                        })}/>
                     <i onClick={(event) => changeBlackList({
-                        participants: chatData.participants,
-                        blackListFlag: !isBlocked(userId)
+                        conversationId: chatData._id,
+                        participantsToBlackListPair: [{id: chatData.participants[0], flag: chatData.blackList[0]}, {id: chatData.participants[1], flag: chatData.blackList[1]}],
+                        blackListFlag: !isBlocked(userId),
+                        interlocutorId: id,
                     }, event)}
                        className={classNames({
                            ['fas fa-user-lock']: !isBlocked(userId),

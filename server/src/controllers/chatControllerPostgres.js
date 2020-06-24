@@ -102,3 +102,30 @@ module.exports.changeFavoriteUserStatus = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.changeBlockedUserStatus = async (req, res, next) => {
+    try {
+        const {body: {conversationId, participantsToBlackListPair, blackListFlag, interlocutorId}, tokenData: {id}} = req;
+        const result = {conversationId};
+        const [firstParticipantData, secondParticipantData] = participantsToBlackListPair;
+        if (blackListFlag) {
+            await chatQueries.addUserToBlackList({userId: id, blockedUserId: interlocutorId});
+            if (firstParticipantData.id === id) {
+                result.blackList = [true, secondParticipantData.flag];
+            } else {
+                result.blackList = [firstParticipantData.flag, true]
+            }
+        } else {
+            await chatQueries.removeUserFromBlackList({userId: id, blockedUserId: interlocutorId});
+            if (firstParticipantData.id === id) {
+                result.blackList = [false, secondParticipantData.flag];
+            } else {
+                result.blackList = [firstParticipantData.flag, false]
+            }
+        }
+        controller.controller.chatController.emitChangeBlockStatus(interlocutorId, {...result});
+        res.send(result);
+    } catch (e) {
+        next(e);
+    }
+};

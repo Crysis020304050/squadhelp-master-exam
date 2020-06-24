@@ -145,17 +145,33 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.CHANGE_CHAT_FAVORITE: {
+            const {data: {conversationId, favoriteList}} = action;
+            const updatedPreview = [...state.messagesPreview];
+            updatedPreview.forEach(preview => {
+                if (preview._id === conversationId) {
+                    preview.favoriteList = favoriteList;
+                }
+            });
+            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, favoriteList} : false;
             return {
                 ...state,
-                chatData: action.data.changedPreview,
-                messagesPreview: action.data.messagesPreview
+                messagesPreview: updatedPreview,
+                ...(updatedChatData && {chatData: updatedChatData}),
             }
         }
         case ACTION.CHANGE_CHAT_BLOCK: {
+            const {data: {conversationId, blackList}} = action;
+            const updatedPreview = [...state.messagesPreview];
+            updatedPreview.forEach(preview => {
+                if (preview._id === conversationId) {
+                    preview.blackList = blackList;
+                }
+            });
+            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, blackList} : false;
             return {
                 ...state,
-                chatData: action.data.chatData,
-                messagesPreview: action.data.messagesPreview
+                messagesPreview: updatedPreview,
+                ...(updatedChatData && {chatData: updatedChatData}),
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST: {

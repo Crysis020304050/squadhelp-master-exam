@@ -14,13 +14,8 @@ class ChatSocket extends WebSocket {
     };
     onChangeBlockStatus = () => {
         this.socket.on(CONTANTS.CHANGE_BLOCK_STATUS, (data) => {
-            const {message} = data;
-            const {messagesPreview} = this.getState().chatStore;
-            messagesPreview.forEach(preview => {
-                if (isEqual(preview.participants, message.participants))
-                    preview.blackList = message.blackList
-            });
-            this.dispatch(changeBlockStatusInStore({chatData: message, messagesPreview}));
+            const {message: {conversationId, blackList}} = data;
+            this.dispatch(changeBlockStatusInStore({conversationId, blackList}));
         })
     };
 
