@@ -8,27 +8,38 @@ export const setOfferStatus = data => http.post('setOfferStatus', data);
 export const downloadContestFile = (data) => http.get('downloadFile/' + data.fileName);
 export const payMent = (data) => http.post('pay', data.formData);
 export const changeMark = (data) => http.post('changeMark', data);
-//export const getPreviewChat = () => http.post('getPreview');
-export const getPreviewChat = () => http.post('getPreviewPostgres');
-//export const getDialog = (data) => http.post('getChat', data);
-export const getDialog = (data) => http.post('getChatPostgres', data);
 export const dataForContest = (data) => http.post('dataForContest', data);
 export const cashOut = (data) => http.post('cashout', data);
 export const updateUser = (data) => http.post('updateUser', data);
+
+
+/*mongo*/
+//export const getPreviewChat = () => http.post('getPreview');
+//export const getDialog = (data) => http.post('getChat', data);
 //export const newMessage = (data) => http.post('newMessage', data);
-export const newMessage = (data) => http.post('newMessagePostgres', data);
 //export const changeChatFavorite = (data) => http.post('favorite', data);
-export const changeChatFavorite = (data) => http.post('changeFavoriteUserStatusPostgres', data);
 //export const changeChatBlock = (data) => http.post('blackList', data);
-export const changeChatBlock = (data) => http.post('changeBlockedUserStatusPostgres', data);
 //export const getCatalogList = (data) => http.post('getCatalogs', data);
-export const getCatalogList = (data) => http.post('getCatalogsPostgres', data);
 export const addChatToCatalog = (data) => http.post('addNewChatToCatalog', data);
 //export const createCatalog = (data) => http.post('createCatalog', data);
-export const createCatalog = (data) => http.post('createCatalogPostgres', data);
-export const deleteCatalog = (data) => http.post('deleteCatalog', data);
+//export const deleteCatalog = (data) => http.post('deleteCatalog', data);
 export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalog', data);
 export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
+
+/*postgres*/
+export const getPreviewChat = () => http.post('getPreviewPostgres');
+export const getDialog = (data) => http.post('getChatPostgres', data);
+export const newMessage = (data) => http.post('newMessagePostgres', data);
+export const changeChatFavorite = (data) => http.post('changeFavoriteUserStatusPostgres', data);
+export const changeChatBlock = (data) => http.post('changeBlockedUserStatusPostgres', data);
+export const getCatalogList = (data) => http.post('getCatalogsPostgres', data);
+//
+export const createCatalog = (data) => http.post('createCatalogPostgres', data);
+export const deleteCatalog = (data) => http.post('deleteCatalogPostgres', data);
+//
+//
+
+
 export const getCustomersContests = ({limit, offset, contestStatus}) => {
     return http.post('getCustomersContests', {limit, offset}, {
         headers: {

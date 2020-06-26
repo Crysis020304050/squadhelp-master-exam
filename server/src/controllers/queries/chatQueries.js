@@ -128,34 +128,27 @@ module.exports.removeUserFromBlackList = async (predicate) => {
     throw new ServerError('Cannot remove user from Black list');
 };
 
-/*
-module.exports.getCatalogsWithConversations = async (predicate) => {
-    return await db.Catalog.findAll({
-        where: predicate,
+module.exports.getCatalogsWithConversations = async (userId) => {
+    const catalogs = await db.Catalog.findAll({
+        where: {
+            userId,
+        },
         include: [
             {
                 model: db.Conversation,
-                through: {attributes: ['catalogId', 'conversationId']},
+                through: {
+                    attributes: [],
+                },
+                attributes: ['id'],
             }
         ],
-    })
-};*/
-
-module.exports.getCatalogsWithConversations = async (userId) => {
-    const catalogs = await db.sequelize.query(`SELECT "Catalog"."id",
-       "Catalog"."name",
-       "Conversations"."id"                                      AS "Conversations.id"
-FROM "Catalogs" AS "Catalog"
-         LEFT OUTER JOIN ( "ConversationsToCatalogs" AS "Conversations->ConversationsToCatalogs" INNER JOIN "Conversations" AS "Conversations" ON
-        "Conversations"."id" = "Conversations->ConversationsToCatalogs"."conversationId")
-                         ON "Catalog"."id" = "Conversations->ConversationsToCatalogs"."catalogId"
-WHERE "Catalog"."userId" = ${userId}`, {
+        attributes: ['id', 'name'],
         raw: true,
         nest: true
     });
     const preparedCatalogs = new Map();
     catalogs.forEach(({id, name, Conversations}) => {
-        if (preparedCatalogs.has(id) && Conversations.id) {
+        if (Conversations.id && preparedCatalogs.has(id)) {
             const updatedCatalog = preparedCatalogs.get(id);
             updatedCatalog.chats = [...updatedCatalog.chats, Conversations.id];
             preparedCatalogs.set(id, updatedCatalog);
@@ -180,4 +173,12 @@ module.exports.createCatalog = async (data) => {
 
 module.exports.setCatalogConversation = async (catalogModel, conversationId) => {
   return await catalogModel.setConversations(conversationId);
+};
+
+module.exports.deleteCatalog = async (predicate) => {
+    const deletedRowCount = await db.Catalog.destroy({where: predicate});
+    if (deletedRowCount) {
+        return true;
+    }
+    throw new ServerError('Cannot remove user from Black list');
 };

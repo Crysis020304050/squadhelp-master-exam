@@ -15,6 +15,7 @@ module.exports = {
           model: 'Catalogs',
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       conversationId: {
         type: Sequelize.INTEGER,
@@ -23,6 +24,7 @@ module.exports = {
           model: 'Conversations',
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
     });
   },

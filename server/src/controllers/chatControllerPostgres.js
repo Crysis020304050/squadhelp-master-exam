@@ -155,3 +155,13 @@ module.exports.createCatalog = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.deleteCatalog = async (req, res, next) => {
+    try {
+        const {body: {catalogId}} = req;
+        await chatQueries.deleteCatalog({id: catalogId});
+        res.end();
+    } catch (e) {
+        next(e);
+    }
+};

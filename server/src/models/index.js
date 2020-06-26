@@ -79,14 +79,14 @@ db['Conversation'].belongsTo(db['Users'],
 db['Conversation'].belongsTo(db['Users'],
     {as: 'interlocutor', foreignKey: 'participantSecondId', sourceKey: 'id'});
 db['Conversation'].belongsToMany(db['Catalog'],
-    {through: 'ConversationsToCatalogs', foreignKey: 'conversationId'});
+    {through: db['ConversationsToCatalogs'], foreignKey: 'conversationId'});
 db['Conversation'].hasMany(db['Message'],
-    {as: 'conversationMessages', foreignKey: 'conversationId', targetKey: 'id'});
+    {as: 'conversationMessages', foreignKey: 'conversationId', targetKey: 'id', onDelete: 'cascade', hooks: true});
 
 db['Catalog'].belongsTo(db['Users'],
     {foreignKey: 'userId', sourceKey: 'id'});
 db['Catalog'].belongsToMany(db['Conversation'],
-    {through: 'ConversationsToCatalogs', foreignKey: 'catalogId'});
+    {through: db['ConversationsToCatalogs'], foreignKey: 'catalogId', onDelete: 'cascade', hooks: true});
 
 db['Message'].belongsTo(db['Conversation'],
     {as: 'conversationMessages', foreignKey: 'conversationId', sourceKey: 'id'});

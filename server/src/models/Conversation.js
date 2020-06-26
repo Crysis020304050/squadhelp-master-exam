@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Conversation.associate = function(models) {
     Conversation.belongsTo(models.User, {as: 'owner', foreignKey: 'participantFirstId', sourceKey: 'id'});
     Conversation.belongsTo(models.User, {as: 'interlocutor', foreignKey: 'participantSecondId', sourceKey: 'id'});
-    Conversation.belongsToMany(models.Catalog, {through: 'ConversationsToCatalogs', foreignKey: 'conversationId'});
+    Conversation.belongsToMany(models.Catalog, {through: models.ConversationsToCatalogs, foreignKey: 'conversationId', onDelete: 'cascade', hooks: true});
     Conversation.hasMany(models.Message, {as: 'conversationMessages', foreignKey: 'conversationId', targetKey: 'id'});
   };
   return Conversation;
