@@ -74,6 +74,11 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/addNewChatToCatalogPostgres',
+    chatControllerPostgres.addNewChatToCatalog,
+);
+
+chatRouter.post(
     '/removeChatFromCatalog',
     chatController.removeChatFromCatalog,
 );

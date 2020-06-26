@@ -178,7 +178,15 @@ module.exports.setCatalogConversation = async (catalogModel, conversationId) => 
 module.exports.deleteCatalog = async (predicate) => {
     const deletedRowCount = await db.Catalog.destroy({where: predicate});
     if (deletedRowCount) {
-        return true;
+        return;
     }
-    throw new ServerError('Cannot remove user from Black list');
+    throw new ServerError('Cannot delete catalog');
+};
+
+module.exports.addNewChatToCatalog = async (data) => {
+    const newConversation = await db.ConversationsToCatalogs.create(data);
+    if (newConversation) {
+        return;
+    }
+    throw new ServerError('Cannot add new conversation to catalog');
 };

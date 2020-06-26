@@ -203,10 +203,17 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.ADD_CHAT_TO_CATALOG: {
+            const {data: {catalogId, conversationId}} = action;
+            const updatedCatalogs = [...state.catalogList];
+            updatedCatalogs.forEach(catalog => {
+               if (catalog._id === catalogId) {
+                   catalog.chats = [...catalog.chats, conversationId];
+               }
+            });
             return {
                 ...state,
                 isShowCatalogCreation: false,
-                catalogList: [...action.data]
+                catalogList: updatedCatalogs,
             }
         }
         case ACTION.CREATE_CATALOG_ERROR: {

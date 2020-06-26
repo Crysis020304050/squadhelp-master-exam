@@ -165,3 +165,13 @@ module.exports.deleteCatalog = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.addNewChatToCatalog = async (req, res, next) => {
+    try {
+        const {body: {catalogId, conversationId}} = req;
+        await chatQueries.addNewChatToCatalog({catalogId, conversationId});
+        res.send({catalogId, conversationId});
+    } catch (e) {
+
+    }
+};

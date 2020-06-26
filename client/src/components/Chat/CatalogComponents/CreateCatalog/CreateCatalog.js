@@ -1,25 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
 import FormField from "../../../FormField";
 
-const validate = (values) => {
+const validate = ({catalogName}) => {
     const errors = {};
-    if (!values.catalogName || !values.catalogName.trim().length) {
+    if (!catalogName || !catalogName.trim().length) {
         errors.catalogName = 'Cannot be empty';
     }
     return errors;
 };
 
+const CreateCatalog = ({createCatalog, addChatId, handleSubmit, valid, catalogList, dispatch}) => {
 
-const CreateCatalog = (props) => {
     const click = ({catalogName}) => {
-        const {createCatalog, addChatId} = props;
-        createCatalog({catalogName, chatId: addChatId, conversationId: addChatId, name: catalogName});
+        if (catalogList.some(catalog => catalog.catalogName === catalogName)) {
+            dispatch(updateSyncErrors('createCatalog', {catalogName: `Catalog with name '${catalogName}' already exists`}));
+        } else {
+            createCatalog({catalogName, chatId: addChatId, conversationId: addChatId, name: catalogName});
+        }
     };
-    const {handleSubmit, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -42,16 +44,11 @@ const CreateCatalog = (props) => {
     )
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    createCatalog: (data) => dispatch(createCatalog(data))
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createCatalog: (data) => dispatch(createCatalog(data))
-    }
-};
-
-const mapStateToProps = (state) => {
-    return state.chatStore;
-};
+const mapStateToProps = (state) => state.chatStore;
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createCatalog',

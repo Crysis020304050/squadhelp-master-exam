@@ -6,33 +6,32 @@ import {addChatToCatalog} from '../../../../actions/actionCreator';
 import styles from './AddToCatalog.module.sass';
 
 
-const AddToCatalog = (props) => {
+const AddToCatalog = ({catalogList, addChatId, addChatToCatalog, handleSubmit}) => {
 
     const getCatalogsNames = () => {
-        const {catalogList} = props;
         const namesArray = [];
-        catalogList.forEach((catalog) => {
-            namesArray.push(catalog.catalogName);
+        catalogList.forEach(({chats, catalogName}) => {
+            if (!chats.some(chatId => chatId === addChatId)) {
+                namesArray.push(catalogName);
+            }
         });
         return namesArray;
     };
 
     const getValueArray = () => {
-        const {catalogList} = props;
         const valueArray = [];
-        catalogList.forEach((catalog) => {
-            valueArray.push(catalog._id);
+        catalogList.forEach(({chats, _id}) => {
+            if (!chats.some(chatId => chatId === addChatId)) {
+                valueArray.push(_id);
+            }
         });
         return valueArray;
     };
 
-    const click = (values) => {
-        const {addChatId} = props;
-        props.addChatToCatalog({chatId: addChatId, catalogId: values.catalogId});
+    const click = ({catalogId}) => {
+        addChatToCatalog({conversationId: addChatId, catalogId});
     };
 
-
-    const {handleSubmit} = props;
     const selectArray = getCatalogsNames();
     return (<>
             {selectArray.length !== 0 ?
@@ -52,23 +51,18 @@ const AddToCatalog = (props) => {
                     <button type='submit'>Add</button>
                 </form>
                 :
-                <div className={styles.notFound}>You have not created any directories.</div>
+                <div className={styles.notFound}>You do not have any available catalogs.</div>
             }
 
         </>
     )
 };
 
+const mapStateToProps = (state) => state.chatStore;
 
-const mapStateToProps = (state) => {
-    return state.chatStore
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addChatToCatalog: (data) => dispatch(addChatToCatalog(data))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    addChatToCatalog: (data) => dispatch(addChatToCatalog(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'addChatToCatalog'

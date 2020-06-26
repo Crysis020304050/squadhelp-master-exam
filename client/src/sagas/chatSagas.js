@@ -98,14 +98,7 @@ export function* getCatalogListSaga(action) {
 export function* addChatToCatalog(action) {
     try {
         const {data} = yield restController.addChatToCatalog(action.data);
-        const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
-                break;
-            }
-        }
-        yield put({type: ACTION.ADD_CHAT_TO_CATALOG, data: catalogList});
+        yield put({type: ACTION.ADD_CHAT_TO_CATALOG, data});
     } catch (err) {
         yield put({type: ACTION.ADD_CHAT_TO_CATALOG_ERROR, error: err.response});
     }
