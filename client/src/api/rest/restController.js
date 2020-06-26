@@ -21,16 +21,18 @@ export const newMessage = (data) => http.post('newMessagePostgres', data);
 export const changeChatFavorite = (data) => http.post('changeFavoriteUserStatusPostgres', data);
 //export const changeChatBlock = (data) => http.post('blackList', data);
 export const changeChatBlock = (data) => http.post('changeBlockedUserStatusPostgres', data);
-export const getCatalogList = (data) => http.post('getCatalogs', data);
+//export const getCatalogList = (data) => http.post('getCatalogs', data);
+export const getCatalogList = (data) => http.post('getCatalogsPostgres', data);
 export const addChatToCatalog = (data) => http.post('addNewChatToCatalog', data);
-export const createCatalog = (data) => http.post('createCatalog', data);
+//export const createCatalog = (data) => http.post('createCatalog', data);
+export const createCatalog = (data) => http.post('createCatalogPostgres', data);
 export const deleteCatalog = (data) => http.post('deleteCatalog', data);
 export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalog', data);
 export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
-export const getCustomersContests = (data) => {
-    return http.post('getCustomersContests', {limit: data.limit, offset: data.offset}, {
+export const getCustomersContests = ({limit, offset, contestStatus}) => {
+    return http.post('getCustomersContests', {limit, offset}, {
         headers: {
-            status: data.contestStatus
+            status: contestStatus
         }
     });
 };
@@ -43,10 +45,10 @@ export const getContestForModerator = ({offset, limit, moderationStatus}) => {
     return http.post('getContestsForModerator', {offset, limit, moderationStatus});
 };
 
-export const getContestById = (data) => {
+export const getContestById = ({contestId}) => {
     return http.get('getContestById', {
         headers: {
-            contestId: data.contestId
+            contestId,
         }
     });
 };

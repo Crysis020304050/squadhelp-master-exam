@@ -129,3 +129,29 @@ module.exports.changeBlockedUserStatus = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.getCatalogs = async (req, res, next) => {
+    try {
+        const {tokenData: {id}} = req;
+        const catalogsConversationsPairs = await chatQueries.getCatalogsWithConversations(id);
+        res.send(catalogsConversationsPairs);
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.createCatalog = async (req, res, next) => {
+    try {
+        const {tokenData: {id}, body: {name, conversationId}} = req;
+        const catalog = await chatQueries.createCatalog({name, userId: id});
+        await chatQueries.setCatalogConversation(catalog, conversationId);
+        const result = {
+            _id: catalog.dataValues.id,
+            catalogName: name,
+            chats: [conversationId],
+        };
+        res.send(result);
+    } catch (e) {
+        next(e);
+    }
+};

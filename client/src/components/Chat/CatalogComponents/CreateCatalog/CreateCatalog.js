@@ -15,10 +15,9 @@ const validate = (values) => {
 
 
 const CreateCatalog = (props) => {
-    const click = (values) => {
-        const {createCatalog} = props;
-        const {addChatId} = props;
-        createCatalog({catalogName: values.catalogName, chatId: addChatId});
+    const click = ({catalogName}) => {
+        const {createCatalog, addChatId} = props;
+        createCatalog({catalogName, chatId: addChatId, conversationId: addChatId, name: catalogName});
     };
     const {handleSubmit, valid} = props;
 

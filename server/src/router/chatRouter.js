@@ -59,6 +59,11 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/createCatalogPostgres',
+    chatControllerPostgres.createCatalog,
+);
+
+chatRouter.post(
     '/updateNameCatalog',
     chatController.updateNameCatalog,
 );
@@ -81,6 +86,11 @@ chatRouter.post(
 chatRouter.post(
     '/getCatalogs',
     chatController.getCatalogs,
+);
+
+chatRouter.post(
+    '/getCatalogsPostgres',
+    chatControllerPostgres.getCatalogs,
 );
 
 module.exports = chatRouter;

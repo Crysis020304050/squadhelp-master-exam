@@ -127,3 +127,57 @@ module.exports.removeUserFromBlackList = async (predicate) => {
     }
     throw new ServerError('Cannot remove user from Black list');
 };
+
+/*
+module.exports.getCatalogsWithConversations = async (predicate) => {
+    return await db.Catalog.findAll({
+        where: predicate,
+        include: [
+            {
+                model: db.Conversation,
+                through: {attributes: ['catalogId', 'conversationId']},
+            }
+        ],
+    })
+};*/
+
+module.exports.getCatalogsWithConversations = async (userId) => {
+    const catalogs = await db.sequelize.query(`SELECT "Catalog"."id",
+       "Catalog"."name",
+       "Conversations"."id"                                      AS "Conversations.id"
+FROM "Catalogs" AS "Catalog"
+         LEFT OUTER JOIN ( "ConversationsToCatalogs" AS "Conversations->ConversationsToCatalogs" INNER JOIN "Conversations" AS "Conversations" ON
+        "Conversations"."id" = "Conversations->ConversationsToCatalogs"."conversationId")
+                         ON "Catalog"."id" = "Conversations->ConversationsToCatalogs"."catalogId"
+WHERE "Catalog"."userId" = ${userId}`, {
+        raw: true,
+        nest: true
+    });
+    const preparedCatalogs = new Map();
+    catalogs.forEach(({id, name, Conversations}) => {
+        if (preparedCatalogs.has(id) && Conversations.id) {
+            const updatedCatalog = preparedCatalogs.get(id);
+            updatedCatalog.chats = [...updatedCatalog.chats, Conversations.id];
+            preparedCatalogs.set(id, updatedCatalog);
+        } else if (Conversations.id) {
+            preparedCatalogs.set(id, {
+                _id: id,
+                catalogName: name,
+                chats: [Conversations.id],
+            })
+        }
+    });
+    return [...preparedCatalogs.values()];
+};
+
+module.exports.createCatalog = async (data) => {
+  const catalog = await db.Catalog.create(data);
+  if (catalog) {
+      return catalog;
+  }
+    throw new ServerError('Cannot create catalog');
+};
+
+module.exports.setCatalogConversation = async (catalogModel, conversationId) => {
+  return await catalogModel.setConversations(conversationId);
+};
