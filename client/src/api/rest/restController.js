@@ -24,7 +24,7 @@ export const updateUser = (data) => http.post('updateUser', data);
 //export const createCatalog = (data) => http.post('createCatalog', data);
 //export const deleteCatalog = (data) => http.post('deleteCatalog', data);
 //export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalog', data);
-export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
+//export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
 
 /*postgres*/
 export const getPreviewChat = () => http.post('getPreviewPostgres');
@@ -37,7 +37,7 @@ export const addChatToCatalog = (data) => http.post('addNewChatToCatalogPostgres
 export const createCatalog = (data) => http.post('createCatalogPostgres', data);
 export const deleteCatalog = (data) => http.post('deleteCatalogPostgres', data);
 export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalogPostgres', data);
-//
+export const changeCatalogName = (data) => http.post('updateNameCatalogPostgres', data);
 
 
 export const getCustomersContests = ({limit, offset, contestStatus}) => {

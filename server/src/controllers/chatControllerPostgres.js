@@ -185,3 +185,13 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.updateCatalogName = async (req, res, next) => {
+  try {
+      const {body: {catalogId, catalogName}} = req;
+      await chatQueries.updateCatalog({name: catalogName}, {id: catalogId});
+      res.end();
+  } catch (e) {
+      next(e);
+  }
+};

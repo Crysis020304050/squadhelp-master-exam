@@ -15,7 +15,7 @@ const validate = ({catalogName}) => {
 
 const CreateCatalog = ({createCatalog, addChatId, handleSubmit, valid, catalogList, dispatch}) => {
 
-    const click = ({catalogName}) => {
+    const onSubmit = ({catalogName}) => {
         if (catalogList.some(catalog => catalog.catalogName === catalogName)) {
             dispatch(updateSyncErrors('createCatalog', {catalogName: `Catalog with name '${catalogName}' already exists`}));
         } else {
@@ -31,7 +31,7 @@ const CreateCatalog = ({createCatalog, addChatId, handleSubmit, valid, catalogLi
     };
 
     return (
-        <form onSubmit={handleSubmit(click)} className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <Field
                 name='catalogName'
                 {...formInputClasses}

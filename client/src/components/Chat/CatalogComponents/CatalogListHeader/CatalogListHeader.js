@@ -1,10 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {changeShowModeCatalog, changeRenameCatalogMode, changeCatalogName} from "../../../../actions/actionCreator";
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CatalogHeader.module.sass';
 import FormField from "../../../FormField";
-
 
 const validate = (values) => {
     const errors = {};
@@ -14,13 +13,15 @@ const validate = (values) => {
     return errors;
 };
 
+const CatalogListHeader = ({changeCatalogName, _id, handleSubmit, catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid, catalogList, dispatch}) => {
 
-const CatalogListHeader = (props) => {
-    const changeCatalogName = (values) => {
-        const {changeCatalogName, _id} = props;
-        changeCatalogName({catalogName: values.catalogName, catalogId: _id});
+    const onSubmit = ({catalogName}) => {
+        if (catalogList.some(catalog => catalog.catalogName === catalogName)) {
+            dispatch(updateSyncErrors('catalogRename', {catalogName: `Catalog with name '${catalogName}' already exists`}));
+        } else {
+            changeCatalogName({catalogName, catalogId: _id});
+        }
     };
-    const {handleSubmit, catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -37,7 +38,7 @@ const CatalogListHeader = (props) => {
                 <i className='fas fa-edit' onClick={() => changeRenameCatalogMode()}/>
             </div>}
             {isRenameCatalog && <div className={styles.changeContainer}>
-                <form onSubmit={handleSubmit(changeCatalogName)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Field
                         name='catalogName'
                         {...formInputClasses}
@@ -54,26 +55,24 @@ const CatalogListHeader = (props) => {
 
 
 const mapStateToProps = (state) => {
-    const {isRenameCatalog} = state.chatStore;
+    const {isRenameCatalog, catalogList} = state.chatStore;
     const {catalogName, _id} = state.chatStore.currentCatalog;
     return {
         _id,
         catalogName,
         isRenameCatalog,
+        catalogList,
         initialValues: {
             catalogName: catalogName
         }
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
-        changeRenameCatalogMode: () => dispatch(changeRenameCatalogMode()),
-        changeCatalogName: (data) => dispatch(changeCatalogName(data))
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+    changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
+    changeRenameCatalogMode: () => dispatch(changeRenameCatalogMode()),
+    changeCatalogName: (data) => dispatch(changeCatalogName(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'catalogRename',

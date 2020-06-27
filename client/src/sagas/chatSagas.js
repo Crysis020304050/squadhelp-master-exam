@@ -1,8 +1,6 @@
 import {put, select} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import * as restController from '../api/rest/restController';
-import remove from 'lodash/remove';
-import isEqual from 'lodash/isEqual';
 
 
 export function* previewSaga() {
@@ -14,7 +12,6 @@ export function* previewSaga() {
     }
 }
 
-
 export function* getDialog(action) {
     try {
         const {data} = yield  restController.getDialog(action.data);
@@ -23,40 +20,6 @@ export function* getDialog(action) {
         yield put({type: ACTION.GET_DIALOG_MESSAGES_ERROR, error: err.response});
     }
 }
-
-/*export function* sendMessage(action) {
-    try {
-        const {data} = yield restController.newMessage(action.data);
-        const {messagesPreview} = yield select(state => state.chatStore);
-        let isNew = true;
-        messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.message.participants)) {
-                preview.text = data.message.body;
-                preview.sender = data.message.sender;
-                preview.createAt = data.message.createdAt;
-                isNew = false;
-            }
-        });
-        if (isNew) {
-            messagesPreview.push(data.preview);
-        }
-        yield put({
-            type: ACTION.SEND_MESSAGE,
-            data: {
-                message: data.message,
-                messagesPreview,
-                chatData: {
-                    _id: data.preview._id,
-                    participants: data.preview.participants,
-                    favoriteList: data.preview.favoriteList,
-                    blackList: data.preview.blackList
-                }
-            }
-        });
-    } catch (err) {
-        yield put({type: ACTION.SEND_MESSAGE_ERROR, error: err.response});
-    }
-}*/
 
 export function* sendMessage(action) {
     try {
@@ -129,31 +92,35 @@ export function* removeChatFromCatalogSaga({data}) {
     try {
         yield restController.removeChatFromCatalog(data);
         const {catalogList, currentCatalog} = yield select(state => state.chatStore);
-        catalogList.forEach(catalog => {
+        const currentCatalogCopy = {...currentCatalog};
+        const catalogListCopy = [...catalogList];
+        catalogListCopy.forEach(catalog => {
             if (catalog._id === data.catalogId) {
                 const updatedChats = catalog.chats.filter(chat => chat !== data.conversationId);
                 catalog.chats = updatedChats;
-                currentCatalog.chats = updatedChats;
+                currentCatalogCopy.chats = updatedChats;
             }
         });
-        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList, currentCatalog}});
+        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList: catalogListCopy, currentCatalog: currentCatalogCopy}});
     } catch (err) {
         yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR, error: err.response});
     }
 }
 
 
-export function* changeCatalogName(action) {
+export function* changeCatalogName({data}) {
     try {
-        const {data} = yield restController.changeCatalogName(action.data);
-        const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].catalogName = data.catalogName;
-                break;
-            }
-        }
-        yield put({type: ACTION.CHANGE_CATALOG_NAME_SUCCESS, data: {catalogList, currentCatalog: data}});
+        yield restController.changeCatalogName(data);
+        const {catalogList, currentCatalog} = yield select(state => state.chatStore);
+        const currentCatalogCopy = {...currentCatalog};
+        const catalogListCopy = [...catalogList];
+        catalogListCopy.forEach(catalog => {
+           if (catalog._id === data.catalogId) {
+               catalog.catalogName = data.catalogName;
+               currentCatalogCopy.catalogName = data.catalogName;
+           }
+        });
+        yield put({type: ACTION.CHANGE_CATALOG_NAME_SUCCESS, data: {catalogList: catalogListCopy, currentCatalog: currentCatalogCopy}});
     } catch (err) {
         yield put({type: ACTION.CHANGE_CATALOG_NAME_ERROR, error: err.response});
     }

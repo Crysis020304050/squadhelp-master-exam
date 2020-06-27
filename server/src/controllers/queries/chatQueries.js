@@ -170,15 +170,15 @@ module.exports.getCatalogsWithConversations = async (userId) => {
 };
 
 module.exports.createCatalog = async (data) => {
-  const catalog = await db.Catalog.create(data);
-  if (catalog) {
-      return catalog;
-  }
+    const catalog = await db.Catalog.create(data);
+    if (catalog) {
+        return catalog;
+    }
     throw new ServerError('Cannot create catalog');
 };
 
 module.exports.setCatalogConversation = async (catalogModel, conversationId) => {
-  return await catalogModel.setConversations(conversationId);
+    return await catalogModel.setConversations(conversationId);
 };
 
 module.exports.deleteCatalog = async (predicate) => {
@@ -204,3 +204,13 @@ module.exports.removeChatFromCatalog = async (predicate) => {
     }
     throw new ServerError('Cannot remove conversation from catalog');
 };
+
+module.exports.updateCatalog = async (data, predicate) => {
+    const [updatedRowCount] = await db.Catalog.update(data,
+        {where: predicate});
+    if (updatedRowCount) {
+        return;
+    }
+    throw new ServerError('Cannot update catalog');
+};
+
