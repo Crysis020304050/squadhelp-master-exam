@@ -237,9 +237,10 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.DELETE_CATALOG_SUCCESS: {
+            const {data: {catalogList}} = action;
             return {
                 ...state,
-                catalogList: [...action.data]
+                catalogList,
             }
         }
         case ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR: {
@@ -249,10 +250,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS: {
+            const {data: {catalogList, currentCatalog}} = action;
             return {
                 ...state,
-                currentCatalog: action.data.currentCatalog,
-                catalogList: [...action.data.catalogList]
+                catalogList,
+                currentCatalog,
             }
         }
         case ACTION.CHANGE_RENAME_CATALOG_MODE: {

@@ -158,6 +158,12 @@ module.exports.getCatalogsWithConversations = async (userId) => {
                 catalogName: name,
                 chats: [Conversations.id],
             })
+        } else {
+            preparedCatalogs.set(id, {
+                _id: id,
+                catalogName: name,
+                chats: [],
+            })
         }
     });
     return [...preparedCatalogs.values()];
@@ -189,4 +195,12 @@ module.exports.addNewChatToCatalog = async (data) => {
         return;
     }
     throw new ServerError('Cannot add new conversation to catalog');
+};
+
+module.exports.removeChatFromCatalog = async (predicate) => {
+    const deletedRowCount = await db.ConversationsToCatalogs.destroy({where: predicate});
+    if (deletedRowCount) {
+        return;
+    }
+    throw new ServerError('Cannot remove conversation from catalog');
 };

@@ -172,6 +172,16 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
         await chatQueries.addNewChatToCatalog({catalogId, conversationId});
         res.send({catalogId, conversationId});
     } catch (e) {
+        next(e);
+    }
+};
 
+module.exports.removeChatFromCatalog = async (req, res, next) => {
+    try {
+        const {body: {catalogId, conversationId}} = req;
+        await chatQueries.removeChatFromCatalog({catalogId, conversationId});
+        res.end();
+    } catch (e) {
+        next(e);
     }
 };

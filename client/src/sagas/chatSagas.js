@@ -118,24 +118,25 @@ export function* deleteCatalog(action) {
     try {
         yield restController.deleteCatalog(action.data);
         const {catalogList} = yield select(state => state.chatStore);
-        const newCatalogList = remove(catalogList, (catalog) => action.data.catalogId !== catalog._id);
-        yield put({type: ACTION.DELETE_CATALOG_SUCCESS, data: newCatalogList});
+        const updatedCatalogList = catalogList.filter(catalog => action.data.catalogId !== catalog._id);
+        yield put({type: ACTION.DELETE_CATALOG_SUCCESS, data: {catalogList: updatedCatalogList}});
     } catch (err) {
         yield put({type: ACTION.DELETE_CATALOG_ERROR, error: err.response});
     }
 }
 
-export function* removeChatFromCatalogSaga(action) {
+export function* removeChatFromCatalogSaga({data}) {
     try {
-        const {data} = yield restController.removeChatFromCatalog(action.data);
-        const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
-                break;
+        yield restController.removeChatFromCatalog(data);
+        const {catalogList, currentCatalog} = yield select(state => state.chatStore);
+        catalogList.forEach(catalog => {
+            if (catalog._id === data.catalogId) {
+                const updatedChats = catalog.chats.filter(chat => chat !== data.conversationId);
+                catalog.chats = updatedChats;
+                currentCatalog.chats = updatedChats;
             }
-        }
-        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList, currentCatalog: data}});
+        });
+        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList, currentCatalog}});
     } catch (err) {
         yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR, error: err.response});
     }

@@ -39,7 +39,7 @@ const Chat = ({userStore: {data: {id, role}}, chatStore: {chatMode, isShowChatsI
                 <span onClick={() => setChatPreviewMode(CATALOG_PREVIEW_CHAT_MODE)}
                       className={classNames(styles.button, {[styles.activeButton]: chatMode === CATALOG_PREVIEW_CHAT_MODE})}>Catalog</span>
             </div>}
-            {chatMode === CATALOG_PREVIEW_CHAT_MODE ? <CatalogListContainer/> : <DialogListContainer userId={id}/>}
+            {chatMode === CATALOG_PREVIEW_CHAT_MODE ? <CatalogListContainer userId={id}/> : <DialogListContainer userId={id}/>}
         </div>
     );
 

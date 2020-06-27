@@ -23,7 +23,7 @@ export const updateUser = (data) => http.post('updateUser', data);
 //export const addChatToCatalog = (data) => http.post('addNewChatToCatalog', data);
 //export const createCatalog = (data) => http.post('createCatalog', data);
 //export const deleteCatalog = (data) => http.post('deleteCatalog', data);
-export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalog', data);
+//export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalog', data);
 export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
 
 /*postgres*/
@@ -36,7 +36,7 @@ export const getCatalogList = (data) => http.post('getCatalogsPostgres', data);
 export const addChatToCatalog = (data) => http.post('addNewChatToCatalogPostgres', data);
 export const createCatalog = (data) => http.post('createCatalogPostgres', data);
 export const deleteCatalog = (data) => http.post('deleteCatalogPostgres', data);
-//
+export const removeChatFromCatalog = (data) => http.post('removeChatFromCatalogPostgres', data);
 //
 
 

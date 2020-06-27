@@ -4,7 +4,7 @@ import {getCatalogList, removeChatFromCatalog} from '../../../../actions/actionC
 import CatalogList from '../CatalogList/CatalogList';
 import DialogList from '../../DialogComponents/DialogList/DialogList';
 
-const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, chatStore: {currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog}, userStore: {id}}) => {
+const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog, userId}) => {
 
     useEffect(() => {
         if (!catalogList.length) {
@@ -12,8 +12,8 @@ const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, chatStore:
         }
     }, []);
 
-    const removeChat = (event, chatId) => {
-        removeChatFromCatalog({chatId, catalogId: currentCatalog._id});
+    const removeChat = (event, conversationId) => {
+        removeChatFromCatalog({conversationId, catalogId: currentCatalog._id});
         event.stopPropagation();
     };
 
@@ -32,17 +32,14 @@ const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, chatStore:
 
     return (
         <>
-            {isShowChatsInCatalog ? <DialogList userId={id} preview={getDialogsPreview()}
+            {isShowChatsInCatalog ? <DialogList userId={userId} preview={getDialogsPreview()}
                                                 removeChat={removeChat}/> :
                 <CatalogList catalogList={catalogList}/>}
         </>
     );
 };
 
-const mapStateToProps = (state) => {
-    const {chatStore, userStore} = state;
-    return {chatStore, userStore};
-};
+const mapStateToProps = (state) => state.chatStore;
 
 const mapDispatchToProps = (dispatch) => ({
     getCatalogList: (data) => dispatch(getCatalogList(data)),

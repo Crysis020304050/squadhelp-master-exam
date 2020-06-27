@@ -84,6 +84,11 @@ chatRouter.post(
 );
 
 chatRouter.post(
+    '/removeChatFromCatalogPostgres',
+    chatControllerPostgres.removeChatFromCatalog,
+);
+
+chatRouter.post(
     '/deleteCatalog',
     chatController.deleteCatalog,
 );
