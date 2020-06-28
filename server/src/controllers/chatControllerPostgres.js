@@ -79,25 +79,13 @@ module.exports.addMessage = async (req, res, next) => {
 
 module.exports.changeFavoriteUserStatus = async (req, res, next) => {
     try {
-        const {body: {conversationId, participantsToFavoriteListPair, favoriteFlag, interlocutorId}, tokenData: {id}} = req;
-        const result = {conversationId};
-        const [firstParticipantData, secondParticipantData] = participantsToFavoriteListPair;
+        const {body: {favoriteFlag, interlocutorId}, tokenData: {id}} = req;
         if (favoriteFlag) {
             await chatQueries.addUserToFavoriteList({userId: id, favoriteUserId: interlocutorId});
-            if (firstParticipantData.id === id) {
-                result.favoriteList = [true, secondParticipantData.flag];
-            } else {
-                result.favoriteList = [firstParticipantData.flag, true]
-            }
         } else {
             await chatQueries.removeUserFromFavoriteList({userId: id, favoriteUserId: interlocutorId});
-            if (firstParticipantData.id === id) {
-                result.favoriteList = [false, secondParticipantData.flag];
-            } else {
-                result.favoriteList = [firstParticipantData.flag, false]
-            }
         }
-        res.send(result);
+        res.end();
     } catch (e) {
         next(e);
     }
@@ -170,7 +158,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
     try {
         const {body: {catalogId, conversationId}} = req;
         await chatQueries.addNewChatToCatalog({catalogId, conversationId});
-        res.send({catalogId, conversationId});
+        res.end();
     } catch (e) {
         next(e);
     }

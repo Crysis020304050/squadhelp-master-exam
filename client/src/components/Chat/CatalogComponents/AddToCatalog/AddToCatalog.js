@@ -28,14 +28,14 @@ const AddToCatalog = ({catalogList, addChatId, addChatToCatalog, handleSubmit}) 
         return valueArray;
     };
 
-    const click = ({catalogId}) => {
-        addChatToCatalog({conversationId: addChatId, catalogId});
+    const onSubmit = ({catalogId}) => {
+        addChatToCatalog({conversationId: addChatId, catalogId: +catalogId});
     };
 
     const selectArray = getCatalogsNames();
     return (<>
             {selectArray.length !== 0 ?
-                <form onSubmit={handleSubmit(click)} className={styles.form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Field
                         name='catalogId'
                         component={SelectInput}

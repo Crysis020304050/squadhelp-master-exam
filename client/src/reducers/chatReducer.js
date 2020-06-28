@@ -145,18 +145,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.CHANGE_CHAT_FAVORITE: {
-            const {data: {conversationId, favoriteList}} = action;
-            const updatedPreview = [...state.messagesPreview];
-            updatedPreview.forEach(preview => {
-                if (preview._id === conversationId) {
-                    preview.favoriteList = favoriteList;
-                }
-            });
-            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, favoriteList} : false;
+            const {data: {messagesPreview, chatData}} = action;
             return {
                 ...state,
-                messagesPreview: updatedPreview,
-                ...(updatedChatData && {chatData: updatedChatData}),
+                messagesPreview,
+                ...(chatData && {chatData}),
             }
         }
         case ACTION.CHANGE_CHAT_BLOCK: {
@@ -167,7 +160,7 @@ export default function (state = initialState, action) {
                     preview.blackList = blackList;
                 }
             });
-            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, blackList} : false;
+            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, blackList} : null;
             return {
                 ...state,
                 messagesPreview: updatedPreview,
@@ -203,17 +196,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.ADD_CHAT_TO_CATALOG: {
-            const {data: {catalogId, conversationId}} = action;
-            const updatedCatalogs = [...state.catalogList];
-            updatedCatalogs.forEach(catalog => {
-               if (catalog._id === catalogId) {
-                   catalog.chats = [...catalog.chats, conversationId];
-               }
-            });
+            const {data: {catalogList}} = action;
             return {
                 ...state,
                 isShowCatalogCreation: false,
-                catalogList: updatedCatalogs,
+                catalogList,
             }
         }
         case ACTION.CREATE_CATALOG_ERROR: {
