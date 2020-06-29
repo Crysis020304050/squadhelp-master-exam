@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {getCatalogList, removeChatFromCatalog} from '../../../../actions/actionCreator';
+import {getCatalogList, removeConversationFromCatalog} from '../../../../actions/actionCreator';
 import CatalogList from '../CatalogList/CatalogList';
 import DialogList from '../../DialogComponents/DialogList/DialogList';
 
-const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog, userId}) => {
+const CatalogListContainer = ({getCatalogList, removeConversationFromCatalog, currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog, userId}) => {
 
     useEffect(() => {
         if (!catalogList.length) {
@@ -13,16 +13,16 @@ const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, currentCat
     }, []);
 
     const removeChat = (event, conversationId) => {
-        removeChatFromCatalog({conversationId, catalogId: currentCatalog._id});
+        removeConversationFromCatalog({conversationId, catalogId: currentCatalog.id});
         event.stopPropagation();
     };
 
-    const getDialogsPreview = () => {
-        const {chats} = currentCatalog;
+    const getConversationsPreview = () => {
+        const {conversations} = currentCatalog;
         const dialogsInCatalog = [];
         for (let i = 0; i < messagesPreview.length; i++) {
-            for (let j = 0; j < chats.length; j++) {
-                if (chats[j] === messagesPreview[i]._id) {
+            for (let j = 0; j < conversations.length; j++) {
+                if (conversations[j] === messagesPreview[i].id) {
                     dialogsInCatalog.push(messagesPreview[i]);
                 }
             }
@@ -32,7 +32,7 @@ const CatalogListContainer = ({getCatalogList, removeChatFromCatalog, currentCat
 
     return (
         <>
-            {isShowChatsInCatalog ? <DialogList userId={userId} preview={getDialogsPreview()}
+            {isShowChatsInCatalog ? <DialogList userId={userId} preview={getConversationsPreview()}
                                                 removeChat={removeChat}/> :
                 <CatalogList catalogList={catalogList}/>}
         </>
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => state.chatStore;
 
 const mapDispatchToProps = (dispatch) => ({
     getCatalogList: (data) => dispatch(getCatalogList(data)),
-    removeChatFromCatalog: (data) => dispatch(removeChatFromCatalog(data))
+    removeConversationFromCatalog: (data) => dispatch(removeConversationFromCatalog(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CatalogListContainer);

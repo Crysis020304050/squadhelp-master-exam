@@ -14,15 +14,15 @@ import {
 import {changeMarkSaga, setOfferStatusSaga, addOfferSaga} from './offerSagas';
 import {
     previewSaga,
-    getDialog,
+    getConversation,
     sendMessage,
     changeChatFavorite,
     changeChatBlock,
     getCatalogListSaga,
-    addChatToCatalog,
+    addConversationToCatalog,
     createCatalog,
     deleteCatalog,
-    removeChatFromCatalogSaga,
+    removeConversationFromCatalogSaga,
     changeCatalogName
 } from './chatSagas';
 import {getUserTransactionsHistorySaga, getUserTransactionsStatementSaga} from './transactionsSaga';
@@ -45,15 +45,15 @@ function* rootSaga() {
     yield  takeLatest(ACTION.CHANGE_MARK_ACTION, changeMarkSaga);
     yield  takeLatest(ACTION.UPDATE_USER_DATA, updateUserData);
     yield  takeLatest(ACTION.GET_PREVIEW_CHAT_ASYNC, previewSaga);
-    yield  takeLatest(ACTION.GET_DIALOG_MESSAGES_ASYNC, getDialog);
+    yield  takeLatest(ACTION.GET_DIALOG_MESSAGES_ASYNC, getConversation);
     yield  takeLatest(ACTION.SEND_MESSAGE_ACTION, sendMessage);
     yield  takeLatest(ACTION.SET_CHAT_FAVORITE_FLAG, changeChatFavorite);
     yield  takeLatest(ACTION.SET_CHAT_BLOCK_FLAG, changeChatBlock);
     yield  takeLatest(ACTION.GET_CATALOG_LIST_ASYNC, getCatalogListSaga);
-    yield  takeLatest(ACTION.ADD_CHAT_TO_CATALOG_ASYNC, addChatToCatalog);
+    yield  takeLatest(ACTION.ADD_CHAT_TO_CATALOG_ASYNC, addConversationToCatalog);
     yield  takeLatest(ACTION.CREATE_CATALOG_REQUEST, createCatalog);
     yield  takeLatest(ACTION.DELETE_CATALOG_REQUEST, deleteCatalog);
-    yield  takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST, removeChatFromCatalogSaga);
+    yield  takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST, removeConversationFromCatalogSaga);
     yield  takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST, changeCatalogName);
     yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_HISTORY_REQUEST, getUserTransactionsHistorySaga);
     yield  takeLatest(ACTION.GET_USER_TRANSACTIONS_STATEMENT_REQUEST, getUserTransactionsStatementSaga);

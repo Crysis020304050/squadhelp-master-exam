@@ -5,8 +5,8 @@ module.exports.getConversationsData = async (userId) => {
     const conversations = await db.sequelize.query(`select C.id,
        C."participantFirstId",
        C."participantSecondId",
-       M."userId" as "sender",
-       M.body as "text",
+       M."userId",
+       M.body,
        M."createdAt",
        OWNER.id as "ownerId",
        OWNER."firstName" as "ownerFirstName",
@@ -50,11 +50,11 @@ from "Conversations" C
         raw: true,
         nest: true
     });
-    return conversations.map(({participantFirstId, participantSecondId, sender, text, createdAt, ownerBL, interlocutorBL, ownerFL, interlocutorFL, ...rest}) => ({
-        _id: rest.id,
-        sender,
-        text,
-        createAt: createdAt,
+    return conversations.map(({id, participantFirstId, participantSecondId, body, createdAt, ownerBL, interlocutorBL, ownerFL, interlocutorFL, ...rest}) => ({
+        id,
+        userId: rest.userId,
+        body,
+        createdAt,
         participants: [participantFirstId, participantSecondId],
         blackList: [(!!ownerBL), (!!interlocutorBL)],
         favoriteList: [(!!ownerFL), (!!interlocutorFL)],
@@ -150,19 +150,19 @@ module.exports.getCatalogsWithConversations = async (userId) => {
     catalogs.forEach(({id, name, Conversations}) => {
         if (Conversations.id && preparedCatalogs.has(id)) {
             const updatedCatalog = preparedCatalogs.get(id);
-            updatedCatalog.chats = [...updatedCatalog.chats, Conversations.id];
+            updatedCatalog.conversations = [...updatedCatalog.conversations, Conversations.id];
             preparedCatalogs.set(id, updatedCatalog);
         } else if (Conversations.id) {
             preparedCatalogs.set(id, {
-                _id: id,
-                catalogName: name,
-                chats: [Conversations.id],
+                id,
+                name,
+                conversations: [Conversations.id],
             })
         } else {
             preparedCatalogs.set(id, {
-                _id: id,
-                catalogName: name,
-                chats: [],
+                id,
+                name,
+                conversations: [],
             })
         }
     });
@@ -189,7 +189,7 @@ module.exports.deleteCatalog = async (predicate) => {
     throw new ServerError('Cannot delete catalog');
 };
 
-module.exports.addNewChatToCatalog = async (data) => {
+module.exports.addNewConversationToCatalog = async (data) => {
     const newConversation = await db.ConversationsToCatalogs.create(data);
     if (newConversation) {
         return;
@@ -197,7 +197,7 @@ module.exports.addNewChatToCatalog = async (data) => {
     throw new ServerError('Cannot add new conversation to catalog');
 };
 
-module.exports.removeChatFromCatalog = async (predicate) => {
+module.exports.removeConversationFromCatalog = async (predicate) => {
     const deletedRowCount = await db.ConversationsToCatalogs.destroy({where: predicate});
     if (deletedRowCount) {
         return;

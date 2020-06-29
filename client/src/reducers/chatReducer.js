@@ -4,10 +4,10 @@ import constants from '../constants/constants';
 
 const initialState = {
     isFetching: true,
-    addChatId: null,
+    addConversationId: null,
     isShowCatalogCreation: false,
     currentCatalog: null,
-    chatData: null,
+    conversationData: null,
     messages: [],
     error: null,
     isExpanded: false,
@@ -21,7 +21,7 @@ const initialState = {
     catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG
 };
 
-const prepareChatData = ({sender, text, createAt, userId, createdAt, interlocutor, ...rest}) => rest;
+const prepareChatData = ({body, createdAt, userId, interlocutor, ...rest}) => rest;
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -72,10 +72,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.GO_TO_EXPANDED_DIALOG: {
+            const {data: {interlocutor, conversationData}} = action;
             return {
                 ...state,
-                interlocutor: {...state.interlocutor, ...action.data.interlocutor},
-                chatData: action.data.conversationData,
+                interlocutor: {...state.interlocutor, ...interlocutor},
+                conversationData,
                 isShow: true,
                 isExpanded: true,
                 messages: []
@@ -100,23 +101,23 @@ export default function (state = initialState, action) {
         case ACTION.SEND_MESSAGE: {
             const {data: {message, chatPreview, isSocketMessage}} = action;
             const updatedPreview = [...state.messagesPreview];
-            let updatedChatData;
+            let updatedConversationData;
             if (chatPreview) {
                 updatedPreview.push(chatPreview);
-                updatedChatData = !state.chatData && !isSocketMessage && prepareChatData(chatPreview);
+                updatedConversationData = !state.conversationData && !isSocketMessage && prepareChatData(chatPreview);
             }
             updatedPreview.forEach(preview => {
-                if (preview._id === message.conversation || preview._id === message.conversationId) {
-                    preview.sender = message.sender || message.userId;
-                    preview.text = message.body;
-                    preview.createAt = message.createdAt;
+                if (preview.id === message.conversationId) {
+                    preview.userId = message.userId;
+                    preview.body = message.body;
+                    preview.createdAt = message.createdAt;
                 }
             });
             return {
                 ...state,
                 messagesPreview: updatedPreview,
                 ...((!state.messages[0] || state.messages[0].conversationId === message.conversationId) && {messages: [...state.messages, message]}),
-                ...(updatedChatData && {chatData: updatedChatData}),
+                ...(updatedConversationData && {conversationData: updatedConversationData}),
             }
         }
         case ACTION.SEND_MESSAGE_ERROR: {
@@ -145,26 +146,26 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.CHANGE_CHAT_FAVORITE: {
-            const {data: {messagesPreview, chatData}} = action;
+            const {data: {messagesPreview, conversationData}} = action;
             return {
                 ...state,
                 messagesPreview,
-                ...(chatData && {chatData}),
+                ...(conversationData && {conversationData}),
             }
         }
         case ACTION.CHANGE_CHAT_BLOCK: {
             const {data: {conversationId, blackList}} = action;
             const updatedPreview = [...state.messagesPreview];
             updatedPreview.forEach(preview => {
-                if (preview._id === conversationId) {
+                if (preview.id === conversationId) {
                     preview.blackList = blackList;
                 }
             });
-            const updatedChatData = (state.chatData && state.chatData._id === conversationId) ? {...state.chatData, blackList} : null;
+            const updatedConversationData = (state.conversationData && state.conversationData.id === conversationId) ? {...state.conversationData, blackList} : null;
             return {
                 ...state,
                 messagesPreview: updatedPreview,
-                ...(updatedChatData && {chatData: updatedChatData}),
+                ...(updatedConversationData && {conversationData: updatedConversationData}),
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST: {
@@ -191,7 +192,7 @@ export default function (state = initialState, action) {
         case ACTION.CHANGE_SHOW_ADD_CHAT_TO_CATALOG: {
             return {
                 ...state,
-                addChatId: action.data,
+                addConversationId: action.data,
                 isShowCatalogCreation: !state.isShowCatalogCreation
             }
         }

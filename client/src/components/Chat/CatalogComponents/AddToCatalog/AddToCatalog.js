@@ -2,17 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import SelectInput from '../../../SelectInput/SelectInput';
-import {addChatToCatalog} from '../../../../actions/actionCreator';
+import {addConversationToCatalog} from '../../../../actions/actionCreator';
 import styles from './AddToCatalog.module.sass';
 
 
-const AddToCatalog = ({catalogList, addChatId, addChatToCatalog, handleSubmit}) => {
+const AddToCatalog = ({catalogList, addConversationId, addConversationToCatalog, handleSubmit}) => {
 
     const getCatalogsNames = () => {
         const namesArray = [];
-        catalogList.forEach(({chats, catalogName}) => {
-            if (!chats.some(chatId => chatId === addChatId)) {
-                namesArray.push(catalogName);
+        catalogList.forEach(({conversations, name}) => {
+            if (!conversations.some(conversationId => conversationId === addConversationId)) {
+                namesArray.push(name);
             }
         });
         return namesArray;
@@ -20,16 +20,16 @@ const AddToCatalog = ({catalogList, addChatId, addChatToCatalog, handleSubmit}) 
 
     const getValueArray = () => {
         const valueArray = [];
-        catalogList.forEach(({chats, _id}) => {
-            if (!chats.some(chatId => chatId === addChatId)) {
-                valueArray.push(_id);
+        catalogList.forEach(({conversations, id}) => {
+            if (!conversations.some(conversationId => conversationId === addConversationId)) {
+                valueArray.push(id);
             }
         });
         return valueArray;
     };
 
     const onSubmit = ({catalogId}) => {
-        addChatToCatalog({conversationId: addChatId, catalogId: +catalogId});
+        addConversationToCatalog({conversationId: addConversationId, catalogId: +catalogId});
     };
 
     const selectArray = getCatalogsNames();
@@ -61,9 +61,9 @@ const AddToCatalog = ({catalogList, addChatId, addChatToCatalog, handleSubmit}) 
 const mapStateToProps = (state) => state.chatStore;
 
 const mapDispatchToProps = (dispatch) => ({
-    addChatToCatalog: (data) => dispatch(addChatToCatalog(data))
+    addConversationToCatalog: (data) => dispatch(addConversationToCatalog(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'addChatToCatalog'
+    form: 'addConversationToCatalog'
 })(AddToCatalog));

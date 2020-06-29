@@ -126,7 +126,7 @@ export const clearAuth = () => ({
     type: ACTION.AUTH_ACTION_CLEAR
 });
 
-export const getPreviewChat = () => ({
+export const getPreview = () => ({
     type: ACTION.GET_PREVIEW_CHAT_ASYNC
 });
 
@@ -139,7 +139,7 @@ export const goToExpandedDialog = data => ({
     data
 });
 
-export const getDialogMessages = data => ({
+export const getConversationMessages = data => ({
     type: ACTION.GET_DIALOG_MESSAGES_ASYNC,
     data
 });
@@ -213,7 +213,7 @@ export const changeShowAddChatToCatalogMenu = data => ({
     data
 });
 
-export const addChatToCatalog = data => ({
+export const addConversationToCatalog = data => ({
     type: ACTION.ADD_CHAT_TO_CATALOG_ASYNC,
     data
 });
@@ -223,7 +223,7 @@ export const deleteCatalog = data => ({
     data
 });
 
-export const removeChatFromCatalog = data => ({
+export const removeConversationFromCatalog = data => ({
     type: ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST,
     data
 });

@@ -5,21 +5,21 @@ import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CatalogHeader.module.sass';
 import FormField from "../../../FormField";
 
-const validate = (values) => {
+const validate = ({name}) => {
     const errors = {};
-    if (!values.catalogName || !values.catalogName.trim().length) {
-        errors.catalogName = 'Cannot be empty';
+    if (!name || !name.trim().length) {
+        errors.name = 'Cannot be empty';
     }
     return errors;
 };
 
-const CatalogListHeader = ({changeCatalogName, _id, handleSubmit, catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid, catalogList, dispatch}) => {
+const CatalogListHeader = ({changeCatalogName, id, handleSubmit, name, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid, catalogList, dispatch}) => {
 
-    const onSubmit = ({catalogName}) => {
-        if (catalogList.some(catalog => catalog.catalogName === catalogName)) {
-            dispatch(updateSyncErrors('catalogRename', {catalogName: `Catalog with name '${catalogName}' already exists`}));
+    const onSubmit = ({name}) => {
+        if (catalogList.some(catalog => catalog.name === name)) {
+            dispatch(updateSyncErrors('catalogRename', {name: `Catalog with name '${name}' already exists`}));
         } else {
-            changeCatalogName({catalogName, catalogId: _id});
+            changeCatalogName({name, catalogId: id});
         }
     };
 
@@ -34,13 +34,13 @@ const CatalogListHeader = ({changeCatalogName, _id, handleSubmit, catalogName, c
         <div className={styles.headerContainer}>
             <i className='fas fa-long-arrow-alt-left' onClick={() => changeShowModeCatalog()}/>
             {!isRenameCatalog && <div className={styles.infoContainer}>
-                <span>{catalogName}</span>
+                <span>{name}</span>
                 <i className='fas fa-edit' onClick={() => changeRenameCatalogMode()}/>
             </div>}
             {isRenameCatalog && <div className={styles.changeContainer}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Field
-                        name='catalogName'
+                        name='name'
                         {...formInputClasses}
                         component={FormField}
                         type='text'
@@ -56,14 +56,14 @@ const CatalogListHeader = ({changeCatalogName, _id, handleSubmit, catalogName, c
 
 const mapStateToProps = (state) => {
     const {isRenameCatalog, catalogList} = state.chatStore;
-    const {catalogName, _id} = state.chatStore.currentCatalog;
+    const {name, id} = state.chatStore.currentCatalog;
     return {
-        _id,
-        catalogName,
+        id,
+        name,
         isRenameCatalog,
         catalogList,
         initialValues: {
-            catalogName: catalogName
+            name,
         }
     }
 };

@@ -5,16 +5,16 @@ import * as restController from '../api/rest/restController';
 
 export function* previewSaga() {
     try {
-        const {data} = yield  restController.getPreviewChat();
+        const {data} = yield  restController.getPreview();
         yield  put({type: ACTION.GET_PREVIEW_CHAT, data: data});
     } catch (err) {
         yield  put({type: ACTION.GET_PREVIEW_CHAT_ERROR, error: err.response});
     }
 }
 
-export function* getDialog(action) {
+export function* getConversation(action) {
     try {
-        const {data} = yield  restController.getDialog(action.data);
+        const {data} = yield  restController.getConversation(action.data);
         yield put({type: ACTION.GET_DIALOG_MESSAGES, data});
     } catch (err) {
         yield put({type: ACTION.GET_DIALOG_MESSAGES_ERROR, error: err.response});
@@ -49,15 +49,15 @@ export function* changeChatFavorite({data}) {
                 favoriteList = [false, secondParticipantData.flag];
             }
         }
-        const {messagesPreview, chatData} = yield select(state => state.chatStore);
+        const {messagesPreview, conversationData} = yield select(state => state.chatStore);
         const updatedMessagesPreview = [...messagesPreview];
-        const updatedChatData = (chatData && chatData._id === conversationId) ? {...chatData, favoriteList} : null;
+        const updatedConversationData = (conversationData && conversationData.id === conversationId) ? {...conversationData, favoriteList} : null;
         updatedMessagesPreview.forEach(preview => {
-            if (preview._id === conversationId) {
+            if (preview.id === conversationId) {
                 preview.favoriteList = favoriteList;
             }
         });
-        yield put({type: ACTION.CHANGE_CHAT_FAVORITE, data: {messagesPreview: updatedMessagesPreview, chatData: updatedChatData}});
+        yield put({type: ACTION.CHANGE_CHAT_FAVORITE, data: {messagesPreview: updatedMessagesPreview, conversationData: updatedConversationData}});
     } catch (err) {
         yield put({type: ACTION.SET_CHAT_FAVORITE_ERROR, error: err.response});
     }
@@ -81,14 +81,14 @@ export function* getCatalogListSaga(action) {
     }
 }
 
-export function* addChatToCatalog({data}) {
+export function* addConversationToCatalog({data}) {
     try {
-        yield restController.addChatToCatalog(data);
+        yield restController.addConversationToCatalog(data);
         const {catalogList} = yield select(state => state.chatStore);
         const updatedCatalogList = [...catalogList];
         updatedCatalogList.forEach(catalog => {
-            if (catalog._id === data.catalogId) {
-                catalog.chats = [...catalog.chats, data.conversationId];
+            if (catalog.id === data.catalogId) {
+                catalog.conversations = [...catalog.conversations, data.conversationId];
             }
         });
         yield put({type: ACTION.ADD_CHAT_TO_CATALOG, data: {catalogList: updatedCatalogList}});
@@ -110,24 +110,24 @@ export function* deleteCatalog(action) {
     try {
         yield restController.deleteCatalog(action.data);
         const {catalogList} = yield select(state => state.chatStore);
-        const updatedCatalogList = catalogList.filter(catalog => action.data.catalogId !== catalog._id);
+        const updatedCatalogList = catalogList.filter(catalog => action.data.catalogId !== catalog.id);
         yield put({type: ACTION.DELETE_CATALOG_SUCCESS, data: {catalogList: updatedCatalogList}});
     } catch (err) {
         yield put({type: ACTION.DELETE_CATALOG_ERROR, error: err.response});
     }
 }
 
-export function* removeChatFromCatalogSaga({data}) {
+export function* removeConversationFromCatalogSaga({data}) {
     try {
-        yield restController.removeChatFromCatalog(data);
+        yield restController.removeConversationFromCatalog(data);
         const {catalogList, currentCatalog} = yield select(state => state.chatStore);
         const updatedCurrentCatalog = {...currentCatalog};
         const updatedCatalogList = [...catalogList];
         updatedCatalogList.forEach(catalog => {
-            if (catalog._id === data.catalogId) {
-                const updatedChats = catalog.chats.filter(chat => chat !== data.conversationId);
-                catalog.chats = updatedChats;
-                updatedCurrentCatalog.chats = updatedChats;
+            if (catalog.id === data.catalogId) {
+                const updatedConversations = catalog.conversations.filter(conversation => conversation !== data.conversationId);
+                catalog.conversations = updatedConversations;
+                updatedCurrentCatalog.conversations = updatedConversations;
             }
         });
         yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList: updatedCatalogList, currentCatalog: updatedCurrentCatalog}});
@@ -143,9 +143,9 @@ export function* changeCatalogName({data}) {
         const updatedCurrentCatalog = {...currentCatalog};
         const updatedCatalogList = [...catalogList];
         updatedCatalogList.forEach(catalog => {
-           if (catalog._id === data.catalogId) {
-               catalog.catalogName = data.catalogName;
-               updatedCurrentCatalog.catalogName = data.catalogName;
+           if (catalog.id === data.catalogId) {
+               catalog.name = data.name;
+               updatedCurrentCatalog.name = data.name;
            }
         });
         yield put({type: ACTION.CHANGE_CATALOG_NAME_SUCCESS, data: {catalogList: updatedCatalogList, currentCatalog: updatedCurrentCatalog}});

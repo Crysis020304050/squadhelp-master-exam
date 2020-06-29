@@ -1,5 +1,4 @@
 const chatController = require("../controllers/chatController");
-const chatControllerPostgres = require("../controllers/chatControllerPostgres");
 
 const chatRouter = require('express')();
 
@@ -9,48 +8,23 @@ chatRouter.post(
 );
 
 chatRouter.post(
-    '/newMessagePostgres',
-    chatControllerPostgres.addMessage,
+    '/getConversation',
+    chatController.getConversation,
 );
 
 chatRouter.post(
-    '/getChat',
-    chatController.getChat,
-);
-
-chatRouter.post(
-    '/getChatPostgres',
-    chatControllerPostgres.getChat,
-);
-
-chatRouter.post(
-    '/getPreview',
+  '/getPreview',
     chatController.getPreview,
 );
 
 chatRouter.post(
-  '/getPreviewPostgres',
-    chatControllerPostgres.getPreview,
+    '/changeBlockedUserStatus',
+    chatController.changeBlockedUserStatus,
 );
 
 chatRouter.post(
-    '/blackList',
-    chatController.blackList,
-);
-
-chatRouter.post(
-    '/changeBlockedUserStatusPostgres',
-    chatControllerPostgres.changeBlockedUserStatus,
-);
-
-chatRouter.post(
-    '/favorite',
-    chatController.favoriteChat,
-);
-
-chatRouter.post(
-    '/changeFavoriteUserStatusPostgres',
-    chatControllerPostgres.changeFavoriteUserStatus,
+    '/changeFavoriteUserStatus',
+    chatController.changeFavoriteUserStatus,
 );
 
 chatRouter.post(
@@ -59,38 +33,18 @@ chatRouter.post(
 );
 
 chatRouter.post(
-    '/createCatalogPostgres',
-    chatControllerPostgres.createCatalog,
-);
-
-chatRouter.post(
     '/updateNameCatalog',
-    chatController.updateNameCatalog,
+    chatController.updateCatalogName,
 );
 
 chatRouter.post(
-    '/updateNameCatalogPostgres',
-    chatControllerPostgres.updateCatalogName,
+    '/addNewConversationToCatalog',
+    chatController.addNewConversationToCatalog,
 );
 
 chatRouter.post(
-    '/addNewChatToCatalog',
-    chatController.addNewChatToCatalog,
-);
-
-chatRouter.post(
-    '/addNewChatToCatalogPostgres',
-    chatControllerPostgres.addNewChatToCatalog,
-);
-
-chatRouter.post(
-    '/removeChatFromCatalog',
-    chatController.removeChatFromCatalog,
-);
-
-chatRouter.post(
-    '/removeChatFromCatalogPostgres',
-    chatControllerPostgres.removeChatFromCatalog,
+    '/removeConversationFromCatalog',
+    chatController.removeConversationFromCatalog,
 );
 
 chatRouter.post(
@@ -99,18 +53,8 @@ chatRouter.post(
 );
 
 chatRouter.post(
-    '/deleteCatalogPostgres',
-    chatControllerPostgres.deleteCatalog,
-);
-
-chatRouter.post(
     '/getCatalogs',
     chatController.getCatalogs,
-);
-
-chatRouter.post(
-    '/getCatalogsPostgres',
-    chatControllerPostgres.getCatalogs,
 );
 
 module.exports = chatRouter;

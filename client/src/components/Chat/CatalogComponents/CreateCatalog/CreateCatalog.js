@@ -5,21 +5,21 @@ import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
 import FormField from "../../../FormField";
 
-const validate = ({catalogName}) => {
+const validate = ({name}) => {
     const errors = {};
-    if (!catalogName || !catalogName.trim().length) {
-        errors.catalogName = 'Cannot be empty';
+    if (!name || !name.trim().length) {
+        errors.name = 'Cannot be empty';
     }
     return errors;
 };
 
-const CreateCatalog = ({createCatalog, addChatId, handleSubmit, valid, catalogList, dispatch}) => {
+const CreateCatalog = ({createCatalog, addConversationId, handleSubmit, valid, catalogList, dispatch}) => {
 
-    const onSubmit = ({catalogName}) => {
-        if (catalogList.some(catalog => catalog.catalogName === catalogName)) {
-            dispatch(updateSyncErrors('createCatalog', {catalogName: `Catalog with name '${catalogName}' already exists`}));
+    const onSubmit = ({name}) => {
+        if (catalogList.some(catalog => catalog.name === name)) {
+            dispatch(updateSyncErrors('createCatalog', {name: `Catalog with name '${name}' already exists`}));
         } else {
-            createCatalog({catalogName, chatId: addChatId, conversationId: addChatId, name: catalogName});
+            createCatalog({name, conversationId: addConversationId});
         }
     };
 
@@ -33,7 +33,7 @@ const CreateCatalog = ({createCatalog, addChatId, handleSubmit, valid, catalogLi
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <Field
-                name='catalogName'
+                name='name'
                 {...formInputClasses}
                 component={FormField}
                 type='text'

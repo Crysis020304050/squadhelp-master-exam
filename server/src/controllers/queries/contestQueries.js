@@ -3,9 +3,9 @@ const ServerError = require('../../errors/ServerError');
 const NotFoundError = require('../../errors/UserNotFoundError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
-    const [updatedCount, [updatedContest]] = await bd.Contests.update(data,
+    const [updatedRowsCount, [updatedContest]] = await bd.Contests.update(data,
         {where: predicate, returning: true, transaction});
-    if (updatedCount !== 1) {
+    if (updatedRowsCount !== 1) {
         throw new ServerError('cannot update Contest');
     } else {
         return updatedContest.dataValues;

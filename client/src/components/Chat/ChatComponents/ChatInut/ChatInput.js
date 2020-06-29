@@ -6,22 +6,20 @@ import styles from './ChatInput.module.sass';
 import constants from '../../../../constants/constants';
 import FormField from "../../../FormField";
 
-const validate = (values) => {
+const validate = ({message}) => {
     const errors = {};
-    if (!values.message || !values.message.trim().length) {
+    if (!message || !message.trim().length) {
         errors.message = 'Cannot be empty';
     }
     return errors;
 };
 
-const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, chatData}) => {
+const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, conversationData}) => {
 
-    const clickButton = (values) => {
+    const clickButton = ({message}) => {
         sendMessage({
-            messageBody: values.message,
-            body: values.message,
-            conversationId: chatData && chatData._id || null,
-            recipient: interlocutor.id,
+            body: message,
+            conversationId: conversationData && conversationData.id || null,
             interlocutor,
         });
         reset();
@@ -53,9 +51,9 @@ const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, chatD
 };
 
 const mapStateToProps = (state) => {
-    const {interlocutor, chatData} = state.chatStore;
+    const {interlocutor, conversationData} = state.chatStore;
     const {data} = state.userStore;
-    return {interlocutor, data, chatData};
+    return {interlocutor, data, conversationData};
 };
 
 const mapDispatchToProps = (dispatch) => ({

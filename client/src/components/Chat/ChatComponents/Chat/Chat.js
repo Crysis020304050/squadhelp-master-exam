@@ -4,7 +4,7 @@ import DialogListContainer from '../../DialogComponents/DialogListContainer/Dial
 import styles from './Chat.module.sass';
 import Dialog from '../../DialogComponents/Dialog/Dialog';
 import classNames from 'classnames';
-import {changeChatShow, setPreviewChatMode, changeShowModeCatalog,clearChatError,getPreviewChat} from "../../../../actions/actionCreator";
+import {changeChatShow, setPreviewChatMode, changeShowModeCatalog,clearChatError,getPreview} from "../../../../actions/actionCreator";
 import {chatController} from '../../../../api/ws/socketController';
 import CatalogListContainer from '../../CatalogComponents/CatalogListContainer/CatalogListContainer';
 import CatalogCreation from '../../CatalogComponents/CatalogCreation/CatalogCreation';
@@ -12,13 +12,13 @@ import CatalogListHeader from '../../CatalogComponents/CatalogListHeader/Catalog
 import ChatError from '../../../ChatError/ChatError';
 import constants from "../../../../constants/constants";
 
-const Chat = ({userStore: {data: {id, role}}, chatStore: {chatMode, isShowChatsInCatalog, isExpanded, isShow, isShowCatalogCreation, error}, getPreviewChat, setChatPreviewMode, changeShow}) => {
+const Chat = ({userStore: {data: {id, role}}, chatStore: {chatMode, isShowChatsInCatalog, isExpanded, isShow, isShowCatalogCreation, error}, getPreview, setChatPreviewMode, changeShow}) => {
 
     const {NORMAL_PREVIEW_CHAT_MODE, FAVORITE_PREVIEW_CHAT_MODE, BLOCKED_PREVIEW_CHAT_MODE, CATALOG_PREVIEW_CHAT_MODE, STATIC_IMAGES_PATH, MODERATOR} = constants;
 
     useEffect(() => {
         chatController.subscribeChat(id);
-        getPreviewChat();
+        getPreview();
 
         return () =>  chatController.unsubscribeChat(id);
     }, []);
@@ -45,7 +45,7 @@ const Chat = ({userStore: {data: {id, role}}, chatStore: {chatMode, isShowChatsI
 
     return (
         role !== MODERATOR && (<div className={classNames(styles.chatContainer, {[styles.showChat]: isShow})}>
-            {error && <ChatError getData={getPreviewChat}/>}
+            {error && <ChatError getData={getPreview}/>}
             {isShowCatalogCreation && <CatalogCreation/>}
             {isExpanded ? <Dialog userId={id}/> : renderDialogList()}
             <div className={styles.toggleChat}
@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch) => ({
     setChatPreviewMode: (mode) => dispatch(setPreviewChatMode(mode)),
     changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
     clearChatError: ()=>dispatch(clearChatError()),
-    getPreviewChat: ()=>dispatch(getPreviewChat())
+    getPreview: ()=>dispatch(getPreview())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

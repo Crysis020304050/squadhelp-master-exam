@@ -24,7 +24,6 @@ import TryAgain from '../../components/TryAgain/TryAgain';
 import 'react-image-lightbox/style.css';
 import Error from "../../components/Error/Error";
 
-
 class ContestPage extends React.Component {
 
     componentWillUnmount() {
@@ -82,7 +81,7 @@ class ContestPage extends React.Component {
             if (isEqual(participants, messagesPreview[i].participants)) {
                 return {
                     participants: messagesPreview[i].participants,
-                    _id: messagesPreview[i]._id,
+                    id: messagesPreview[i].id,
                     blackList: messagesPreview[i].blackList,
                     favoriteList: messagesPreview[i].favoriteList
                 };
@@ -113,7 +112,7 @@ class ContestPage extends React.Component {
                 {error && <div className={styles.tryContainer}><TryAgain getData={this.getData}/></div>}
                 {!error && isFetching && <div className={styles.containerSpinner}>
                     <Spinner/>
-                    </div>}
+                </div>}
                 {!error && !isFetching && contestData && (<div className={styles.mainInfoContainer}>
                     <div className={styles.infoContainer}>
                         <div className={styles.buttonsContainer}>
@@ -121,7 +120,7 @@ class ContestPage extends React.Component {
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
                             {
                                 (offers.length > 0 && role !== constants.MODERATOR || role === constants.CREATOR) && <span onClick={() => changeContestViewMode(false)}
-                                                                                           className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
+                                                                                                                           className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
                             }
                         </div>
                         {
@@ -149,22 +148,19 @@ class ContestPage extends React.Component {
     }
 }
 
-
 const mapStateToProps = (state) => {
     const {contestByIdStore, userStore, chatStore} = state;
     return {contestByIdStore, userStore, chatStore};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getData: (data) => dispatch(getContestById(data)),
-        setOfferStatus: (data) => dispatch(setOfferStatus(data)),
-        clearSetOfferStatusError: () => dispatch(clearSetOfferStatusError()),
-        goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
-        changeEditContest: (data) => dispatch(changeEditContest(data)),
-        changeContestViewMode: (data) => dispatch(changeContestViewMode(data)),
-        changeShowImage: data => dispatch(changeShowImage(data))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    getData: (data) => dispatch(getContestById(data)),
+    setOfferStatus: (data) => dispatch(setOfferStatus(data)),
+    clearSetOfferStatusError: () => dispatch(clearSetOfferStatusError()),
+    goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
+    changeEditContest: (data) => dispatch(changeEditContest(data)),
+    changeContestViewMode: (data) => dispatch(changeContestViewMode(data)),
+    changeShowImage: data => dispatch(changeShowImage(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContestPage);

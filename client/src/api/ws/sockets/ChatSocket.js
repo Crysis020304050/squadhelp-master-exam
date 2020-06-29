@@ -22,19 +22,6 @@ class ChatSocket extends WebSocket {
     onNewMessage = () => {
         this.socket.on('newMessage', (data) => {
             const {message: {message, chatPreview}} = data;
-            /*const {messagesPreview} = this.getState().chatStore;
-            let isNew = true;
-            messagesPreview.forEach(preview => {
-                if (isEqual(preview.participants, message.participants)) {
-                    preview.text = message.body;
-                    preview.sender = message.sender;
-                    preview.createAt = message.createdAt;
-                    isNew = false;
-                }
-            });
-            if (isNew) {
-                messagesPreview.push(preview);
-            }*/
             this.dispatch(addMessage({message, chatPreview, isSocketMessage: true}));
         })
     };

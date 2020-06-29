@@ -24,8 +24,8 @@ const DialogList = ({changeChatFavorite, changeChatBlock, changeShowAddChatToCat
         event.stopPropagation();
     };
 
-    const changeShowCatalogCreation = (event, chatId) => {
-        changeShowAddChatToCatalogMenu(chatId);
+    const changeShowCatalogCreation = (event, conversationId) => {
+        changeShowAddChatToCatalogMenu(conversationId);
         event.stopPropagation();
     };
 

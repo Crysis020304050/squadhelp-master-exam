@@ -4,24 +4,22 @@ import Catalog from '../Catalog/Catalog';
 import styles from '../CatalogListContainer/CatalogListContainer.module.sass'
 import {changeShowModeCatalog, deleteCatalog} from '../../../../actions/actionCreator';
 
-const CatalogList = (props) => {
-
+const CatalogList = ({changeShowModeCatalog, deleteCatalog, catalogList}) => {
 
     const goToCatalog = (event, catalog) => {
-        props.changeShowModeCatalog(catalog);
+        changeShowModeCatalog(catalog);
         event.stopPropagation();
     };
 
-    const deleteCatalog = (event, catalogId) => {
-        props.deleteCatalog({catalogId});
+    const deleteCatalogFunc = (event, catalogId) => {
+        deleteCatalog({catalogId});
         event.stopPropagation();
     };
 
     const getListCatalog = () => {
-        const {catalogList} = props;
         const elementList = [];
         catalogList.forEach((catalog) => {
-            elementList.push(<Catalog catalog={catalog} key={catalog._id} deleteCatalog={deleteCatalog}
+            elementList.push(<Catalog catalog={catalog} key={catalog.id} deleteCatalog={deleteCatalogFunc}
                                       goToCatalog={goToCatalog}/>)
         });
         return elementList.length? elementList : <span className={styles.notFound}>Not found</span>;
@@ -32,15 +30,11 @@ const CatalogList = (props) => {
             {getListCatalog()}
         </div>
     );
-
 };
 
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeShowModeCatalog: (data) => dispatch(changeShowModeCatalog(data)),
-        deleteCatalog: (data) => dispatch(deleteCatalog(data))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    changeShowModeCatalog: (data) => dispatch(changeShowModeCatalog(data)),
+    deleteCatalog: (data) => dispatch(deleteCatalog(data))
+});
 
 export default connect(null, mapDispatchToProps)(CatalogList);
