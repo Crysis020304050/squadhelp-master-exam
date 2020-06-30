@@ -16,6 +16,7 @@ module.exports = {
           key: 'id',
         },
         onDelete: 'CASCADE',
+        unique: 'catalog_conversation_pair',
       },
       conversationId: {
         type: Sequelize.INTEGER,
@@ -25,8 +26,11 @@ module.exports = {
           key: 'id',
         },
         onDelete: 'CASCADE',
+        unique: 'catalog_conversation_pair',
       },
-    });
+    }).then(() => (
+        queryInterface.sequelize.query('alter table "ConversationsToCatalogs" add constraint "catalog_conversation_pair" unique ("catalogId", "conversationId")')
+    ));
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('ConversationsToCatalogs');

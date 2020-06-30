@@ -61,7 +61,7 @@ const Brief = (props) => {
     } else {
         return (
             <div className={styles.contestForm}>
-                {error && <Error data={error.data} status={error.status} clearError={clearUpdateContestStore}/>}
+                {error && <Error error={error} clearError={clearUpdateContestStore}/>}
                 <ContestForm contestType={contestData.contestType}
                              defaultData={getContestObjInfo()} submitData={setNewContestData}/>
                 {isEditContest ?

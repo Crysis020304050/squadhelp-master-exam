@@ -10,7 +10,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
   }, {
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ['userId', 'favoriteUserId']
+      }
+    ]
   });
   FavoriteList.associate = function(models) {
     FavoriteList.belongsTo(models.User, {as: 'favoriteListOwner', foreignKey: 'userId', sourceKey: 'id'});

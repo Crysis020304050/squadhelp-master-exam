@@ -10,7 +10,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ['participantFirstId', 'participantSecondId']
+      }
+    ]
   });
   Conversation.associate = function(models) {
     Conversation.belongsTo(models.User, {as: 'owner', foreignKey: 'participantFirstId', sourceKey: 'id'});

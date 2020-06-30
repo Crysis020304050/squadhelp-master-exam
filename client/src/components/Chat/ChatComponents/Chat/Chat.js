@@ -45,7 +45,7 @@ const Chat = ({userStore: {data: {id, role}}, chatStore: {chatMode, isShowChatsI
 
     return (
         role !== MODERATOR && (<div className={classNames(styles.chatContainer, {[styles.showChat]: isShow})}>
-            {error && <ChatError getData={getPreview}/>}
+            {error && <ChatError error={error} getData={getPreview}/>}
             {isShowCatalogCreation && <CatalogCreation/>}
             {isExpanded ? <Dialog userId={id}/> : renderDialogList()}
             <div className={styles.toggleChat}

@@ -18,7 +18,7 @@ const TransactionsPage = ({isFetching, error, getUserTransactionsHistory, getUse
         <div>
             <Header/>
             <div className={styles.container}>
-                {error && <Error data={error.data} status={error.status} clearError={clearError}/>}
+                {error && <Error error={error} clearError={clearError}/>}
                 {
                     isFetching ? <SpinnerLoader/> : <TransactionsTable/>
                 }

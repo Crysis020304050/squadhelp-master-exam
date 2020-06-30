@@ -1,4 +1,8 @@
 module.exports = (err, req, res, next) => {
+  if (err.name === 'SequelizeUniqueConstraintError') {
+    err.message = 'A record with such parameters already exists';
+    err.code = 409;
+  }
   if (err.message ===
     'new row for relation "Banks" violates check constraint "Banks_balance_ck"' ||
     err.message ===

@@ -15,6 +15,7 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        unique: 'owner_favorite_user_pair',
       },
       favoriteUserId: {
         type: Sequelize.INTEGER,
@@ -23,8 +24,11 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        unique: 'owner_favorite_user_pair',
       },
-    });
+    }).then(() => (
+        queryInterface.sequelize.query('alter table "FavoriteLists" add constraint "owner_favorite_user_pair" unique ("userId", "favoriteUserId")')
+    ));
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('FavoriteLists');

@@ -23,8 +23,7 @@ const LoginPage = (props) => {
         </div>
         <div className={ styles.loginFormContainer }>
           <h2>LOGIN TO YOUR ACCOUNT</h2>
-          { error && <Error data={ error.data } status={ error.status }
-                            clearError={ authClear }/> }
+          { error && <Error error={error} clearError={ authClear }/> }
           <LoginForm/>
           <Link to='/resetPassword'>Forgot your password? Click here to reset</Link>
         </div>

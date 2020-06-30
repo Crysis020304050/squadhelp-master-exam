@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         timestamps: false,
+        indexes: [
+            {
+                unique: true,
+                fields: ['name', 'userId']
+            }
+        ]
     });
     Catalog.associate = function (models) {
         Catalog.belongsTo(models.User, {foreignKey: 'userId', sourceKey: 'id'});

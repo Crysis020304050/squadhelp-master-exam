@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Error.module.sass';
+import PropTypes from 'prop-types';
 
-const Error=props=>{
-    const getMessage=()=>{
-        const {status,data}=props
+const Error = ({error: {status, data}, clearError}) => {
+
+    const getMessage = () => {
         switch (status) {
             case 404:
                 return data;
@@ -20,13 +21,17 @@ const Error=props=>{
         }
     };
 
-    const {clearError}=props;
     return(
         <div className={styles.errorContainer}>
             <span>{getMessage()}</span>
             <i className="far fa-times-circle" onClick={()=>clearError()}/>
         </div>
     )
+};
+
+Error.propTypes = {
+    error: PropTypes.object.isRequired,
+    clearError: PropTypes.func.isRequired,
 };
 
 export default Error;

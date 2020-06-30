@@ -42,7 +42,7 @@ const UserProfile = (props) => {
                                 :
                                 <div>
                                     {error &&
-                                    <Error data={error.data} status={error.status} clearError={clearPaymentStore}/>}
+                                    <Error error={error} clearError={clearPaymentStore}/>}
                                     <PayForm sendRequest={pay}/>
                                 </div>
                             }

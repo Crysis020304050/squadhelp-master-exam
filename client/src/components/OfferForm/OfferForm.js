@@ -66,7 +66,7 @@ const OfferForm = (props) => {
     return (
         <div className={styles.offerContainer}>
             {addOfferError &&
-            <Error data={addOfferError.data} status={addOfferError.status} clearError={clearOfferError}/>}
+            <Error error={addOfferError} clearError={clearOfferError}/>}
             <form onSubmit={handleSubmit(setOffer)} className={styles.form}>
                 {renderOfferInput()}
                 {valid && <button type='submit' className={styles.btnOffer}>Send Offer</button>}

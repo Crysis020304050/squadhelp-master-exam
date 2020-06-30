@@ -20,7 +20,7 @@ const ResetPasswordPage = ({error, clearError}) => {
           </header>
           <div className={styles.resetPasswordFormContainer}>
               <h2>RESET YOUR PASSWORD</h2>
-              {error && <Error data={error.data} status={error.status} clearError={clearError}/>}
+              {error && <Error error={error} clearError={clearError}/>}
               <ResetPasswordForm/>
           </div>
       </div>

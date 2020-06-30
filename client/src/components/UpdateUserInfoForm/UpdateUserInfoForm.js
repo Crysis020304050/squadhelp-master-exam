@@ -22,7 +22,7 @@ const UpdateUserInfoForm = (props) => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.updateContainer}>
-            {error && <Error data={error.data} status={error.status} clearError={clearUserError}/>}
+            {error && <Error error={error} clearError={clearUserError}/>}
             <div className={styles.container}>
                 <span className={styles.label}>First Name</span>
                 <Field

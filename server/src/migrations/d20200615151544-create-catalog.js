@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: 'catalog_name_user_pair',
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -18,9 +19,11 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
-
+        unique: 'catalog_name_user_pair',
       },
-    });
+    }).then(() => (
+        queryInterface.sequelize.query('alter table "Catalogs" add constraint "catalog_name_user_pair" unique ("name", "userId")')
+    ));
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Catalogs');

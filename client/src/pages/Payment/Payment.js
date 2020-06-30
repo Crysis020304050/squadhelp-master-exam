@@ -49,7 +49,7 @@ const Payment = (props) => {
             <div className={styles.mainContainer}>
                 <div className={styles.paymentContainer}>
                     <span className={styles.headerLabel}>Checkout</span>
-                    {error && <Error data={error.data} status={error.status} clearError={clearPaymentStore}/>}
+                    {error && <Error error={error} clearError={clearPaymentStore}/>}
                     <PayForm sendRequest={pay} back={goBack} isPayForOrder={true}/>
                 </div>
                 <div className={styles.orderInfoContainer}>

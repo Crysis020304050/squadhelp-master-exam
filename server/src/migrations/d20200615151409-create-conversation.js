@@ -15,6 +15,7 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        unique: 'participants_pair',
       },
       participantSecondId: {
         type: Sequelize.INTEGER,
@@ -23,8 +24,11 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        unique: 'participants_pair',
       },
-    });
+    }).then(() => (
+        queryInterface.sequelize.query('alter table "Conversations" add constraint "participants_pair" unique ("participantFirstId", "participantSecondId")')
+    ));
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Conversations');

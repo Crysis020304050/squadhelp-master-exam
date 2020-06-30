@@ -30,8 +30,7 @@ const RegistrationPage = (props) => {
                     <h4>
                         We always keep your name and email address private.
                     </h4>
-                    { error && <Error data={ error.data } status={ error.status }
-                                      clearError={ authClear }/> }
+                    { error && <Error error={error} clearError={ authClear }/> }
                 </div>
                 <RegistrationForm/>
             </div>
