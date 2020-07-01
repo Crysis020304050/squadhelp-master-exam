@@ -18,7 +18,9 @@ const initialState = {
     catalogList: [],
     isRenameCatalog: false,
     isShowChatsInCatalog: false,
-    catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG
+    catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG,
+    isMessagesFetching: false,
+    haveMoreMessages: true,
 };
 
 const prepareChatData = ({body, createdAt, userId, interlocutor, ...rest}) => rest;
@@ -79,15 +81,24 @@ export default function (state = initialState, action) {
                 conversationData,
                 isShow: true,
                 isExpanded: true,
-                messages: []
+                messages: [],
+                haveMoreMessages: true,
+            }
+        }
+        case ACTION.GET_DIALOG_MESSAGES_ASYNC: {
+            return {
+                ...state,
+                isMessagesFetching: true,
             }
         }
         case ACTION.GET_DIALOG_MESSAGES: {
-            const {data: {messages, interlocutor}} = action;
+            const {data: {messages, interlocutor, haveMore}} = action;
             return {
                 ...state,
-                ...(messages && {messages}),
+                ...(messages && {messages: [...messages, ...state.messages]}),
                 ...(interlocutor && {interlocutor}),
+                ...(haveMore !== undefined && {haveMoreMessages: haveMore}),
+                isMessagesFetching: false,
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ERROR: {
@@ -95,7 +106,8 @@ export default function (state = initialState, action) {
                 ...state,
                 messages: [],
                 interlocutor: null,
-                error: action.error
+                error: action.error,
+                isMessagesFetching: false,
             }
         }
         case ACTION.SEND_MESSAGE: {

@@ -14,10 +14,10 @@ module.exports.getPreview = async (req, res, next) => {
 
 module.exports.getConversation = async (req, res, next) => {
     try {
-        const {body: {conversationId, interlocutorId}} = req;
+        const {body: {conversationId, interlocutorId, limit, offset}} = req;
         if (conversationId) {
-            const messages = await chatQueries.findMessages({conversationId});
-            res.send({messages});
+            const messages = await chatQueries.findMessages({conversationId}, limit, offset);
+            res.send({messages: messages.reverse(), haveMore: messages.length >= limit});
         } else {
             const {id, firstName, lastName, displayName, avatar} = await findUser({id: interlocutorId});
             res.send({

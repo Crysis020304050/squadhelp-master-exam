@@ -6,38 +6,56 @@ import moment from 'moment';
 import className from 'classnames';
 import styles from './Dialog.module.sass';
 import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
+import InfinityScrollListContainer from "../../../InfinityScrollListContainer";
 
 class Dialog extends React.Component {
 
     constructor(props) {
         super(props);
         this.messagesEnd = React.createRef();
-    }
-
-    componentDidMount() {
-        const {interlocutor: {id}, conversationData, getConversation} = this.props;
-        getConversation({interlocutorId: id, conversationId: conversationData && conversationData.id || null});
-        this.scrollToBottom();
+        this.messagesContainer = React.createRef();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.messagesEnd.current)
+        const {messages, isMessagesFetching, userId, haveMoreMessages} = this.props;
+        if (this.messagesEnd.current && prevProps.isMessagesFetching && !isMessagesFetching && !prevProps.messages.length && messages.length) {
             this.scrollToBottom();
+        } else if (this.messagesEnd.current && this.messagesContainer.current && messages.length > prevProps.messages.length) {
+            const {current: {infinteRef: {current: {scrollTop, offsetHeight}}}} = this.messagesContainer;
+            const {current} = this.messagesEnd;
+            if (current.offsetTop - scrollTop - offsetHeight < 200) {
+                this.scrollToBottom();
+            } else if (messages.length - prevProps.messages.length === 1 && (prevProps.haveMoreMessages === haveMoreMessages) && messages[messages.length - 1].userId === userId) {
+                this.scrollToBottom();
+            }
+        }
     }
 
     scrollToBottom = () => {
-        this.messagesEnd.current.scrollIntoView({behavior: 'smooth'})
+        this.messagesEnd.current.scrollIntoView({behavior: 'smooth'});
     };
 
     componentWillUnmount() {
         this.props.clearMessageList();
     }
 
+    loadMoreMessages = (startFrom) => {
+        const {interlocutor: {id}, conversationData, getConversation, isMessagesFetching} = this.props;
+        if (!isMessagesFetching) {
+            getConversation({
+                interlocutorId: id,
+                conversationId: conversationData && conversationData.id || null,
+                limit: 20,
+                offset: startFrom
+            });
+        }
+    };
+
     renderMainDialog = () => {
         const messagesArray = [];
-        const {messages, userId} = this.props;
+        const {messages, userId, isMessagesFetching, haveMoreMessages} = this.props;
         let currentTime = moment();
-        messages.forEach((message, i) => {
+        messages.forEach((message) => {
             if (!currentTime.isSame(message.createdAt, 'date')) {
                 messagesArray.push(
                     <div key={message.createdAt} className={styles.date}>
@@ -47,7 +65,7 @@ class Dialog extends React.Component {
                 currentTime = moment(message.createdAt);
             }
             messagesArray.push(
-                <div key={i}
+                <div key={message.id}
                      className={className(userId === message.userId ? styles.ownMessage : styles.message)}>
                     <span>{message.body}</span>
                     <span className={styles.messageTime}>{moment(message.createdAt).format('HH:mm')}</span>
@@ -56,9 +74,12 @@ class Dialog extends React.Component {
             )
         });
         return (
-            <div className={styles.messageList}>
+            <InfinityScrollListContainer refLink={this.messagesContainer} className={styles.messageList}
+                                         haveMore={haveMoreMessages}
+                                         isFetching={isMessagesFetching} loadMore={this.loadMoreMessages}
+                                         isReverse={true}>
                 {messagesArray}
-            </div>
+            </InfinityScrollListContainer>
         )
     };
 
@@ -78,13 +99,14 @@ class Dialog extends React.Component {
     };
 
     render() {
-        const {conversationData, userId} = this.props;
+        const {userId, conversationData} = this.props;
         return (
             <>
                 <ChatHeader userId={userId}/>
                 {this.renderMainDialog()}
                 <div ref={this.messagesEnd}/>
-                {(conversationData && conversationData.blackList && conversationData.blackList.includes(true)) ? this.blockMessage() : <ChatInput/>}
+                {(conversationData && conversationData.blackList && conversationData.blackList.includes(true)) ? this.blockMessage() :
+                    <ChatInput/>}
             </>
         )
     }

@@ -76,8 +76,8 @@ from "Conversations" C
     }));
 };
 
-module.exports.findMessages = async (predicate) => {
-    return await db.Message.findAll({where: predicate, order: [['createdAt', 'asc']]});
+module.exports.findMessages = async (predicate, limit, offset) => {
+    return await db.Message.findAll({where: predicate, order: [['createdAt', 'desc']], limit: limit || 20, offset: offset || 0, raw: true});
 };
 
 module.exports.createMessage = async (data) => {
