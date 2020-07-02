@@ -2,6 +2,7 @@ const {findUser} = require('./queries/userQueries');
 const chatQueries = require('./queries/chatQueries');
 const controller = require('../index.js');
 
+
 module.exports.getPreview = async (req, res, next) => {
     try {
         const {tokenData: {id}} = req;
@@ -174,11 +175,11 @@ module.exports.removeConversationFromCatalog = async (req, res, next) => {
 };
 
 module.exports.updateCatalogName = async (req, res, next) => {
-  try {
-      const {body: {catalogId, name}} = req;
-      await chatQueries.updateCatalog({name}, {id: catalogId});
-      res.end();
-  } catch (e) {
-      next(e);
-  }
+    try {
+        const {body: {catalogId, name}} = req;
+        await chatQueries.updateCatalog({name}, {id: catalogId});
+        res.end();
+    } catch (e) {
+        next(e);
+    }
 };

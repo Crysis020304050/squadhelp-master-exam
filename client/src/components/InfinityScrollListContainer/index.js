@@ -6,29 +6,22 @@ import InfiniteList from "react-infinite-scroll-list";
 import InfiniteScrollReverse from "react-infinite-scroll-reverse";
 
 
-const InfinityScrollListContainer = ({children, isFetching, loadMore, haveMore, isReverse, className, refLink}) => {
-
-    const isListOfChildrenEmpty = () => (
-        !isFetching && children.length === 0
-    );
-
-    return (
-        <>
-            {isListOfChildrenEmpty() && !isReverse && <div className={styles.notFound}>Nothing not found</div>}
-            {!isListOfChildrenEmpty() && isReverse
-                ? <InfiniteScrollReverse ref={refLink} className={className} isLoading={isFetching} hasMore={haveMore}
-                                         loadMore={() => loadMore(children.length)}>
-                    {isFetching && <Spinner/>}
-                    {children}
-                </InfiniteScrollReverse>
-                : <InfiniteList root='viewport' isLoading={isFetching} isEndReached={!haveMore}
-                                onReachThreshold={() => loadMore(children.length)}>
-                    {children}
-                    {isFetching && <Spinner/>}
-                </InfiniteList>}
-        </>
-    );
-};
+const InfinityScrollListContainer = ({children, isFetching, loadMore, haveMore, isReverse, className, refLink}) => (
+    <>
+        {!isFetching && !children.length && !isReverse && <div className={styles.notFound}>Nothing not found</div>}
+        {isReverse
+            ? <InfiniteScrollReverse ref={refLink} className={className} isLoading={isFetching} hasMore={haveMore}
+                                     loadMore={() => loadMore(children.length)}>
+                {isFetching && <Spinner/>}
+                {children}
+            </InfiniteScrollReverse>
+            : <InfiniteList root='viewport' isLoading={isFetching} isEndReached={!haveMore}
+                            onReachThreshold={() => loadMore(children.length)}>
+                {children}
+                {isFetching && <Spinner/>}
+            </InfiniteList>}
+    </>
+);
 
 InfinityScrollListContainer.propTypes = {
     isFetching: PropTypes.bool.isRequired,

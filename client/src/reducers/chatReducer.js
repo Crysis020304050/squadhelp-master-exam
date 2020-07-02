@@ -11,7 +11,7 @@ const initialState = {
     messages: [],
     error: null,
     isExpanded: false,
-    interlocutor: {},
+    interlocutor: null,
     messagesPreview: [],
     isShow: false,
     chatMode: constants.NORMAL_PREVIEW_CHAT_MODE,
@@ -22,8 +22,6 @@ const initialState = {
     isMessagesFetching: false,
     haveMoreMessages: true,
 };
-
-const prepareChatData = ({body, createdAt, userId, interlocutor, ...rest}) => rest;
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -96,7 +94,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 ...(messages && {messages: [...messages, ...state.messages]}),
-                ...(interlocutor && {interlocutor}),
+                ...(interlocutor && {interlocutor, haveMoreMessages: false}),
                 ...(haveMore !== undefined && {haveMoreMessages: haveMore}),
                 isMessagesFetching: false,
             }
@@ -115,6 +113,7 @@ export default function (state = initialState, action) {
             const updatedPreview = [...state.messagesPreview];
             let updatedConversationData;
             if (chatPreview) {
+                const prepareChatData = ({body, createdAt, userId, interlocutor, ...rest}) => rest;
                 updatedPreview.push(chatPreview);
                 updatedConversationData = !state.conversationData && !isSocketMessage && prepareChatData(chatPreview);
             }
