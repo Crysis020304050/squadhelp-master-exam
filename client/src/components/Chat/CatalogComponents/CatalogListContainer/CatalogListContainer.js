@@ -4,10 +4,10 @@ import {getCatalogList, removeConversationFromCatalog} from '../../../../actions
 import CatalogList from '../CatalogList/CatalogList';
 import DialogList from '../../DialogComponents/DialogList/DialogList';
 
-const CatalogListContainer = ({getCatalogList, removeConversationFromCatalog, currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog, userId}) => {
+const CatalogListContainer = ({getCatalogList, removeConversationFromCatalog, currentCatalog, catalogList, messagesPreview, isShowChatsInCatalog, userId, isCatalogsLoaded}) => {
 
     useEffect(() => {
-        if (!catalogList.length) {
+        if (!isCatalogsLoaded) {
             getCatalogList();
         }
     }, []);

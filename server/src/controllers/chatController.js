@@ -22,13 +22,8 @@ module.exports.getConversation = async (req, res, next) => {
         } else {
             const {id, firstName, lastName, displayName, avatar} = await findUser({id: interlocutorId});
             res.send({
-                interlocutor: {
-                    id,
-                    firstName,
-                    lastName,
-                    displayName,
-                    avatar,
-                }
+                interlocutor: {id, firstName, lastName, displayName, avatar},
+                haveMore: false,
             });
         }
     } catch (e) {

@@ -11,12 +11,12 @@ import AddToCatalog from '../AddToCatalog/AddToCatalog';
 import classNames from 'classnames';
 import CreateCatalog from '../CreateCatalog/CreateCatalog';
 
-const CatalogCreation = ({getCatalogList, catalogList, changeTypeOfChatAdding, catalogCreationMode, changeShowAddChatToCatalogMenu, isFetching}) => {
+const CatalogCreation = ({getCatalogList, changeTypeOfChatAdding, catalogCreationMode, changeShowAddChatToCatalogMenu, isFetching, isCatalogsLoaded}) => {
 
     const {ADD_CHAT_TO_OLD_CATALOG, CREATE_NEW_CATALOG_AND_ADD_CHAT} = constants;
 
     useEffect(() => {
-        if (!catalogList.length) {
+        if (!isCatalogsLoaded) {
             getCatalogList();
         }
     }, []);

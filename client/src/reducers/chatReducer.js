@@ -21,6 +21,7 @@ const initialState = {
     catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG,
     isMessagesFetching: false,
     haveMoreMessages: true,
+    isCatalogsLoaded: false,
 };
 
 export default function (state = initialState, action) {
@@ -94,7 +95,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 ...(messages && {messages: [...messages, ...state.messages]}),
-                ...(interlocutor && {interlocutor, haveMoreMessages: false}),
+                ...(interlocutor && {interlocutor}),
                 ...(haveMore !== undefined && {haveMoreMessages: haveMore}),
                 isMessagesFetching: false,
             }
@@ -183,7 +184,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                catalogList: [...action.data]
+                catalogList: [...action.data],
+                isCatalogsLoaded: true,
             }
         }
         case ACTION.CHANGE_SHOW_MODE_CATALOG: {
@@ -281,6 +283,9 @@ export default function (state = initialState, action) {
                 ...state,
                 error: null
             }
+        }
+        case ACTION.CLEAR_USER_STORE: {
+            return initialState;
         }
         default:
             return state;

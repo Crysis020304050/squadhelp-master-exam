@@ -47,10 +47,12 @@ const DialogList = ({changeChatFavorite, changeChatBlock, changeShowAddChatToCat
 
     const renderPreview = (filterFunc) => {
         const arrayList = [];
-        preview.forEach((chatPreview, index) => {
+        const sortedPreview = [...preview];
+        sortedPreview.sort(((a, b) => (moment(b.createdAt) - moment(a.createdAt))));
+        sortedPreview.forEach((chatPreview) => {
             const dialogNode = <DialogBox
                 interlocutor={chatPreview.interlocutor}
-                chatPreview={chatPreview} userId={userId} key={index} getTimeStr={getTimeStr}
+                chatPreview={chatPreview} userId={userId} key={chatPreview.id} getTimeStr={getTimeStr}
                 changeFavorite={changeFavorite} changeBlackList={changeBlackList} chatMode={chatMode}
                 catalogOperation={chatMode === constants.CATALOG_PREVIEW_CHAT_MODE ? removeChat : changeShowCatalogCreation}
                 goToExpandedDialog={goToExpandedDialog}/>;
