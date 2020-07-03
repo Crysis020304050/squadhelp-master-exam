@@ -22,6 +22,7 @@ const initialState = {
     isMessagesFetching: false,
     haveMoreMessages: true,
     isCatalogsLoaded: false,
+    conversationUnreadMessages: [],
 };
 
 export default function (state = initialState, action) {
@@ -76,7 +77,7 @@ export default function (state = initialState, action) {
             const {data: {interlocutor, conversationData}} = action;
             return {
                 ...state,
-                interlocutor: {...state.interlocutor, ...interlocutor},
+                interlocutor,
                 conversationData,
                 isShow: true,
                 isExpanded: true,
@@ -142,6 +143,18 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 messages: []
+            }
+        }
+        case ACTION.NEW_UNREAD_MESSAGE: {
+            return {
+                ...state,
+                conversationUnreadMessages: [...state.conversationUnreadMessages, action.id],
+            }
+        }
+        case ACTION.CLEAR_UNREAD_MESSAGES: {
+            return {
+                ...state,
+                conversationUnreadMessages: [],
             }
         }
         case ACTION.CHANGE_CHAT_SHOW: {
@@ -271,10 +284,11 @@ export default function (state = initialState, action) {
             }
         }
         case ACTION.CHANGE_CATALOG_NAME_SUCCESS: {
+            const {data: {catalogList, currentCatalog}} = action;
             return {
                 ...state,
-                catalogList: [...action.data.catalogList],
-                currentCatalog: action.data.currentCatalog,
+                catalogList,
+                currentCatalog,
                 isRenameCatalog: false
             }
         }

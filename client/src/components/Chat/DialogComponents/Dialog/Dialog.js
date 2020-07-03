@@ -1,12 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getConversationMessages, clearMessageList} from "../../../../actions/actionCreator";
+import {
+    getConversationMessages,
+    clearMessageList,
+    newUnreadMessage,
+    clearUnreadMessages
+} from "../../../../actions/actionCreator";
 import ChatHeader from '../../ChatComponents/ChatHeader/ChatHeader';
 import moment from 'moment';
 import className from 'classnames';
 import styles from './Dialog.module.sass';
 import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
 import InfinityScrollListContainer from "../../../InfinityScrollListContainer";
+import UnreadMessagesCircle from "../../../UnreadMessagesCircle";
 
 class Dialog extends React.Component {
 
@@ -14,29 +20,41 @@ class Dialog extends React.Component {
         super(props);
         this.messagesEnd = React.createRef();
         this.messagesContainer = React.createRef();
+        this.visibleMessage = React.createRef();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {messages, isMessagesFetching, userId, haveMoreMessages} = this.props;
+        const {messages, isMessagesFetching, userId, haveMoreMessages, newUnreadMessage, conversationUnreadMessages} = this.props;
         if (this.messagesEnd.current && prevProps.isMessagesFetching && !isMessagesFetching && !prevProps.messages.length && messages.length) {
             this.scrollToBottom();
         } else if (this.messagesEnd.current && this.messagesContainer.current && messages.length > prevProps.messages.length) {
-            const {current: {infinteRef: {current: {scrollTop, offsetHeight}}}} = this.messagesContainer;
+            const {current: {infinteRef: {current: {scrollTop, offsetHeight, children}}}} = this.messagesContainer;
             const {current} = this.messagesEnd;
-            if (current.offsetTop - scrollTop - offsetHeight < 200) {
+            if (current.offsetTop - scrollTop - offsetHeight > 0 && current.offsetTop - scrollTop - offsetHeight < 200) {
                 this.scrollToBottom();
             } else if (messages.length - prevProps.messages.length === 1 && (prevProps.haveMoreMessages === haveMoreMessages) && messages[messages.length - 1].userId === userId) {
                 this.scrollToBottom();
+            } else if (messages.length - prevProps.messages.length === 1 && (prevProps.haveMoreMessages === haveMoreMessages) && messages[messages.length - 1].userId !== userId) {
+                newUnreadMessage(messages[messages.length - 1].id);
+                if (conversationUnreadMessages.length < 1) {
+                    this.visibleMessage.current = children[children.length - 1];
+                }
             }
         }
     }
 
     scrollToBottom = () => {
+        const {conversationUnreadMessages, clearUnreadMessages} = this.props;
+        if (conversationUnreadMessages && conversationUnreadMessages.length) {
+            clearUnreadMessages();
+        }
         this.messagesEnd.current.scrollIntoView({behavior: 'smooth'});
     };
 
     componentWillUnmount() {
-        this.props.clearMessageList();
+        const {clearMessageList, clearUnreadMessages} = this.props;
+        clearMessageList();
+        clearUnreadMessages();
     }
 
     loadMoreMessages = (startFrom) => {
@@ -99,14 +117,21 @@ class Dialog extends React.Component {
     };
 
     render() {
-        const {userId, conversationData} = this.props;
+        const {userId, conversationData, conversationUnreadMessages, clearUnreadMessages} = this.props;
         return (
             <>
                 <ChatHeader userId={userId}/>
                 {this.renderMainDialog()}
                 <div ref={this.messagesEnd}/>
                 {(conversationData && conversationData.blackList && conversationData.blackList.includes(true)) ? this.blockMessage() :
-                    <ChatInput/>}
+                    <>
+                        {(conversationUnreadMessages && !!conversationUnreadMessages.length) &&
+                        <UnreadMessagesCircle clearUnreadMessages={clearUnreadMessages} unreadMessageRef={this.visibleMessage} conversationUnreadMessages={conversationUnreadMessages}
+                                              scrollToBottom={this.scrollToBottom}
+                                              className={styles.unreadMessagesCircle}/>}
+                        <ChatInput/>
+                    </>
+                }
             </>
         )
     }
@@ -116,7 +141,9 @@ const mapStateToProps = (state) => state.chatStore;
 
 const mapDispatchToProps = (dispatch) => ({
     getConversation: (data) => dispatch(getConversationMessages(data)),
-    clearMessageList: () => dispatch(clearMessageList())
+    clearMessageList: () => dispatch(clearMessageList()),
+    newUnreadMessage: (id) => dispatch(newUnreadMessage(id)),
+    clearUnreadMessages: () => dispatch(clearUnreadMessages()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dialog);

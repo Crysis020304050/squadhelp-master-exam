@@ -22,7 +22,7 @@ const CatalogList = ({changeShowModeCatalog, deleteCatalog, catalogList}) => {
             elementList.push(<Catalog catalog={catalog} key={catalog.id} deleteCatalog={deleteCatalogFunc}
                                       goToCatalog={goToCatalog}/>)
         });
-        return elementList.length? elementList : <span className={styles.notFound}>Not found</span>;
+        return elementList.length > 0 ? elementList : <span className={styles.notFound}>Not found</span>;
     };
 
     return (

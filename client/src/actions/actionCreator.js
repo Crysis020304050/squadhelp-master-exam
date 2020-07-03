@@ -158,6 +158,15 @@ export const clearMessageList = () => ({
     type: ACTION.CLEAR_MESSAGE_LIST
 });
 
+export const newUnreadMessage = (id) => ({
+   type: ACTION.NEW_UNREAD_MESSAGE,
+   id,
+});
+
+export const clearUnreadMessages = () => ({
+   type: ACTION.CLEAR_UNREAD_MESSAGES,
+});
+
 export const changeChatShow = () => ({
     type: ACTION.CHANGE_CHAT_SHOW
 });
