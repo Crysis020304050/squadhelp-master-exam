@@ -4,20 +4,15 @@ import {changeShowModeCatalog, changeRenameCatalogMode, changeCatalogName} from 
 import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CatalogHeader.module.sass';
 import FormField from "../../../FormField";
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
-const validate = ({name}) => {
-    const errors = {};
-    if (!name || !name.trim().length) {
-        errors.name = 'Cannot be empty';
-    }
-    return errors;
-};
 
 const CatalogListHeader = ({changeCatalogName, id, handleSubmit, name, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid, catalogList, dispatch}) => {
 
     const onSubmit = ({name}) => {
         if (catalogList.some(catalog => catalog.name === name)) {
-            dispatch(updateSyncErrors('catalogRename', {name: `Catalog with name '${name}' already exists`}));
+            dispatch(updateSyncErrors('catalogRename', {name: `Catalog with this name already exists`}));
         } else {
             changeCatalogName({name, catalogId: id});
         }
@@ -76,6 +71,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'catalogRename',
-    validate
+    validate: customValidator(Schems.CatalogNameSchema)
 })(CatalogListHeader));
 

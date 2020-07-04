@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Catalog = sequelize.define('Catalog', {
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(20),
             allowNull: false,
         },
         userId: {

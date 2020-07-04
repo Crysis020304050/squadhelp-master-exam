@@ -4,20 +4,14 @@ import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
 import FormField from "../../../FormField";
-
-const validate = ({name}) => {
-    const errors = {};
-    if (!name || !name.trim().length) {
-        errors.name = 'Cannot be empty';
-    }
-    return errors;
-};
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
 const CreateCatalog = ({createCatalog, addConversationId, handleSubmit, valid, catalogList, dispatch}) => {
 
     const onSubmit = ({name}) => {
         if (catalogList.some(catalog => catalog.name === name)) {
-            dispatch(updateSyncErrors('createCatalog', {name: `Catalog with name '${name}' already exists`}));
+            dispatch(updateSyncErrors('createCatalog', {name: `Catalog with this name already exists`}));
         } else {
             createCatalog({name, conversationId: addConversationId});
         }
@@ -52,5 +46,5 @@ const mapStateToProps = (state) => state.chatStore;
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createCatalog',
-    validate
+    validate: customValidator(Schems.CatalogNameSchema),
 })(CreateCatalog));

@@ -74,4 +74,7 @@ export default {
     SendMessageSchema: yup.object().shape({
         message: yup.string().matches(/(?!^ +$)^.+$/, 'Message must has at least one non whitespace character').required().max(255).label('Message'),
     }),
+    CatalogNameSchema: yup.object().shape({
+        name: yup.string().matches(/(?!^ +$)^.+$/, 'Name must has at least one non whitespace character').required().max(20).label('Name'),
+    }),
 }

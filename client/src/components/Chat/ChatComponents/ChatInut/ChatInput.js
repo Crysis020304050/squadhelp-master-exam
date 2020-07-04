@@ -10,7 +10,7 @@ import Schems from '../../../../validators/validationSchems';
 
 const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, conversationData}) => {
 
-    const clickButton = ({message}) => {
+    const onSubmit = ({message}) => {
         sendMessage({
             body: message,
             conversationId: conversationData && conversationData.id || null,
@@ -28,7 +28,7 @@ const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, conve
 
     return (
         <div className={styles.inputContainer}>
-            <form onSubmit={handleSubmit(clickButton)} className={styles.form}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <Field
                     name='message'
                     {...formInputClasses}
