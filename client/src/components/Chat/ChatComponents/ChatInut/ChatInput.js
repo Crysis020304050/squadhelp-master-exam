@@ -5,14 +5,8 @@ import {Field, reduxForm} from 'redux-form';
 import styles from './ChatInput.module.sass';
 import constants from '../../../../constants/constants';
 import FormField from "../../../FormField";
-
-const validate = ({message}) => {
-    const errors = {};
-    if (!message || !message.trim().length) {
-        errors.message = 'Cannot be empty';
-    }
-    return errors;
-};
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
 const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, conversationData}) => {
 
@@ -62,5 +56,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'messageForm',
-    validate
+    validate: customValidator(Schems.SendMessageSchema),
 })(ChatInput));

@@ -70,7 +70,7 @@ export default function (state = initialState, action) {
         case ACTION.BACK_TO_DIALOG_LIST: {
             return {
                 ...state,
-                isExpanded: false
+                isExpanded: false,
             }
         }
         case ACTION.GO_TO_EXPANDED_DIALOG: {
@@ -83,6 +83,7 @@ export default function (state = initialState, action) {
                 isExpanded: true,
                 messages: [],
                 haveMoreMessages: true,
+                conversationUnreadMessages: [],
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ASYNC: {
@@ -137,12 +138,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: action.error
-            }
-        }
-        case ACTION.CLEAR_MESSAGE_LIST: {
-            return {
-                ...state,
-                messages: []
             }
         }
         case ACTION.NEW_UNREAD_MESSAGE: {

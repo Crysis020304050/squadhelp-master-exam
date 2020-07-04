@@ -71,4 +71,7 @@ export default {
         email: yup.string().email().required().label('Email'),
         newPassword: yup.string().test('test-password','min 6 symbols',value => (value && value.trim().length>=6)).required().label('New password')
     }),
+    SendMessageSchema: yup.object().shape({
+        message: yup.string().matches(/(?!^ +$)^.+$/, 'Message must has at least one non whitespace character').required().max(255).label('Message'),
+    }),
 }
