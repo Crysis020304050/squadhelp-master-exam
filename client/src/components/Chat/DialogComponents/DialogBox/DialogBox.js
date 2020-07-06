@@ -2,6 +2,7 @@ import React from 'react';
 import styles from "./DialogBox.module.sass";
 import constants from "../../../../constants/constants";
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const DialogBox = ({chatPreview, userId, getTimeStr, changeFavorite, changeBlackList, catalogOperation, goToExpandedDialog, chatMode, interlocutor, isFetching}) => {
 
@@ -61,6 +62,18 @@ const DialogBox = ({chatPreview, userId, getTimeStr, changeFavorite, changeBlack
         )
     }
     return null;
+};
+
+DialogBox.propTypes = {
+    chatPreview: PropTypes.object.isRequired,
+    userId: PropTypes.number.isRequired,
+    getTimeStr: PropTypes.func.isRequired,
+    changeFavorite: PropTypes.func.isRequired,
+    changeBlackList: PropTypes.func.isRequired,
+    catalogOperation: PropTypes.func.isRequired,
+    chatMode: PropTypes.string.isRequired,
+    interlocutor: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
 };
 
 export default DialogBox;
