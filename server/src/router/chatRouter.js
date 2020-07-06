@@ -1,9 +1,11 @@
 const chatController = require("../controllers/chatController");
+const validators = require("../middlewares/validators");
 
 const chatRouter = require('express')();
 
 chatRouter.post(
     '/newMessage',
+    validators.validateAddingMessageToConversation,
     chatController.addMessage,
 );
 
@@ -29,11 +31,13 @@ chatRouter.post(
 
 chatRouter.post(
     '/createCatalog',
+    validators.validateSettingCatalogName,
     chatController.createCatalog,
 );
 
 chatRouter.post(
     '/updateNameCatalog',
+    validators.validateSettingCatalogName,
     chatController.updateCatalogName,
 );
 

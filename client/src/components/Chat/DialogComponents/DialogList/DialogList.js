@@ -12,7 +12,7 @@ import DialogBox from '../DialogBox/DialogBox';
 import styles from './DialogList.module.sass';
 
 
-const DialogList = ({changeChatFavorite, changeChatBlock, changeShowAddChatToCatalogMenu, chatMode, userId, preview, goToExpandedDialog, removeChat}) => {
+const DialogList = ({changeChatFavorite, changeChatBlock, changeShowAddChatToCatalogMenu, chatMode, userId, preview, goToExpandedDialog, removeChat, isFetching}) => {
 
     const changeFavorite = (data, event) => {
         changeChatFavorite(data);
@@ -55,7 +55,9 @@ const DialogList = ({changeChatFavorite, changeChatBlock, changeShowAddChatToCat
                 chatPreview={chatPreview} userId={userId} key={chatPreview.id} getTimeStr={getTimeStr}
                 changeFavorite={changeFavorite} changeBlackList={changeBlackList} chatMode={chatMode}
                 catalogOperation={chatMode === constants.CATALOG_PREVIEW_CHAT_MODE ? removeChat : changeShowCatalogCreation}
-                goToExpandedDialog={goToExpandedDialog}/>;
+                goToExpandedDialog={goToExpandedDialog}
+                isFetching={isFetching}
+            />;
             if (filterFunc && filterFunc(chatPreview, userId)) {
                 arrayList.push(dialogNode);
             } else if (!filterFunc) {

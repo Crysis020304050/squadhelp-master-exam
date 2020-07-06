@@ -3,7 +3,7 @@ import constants from '../constants/constants';
 
 
 const initialState = {
-    isFetching: true,
+    isFetching: false,
     addConversationId: null,
     isShowCatalogCreation: false,
     currentCatalog: null,
@@ -19,7 +19,6 @@ const initialState = {
     isRenameCatalog: false,
     isShowChatsInCatalog: false,
     catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG,
-    isMessagesFetching: false,
     haveMoreMessages: true,
     isCatalogsLoaded: false,
     conversationUnreadMessages: [],
@@ -27,11 +26,27 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case ACTION.GET_PREVIEW_CHAT_ASYNC:
+        case ACTION.GET_DIALOG_MESSAGES_ASYNC:
+        case ACTION.SEND_MESSAGE_ACTION:
+        case ACTION.SET_CHAT_FAVORITE_FLAG:
+        case ACTION.SET_CHAT_BLOCK_FLAG:
+        case ACTION.GET_CATALOG_LIST_ASYNC:
+        case ACTION.ADD_CHAT_TO_CATALOG_ASYNC:
+        case ACTION.CREATE_CATALOG_REQUEST:
+        case ACTION.DELETE_CATALOG_REQUEST:
+        case ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST:
+        case ACTION.CHANGE_CATALOG_NAME_REQUEST: {
+            return {
+                ...state,
+                isFetching: true,
+            }
+        }
         case ACTION.GET_PREVIEW_CHAT: {
             return {
                 ...state,
                 messagesPreview: action.data,
-                error: null,
+                isFetching: false,
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST_ERROR: {
@@ -45,26 +60,30 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: action.error,
-                messagesPreview: []
+                messagesPreview: [],
+                isFetching: false,
             }
         }
         case ACTION.SET_CHAT_BLOCK_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.ADD_CHAT_TO_CATALOG_ERROR: {
             return {
                 ...state,
                 error: action.error,
-                isShowCatalogCreation: false
+                isShowCatalogCreation: false,
+                isFetching: false,
             }
         }
         case ACTION.SET_CHAT_FAVORITE_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.BACK_TO_DIALOG_LIST: {
@@ -86,12 +105,6 @@ export default function (state = initialState, action) {
                 conversationUnreadMessages: [],
             }
         }
-        case ACTION.GET_DIALOG_MESSAGES_ASYNC: {
-            return {
-                ...state,
-                isMessagesFetching: true,
-            }
-        }
         case ACTION.GET_DIALOG_MESSAGES: {
             const {data: {messages, interlocutor, haveMore}} = action;
             return {
@@ -99,7 +112,7 @@ export default function (state = initialState, action) {
                 ...(messages && {messages: [...messages, ...state.messages]}),
                 ...(interlocutor && {interlocutor}),
                 ...(haveMore !== undefined && {haveMoreMessages: haveMore}),
-                isMessagesFetching: false,
+                isFetching: false,
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ERROR: {
@@ -108,7 +121,7 @@ export default function (state = initialState, action) {
                 messages: [],
                 interlocutor: null,
                 error: action.error,
-                isMessagesFetching: false,
+                isFetching: false,
             }
         }
         case ACTION.SEND_MESSAGE: {
@@ -132,12 +145,14 @@ export default function (state = initialState, action) {
                 messagesPreview: updatedPreview,
                 ...((!state.messages[0] || state.messages[0].conversationId === message.conversationId) && {messages: [...state.messages, message]}),
                 ...(updatedConversationData && {conversationData: updatedConversationData}),
+                isFetching: false,
             }
         }
         case ACTION.SEND_MESSAGE_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.NEW_UNREAD_MESSAGE: {
@@ -171,6 +186,7 @@ export default function (state = initialState, action) {
                 ...state,
                 messagesPreview,
                 ...(conversationData && {conversationData}),
+                isFetching: false,
             }
         }
         case ACTION.CHANGE_CHAT_BLOCK: {
@@ -186,6 +202,7 @@ export default function (state = initialState, action) {
                 ...state,
                 messagesPreview: updatedPreview,
                 ...(updatedConversationData && {conversationData: updatedConversationData}),
+                isFetching: false,
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST: {
@@ -223,26 +240,30 @@ export default function (state = initialState, action) {
                 ...state,
                 isShowCatalogCreation: false,
                 catalogList,
+                isFetching: false,
             }
         }
         case ACTION.CREATE_CATALOG_ERROR: {
             return {
                 ...state,
                 isShowCatalogCreation: false,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.CREATE_CATALOG_SUCCESS: {
             return {
                 ...state,
                 catalogList: [...state.catalogList, action.data],
-                isShowCatalogCreation: false
+                isShowCatalogCreation: false,
+                isFetching: false,
             }
         }
         case ACTION.DELETE_CATALOG_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.DELETE_CATALOG_SUCCESS: {
@@ -250,12 +271,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 catalogList,
+                isFetching: false,
             }
         }
         case ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS: {
@@ -264,6 +287,7 @@ export default function (state = initialState, action) {
                 ...state,
                 catalogList,
                 currentCatalog,
+                isFetching: false,
             }
         }
         case ACTION.CHANGE_RENAME_CATALOG_MODE: {
@@ -275,7 +299,9 @@ export default function (state = initialState, action) {
         case ACTION.CHANGE_CATALOG_NAME_ERROR: {
             return {
                 ...state,
-                isRenameCatalog: false
+                isRenameCatalog: false,
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.CHANGE_CATALOG_NAME_SUCCESS: {
@@ -284,13 +310,15 @@ export default function (state = initialState, action) {
                 ...state,
                 catalogList,
                 currentCatalog,
-                isRenameCatalog: false
+                isRenameCatalog: false,
+                isFetching: false,
             }
         }
         case ACTION.CLEAR_CHAT_ERROR: {
             return {
                 ...state,
-                error: null
+                error: null,
+                isCatalogsLoaded: false,
             }
         }
         case ACTION.CLEAR_USER_STORE: {

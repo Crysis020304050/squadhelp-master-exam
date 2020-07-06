@@ -3,7 +3,7 @@ import styles from "./DialogBox.module.sass";
 import constants from "../../../../constants/constants";
 import classNames from 'classnames';
 
-const DialogBox = ({chatPreview, userId, getTimeStr, changeFavorite, changeBlackList, catalogOperation, goToExpandedDialog, chatMode, interlocutor}) => {
+const DialogBox = ({chatPreview, userId, getTimeStr, changeFavorite, changeBlackList, catalogOperation, goToExpandedDialog, chatMode, interlocutor, isFetching}) => {
 
     const {favoriteList, participants, blackList, id, body, createdAt} = chatPreview;
     const isFavorite = favoriteList[participants.indexOf(userId)];
@@ -28,18 +28,28 @@ const DialogBox = ({chatPreview, userId, getTimeStr, changeFavorite, changeBlack
                     </div>
                     <div className={styles.buttonsContainer}>
                         <span className={styles.time}>{getTimeStr(createdAt)}</span>
-                        <i onClick={(event) => changeFavorite({
-                            conversationId: id,
-                            participantsToFavoriteListPair: [{id: participants[0], flag: favoriteList[0]}, {id: participants[1], flag: favoriteList[1]}],
-                            favoriteFlag: !isFavorite,
-                            interlocutorId: interlocutor.id,
-                        }, event)} className={classNames({['far fa-heart']: !isFavorite, ['fas fa-heart']: isFavorite})}/>
-                        <i onClick={(event) => changeBlackList({
-                            conversationId: id,
-                            participantsToBlackListPair: [{id: participants[0], flag: blackList[0]}, {id: participants[1], flag: blackList[1]}],
-                            blackListFlag: !isBlocked,
-                            interlocutorId: interlocutor.id,
-                        }, event)}
+                        <i onClick={(event) => {
+                            if (!isFetching) {
+                                changeFavorite({
+                                    conversationId: id,
+                                    participantsToFavoriteListPair: [{id: participants[0], flag: favoriteList[0]}, {id: participants[1], flag: favoriteList[1]}],
+                                    favoriteFlag: !isFavorite,
+                                    interlocutorId: interlocutor.id,
+                                }, event)
+                            }
+                        }
+                        } className={classNames({['far fa-heart']: !isFavorite, ['fas fa-heart']: isFavorite})}/>
+                        <i onClick={(event) => {
+                            if (!isFetching) {
+                                changeBlackList({
+                                    conversationId: id,
+                                    participantsToBlackListPair: [{id: participants[0], flag: blackList[0]}, {id: participants[1], flag: blackList[1]}],
+                                    blackListFlag: !isBlocked,
+                                    interlocutorId: interlocutor.id,
+                                }, event)
+                            }
+                        }
+                        }
                            className={classNames({['fas fa-user-lock']: !isBlocked, ['fas fa-unlock']: isBlocked})}/>
                         <i onClick={(event) => catalogOperation(event, id)} className={classNames({
                             ['far fa-plus-square']: chatMode !== constants.CATALOG_PREVIEW_CHAT_MODE,

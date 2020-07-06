@@ -5,7 +5,7 @@ import styles from './ChatHeader.module.sass';
 import constants from '../../../../constants/constants';
 import classNames from 'classnames';
 
-const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, conversationData, userId, changeChatFavorite, changeChatBlock}) => {
+const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, conversationData, userId, changeChatFavorite, changeChatBlock, isFetching}) => {
 
     const changeFavorite = (data, event) => {
         changeChatFavorite(data);
@@ -33,22 +33,30 @@ const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, co
                 </div>
                 {conversationData &&
                 <div>
-                    <i onClick={(event) => changeFavorite({
-                        conversationId: conversationData.id,
-                        participantsToFavoriteListPair: [{id: conversationData.participants[0], flag: conversationData.favoriteList[0]}, {id: conversationData.participants[1], flag: conversationData.favoriteList[1]}],
-                        favoriteFlag: !isFavorite(userId),
-                        interlocutorId: id,
-                    }, event)}
+                    <i onClick={(event) => {
+                        if (!isFetching) {
+                            changeFavorite({
+                                conversationId: conversationData.id,
+                                participantsToFavoriteListPair: [{id: conversationData.participants[0], flag: conversationData.favoriteList[0]}, {id: conversationData.participants[1], flag: conversationData.favoriteList[1]}],
+                                favoriteFlag: !isFavorite(userId),
+                                interlocutorId: id,
+                            }, event)
+                        }
+                    }}
                        className={classNames({
                            ['far fa-heart']: !isFavorite(userId),
                            ['fas fa-heart']: isFavorite(userId)
                        })}/>
-                    <i onClick={(event) => changeBlackList({
-                        conversationId: conversationData.id,
-                        participantsToBlackListPair: [{id: conversationData.participants[0], flag: conversationData.blackList[0]}, {id: conversationData.participants[1], flag: conversationData.blackList[1]}],
-                        blackListFlag: !isBlocked(userId),
-                        interlocutorId: id,
-                    }, event)}
+                    <i onClick={(event) => {
+                        if (!isFetching) {
+                            changeBlackList({
+                                conversationId: conversationData.id,
+                                participantsToBlackListPair: [{id: conversationData.participants[0], flag: conversationData.blackList[0]}, {id: conversationData.participants[1], flag: conversationData.blackList[1]}],
+                                blackListFlag: !isBlocked(userId),
+                                interlocutorId: id,
+                            }, event)
+                        }
+                    }}
                        className={classNames({
                            ['fas fa-user-lock']: !isBlocked(userId),
                            ['fas fa-unlock']: isBlocked(userId)
@@ -61,8 +69,8 @@ const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, co
 };
 
 const mapStateToProps = (state) => {
-    const {interlocutor, conversationData} = state.chatStore;
-    return {interlocutor, conversationData};
+    const {interlocutor, conversationData, isFetching} = state.chatStore;
+    return {interlocutor, conversationData, isFetching};
 };
 
 const mapDispatchToProps = (dispatch) => ({

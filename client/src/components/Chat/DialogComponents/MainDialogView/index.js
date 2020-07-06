@@ -5,7 +5,7 @@ import moment from "moment";
 import PropTypes from 'prop-types';
 import InfinityScrollListContainer from "../../../InfinityScrollListContainer";
 
-const MainDialogView = ({messages, userId, isMessagesFetching, haveMoreMessages, loadMoreMessages, refLinkMessagesContainer, refLinkMessagesEnd}) => {
+const MainDialogView = ({messages, userId, isFetching, haveMoreMessages, loadMoreMessages, refLinkMessagesContainer, refLinkMessagesEnd}) => {
 
     const renderMainDialog = () => {
         const messagesArray = [];
@@ -34,7 +34,7 @@ const MainDialogView = ({messages, userId, isMessagesFetching, haveMoreMessages,
     return (
         <InfinityScrollListContainer refLink={refLinkMessagesContainer} className={styles.messageList}
                                      haveMore={haveMoreMessages}
-                                     isFetching={isMessagesFetching} loadMore={loadMoreMessages}
+                                     isFetching={isFetching} loadMore={loadMoreMessages}
                                      isReverse={true}>
             {renderMainDialog()}
         </InfinityScrollListContainer>
@@ -44,7 +44,7 @@ const MainDialogView = ({messages, userId, isMessagesFetching, haveMoreMessages,
 MainDialogView.propTypes = {
     messages: PropTypes.array.isRequired,
     userId: PropTypes.number.isRequired,
-    isMessagesFetching: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     haveMoreMessages: PropTypes.bool.isRequired,
     loadMoreMessages: PropTypes.func.isRequired,
     refLinkMessagesContainer: PropTypes.any.isRequired,

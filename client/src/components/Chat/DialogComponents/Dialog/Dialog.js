@@ -16,14 +16,14 @@ import BlockMessage from "../BlockMessage";
 
 const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatStore, userId}) => {
 
-    const {messages, isMessagesFetching, haveMoreMessages, conversationUnreadMessages, interlocutor: {id}, conversationData} = chatStore;
+    const {messages, isFetching, haveMoreMessages, conversationUnreadMessages, interlocutor: {id}, conversationData} = chatStore;
 
     const messagesEnd = useRef();
     const messagesContainer = useRef();
     const visibleMessage = useRef();
 
     const prevProps = usePrevious({
-        prevIsMessagesFetching: isMessagesFetching,
+        prevIsFetching: isFetching,
         prevMessagesLength: messages.length,
         prevHaveMoreMessages: haveMoreMessages
     });
@@ -37,9 +37,9 @@ const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatSto
 
     useEffect(() => {
         if (prevProps) {
-            const {prevIsMessagesFetching, prevMessagesLength, prevHaveMoreMessages} = prevProps;
+            const {prevIsFetching, prevMessagesLength, prevHaveMoreMessages} = prevProps;
             const messagesLength = messages.length;
-            if (messagesEnd.current && prevIsMessagesFetching && !isMessagesFetching && !prevMessagesLength && messagesLength) {
+            if (messagesEnd.current && prevIsFetching && !isFetching && !prevMessagesLength && messagesLength) {
                 scrollToBottom();
             } else if (messagesEnd.current && messagesContainer.current && messagesLength > prevMessagesLength) {
                 const {current: {infinteRef: {current: {scrollTop, offsetHeight, children}}}} = messagesContainer;
@@ -59,7 +59,7 @@ const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatSto
     });
 
     const loadMoreMessages = (startFrom) => {
-        if (!isMessagesFetching) {
+        if (!isFetching) {
             getConversation({
                 interlocutorId: id,
                 conversationId: conversationData && conversationData.id || null,
@@ -73,7 +73,7 @@ const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatSto
         <>
             <ChatHeader userId={userId}/>
             <MainDialogView messages={messages} userId={userId} haveMoreMessages={haveMoreMessages}
-                            isMessagesFetching={isMessagesFetching} loadMoreMessages={loadMoreMessages}
+                            isFetching={isFetching} loadMoreMessages={loadMoreMessages}
                             refLinkMessagesContainer={messagesContainer} refLinkMessagesEnd={messagesEnd}/>
             <div ref={messagesEnd}/>
             {(conversationData && conversationData.blackList && conversationData.blackList.includes(true))
