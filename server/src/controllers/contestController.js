@@ -182,7 +182,7 @@ const resolveOffer = async (
             END
     `),
     }, {
-        contestId: contestId,
+        contestId,
     }, transaction);
     transaction.commit();
     const arrayRoomsId = [];
@@ -366,7 +366,7 @@ module.exports.getOffersFiles = async (req, res, next) => {
                         [db.Sequelize.Op.gte]: moment(dateFrom).format()
                     }
                 }),
-            }
+            },
         };
 
         const result = await contestQueries.getOffersData(searchFilter);

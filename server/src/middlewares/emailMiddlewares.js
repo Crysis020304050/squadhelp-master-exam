@@ -1,5 +1,4 @@
 const smtpTransport = require('../index.js');
-const ServerError = require('../errors/ServerError.js');
 
 module.exports.sendEmailWithResettingPasswordLink = async (req, res, next) => {
     try {
@@ -13,11 +12,8 @@ module.exports.sendEmailWithResettingPasswordLink = async (req, res, next) => {
                 name: `${firstName} ${lastName}`
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send('Link for password resetting sent to your email');
-        }
-        return next(new ServerError('Something wrong with sending message to your email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send('Link for password resetting sent to your email');
     } catch (e) {
         e.code = 500;
         next(e);
@@ -35,11 +31,8 @@ module.exports.notifyUserAboutSuccessfulPasswordResetting = async (req, res, nex
                 name: `${firstName} ${lastName}`
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send('Your password has been successful reset, you can now login with your new password');
-        }
-        return next(new ServerError('Your password has been successful reset, but something wrong with sending message to your email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send('Your password has been successful reset, you can now login with your new password');
     } catch (e) {
         e.code = 500;
         next(e);
@@ -58,11 +51,8 @@ module.exports.notifyUserAboutResolvingContest = async (req, res, next) => {
                 title,
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send({id});
-        }
-        return next(new ServerError('Contest has been successful resolve, but something wrong with sending message to user email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send({id});
     } catch (e) {
         e.code = 500;
         next(e);
@@ -81,18 +71,13 @@ module.exports.notifyUserAboutRejectingContest = async (req, res, next) => {
                 title,
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send({id});
-        }
-        return next(new ServerError('Contest has been successful reject, but something wrong with sending message to user email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send({id});
     } catch (e) {
         e.code = 500;
         next(e);
     }
 };
-
-//
 
 module.exports.notifyUserAboutResolvingOffer = async (req, res, next) => {
     try {
@@ -105,11 +90,8 @@ module.exports.notifyUserAboutResolvingOffer = async (req, res, next) => {
                 name: `${firstName} ${lastName}`,
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send({id});
-        }
-        return next(new ServerError('Offer has been successful resolve, but something wrong with sending message to user email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send({id});
     } catch (e) {
         e.code = 500;
         next(e);
@@ -127,11 +109,8 @@ module.exports.notifyUserAboutRejectingOffer = async (req, res, next) => {
                 name: `${firstName} ${lastName}`,
             }
         };
-        const result = await smtpTransport.smtpTransport.sendMail(data);
-        if (result) {
-            return res.send({id});
-        }
-        return next(new ServerError('Offer has been successful reject, but something wrong with sending message to user email'))
+        await smtpTransport.smtpTransport.sendMail(data);
+        res.send({id});
     } catch (e) {
         e.code = 500;
         next(e);
