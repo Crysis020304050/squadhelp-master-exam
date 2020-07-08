@@ -10,6 +10,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING(20),
+        allowNull: false,
         unique: 'catalog_name_user_pair',
       },
       userId: {

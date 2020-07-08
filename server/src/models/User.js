@@ -72,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models.BlackList, {as: 'blockedUser', foreignKey: 'blockedUserId', targetKey: 'id'});
         User.hasMany(models.FavoriteList, {as: 'favoriteListOwner', foreignKey: 'userId', targetKey: 'id'});
         User.hasMany(models.FavoriteList, {as: 'favoriteUser', foreignKey: 'favoriteUserId', targetKey: 'id'});
+        User.hasMany(models.Event, {foreignKey: 'userId', targetKey: 'id'});
     };
 
     return User;

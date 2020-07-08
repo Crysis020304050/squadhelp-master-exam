@@ -55,6 +55,8 @@ db['Users'].hasMany(db['FavoriteList'],
     {as: 'favoriteListOwner', foreignKey: 'userId', targetKey: 'id'});
 db['Users'].hasMany(db['FavoriteList'],
     {as: 'favoriteUser', foreignKey: 'favoriteUserId', targetKey: 'id'});
+db['Users'].hasMany(db['Event'],
+    {foreignKey: 'userId', targetKey: 'id'});
 
 db['Offers'].belongsTo(db['Users'],
     {foreignKey: 'userId', sourceKey: 'id'});
@@ -103,6 +105,8 @@ db['BlackList'].belongsTo(db['Users'],
 db['BlackList'].belongsTo(db['Users'],
     {as: 'blockedUser', foreignKey: 'blockedUserId', sourceKey: 'id'});
 
+db['Event'].belongsTo(db['Users'],
+    {foreignKey: 'userId', sourceKey: 'id'});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

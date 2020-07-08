@@ -70,3 +70,11 @@ module.exports.validateSettingCatalogName = async (req, res, next) => {
   }
   return next(new BadRequestError('Invalid catalog name value'));
 };
+
+module.exports.validateEventCreating = async (req, res, next) => {
+  const validationResult = await schems.eventSchema.isValid(req.body);
+  if (validationResult) {
+    return next();
+  }
+  return next(new BadRequestError('Invalid data for event creating'));
+};

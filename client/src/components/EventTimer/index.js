@@ -4,13 +4,13 @@ import {toast} from 'react-toastify';
 import styles from './EventTimer.module.sass';
 import PropTypes from 'prop-types';
 
-const EventTimer = ({eventName, endTime, startDate, timestamp, reminderTime, setStartedEvent, activeEvents}) => {
+const EventTimer = ({name, endDate, startDate, timestamp, reminderDate, setStartedEvent, activeEvents}) => {
 
     const calculateTimeLeft = () => {
-        const diffTime = moment(endTime).diff(moment());
+        const diffTime = moment(endDate).diff(moment());
         const duration = moment.duration(diffTime);
-        if (moment(reminderTime).format() === moment().format() && !toast.isActive(timestamp)) {
-            toast(`Event '${eventName}' is coming soon`, {
+        if (moment(reminderDate).format() === moment().format() && !toast.isActive(timestamp)) {
+            toast(`Event '${name}' is coming soon`, {
                 toastId: timestamp,
             });
         }
@@ -45,9 +45,9 @@ const EventTimer = ({eventName, endTime, startDate, timestamp, reminderTime, set
 
     return (
         <li className={styles.container}>
-            {Object.keys(timeLeft).length > 0 && <div style={{width: `${Math.round(((new Date() - startDate) / (endTime - startDate)) * 100)}%`}} className={styles.progressBar}/>}
+            {Object.keys(timeLeft).length > 0 && <div style={{width: `${Math.round(((new Date() - startDate) / (endDate - startDate)) * 100)}%`}} className={styles.progressBar}/>}
             {Object.keys(timeLeft).length === 0 && <div className={styles.eventsCircle}>{activeEvents.size}</div>}
-            <div>{eventName}</div>
+            <div>{name}</div>
             <div>
                 {Object.keys(timeLeft).length ? renderTimerComponents() : <span>Time's up!</span>}
             </div>
@@ -56,10 +56,10 @@ const EventTimer = ({eventName, endTime, startDate, timestamp, reminderTime, set
 };
 
 EventTimer.propTypes = {
-    eventName: PropTypes.string.isRequired,
-    endTime: PropTypes.instanceOf(Date).isRequired,
+    name: PropTypes.string.isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
     startDate: PropTypes.instanceOf(Date).isRequired,
-    reminderTime: PropTypes.instanceOf(Date).isRequired,
+    reminderDate: PropTypes.instanceOf(Date).isRequired,
     setStartedEvent: PropTypes.func.isRequired,
     activeEvents: PropTypes.instanceOf(Set).isRequired,
 };

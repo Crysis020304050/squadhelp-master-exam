@@ -45,3 +45,9 @@ module.exports.sendMessageSchema = yup.object().shape({
 module.exports.settingCatalogNameSchema = yup.object().shape({
     name: yup.string().matches(/(?!^ +$)^.+$/, 'Name must has at least one non whitespace character').required().max(20).label('Name'),
 });
+
+module.exports.eventSchema = yup.object().shape({
+    name: yup.string().matches(/(?!^ +$)^.+$/, 'Name must has at least one non whitespace character').required().max(40).label('Event name'),
+    endDate: yup.date().min(new Date(), 'End event date must be greater than now').required().label('End time'),
+    reminderDate: yup.date().label('Reminder time').required().when('endDate', (endDate, yap) => endDate && yap.max(endDate, 'Reminder date cannot be after event end time')),
+});
