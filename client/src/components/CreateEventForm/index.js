@@ -6,7 +6,7 @@ import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
 import DatePickerField from "../DatePickerField";
-import {createNewEvent} from '../../actions/actionCreator';
+import {createNewEventRequest} from '../../actions/actionCreator';
 
 const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
 
@@ -14,12 +14,12 @@ const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
         const {endDate, reminderDate} = values;
         const now = new Date();
         if (endDate > now && reminderDate > now) {
-            createEvent({...values, startDate: now, timestamp: Date.now()});
+            createEvent(values);
             reset();
         } else {
             dispatch(updateSyncErrors('event', {
-                ...(endDate < now && {endDate: 'End event time must be greater than now'}),
-                ...(reminderDate < now && {reminderDate: 'Reminder time must be greater than now'}),
+                ...(endDate < now && {endDate: 'End event date must be greater than now'}),
+                ...(reminderDate < now && {reminderDate: 'Reminder date must be greater than now'}),
             }));
         }
     };
@@ -62,7 +62,7 @@ const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    createEvent: (event) => dispatch(createNewEvent(event)),
+    createEvent: (data) => dispatch(createNewEventRequest(data)),
 });
 
 export default connect(null, mapDispatchToProps)(reduxForm({

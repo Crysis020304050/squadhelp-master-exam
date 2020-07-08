@@ -4,14 +4,14 @@ import {toast} from 'react-toastify';
 import styles from './EventTimer.module.sass';
 import PropTypes from 'prop-types';
 
-const EventTimer = ({name, endDate, startDate, timestamp, reminderDate, setStartedEvent, activeEvents}) => {
+const EventTimer = ({id, name, endDate, reminderDate, createdAt, setStartedEvent, activeEvents}) => {
 
     const calculateTimeLeft = () => {
         const diffTime = moment(endDate).diff(moment());
         const duration = moment.duration(diffTime);
-        if (moment(reminderDate).format() === moment().format() && !toast.isActive(timestamp)) {
+        if (moment(reminderDate).format() === moment().format() && !toast.isActive(id)) {
             toast(`Event '${name}' is coming soon`, {
-                toastId: timestamp,
+                toastId: id,
             });
         }
 
@@ -31,8 +31,8 @@ const EventTimer = ({name, endDate, startDate, timestamp, reminderDate, setStart
         }, 1000);
         if (Object.keys(timeLeft).length === 0) {
             clearTimeout(timeoutId);
-            if (!activeEvents.has(timestamp)) {
-                setStartedEvent(timestamp)
+            if (!activeEvents.has(id)) {
+                setStartedEvent(id)
             }
         }
 
@@ -45,7 +45,7 @@ const EventTimer = ({name, endDate, startDate, timestamp, reminderDate, setStart
 
     return (
         <li className={styles.container}>
-            {Object.keys(timeLeft).length > 0 && <div style={{width: `${Math.round(((new Date() - startDate) / (endDate - startDate)) * 100)}%`}} className={styles.progressBar}/>}
+            {Object.keys(timeLeft).length > 0 && <div style={{width: `${Math.round(((new Date() - createdAt) / (endDate - createdAt)) * 100)}%`}} className={styles.progressBar}/>}
             {Object.keys(timeLeft).length === 0 && <div className={styles.eventsCircle}>{activeEvents.size}</div>}
             <div>{name}</div>
             <div>
@@ -58,8 +58,8 @@ const EventTimer = ({name, endDate, startDate, timestamp, reminderDate, setStart
 EventTimer.propTypes = {
     name: PropTypes.string.isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
-    startDate: PropTypes.instanceOf(Date).isRequired,
     reminderDate: PropTypes.instanceOf(Date).isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
     setStartedEvent: PropTypes.func.isRequired,
     activeEvents: PropTypes.instanceOf(Set).isRequired,
 };

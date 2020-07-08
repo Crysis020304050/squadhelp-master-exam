@@ -4,13 +4,13 @@ const validators = require("../middlewares/validators");
 const eventsRouter = require('express')();
 
 eventsRouter.post(
-    'createEvent',
+    '/createEvent',
     validators.validateEventCreating,
     eventsController.createEvent,
 );
 
 eventsRouter.get(
-    'getUserEvents',
+    '/getUserEvents',
     eventsController.getUserEvents,
 );
 

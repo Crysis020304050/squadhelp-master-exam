@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: new Date()
+        isAfter: new Date().toLocaleDateString(),
       }
     },
     reminderDate: {
@@ -22,11 +22,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: this.endDate,
+        isAfter: new Date().toLocaleDateString(),
+
       }
     },
   }, {
-    timestamps: false,
+    timestamps: true,
   });
   Event.associate = function(models) {
     Event.belongsTo(models.User, {foreignKey: 'userId', sourceKey: 'id'});

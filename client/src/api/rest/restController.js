@@ -61,6 +61,8 @@ export const getOffersForModerator = ({offset, limit, moderationStatus}) => (
 
 export const resolveOffer = (id) => http.post('resolveOffer', {id});
 export const rejectOffer = (id) => http.post('rejectOffer', {id});
+export const createNewEvent = (data) => http.post('createEvent', data);
+export const getUserEvents = () => http.get('getUserEvents');
 
 
 

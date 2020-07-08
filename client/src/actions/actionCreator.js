@@ -335,14 +335,42 @@ export const clearTransactionsStoreError = () => ({
     type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
 });
 
-export const createNewEvent = event => ({
-    type: ACTION.CREATE_NEW_EVENT,
+export const createNewEventRequest = data => ({
+    type: ACTION.CREATE_EVENT_REQUEST,
+    data,
+});
+
+export const createNewEventSuccess = event => ({
+    type: ACTION.CREATE_EVENT_SUCCESS,
     event,
 });
 
-export const setStartedEvent = timestamp => ({
+export const createNewEventError = error => ({
+    type: ACTION.CREATE_EVENT_ERROR,
+    error,
+});
+
+export const getUserEventsRequest = () => ({
+    type: ACTION.GET_USER_EVENTS_REQUEST,
+});
+
+export const getUserEventsSuccess = events => ({
+    type: ACTION.GET_USER_EVENTS_SUCCESS,
+    events,
+});
+
+export const getUserEventsError = error => ({
+    type: ACTION.GET_USER_EVENTS_ERROR,
+    error,
+});
+
+export const setStartedEvent = id => ({
     type: ACTION.SET_STARTED_EVENT,
-    timestamp,
+    id,
+});
+
+export const clearEventsStoreError = () => ({
+   type: ACTION.CLEAR_EVENTS_STORE_ERROR,
 });
 
 export const resetPasswordRequest = data => ({
