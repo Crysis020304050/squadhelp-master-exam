@@ -74,6 +74,9 @@ export default function (state = initialState, action) {
                 moderateActionIsFetching: false,
                 error: action.error,
             };
+        case ACTION.CLEAR_USER_STORE: {
+            return initialState;
+        }
         default: {
             return state
         }

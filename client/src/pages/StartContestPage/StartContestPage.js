@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {selectBundle} from '../../actions/actionCreator';
 import {connect} from 'react-redux';
 import BundleBox from '../../components/BundleBox/BundleBox';
-import {Route} from 'react-router-dom';
 import constants from '../../constants/constants';
 import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
@@ -10,11 +9,13 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from "../../components/Header/Header";
 
 
-const StartContestPage = (props) => {
+const StartContestPage = ({data: {role}, history, choseBundle}) => {
 
-    if (props.userStore.data.role !== constants.CUSTOMER) {
-        props.history.replace('/');
-    }
+    useEffect(() => {
+        if (role !== constants.CUSTOMER) {
+            history.replace('/');
+        }
+    }, []);
 
     const setBundle = (bundleStr) => {
         const array = bundleStr.toLowerCase().split('+');
@@ -23,10 +24,9 @@ const StartContestPage = (props) => {
         for (let i = 0; i < array.length; i++) {
             bundleList[array[i]] = i === array.length - 1 ? 'payment' : array[i + 1];
         }
-        props.choseBundle(bundleList);
-        props.history.push(`/startContest/${bundleList.first}Contest`);
+        choseBundle(bundleList);
+        history.push(`/startContest/${bundleList.first}Contest`);
     };
-
 
     return (
         <div>
@@ -87,16 +87,10 @@ const StartContestPage = (props) => {
     )
 };
 
+const mapStateToProps = (state) => state.userStore;
 
-const mapStateToProps = (state) => {
-    const {bundleStore, userStore} = state;
-    return {bundleStore, userStore};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        choseBundle: (bundle) => dispatch(selectBundle(bundle))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    choseBundle: (bundle) => dispatch(selectBundle(bundle))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(StartContestPage);

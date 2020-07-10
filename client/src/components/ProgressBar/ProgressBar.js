@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './ProgressBar.module.sass';
+import PropTypes from 'prop-types';
 
+const ProgressBar = ({currentStep}) => {
 
-const ProgressBar = (props) => {
     const renderProgress = () => {
         const array = [];
         for (let i = 1; i <= 3; i++) {
@@ -12,7 +13,6 @@ const ProgressBar = (props) => {
     };
 
     const renderBar = (count) => {
-        const currentStep = props.currentStep;
         let classOuter = styles.outerNotActive;
         let classInner = styles.innerNotActive;
         let classProgress = '';
@@ -29,9 +29,9 @@ const ProgressBar = (props) => {
             <div className={classProgress} key={count}>
                 <div className={styles.progressBarContainer}>
                     <div className={classOuter}>
-                        <div className={classInner}></div>
+                        <div className={classInner}/>
                     </div>
-                    {count !== 3 && <div className={styles.lineBar}></div>}
+                    {count !== 3 && <div className={styles.lineBar}/>}
                 </div>
             </div>
         )
@@ -43,4 +43,9 @@ const ProgressBar = (props) => {
         </div>
     );
 };
+
+ProgressBar.propTypes = {
+    currentStep: PropTypes.number.isRequired,
+};
+
 export default ProgressBar;

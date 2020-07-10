@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {payRequest, clearPaymentStore} from '../../actions/actionCreator';
 import PayForm from '../../components/PayForm/PayForm';
@@ -7,14 +7,36 @@ import isEmpty from 'lodash/isEmpty';
 import constants from '../../constants/constants';
 import Error from '../../components/Error/Error';
 import Logo from "../../components/Logo";
+import {Link} from "react-router-dom";
 
-const Payment = (props) => {
+const Payment = ({contestStore: {contests}, pay, history, payment: {error}, clearPaymentStore}) => {
 
-    const pay = (values) => {
-        const {contests} = props.contestStore;
-        const contestArray = [];
-        Object.keys(contests).forEach(key => contestArray.push(contests[key]));
-        const {number, expiry, cvc} = values;
+    useEffect(() => {
+        if (isEmpty(contests)) {
+            history.replace('startContest');
+        }
+    }, [contests]);
+
+    const price = (() => {
+        const {ONE_CONTEST_PRICE, TWO_CONTESTS_PRICE, THREE_CONTESTS_PRICE} = constants;
+        switch (Object.keys(contests).length) {
+            case 1: {
+                return ONE_CONTEST_PRICE;
+            }
+            case 2: {
+                return TWO_CONTESTS_PRICE;
+            }
+            case 3: {
+                return THREE_CONTESTS_PRICE;
+            }
+            default: {
+                return undefined;
+            }
+        }
+    })();
+
+    const onSubmit = ({number, expiry, cvc}) => {
+        const contestArray = Object.values(contests);
         const data = new FormData();
         for (let i = 0; i < contestArray.length; i++) {
             data.append('files', contestArray[i].file);
@@ -24,23 +46,12 @@ const Payment = (props) => {
         data.append('expiry', expiry);
         data.append('cvc', cvc);
         data.append('contests', JSON.stringify(contestArray));
-        data.append('price', '100');
-        props.pay({
+        data.append('price', price);
+        pay({
             formData: data
         });
     };
 
-    const goBack = () => {
-        props.history.goBack();
-    };
-
-
-    const {contests} = props.contestStore;
-    const {error} = props.payment;
-    const {clearPaymentStore} = props;
-    if (isEmpty(contests)) {
-        props.history.replace('startContest');
-    }
     return (
         <div>
             <div className={styles.header}>
@@ -50,40 +61,35 @@ const Payment = (props) => {
                 <div className={styles.paymentContainer}>
                     <span className={styles.headerLabel}>Checkout</span>
                     {error && <Error error={error} clearError={clearPaymentStore}/>}
-                    <PayForm sendRequest={pay} back={goBack} isPayForOrder={true}/>
+                    <PayForm price={price} onSubmit={onSubmit} goBack={() => history.goBack()} isPayForOrder={true}/>
                 </div>
                 <div className={styles.orderInfoContainer}>
                     <span className={styles.orderHeader}>Order Summary</span>
                     <div className={styles.packageInfoContainer}>
-                        <span className={styles.packageName}>Package Name: Standard</span>
-                        <span className={styles.packagePrice}>$100 USD</span>
+                        <span
+                            className={styles.packageName}>{`Package Name: ${price === '50' ? 'Standard' : `Multi X${Object.keys(contests).length}`}`}</span>
+                        <span className={styles.packagePrice}>{`${price} USD`}</span>
                     </div>
                     <div className={styles.resultPriceContainer}>
                         <span>Total:</span>
-                        <span>$100.00 USD</span>
+                        <span>{`${price}.00 USD`}</span>
                     </div>
-                    <a href="http://www.google.com">Have a promo code?</a>
+                    <Link to={'/'}>Have a promo code?</Link>
                 </div>
             </div>
         </div>
     )
 };
 
+const mapStateToProps = (state) => ({
+    payment: state.payment,
+    contestStore: state.contestStore
+});
 
-const mapStateToProps = (state) => {
-    return {
-        payment: state.payment,
-        contestStore: state.contestStore
-    };
-};
-
-const mapDispatchToProps = (dispatch) => (
-    {
-        pay: (data) => dispatch(payRequest(data)),
-        clearPaymentStore: () => dispatch(clearPaymentStore())
-    }
-);
-
+const mapDispatchToProps = (dispatch) => ({
+    pay: (data) => dispatch(payRequest(data)),
+    clearPaymentStore: () => dispatch(clearPaymentStore())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);
 
