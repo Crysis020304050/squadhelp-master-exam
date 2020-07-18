@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
                 data: action.data
             }
         }
-        case ACTION.CLEAR_USER_STORE:{
+        case ACTION.LOGOUT_RESPONSE:{
             controller.unsubscribe(state.data.id);
             return{
                 ...state,

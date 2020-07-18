@@ -19,8 +19,13 @@ export const clearErrorSignUpAndLogin = () => ({
     type: ACTION.AUTH_ACTION_CLEAR_ERROR
 });
 
-export const clearUserStore = () => ({
-    type: ACTION.CLEAR_USER_STORE
+export const logoutRequest = (data) => ({
+    type: ACTION.LOGOUT_REQUEST,
+    data,
+});
+
+export const logoutResponse = () => ({
+    type: ACTION.LOGOUT_RESPONSE,
 });
 
 export const clearAddOfferError = () => ({

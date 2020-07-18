@@ -3,7 +3,7 @@ import styles from './Header.module.sass';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import constants from '../../constants/constants';
-import {clearUserStore} from '../../actions/actionCreator';
+import {logoutRequest} from '../../actions/actionCreator';
 import HeaderUserInfo from "../HeaderUserInfo";
 import HeaderLinks from "../HeaderLinks";
 import {mdiMenu, mdiClose} from '@mdi/js';
@@ -11,7 +11,7 @@ import {Icon} from '@mdi/react';
 import classNames from 'classnames';
 import Logo from "../Logo";
 
-const Header = ({data, clearUserStore, history, isFetching}) => {
+const Header = ({data, logout, history, isFetching}) => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -38,11 +38,9 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
         };
     }, [isMenuOpen]);
 
-    const logOut = () => {
-        localStorage.removeItem(constants.REFRESH_TOKEN);
-        sessionStorage.removeItem(constants.ACCESS_TOKEN);
-        clearUserStore();
-        history.replace('/login');
+    const onLogout = () => {
+        const refreshToken = localStorage.getItem(constants.REFRESH_TOKEN);
+        logout({refreshToken});
     };
 
     const toggleMenu = () => {
@@ -78,7 +76,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
                             </>
                         }
                         <div className={styles.userButtonsContainer}>
-                            <HeaderUserInfo logOut={logOut} className={styles.userInfo} data={data}/>
+                            <HeaderUserInfo logOut={onLogout} className={styles.userInfo} data={data}/>
                         </div>
                     </div>
                     {isRenderNotForModerator() && (
@@ -101,7 +99,7 @@ const Header = ({data, clearUserStore, history, isFetching}) => {
 const mapStateToProps = state => state.userStore;
 
 const mapDispatchToProps = dispatch => ({
-    clearUserStore: () => dispatch(clearUserStore()),
+    logout: (data) => dispatch(logoutRequest(data)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

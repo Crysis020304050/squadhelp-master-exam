@@ -1,7 +1,9 @@
 import {put} from 'redux-saga/effects';
 import * as restController from '../api/rest/auth';
-import {getUserSuccess, authActionSuccess, authActionError} from '../actions/actionCreator';
+import {getUserSuccess, authActionSuccess, authActionError, logoutResponse} from '../actions/actionCreator';
 import {controller} from '../api/ws/socketController';
+import history from "../browserHistory";
+import {clearStorage} from "../utils";
 
 export function* authSaga(action) {
     try {
@@ -15,5 +17,17 @@ export function* authSaga(action) {
         controller.subscribe(data.user.id);
     } catch (e) {
         yield put(authActionError(e.response || e));
+    }
+}
+
+export function* logoutSaga(action) {
+    try {
+        yield restController.logout(action.data);
+    } catch (e) {
+        throw e;
+    } finally {
+        yield put(logoutResponse());
+        clearStorage();
+        history.replace('/login');
     }
 }

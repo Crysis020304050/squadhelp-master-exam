@@ -321,7 +321,7 @@ export default function (state = initialState, action) {
                 isCatalogsLoaded: false,
             }
         }
-        case ACTION.CLEAR_USER_STORE: {
+        case ACTION.LOGOUT_RESPONSE: {
             return initialState;
         }
         default:

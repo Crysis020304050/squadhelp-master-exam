@@ -85,7 +85,7 @@ export default function (state = initialState, action) {
                 creatorFilter: updatedFilter,
             }
         }
-        case ACTION.CLEAR_USER_STORE: {
+        case ACTION.LOGOUT_RESPONSE: {
             return initialState;
         }
         default:

@@ -84,7 +84,7 @@ export default function (state = initialState, action) {
                 imagePath: action.data.imagePath
             }
         }
-        case ACTION.CLEAR_USER_STORE: {
+        case ACTION.LOGOUT_RESPONSE: {
             return initialState;
         }
         default: {
