@@ -8,12 +8,13 @@ import PayForm from '../../components/PayForm/PayForm';
 import classNames from 'classnames';
 import {cashOut, changeProfileModeView, clearPaymentStore} from '../../actions/actionCreator';
 import Error from '../../components/Error/Error';
+import money from 'money-math';
 
 const UserProfile = ({balance, role, profileModeView, changeProfileModeView, error, clearPaymentStore, cashOut}) => {
 
     const {USER_INFO_MODE, CREATOR, CASHOUT_MODE} = constants;
 
-    const onPaySubmit = ({number, expiry, cvc, sum}) => cashOut({number, expiry, cvc, sum});
+    const onPaySubmit = ({number, expiry, cvc, sum}) => cashOut({number, expiry, cvc, sum: money.floatToAmount(sum)});
 
     return (
         <div>
@@ -36,7 +37,7 @@ const UserProfile = ({balance, role, profileModeView, changeProfileModeView, err
                         <UserInfo/>
                         :
                         <div className={styles.container}>
-                            {parseInt(balance) === 0 ?
+                            {money.isZero(balance) ?
                                 <span className={styles.notMoney}>There is no money on your balance</span>
                                 :
                                 <div>

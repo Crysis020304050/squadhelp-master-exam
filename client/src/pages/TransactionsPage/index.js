@@ -6,12 +6,18 @@ import TransactionsTable from '../../components/TransactionsTable';
 import {getUserTransactionsHistoryRequest, getUserTransactionsStatementRequest, clearTransactionsStoreError} from "../../actions/actionCreator";
 import SpinnerLoader from "../../components/Spinner/Spinner";
 import Error from "../../components/Error/Error";
+import constants from "../../constants/constants";
+import history from "../../browserHistory";
 
-const TransactionsPage = ({isFetching, error, getUserTransactionsHistory, getUserTransactionStatement, clearError}) => {
+const TransactionsPage = ({transactionsStore: {isFetching, error, clearError}, data, getUserTransactionsHistory, getUserTransactionStatement,}) => {
 
     useEffect(() => {
-        getUserTransactionsHistory();
-        getUserTransactionStatement();
+        if (!data || data.role === constants.CUSTOMER) {
+            history.replace('/');
+        } else {
+            getUserTransactionsHistory();
+            getUserTransactionStatement();
+        }
     }, []);
 
     return (
@@ -27,7 +33,10 @@ const TransactionsPage = ({isFetching, error, getUserTransactionsHistory, getUse
     )
 };
 
-const mapStateToProps = state => state.transactionsStore;
+const mapStateToProps = state => {
+    const {transactionsStore, userStore: {data}} = state;
+    return {transactionsStore, data};
+};
 
 const mapDispatchToProps = dispatch => ({
     getUserTransactionsHistory: () => dispatch(getUserTransactionsHistoryRequest()),

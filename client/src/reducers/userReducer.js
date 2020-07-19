@@ -1,6 +1,6 @@
 import ACTION from '../actions/actionTypes';
 import {controller} from '../api/ws/socketController';
-
+import money from 'money-math';
 
 const initialState = {
     isFetching: false,
@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
                 data: action.data
             }
         }
-        case ACTION.LOGOUT_RESPONSE:{
+        case ACTION.LOGOUT_RESPONSE: {
             controller.unsubscribe(state.data.id);
             return{
                 ...state,
@@ -26,17 +26,25 @@ export default function (state = initialState, action) {
                 error: null
             }
         }
-        case ACTION.UPDATE_USER_DATA_SUCCESS:{
+        case ACTION.UPDATE_USER_DATA_SUCCESS: {
             return{
                 ...state,
                 data: {...state.data,...action.data},
                 error: null
             }
         }
-        case ACTION.UPDATE_USER_DATA_ERROR:{
+        case ACTION.UPDATE_USER_DATA_ERROR: {
             return{
                 ...state,
                 error: action.error
+            }
+        }
+        case ACTION.UPDATE_USER_BALANCE: {
+            const updatedData = {...state.data};
+            updatedData.balance = money.add(money.floatToAmount(updatedData.balance), money.floatToAmount(action.prize));
+            return {
+                ...state,
+                data: updatedData,
             }
         }
         case ACTION.CLEAR_USER_ERROR:{

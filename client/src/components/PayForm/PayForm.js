@@ -116,7 +116,7 @@ const PayForm = ({changeFocusOnCard, onSubmit, goBack, handleSubmit, focusOnElem
                 </div>
             </form>
             {isPayForOrder &&
-            <div className={styles.totalSum}><span>{`Total: $${price}.00`}</span></div>}
+            <div className={styles.totalSum}><span>{`Total: $${price}`}</span></div>}
             <div className={styles.buttonsContainer}>
                 <button form='myForm' className={styles.payButton} type='submit'>
                     <span>{isPayForOrder ? 'Pay Now' : 'CashOut'}</span></button>

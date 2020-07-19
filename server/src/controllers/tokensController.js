@@ -12,7 +12,6 @@ const verify = util.promisify(jwt.verify);
 module.exports.signRefreshToken = async (req, res, next) => {
     try {
         const {user, refreshTokenPayload} = req;
-        console.log(refreshTokenPayload);
         req.refreshTokenValue = await sign(prepareUserToSending(user || refreshTokenPayload), constants.JWT_SECRET, {
             expiresIn: constants.REFRESH_TOKEN_TIME,
         });

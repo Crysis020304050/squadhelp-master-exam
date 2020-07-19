@@ -45,6 +45,11 @@ export const getUserSuccess = data => ({
     data,
 });
 
+export const updateUserBalance = prize => ({
+    type: ACTION.UPDATE_USER_BALANCE,
+    prize,
+});
+
 export const getDataForContest = data => ({
     type: ACTION.GET_DATA_FOR_CONTEST_ACTION,
     data

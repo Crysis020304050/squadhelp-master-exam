@@ -6,7 +6,8 @@ const transactionQueries = require('./queries/transactionsQueries.js');
 const controller = require('../index.js');
 const constants = require('../constants/constants');
 const moment = require('moment');
-const bd = require("../models");
+const money = require('money-math');
+
 
 module.exports.dataForContest = async (req, res, next) => {
     let response = {};
@@ -172,8 +173,9 @@ const resolveOffer = async (
             END
     `),
     }, {orderId: orderId}, transaction);
+    const prizeToMoney = money.floatToAmount(finishedContest.prize);
     await userQueries.updateUser(
-        {balance: db.sequelize.literal('balance + ' + finishedContest.prize)},
+        {balance: db.sequelize.literal('balance + ' + prizeToMoney)},
         creatorId, transaction);
     const updatedOffers = await contestQueries.updateOfferStatus({
         status: db.sequelize.literal(` CASE
@@ -195,26 +197,24 @@ const resolveOffer = async (
     controller.controller.notificationController.emitChangeOfferStatus(arrayRoomsId,
         'Someone of yours offers was rejected', contestId);
     controller.controller.notificationController.emitChangeOfferStatus(creatorId,
-        'Someone of your offers WIN', contestId);
-    return {...updatedOffers[0].dataValues, prize: finishedContest.prize};
+        'Someone of your offers WIN', contestId, prizeToMoney);
+    return {...updatedOffers[0].dataValues, prize: prizeToMoney};
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
     let transaction;
-    if (req.body.command === 'reject') {
+    const {body: {command, offerId, creatorId, contestId, orderId, priority}} = req;
+    if (command === 'reject') {
         try {
-            const offer = await rejectOffer(req.body.offerId, req.body.creatorId,
-                req.body.contestId);
+            const offer = await rejectOffer(offerId, creatorId, contestId);
             res.send(offer);
         } catch (err) {
             next(err);
         }
-    } else if (req.body.command === 'resolve') {
+    } else if (command === 'resolve') {
         try {
             transaction = await db.sequelize.transaction();
-            const winningOffer = await resolveOffer(req.body.contestId,
-                req.body.creatorId, req.body.orderId, req.body.offerId,
-                req.body.priority, transaction);
+            const winningOffer = await resolveOffer(contestId, creatorId, orderId, offerId, priority, transaction);
 
             await transactionQueries.newIncomeTransaction({
                 typeOperation: constants.INCOME_TRANSACTION,
@@ -260,7 +260,7 @@ module.exports.getCustomersContests = async (req, res, next) => {
                 ...(status === constants.CONTEST_STATUS_ACTIVE && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
                 ...(status === constants.CONTEST_STATUS_PENDING && {
                     status: {
-                        [bd.Sequelize.Op.or]: [constants.CONTEST_STATUS_ACTIVE, constants.CONTEST_STATUS_PENDING]
+                        [db.Sequelize.Op.or]: [constants.CONTEST_STATUS_ACTIVE, constants.CONTEST_STATUS_PENDING]
                     },
                 })
             },
@@ -313,11 +313,11 @@ module.exports.getContestsForCreative = async (req, res, next) => {
         const {body: {selectedContestTypes, contestId, industry, awardSort, limit, offset, ownEntries}, tokenData: {id}} = req;
         let contests = await db.Contests.findAll({
             where: {
-                ...(selectedContestTypes && {contestType: {[bd.Sequelize.Op.or]: selectedContestTypes}}),
+                ...(selectedContestTypes && {contestType: {[db.Sequelize.Op.or]: selectedContestTypes}}),
                 ...(contestId && {id: contestId}),
                 ...(industry && {industry}),
                 status: {
-                    [bd.Sequelize.Op.or]: [
+                    [db.Sequelize.Op.or]: [
                         constants.CONTEST_STATUS_FINISHED,
                         constants.CONTEST_STATUS_ACTIVE,
                     ],

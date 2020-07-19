@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styles from './ContestSideBar.module.sass';
-import {withRouter} from 'react-router-dom';
 import constants from '../../constants/constants';
 import moment from 'moment';
+import money from 'money-math';
 
 
 const ContestSideBar = ({contestData: {createdAt, User: {id, avatar, firstName, lastName, displayName}, prize, status}, data, totalEntries}) => {
@@ -31,7 +31,7 @@ const ContestSideBar = ({contestData: {createdAt, User: {id, avatar, firstName, 
                 <div className={styles.awardAndTimeContainer}>
                     <div className={styles.prizeContainer}>
                         <img src={`${STATIC_IMAGES_PATH}big-diamond.png`} alt='diamond'/>
-                        <span>{`$ ${prize}`}</span>
+                        <span>{`$ ${money.floatToAmount(prize)}`}</span>
                     </div>
                     <div className={styles.timeContainer}>
                         <div className={styles.timeDesc}>

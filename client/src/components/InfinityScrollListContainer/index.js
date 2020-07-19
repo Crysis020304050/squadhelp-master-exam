@@ -12,7 +12,7 @@ const InfinityScrollListContainer = ({children, isFetching, loadMore, haveMore, 
         {isReverse
             ? <InfiniteScrollReverse ref={refLink} className={className} isLoading={isFetching} hasMore={haveMore}
                                      loadMore={() => loadMore(children.length)}>
-                {isFetching && <Spinner/>}
+                {isFetching && children.length > 10 && <Spinner/>}
                 {children}
             </InfiniteScrollReverse>
             : <InfiniteList containerClassName={className} root='viewport' isLoading={isFetching} isEndReached={!haveMore}

@@ -5,6 +5,7 @@ import constants from '../../constants/constants';
 import PropTypes from 'prop-types';
 import ModerationStatus from "../ModerationStatus";
 import ModeratorButtonGroup from "../ModeratorButtonGroup";
+import money from 'money-math';
 
 
 const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, typeOfTagline, id, title, prize, count, status, moderationStatus}, history, role, resolveContest, rejectContest, isFetching}) => {
@@ -73,7 +74,7 @@ const ContestBox = ({data: {createdAt, contestType, typeOfName, brandStyle, type
                         </div>
                         <div className={styles.prize}>
                             <img src={`${constants.STATIC_IMAGES_PATH}diamond.png`} alt='diamond'/>
-                            <span>{`$${prize}`}</span>
+                            <span>{`$${money.floatToAmount(prize)}`}</span>
                         </div>
                     </div>
                 </div>

@@ -2,28 +2,35 @@ import React from "react";
 import styles from './TransactionTable.module.sass';
 import constants from "../../constants/constants";
 import {connect} from 'react-redux';
+import money from 'money-math';
 
 const TransactionsTable = ({transactionHistory, transactionStatement}) => {
 
-    const renderTransactionsHistory = transactions => {
-        return transactions.map(({id, typeOperation, sum}) => (
-            <tr key={id}>
-                <td>{id}</td>
-                <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
-                <td>{typeOperation === constants.INCOME_TRANSACTION ? sum : `-${sum}`}</td>
-            </tr>
-        ))
-    };
+    const renderTransactionsHistory = transactions => (
+        transactions.map(({id, typeOperation, sum}) => {
+            const sumToMoney = money.floatToAmount(sum);
+            return (
+                <tr key={id}>
+                    <td>{id}</td>
+                    <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
+                    <td>{typeOperation === constants.INCOME_TRANSACTION ? sumToMoney : `-${sumToMoney}`}</td>
+                </tr>
+            );
+        })
+    );
 
-    const renderTransactionsStatement = statement => {
-        return statement.map(({typeOperation, sum}, index) => (
-            <tr key={index}>
-                <th>Total</th>
-                <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
-                <td>{typeOperation === constants.INCOME_TRANSACTION ? (sum || 0) : (sum ? `-${sum}` : 0)}</td>
-            </tr>
-        ))
-    };
+    const renderTransactionsStatement = statement => (
+        statement.map(({typeOperation, sum}, index) => {
+            const sumToMoney = money.floatToAmount(sum);
+            return (
+                <tr key={index}>
+                    <th>Total</th>
+                    <td>{typeOperation === constants.INCOME_TRANSACTION ? 'Income' : 'Consumption'}</td>
+                    <td>{typeOperation === constants.INCOME_TRANSACTION ? (sum ? sumToMoney : '0.00') : (sum ? `-${sumToMoney}` : '0.00')}</td>
+                </tr>
+            );
+        })
+    );
 
     return (
         <table className={styles.table}>

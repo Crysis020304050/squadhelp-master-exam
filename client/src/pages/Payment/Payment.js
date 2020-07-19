@@ -8,6 +8,7 @@ import constants from '../../constants/constants';
 import Error from '../../components/Error/Error';
 import Logo from "../../components/Logo";
 import {Link} from "react-router-dom";
+import money from 'money-math';
 
 const Payment = ({contestStore: {contests}, pay, history, payment: {error}, clearPaymentStore}) => {
 
@@ -46,7 +47,7 @@ const Payment = ({contestStore: {contests}, pay, history, payment: {error}, clea
         data.append('expiry', expiry);
         data.append('cvc', cvc);
         data.append('contests', JSON.stringify(contestArray));
-        data.append('price', price);
+        data.append('price', money.floatToAmount(price));
         pay({
             formData: data
         });
@@ -67,12 +68,12 @@ const Payment = ({contestStore: {contests}, pay, history, payment: {error}, clea
                     <span className={styles.orderHeader}>Order Summary</span>
                     <div className={styles.packageInfoContainer}>
                         <span
-                            className={styles.packageName}>{`Package Name: ${price === '50' ? 'Standard' : `Multi X${Object.keys(contests).length}`}`}</span>
+                            className={styles.packageName}>{`Package Name: ${price === constants.ONE_CONTEST_PRICE ? 'Standard' : `Multi X${Object.keys(contests).length}`}`}</span>
                         <span className={styles.packagePrice}>{`${price} USD`}</span>
                     </div>
                     <div className={styles.resultPriceContainer}>
                         <span>Total:</span>
-                        <span>{`${price}.00 USD`}</span>
+                        <span>{`${price} USD`}</span>
                     </div>
                     <Link to={'/'}>Have a promo code?</Link>
                 </div>

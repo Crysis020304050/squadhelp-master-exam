@@ -9,6 +9,7 @@ const money = require('money-math');
 
 module.exports.payment = async (req, res, next) => {
     const {tokenData: {id}, body: {contests, number, cvc, expiry, price}} = req;
+    const priceToMoney = money.floatToAmount(price);
     let transaction;
     try {
         transaction = await bd.sequelize.transaction();
@@ -17,9 +18,9 @@ module.exports.payment = async (req, res, next) => {
                 CASE
             WHEN "cardNumber"='${ number.replace(/ /g,
                     '') }' AND "cvc"='${ cvc }' AND "expiry"='${ expiry }'
-                THEN "balance"-${ price }
+                THEN "balance"-${ priceToMoney }
             WHEN "cardNumber"='${ SQUADHELP_BANK_NUMBER }' AND "cvc"='${ SQUADHELP_BANK_CVC }' AND "expiry"='${ SQUADHELP_BANK_EXPIRY }'
-                THEN "balance"+${ price } END
+                THEN "balance"+${ priceToMoney } END
         `),
             },
             {
@@ -39,7 +40,7 @@ module.exports.payment = async (req, res, next) => {
             priority: index + 1,
             orderId,
             createdAt: moment().format('YYYY-MM-DD HH:mm'),
-            prize: money.floatToAmount(money.div(price, contests.length.toString())),
+            prize: money.floatToAmount(money.div(priceToMoney, money.floatToAmount(contests.length))),
         }));
 
         await bd.Contests.bulkCreate(preparedContests, transaction);
@@ -53,19 +54,20 @@ module.exports.payment = async (req, res, next) => {
 
 module.exports.cashout = async (req, res, next) => {
     const {tokenData: {id}, body: {number, cvc, expiry, sum}} = req;
+    const sumToMoney = money.floatToAmount(sum);
     let transaction;
     try {
         transaction = await bd.sequelize.transaction();
         const updatedUser = await userQueries.updateUser(
-            { balance: bd.sequelize.literal('balance - ' + sum) },
+            { balance: bd.sequelize.literal('balance - ' + sumToMoney) },
             id, transaction);
         await bankQueries.updateBankBalance({
                 balance: bd.sequelize.literal(`CASE 
                 WHEN "cardNumber"='${ number.replace(/ /g,
                     '') }' AND "expiry"='${ expiry }' AND "cvc"='${ cvc }'
-                    THEN "balance"+${ sum }
+                    THEN "balance"+${ sumToMoney }
                 WHEN "cardNumber"='${ SQUADHELP_BANK_NUMBER }' AND "expiry"='${ SQUADHELP_BANK_EXPIRY }' AND "cvc"='${ SQUADHELP_BANK_CVC }'
-                    THEN "balance"-${ sum }
+                    THEN "balance"-${ sumToMoney }
                  END
                 `),
             },
@@ -81,7 +83,7 @@ module.exports.cashout = async (req, res, next) => {
         transaction.commit();
         await transactionsQueries.newConsumptionTransaction({
             typeOperation: CONSUMPTION_TRANSACTION,
-            sum,
+            sum: sumToMoney,
             userId: updatedUser.id,
         });
         res.send({ balance: updatedUser.balance });
