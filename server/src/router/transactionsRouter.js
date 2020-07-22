@@ -11,13 +11,13 @@ transactionsRouter.post(
     upload.uploadContestFiles,
     basicMiddlewares.parseBody,
     validators.validateContestCreation,
-    transactionsController.payment,
+    transactionsController.paymentForContestOrContests,
 );
 
 transactionsRouter.post(
     '/cashout',
     basicMiddlewares.onlyForCreative,
-    transactionsController.cashout,
+    transactionsController.cashOut,
 );
 
 transactionsRouter.get('/getUserTransactionsHistory',

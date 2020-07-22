@@ -10,38 +10,36 @@ const money = require('money-math');
 
 
 module.exports.dataForContest = async (req, res, next) => {
-    let response = {};
     try {
-        const characteristics = await db.Selects.findAll({
+        const {body: {characteristic1, characteristic2}} = req;
+        const characteristics = await contestQueries.getSelectsData({
             where: {
                 type: {
                     [db.Sequelize.Op.or]: [
-                        req.body.characteristic1,
-                        req.body.characteristic2,
+                        characteristic1,
+                        characteristic2,
                         'industry',
                     ],
                 },
             },
         });
-        if (!characteristics) {
-            return next(new ServerError());
-        }
-        characteristics.forEach(characteristic => {
-            if (!response[characteristic.type]) {
-                response[characteristic.type] = [];
+        const preparedData = {};
+        characteristics.forEach(({type, describe}) => {
+            if (!preparedData[type]) {
+                preparedData[type] = [];
             }
-            response[characteristic.type].push(characteristic.describe);
+            preparedData[type].push(describe);
         });
-        res.send(response);
-    } catch (err) {
-        next(new ServerError('cannot get contest preferences'));
+        res.send(preparedData);
+    } catch (e) {
+        next(e);
     }
 };
 
 module.exports.getContestById = async (req, res, next) => {
     try {
         const {tokenData: {role, id}, headers: {contestid}} = req;
-        const contestInfo = await db.Contests.findOne({
+        const contestInfo = await contestQueries.getContest({
             where: {
                 id: contestid,
                 ...(role === constants.CREATOR && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
@@ -94,17 +92,14 @@ module.exports.getContestById = async (req, res, next) => {
                 },
             ],
         });
-        if (contestInfo) {
-            const preparedContestInfo = contestInfo.get({plain: true});
-            preparedContestInfo.Offers.forEach(offer => {
-                if (offer.Rating) {
-                    offer.mark = offer.Rating.mark;
-                }
-                delete offer.Rating;
-            });
-            return res.send(preparedContestInfo);
-        }
-        return next(new ServerError('Cannot get contest'));
+        const preparedContestInfo = {...contestInfo};
+        preparedContestInfo.Offers.forEach(offer => {
+            if (offer.Rating) {
+                offer.mark = offer.Rating.mark;
+            }
+            delete offer.Rating;
+        });
+        return res.send(preparedContestInfo);
     } catch (e) {
         next(e);
     }
@@ -116,16 +111,17 @@ module.exports.downloadFile = async (req, res, next) => {
 };
 
 module.exports.updateContest = async (req, res, next) => {
-    if (req.file) {
-        req.body.fileName = req.file.filename;
-        req.body.originalFileName = req.file.originalname;
-    }
-    const contestId = req.body.contestId;
-    delete req.body.contestId;
     try {
-        const updatedContest = await contestQueries.updateContest(req.body, {
+        const {file, body, tokenData: {id}} = req;
+        if (file) {
+            body.fileName = file.filename;
+            body.originalFileName = file.originalname;
+        }
+        const contestId = body.contestId;
+        delete body.contestId;
+        const updatedContest = await contestQueries.updateContest(body, {
             id: contestId,
-            userId: req.tokenData.id,
+            userId: id,
         });
         res.send(updatedContest);
     } catch (e) {
@@ -134,23 +130,22 @@ module.exports.updateContest = async (req, res, next) => {
 };
 
 module.exports.setNewOffer = async (req, res, next) => {
-    const obj = {};
-    if (req.body.contestType === constants.LOGO_CONTEST) {
-        obj.fileName = req.file.filename;
-        obj.originalFileName = req.file.originalname;
-    } else {
-        obj.text = req.body.offerData;
-    }
-    obj.userId = req.tokenData.id;
-    obj.contestId = req.body.contestId;
     try {
-        let result = await contestQueries.createOffer(obj);
-        delete result.contestId;
-        delete result.userId;
-        const User = Object.assign({}, req.tokenData, {id: req.tokenData.id});
-        res.send(Object.assign({}, result, {User}));
+        const {body: {contestType, offerData, contestId}, file, tokenData} = req;
+        const preparedOfferData = {
+            userId: tokenData.id,
+            contestId,
+            ...(contestType === constants.LOGO_CONTEST && {
+                fileName: file.filename,
+                originalFileName: file.originalname,
+            }),
+            ...(offerData && {text: offerData}),
+        };
+        const result = await contestQueries.createOffer(preparedOfferData);
+        const preparedResult = (({contestId, userId, ...rest}) => rest)(result);
+        res.send({...preparedResult, User: {...tokenData}});
     } catch (e) {
-        return next(new ServerError());
+        next(e);
     }
 };
 
@@ -162,8 +157,7 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
     return rejectedOffer;
 };
 
-const resolveOffer = async (
-    contestId, creatorId, orderId, offerId, priority, transaction) => {
+const resolveOffer = async (contestId, creatorId, orderId, offerId, priority, transaction) => {
     const finishedContest = await contestQueries.updateContestStatus({
         status: db.sequelize.literal(`   CASE
             WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${constants.CONTEST_STATUS_FINISHED}'
@@ -175,7 +169,7 @@ const resolveOffer = async (
     }, {orderId: orderId}, transaction);
     const prizeToMoney = money.floatToAmount(finishedContest.prize);
     await userQueries.updateUser(
-        {balance: db.sequelize.literal('balance + ' + prizeToMoney)},
+        {balance: db.sequelize.literal(`balance+${prizeToMoney}`)},
         creatorId, transaction);
     const updatedOffers = await contestQueries.updateOfferStatus({
         status: db.sequelize.literal(` CASE
@@ -186,7 +180,6 @@ const resolveOffer = async (
     }, {
         contestId,
     }, transaction);
-    transaction.commit();
     const arrayRoomsId = [];
     updatedOffers.forEach(offer => {
         if (offer.status === constants.OFFER_STATUS_REJECTED && creatorId !==
@@ -202,37 +195,38 @@ const resolveOffer = async (
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
-    let transaction;
-    const {body: {command, offerId, creatorId, contestId, orderId, priority}} = req;
-    if (command === 'reject') {
-        try {
-            const offer = await rejectOffer(offerId, creatorId, contestId);
-            res.send(offer);
-        } catch (err) {
-            next(err);
+    try {
+        const {body: {command, offerId, creatorId, contestId, orderId, priority}} = req;
+        switch (command) {
+            case 'reject': {
+                const rejectedOffer = await rejectOffer(offerId, creatorId, contestId);
+                return res.send(rejectedOffer);
+            }
+            case 'resolve': {
+                await db.sequelize.transaction(async transaction => {
+                    const winningOffer = await resolveOffer(contestId, creatorId, orderId, offerId, priority, transaction);
+                    await transactionQueries.newIncomeTransaction({
+                        typeOperation: constants.INCOME_TRANSACTION,
+                        sum: winningOffer.prize,
+                        userId: winningOffer.userId,
+                    }, transaction);
+                    res.send(winningOffer);
+                });
+                break;
+            }
+            default: {
+                new ServerError();
+            }
         }
-    } else if (command === 'resolve') {
-        try {
-            transaction = await db.sequelize.transaction();
-            const winningOffer = await resolveOffer(contestId, creatorId, orderId, offerId, priority, transaction);
-
-            await transactionQueries.newIncomeTransaction({
-                typeOperation: constants.INCOME_TRANSACTION,
-                sum: winningOffer.prize,
-                userId: winningOffer.userId,
-            });
-            res.send(winningOffer);
-        } catch (err) {
-            transaction.rollback();
-            next(err);
-        }
+    } catch (e) {
+        next(e);
     }
 };
 
 module.exports.getOffersForModerator = async (req, res, next) => {
     try {
         const {limit, offset, moderationStatus} = req.body;
-        const offers = await db.Offers.findAll({
+        const offers = await contestQueries.getOffersData({
             where: {moderationStatus},
             limit,
             offset: offset || 0,
@@ -253,7 +247,7 @@ module.exports.getOffersForModerator = async (req, res, next) => {
 module.exports.getCustomersContests = async (req, res, next) => {
     try {
         const {headers: {status}, tokenData: {id}, body: {limit, offset}} = req;
-        let contests = await db.Contests.findAll({
+        let contests = await contestQueries.getContests({
             where: {
                 status,
                 userId: id,
@@ -288,7 +282,7 @@ module.exports.getCustomersContests = async (req, res, next) => {
 module.exports.getContestsForModerator = async (req, res, next) => {
     try {
         const {limit, offset, moderationStatus} = req.body;
-        const contests = await db.Contests.findAll({
+        const contests = await contestQueries.getContests({
             where: {moderationStatus},
             limit,
             offset: offset || 0,
@@ -311,7 +305,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
 module.exports.getContestsForCreative = async (req, res, next) => {
     try {
         const {body: {selectedContestTypes, contestId, industry, awardSort, limit, offset, ownEntries}, tokenData: {id}} = req;
-        let contests = await db.Contests.findAll({
+        let contests = await contestQueries.getContests({
             where: {
                 ...(selectedContestTypes && {contestType: {[db.Sequelize.Op.or]: selectedContestTypes}}),
                 ...(contestId && {id: contestId}),
@@ -354,7 +348,7 @@ module.exports.getContestsForCreative = async (req, res, next) => {
 
 module.exports.getOffersFiles = async (req, res, next) => {
     try {
-        const {dateFrom} = req.body;
+        const {body: {dateFrom}} = req;
 
         const searchFilter = {
             where: {
@@ -370,7 +364,7 @@ module.exports.getOffersFiles = async (req, res, next) => {
         };
 
         const result = await contestQueries.getOffersData(searchFilter);
-        return res.send(result);
+        res.send(result);
     } catch (e) {
         next(e);
     }

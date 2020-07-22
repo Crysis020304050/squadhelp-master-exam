@@ -18,7 +18,7 @@ import './confirmStyle.css';
 import ModerationStatus from "../ModerationStatus";
 
 
-const OfferBox = ({messagesPreview, id, data, role, contestType, setOfferStatus, clearError, changeMark, goToExpandedDialog, needButtons}) => {
+const OfferBox = ({messagesPreview, id, data, role, contestType, setOfferStatus, clearError, changeMark, goToExpandedDialog, needButtons, changeShowImage}) => {
 
     const findConversationInfo = () => {
         const participants = [id, data.User.id];
