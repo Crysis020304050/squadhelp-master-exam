@@ -1,17 +1,14 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {clearUserError} from '../../actions/actionCreator';
 import styles from './UpdateUserInfoForm.module.sass';
 import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
-import Error from '../../components/Error/Error';
 import FormField from "../FormField";
 
 
-const UpdateUserInfoForm = (props) => {
-    const {handleSubmit, submitting, error, clearUserError} = props;
+const UpdateUserInfoForm = ({handleSubmit, isFetching}) => {
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -22,7 +19,6 @@ const UpdateUserInfoForm = (props) => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.updateContainer}>
-            {error && <Error error={error} clearError={clearUserError}/>}
             <div className={styles.container}>
                 <span className={styles.label}>First Name</span>
                 <Field
@@ -62,34 +58,28 @@ const UpdateUserInfoForm = (props) => {
                     imgStyle: styles.imgStyle
                 }}
             />
-            <button type='submit' disabled={submitting}>
-                Submit
+            <button type='submit' disabled={isFetching}>
+                {isFetching
+                    ? 'Submitting...'
+                    : 'Submit'}
             </button>
         </form>
     )
 };
 
-
 const mapStateToProps = (state) => {
-    const {data, error} = state.userStore;
+    const {data: {firstName, lastName, displayName}, isFetching} = state.userStore;
     return {
-        error,
+        isFetching,
         initialValues: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            displayName: data.displayName
+            firstName,
+            lastName,
+            displayName
         }
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        clearUserError: () => dispatch(clearUserError())
-    }
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps)(reduxForm({
     form: 'updateProfile',
     validate: customValidator(Schems.UpdateUserSchema)
 })(UpdateUserInfoForm));

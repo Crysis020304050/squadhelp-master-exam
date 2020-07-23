@@ -1,5 +1,4 @@
 import ACTION from '../actions/actionTypes';
-import {controller} from '../api/ws/socketController';
 import money from 'money-math';
 
 const initialState = {
@@ -10,34 +9,37 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case ACTION.GET_USER_SUCCESS: {
+        case ACTION.AUTH_ACTION_REQUEST:
+        case ACTION.UPDATE_USER_DATA_REQUEST: {
+            return {
+                ...state,
+                isFetching: true,
+            }
+        }
+        case ACTION.AUTH_ACTION_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
-                error: null,
-                data: action.data
-            }
-        }
-        case ACTION.LOGOUT_RESPONSE: {
-            controller.unsubscribe(state.data.id);
-            return{
-                ...state,
-                data: null,
-                error: null
+                data: action.data,
             }
         }
         case ACTION.UPDATE_USER_DATA_SUCCESS: {
             return{
                 ...state,
                 data: {...state.data,...action.data},
-                error: null
+                isFetching: false,
             }
         }
+        case ACTION.AUTH_ACTION_ERROR:
         case ACTION.UPDATE_USER_DATA_ERROR: {
-            return{
+            return {
                 ...state,
+                isFetching: false,
                 error: action.error
             }
+        }
+        case ACTION.LOGOUT_RESPONSE: {
+            return initialState;
         }
         case ACTION.UPDATE_USER_BALANCE: {
             const updatedData = {...state.data};

@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import UpdateUserInfoForm from '../../components/UpdateUserInfoForm/UpdateUserInfoForm';
-import {updateUserData, changeEditModeOnUserProfile} from '../../actions/actionCreator';
+import {updateUserData, changeEditModeOnUserProfile, clearUserError} from '../../actions/actionCreator';
 import constants from '../../constants/constants';
 import styles from './UserInfo.module.sass';
 import money from 'money-math';
+import Error from "../Error/Error";
 
-const UserInfo = ({isEdit, changeEditMode, data, updateUser}) => {
+const UserInfo = ({isEdit, changeEditMode, data, error, clearError, updateUser}) => {
+
+    useEffect(() => {
+        if (error) {
+            clearError();
+        }
+    }, []);
 
     const updateUserData = ({file, firstName, lastName, displayName}) => {
         const formData = new FormData();
@@ -21,6 +28,7 @@ const UserInfo = ({isEdit, changeEditMode, data, updateUser}) => {
     const {ANONYM_IMAGE_PATH, publicURL, CREATOR} = constants;
     return (
         <div className={styles.mainContainer}>
+            {error && <Error error={error} clearError={clearError}/>}
             {isEdit ? <UpdateUserInfoForm onSubmit={updateUserData}/>
                 :
                 <div className={styles.infoContainer}>
@@ -60,14 +68,15 @@ const UserInfo = ({isEdit, changeEditMode, data, updateUser}) => {
 };
 
 const mapStateToProps = (state) => {
-    const {data} = state.userStore;
+    const {data, error} = state.userStore;
     const {isEdit} = state.userProfile;
-    return {data, isEdit};
+    return {data, isEdit, error};
 };
 
 const mapDispatchToProps = (dispatch) => ({
     updateUser: (data) => dispatch(updateUserData(data)),
-    changeEditMode: (data) => dispatch(changeEditModeOnUserProfile(data))
+    changeEditMode: (data) => dispatch(changeEditModeOnUserProfile(data)),
+    clearError: () => dispatch(clearUserError()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

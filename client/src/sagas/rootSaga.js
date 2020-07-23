@@ -45,7 +45,7 @@ function* rootSaga() {
     yield  takeEvery(ACTION.SET_OFFER_ACTION, addOfferSaga);
     yield  takeLatest(ACTION.SET_OFFER_STATUS_ACTION, setOfferStatusSaga);
     yield  takeLatest(ACTION.CHANGE_MARK_ACTION, changeMarkSaga);
-    yield  takeLatest(ACTION.UPDATE_USER_DATA, updateUserData);
+    yield  takeLatest(ACTION.UPDATE_USER_DATA_REQUEST, updateUserData);
     yield  takeLatest(ACTION.GET_PREVIEW_CHAT_ASYNC, previewSaga);
     yield  takeLatest(ACTION.GET_DIALOG_MESSAGES_ASYNC, getConversation);
     yield  takeLatest(ACTION.SEND_MESSAGE_ACTION, sendMessage);

@@ -3,20 +3,17 @@ import ACTION from './actionTypes';
 
 export const authActionRequest = data => ({
     type: ACTION.AUTH_ACTION_REQUEST,
-    data
+    data,
 });
 
-export const authActionSuccess = () => ({
+export const authActionSuccess = (data) => ({
     type: ACTION.AUTH_ACTION_SUCCESS,
+    data,
 });
 
 export const authActionError = error => ({
     type: ACTION.AUTH_ACTION_ERROR,
     error
-});
-
-export const clearErrorSignUpAndLogin = () => ({
-    type: ACTION.AUTH_ACTION_CLEAR_ERROR
 });
 
 export const logoutRequest = (data) => ({
@@ -38,11 +35,6 @@ export const clearChangeMarkError = () => ({
 
 export const clearSetOfferStatusError = () => ({
     type: ACTION.CLEAR_SET_OFFER_STATUS_ERROR
-});
-
-export const getUserSuccess = data => ({
-    type: ACTION.GET_USER_SUCCESS,
-    data,
 });
 
 export const updateUserBalance = prize => ({
@@ -84,10 +76,6 @@ export const selectBundle = bundle => ({
     bundle
 });
 
-export const clearBundle = () => ({
-    type: ACTION.CLEAR_BUNDLE_ACTION
-});
-
 export const updateContest = data => ({
     type: ACTION.UPDATE_CONTEST_ACTION,
     data
@@ -119,7 +107,7 @@ export const createCatalog = data => ({
 });
 
 export const updateUserData = data => ({
-    type: ACTION.UPDATE_USER_DATA,
+    type: ACTION.UPDATE_USER_DATA_REQUEST,
     data
 });
 
@@ -130,10 +118,6 @@ export const cashOut = data => ({
 
 export const clearContestList = () => ({
     type: ACTION.CLEAR_CONTESTS_LIST
-});
-
-export const clearAuth = () => ({
-    type: ACTION.AUTH_ACTION_CLEAR
 });
 
 export const getPreview = () => ({
@@ -296,11 +280,6 @@ export const clearUserError = () => ({
 
 export const clearChatError = () => ({
     type: ACTION.CLEAR_CHAT_ERROR
-});
-
-export const changeModalShow = data => ({
-    type: ACTION.CHANGE_SHOW_MODAL,
-    data
 });
 
 export const selectContestType = data => ({

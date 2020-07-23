@@ -48,7 +48,7 @@ const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatSto
                     scrollToBottom();
                 } else if (messagesLength - prevMessagesLength === 1 && prevHaveMoreMessages === haveMoreMessages && messages[messagesLength - 1].userId === userId) {
                     scrollToBottom();
-                } else if (messagesLength - prevMessagesLength === 1 && prevHaveMoreMessages === haveMoreMessages && messages[messagesLength - 1].userId !== userId) {
+                } else if (messagesLength - prevMessagesLength === 1 && prevHaveMoreMessages === haveMoreMessages && messages[messagesLength - 1].userId !== userId && messagesLength > 10) {
                     newUnreadMessage(messages[messagesLength - 1].id);
                     if (conversationUnreadMessages.length < 1) {
                         visibleMessage.current = children[children.length - 1];

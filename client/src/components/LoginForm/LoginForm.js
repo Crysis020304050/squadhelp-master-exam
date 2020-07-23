@@ -1,21 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {authActionRequest, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {authActionRequest} from '../../actions/actionCreator';
 import styles from './LoginForm.module.sass';
 import {Field, reduxForm} from 'redux-form';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
+import PropTypes from 'prop-types';
 
-const LoginForm = ({handleSubmit, submitting, isFetching, loginRequest, clearError}) => {
+const LoginForm = ({handleSubmit, isFetching, loginRequest}) => {
 
-    useEffect(() => {
-        clearError();
-    }, []);
-
-    const clicked = (values) => {
-        loginRequest(values);
-    };
+    const onSubmit = (values) => loginRequest(values);
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -27,7 +22,7 @@ const LoginForm = ({handleSubmit, submitting, isFetching, loginRequest, clearErr
 
     return (
         <div className={styles.loginForm}>
-            <form onSubmit={handleSubmit(clicked)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Field
                     name='email'
                     {...formInputClasses}
@@ -42,7 +37,7 @@ const LoginForm = ({handleSubmit, submitting, isFetching, loginRequest, clearErr
                     type='password'
                     label='password'
                 />
-                <button type='submit' disabled={submitting}
+                <button type='submit' disabled={isFetching}
                         className={styles.submitContainer}>
             <span className={styles.inscription}>{isFetching
                 ? 'Submitting...'
@@ -53,17 +48,15 @@ const LoginForm = ({handleSubmit, submitting, isFetching, loginRequest, clearErr
     );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    loginRequest: (data) => dispatch(authActionRequest(data)),
+});
 
-const mapStateToProps = state => state.auth;
+LoginForm.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+};
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        loginRequest: (data) => dispatch(authActionRequest(data)),
-        clearError: () => dispatch(clearErrorSignUpAndLogin()),
-    }
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+export default connect(null, mapDispatchToProps)(reduxForm({
     form: 'login',
     validate: customValidator(Schems.LoginSchem),
 })(LoginForm));
