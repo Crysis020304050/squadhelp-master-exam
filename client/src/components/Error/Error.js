@@ -6,15 +6,12 @@ const Error = ({error: {status, data}, clearError}) => {
 
     const getMessage = () => {
         switch (status) {
-            case 404:
-                return data;
             case 400:
-                return data;
-            case 409:
-                return data;
+            case 402:
             case 403:
-                return 'Bank decline transaction';
+            case 404:
             case 406:
+            case 409:
                 return data;
             default:
                 return 'Server Error';

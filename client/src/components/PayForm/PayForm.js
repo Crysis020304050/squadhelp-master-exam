@@ -1,7 +1,7 @@
 import React from 'react';
 import Cards from 'react-credit-cards';
 import styles from './PayForm.module.sass';
-import {Field, reduxForm, formValueSelector} from 'redux-form';
+import {Field, reduxForm, formValueSelector, updateSyncErrors} from 'redux-form';
 import {connect} from 'react-redux';
 import {changeFocusOnCard} from '../../actions/actionCreator';
 import PayInput from '../InputComponents/PayInput/PayInput';
@@ -9,12 +9,26 @@ import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import PropTypes from 'prop-types';
 import 'react-credit-cards/es/styles-compiled.css';
+import money from 'money-math';
 
 let isPayForOrder;
 
-const PayForm = ({changeFocusOnCard, onSubmit, goBack, handleSubmit, focusOnElement, name, number, expiry, cvc, price, ...rest}) => {
+const PayForm = ({changeFocusOnCard, onSubmit, goBack, handleSubmit, focusOnElement, name, number, expiry, cvc, price, balance, dispatch, ...rest}) => {
 
     isPayForOrder = rest.isPayForOrder;
+
+    const onSubmitWithValidation = (values) => {
+        if (isPayForOrder) {
+            onSubmit(values);
+        } else {
+            onSubmit(values);
+            if (money.isNegative(money.subtract(money.floatToAmount(balance), money.floatToAmount(values.sum)))) {
+                dispatch(updateSyncErrors('payForm', {sum: 'Sum cannot be more than your balance'}));
+            } else {
+                onSubmit(values);
+            }
+        }
+    };
 
     const changeFocus = (name) => changeFocusOnCard(name);
 
@@ -31,7 +45,7 @@ const PayForm = ({changeFocusOnCard, onSubmit, goBack, handleSubmit, focusOnElem
                 />
             </div>
             <form id='myForm' className={styles.formContainer}
-                  onSubmit={handleSubmit(onSubmit)}>
+                  onSubmit={handleSubmit(onSubmitWithValidation)}>
                 <div className={styles.bigInput}>
                     <span>Name</span>
                     <Field
@@ -130,10 +144,10 @@ const PayForm = ({changeFocusOnCard, onSubmit, goBack, handleSubmit, focusOnElem
 
 const mapStateToProps = (state) => {
     const selector = formValueSelector('payForm');
-    const {focusOnElement} = state.payment;
+    const {payment: {focusOnElement}, userStore: {data: {balance}}} = state;
     const {name, number, cvc, expiry} = selector(state, 'name', 'number', 'cvc',
         'expiry');
-    return {focusOnElement, name, number, cvc, expiry};
+    return {focusOnElement, name, number, cvc, expiry, balance};
 };
 
 const mapDispatchToProps = (dispatch) => ({

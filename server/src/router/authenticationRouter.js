@@ -10,7 +10,6 @@ const authenticationRouter = require('express')();
 authenticationRouter.post(
     '/registration',
     validators.validateRegistrationData,
-    userController.checkIfUserExist,
     hashPass,
     userController.createUser,
     tokensController.signRefreshToken,

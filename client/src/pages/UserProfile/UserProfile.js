@@ -41,7 +41,7 @@ const UserProfile = ({balance, role, profileModeView, changeProfileModeView, err
                                 <span className={styles.notMoney}>There is no money on your balance</span>
                                 :
                                 <div>
-                                    {error &&
+                                    {error && error.status !== 402 &&
                                     <Error error={error} clearError={clearPaymentStore}/>}
                                     <PayForm onSubmit={onPaySubmit}/>
                                 </div>
@@ -54,9 +54,7 @@ const UserProfile = ({balance, role, profileModeView, changeProfileModeView, err
 };
 
 const mapStateToProps = (state) => {
-    const {balance, role} = state.userStore.data;
-    const {profileModeView} = state.userProfile;
-    const {error} = state.payment;
+    const {userStore: {data: {balance, role}}, userProfile: {profileModeView}, payment: {error}} = state;
     return {balance, role, profileModeView, error}
 };
 

@@ -35,9 +35,9 @@ const RegistrationPage = ({error, isFetching, clearError}) => {
                     <h4>
                         We always keep your name and email address private.
                     </h4>
-                    { error && <Error error={error} clearError={ clearError }/> }
+                    { error && error.status !== 409 && <Error error={error} clearError={ clearError }/> }
                 </div>
-                <RegistrationForm isFetching={isFetching}/>
+                <RegistrationForm isFetching={isFetching} responseError={error}/>
             </div>
             <div className={styles.footer}>
                 <div className={styles.articlesMainContainer}>

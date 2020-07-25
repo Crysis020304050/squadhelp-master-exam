@@ -1,7 +1,8 @@
 const bd = require('../../models');
-const NotFound = require('../../errors/UserNotFoundError');
+const NotFound = require('../../errors/NotFoundError');
 const BadRequestError = require('../../errors/BadRequestError');
 const ServerError = require('../../errors/ServerError');
+const ForbiddenError = require('../../errors/ForbiddenError');
 const bcrypt = require('bcrypt');
 
 module.exports.updateUser = async (data, userId, transaction) => {
@@ -21,10 +22,6 @@ module.exports.findUser = async (predicate, transaction) => {
   throw new NotFound('User with this data does not exist');
 };
 
-module.exports.findUserToCheckExistence = async (predicate) => {
-  return await bd.Users.findOne({where: predicate});
-};
-
 module.exports.userCreation = async (data) => {
   const newUser = await bd.Users.create(data);
   if (newUser) {
@@ -36,7 +33,7 @@ module.exports.userCreation = async (data) => {
 module.exports.passwordCompare = async (pass1, pass2) => {
   const passwordCompare = await bcrypt.compare(pass1, pass2);
   if ( !passwordCompare) {
-    throw new NotFound('Wrong password');
+    throw new ForbiddenError('Wrong password');
   }
 };
 

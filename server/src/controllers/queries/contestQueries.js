@@ -1,6 +1,6 @@
 const db = require('../../models');
 const ServerError = require('../../errors/ServerError');
-const NotFoundError = require('../../errors/UserNotFoundError');
+const NotFoundError = require('../../errors/NotFoundError');
 const uuid = require('uuid/v1');
 const {CONTEST_STATUS_ACTIVE, CONTEST_STATUS_PENDING} = require('../../constants/constants');
 const money = require('money-math');

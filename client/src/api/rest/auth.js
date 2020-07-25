@@ -1,18 +1,14 @@
 import http from '../index';
-import constants from '../../constants/constants';
-import {clearStorage} from '../../utils';
-import history from "../../browserHistory";
+import {clearStorage, setTokens} from '../../utils';
 
 const authenticateUser = async (url, data) => {
     try {
         const response = await http.post( url, data );
-        const { data: { tokenPair } } = response;
-        sessionStorage.setItem( constants.ACCESS_TOKEN, tokenPair.accessToken );
-        localStorage.setItem( constants.REFRESH_TOKEN, tokenPair.refreshToken );
+        const { data: { tokenPair: {accessToken, refreshToken} } } = response;
+        setTokens(accessToken, refreshToken);
         return response;
     } catch (e) {
         clearStorage();
-        history.replace('/login');
         throw e;
     }
 };

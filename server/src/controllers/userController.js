@@ -1,5 +1,4 @@
 const db = require('../models');
-const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const controller = require('../index.js');
 const userQueries = require('./queries/userQueries');
 const ratingQueries = require('./queries/ratingQueries');
@@ -10,19 +9,6 @@ module.exports.createUser = async (req, res, next) => {
   try {
     const {body, hashPass} = req;
     req.user = await userQueries.userCreation({...body, password: hashPass});
-    next();
-  } catch (e) {
-    next(e);
-  }
-};
-
-module.exports.checkIfUserExist = async (req, res, next) => {
-  try {
-    const {body: {email}} = req;
-    const result = await userQueries.findUserToCheckExistence({email});
-    if (result) {
-      return new NotUniqueEmail();
-    }
     next();
   } catch (e) {
     next(e);

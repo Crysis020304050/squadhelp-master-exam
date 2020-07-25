@@ -2,6 +2,11 @@ import constants from '../constants/constants';
 import _ from "lodash";
 import {useEffect, useRef} from "react";
 
+export const setTokens = (accessToken, refreshToken) => {
+    sessionStorage.setItem(constants.ACCESS_TOKEN, accessToken);
+    localStorage.setItem(constants.REFRESH_TOKEN, refreshToken);
+};
+
 export const clearStorage = () => {
     sessionStorage.removeItem(constants.ACCESS_TOKEN);
     localStorage.removeItem(constants.REFRESH_TOKEN);

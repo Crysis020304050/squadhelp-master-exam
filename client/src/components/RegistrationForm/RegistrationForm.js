@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {authActionRequest} from '../../actions/actionCreator';
 import styles from './RegistrationForm.module.sass';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
     from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
@@ -12,7 +12,13 @@ import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
 import PropTypes from 'prop-types';
 
-const RegistrationForm = ({handleSubmit, isFetching, register}) => {
+const RegistrationForm = ({handleSubmit, isFetching, register, responseError, dispatch}) => {
+
+    useEffect(() => {
+        if (responseError && responseError.status === 409) {
+            dispatch(updateSyncErrors('registration', {email: 'This email is already in use'}));
+        }
+    }, [responseError]);
 
     const onSubmit = ({confirmPassword, agreeOfTerms, ...rest}) => register(rest);
 
@@ -121,9 +127,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 RegistrationForm.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    responseError: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'login',
+    form: 'registration',
     validate: customValidator(Schems.RegistrationSchem),
 })(RegistrationForm));

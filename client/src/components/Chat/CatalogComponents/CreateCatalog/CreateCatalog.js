@@ -11,7 +11,7 @@ const CreateCatalog = ({createCatalog, addConversationId, handleSubmit, valid, c
 
     const onSubmit = ({name}) => {
         if (catalogList.some(catalog => catalog.name === name)) {
-            dispatch(updateSyncErrors('createCatalog', {name: `Catalog with this name already exists`}));
+            dispatch(updateSyncErrors('createCatalog', {name: 'Catalog with this name already exists'}));
         } else {
             createCatalog({name, conversationId: addConversationId});
         }

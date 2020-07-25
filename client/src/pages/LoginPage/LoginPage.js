@@ -27,8 +27,8 @@ const LoginPage = ({error, isFetching, clearError}) => {
                 </div>
                 <div className={ styles.loginFormContainer }>
                     <h2>LOGIN TO YOUR ACCOUNT</h2>
-                    { error && <Error error={error} clearError={ clearError }/> }
-                    <LoginForm isFetching={isFetching}/>
+                    { error && error.status !== 403 && error.status !== 404 && <Error error={error} clearError={ clearError }/> }
+                    <LoginForm isFetching={isFetching} responseError={error}/>
                     <Link to='/resetPassword'>Forgot your password? Click here to reset</Link>
                 </div>
             </div>

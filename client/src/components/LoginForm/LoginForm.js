@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {authActionRequest} from '../../actions/actionCreator';
 import styles from './LoginForm.module.sass';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
 import PropTypes from 'prop-types';
 
-const LoginForm = ({handleSubmit, isFetching, loginRequest}) => {
+const LoginForm = ({handleSubmit, isFetching, responseError, loginRequest, dispatch}) => {
+
+    useEffect(() => {
+        if (responseError && (responseError.status === 403 || responseError.status === 404)) {
+            const {status, data} = responseError;
+            dispatch(updateSyncErrors('login', {
+                ...(status === 403 && {password: data}),
+                ...(status === 404 && {email: data}),
+            }));
+        }
+    }, [responseError]);
 
     const onSubmit = (values) => loginRequest(values);
 
@@ -54,6 +64,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 LoginForm.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    responseError: PropTypes.any,
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
