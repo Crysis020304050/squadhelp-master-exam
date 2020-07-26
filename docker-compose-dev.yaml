@@ -1,10 +1,10 @@
-version: '2'
+version: '3.7'
 services:
 
   front-react:
     build:
       context: ./client
-
+      dockerfile: Dockerfile
     environment:
       NODE_ENV: development
     depends_on:
@@ -19,7 +19,7 @@ services:
   server-dev:
     build:
       context: ./server
-
+      dockerfile: Dockerfile
     environment:
       NODE_ENV: development
     ports:
@@ -32,10 +32,11 @@ services:
       - /server/node_modules
 
   db-dev:
+    image: postgres
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=todo-dev
+      - POSTGRES_PASSWORD=CrysisWarhead020304050
+      - POSTGRES_USER=crysis020304050
+      - POSTGRES_DB=without_mongo
     ports:
       - "5432:5432"
 

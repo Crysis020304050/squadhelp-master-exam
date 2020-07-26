@@ -14,6 +14,7 @@ class NotificationSocket extends WebSocket {
         this.onChangeMark();
         this.onChangeOfferStatus();
     };
+
     onChangeMark = () => {
         this.socket.on('changeMark', () => {
             toast('Someone liked your offer');
@@ -38,6 +39,7 @@ class NotificationSocket extends WebSocket {
     subscribe = (id) => {
         this.socket.emit('subscribe', id);
     };
+
     unsubscribe = (id) => {
         this.socket.emit('unsubscribe', id);
     }

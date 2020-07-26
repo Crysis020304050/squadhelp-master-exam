@@ -1,33 +1,37 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux';
 import styles from './ContestCreationPage.module.sass';
 import {saveContestToStore, clearDataForContest} from '../../actions/actionCreator';
 import NextButton from '../../components/NextButton/NextButton';
 import ContestForm from '../../components/ContestForm/ContestForm';
-import Schem from '../../validators/validationSchems';
-import constants from '../../constants/constants';
 import BackButton from '../../components/BackButton/BackButton';
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 
 
-const ContestCreationPage = (props) => {
+const ContestCreationPage = ({saveContest, bundleStore, history, contestType, title, contestStore}) => {
+
+    useEffect(() => {
+        if (!bundleStore.bundle) {
+            history.replace('/startContest');
+        }
+    }, [bundleStore]);
 
     const submitDataContest = (values) => {
-        props.saveContest({type: props.contestType, info: values});
-        props.history.push(props.bundleStore.bundle[props.contestType] === 'payment' ? '/payment' : props.bundleStore.bundle[props.contestType] + 'Contest');
+        saveContest({type: contestType, info: values});
+        history.push(bundleStore.bundle[contestType] === 'payment' ? '/payment' : bundleStore.bundle[contestType] + 'Contest');
     };
 
-    !props.bundleStore.bundle && props.history.replace('/startContest');
-    const contestData = props.contestStore.contests[props.contestType] ? props.contestStore.contests[props.contestType] : {contestType: props.contestType};
+    const contestData = contestStore.contests[contestType] ? contestStore.contests[contestType] : {contestType};
+
     return (
         <div>
             <Header/>
             <div className={styles.startContestHeader}>
                 <div className={styles.startContestInfo}>
                     <h2>
-                        {props.title}
+                        {title}
                     </h2>
                     <span>
                         Tell us a bit more about your business as well as your preferences so that creatives get a better idea about what you are looking for
@@ -37,7 +41,7 @@ const ContestCreationPage = (props) => {
             </div>
             <div className={styles.container}>
                 <div className={styles.formContainer}>
-                    <ContestForm contestType={props.contestType} submitData={submitDataContest}
+                    <ContestForm contestType={contestType} submitData={submitDataContest}
                                  defaultData={contestData}/>
                 </div>
             </div>
@@ -60,12 +64,10 @@ const mapStateToProps = (state) => {
     return {contestStore, bundleStore};
 };
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        saveContest: (data) => dispatch(saveContestToStore(data)),
-        clearDataForContest: () => dispatch(clearDataForContest())
-    }
-);
+const mapDispatchToProps = (dispatch) => ({
+    saveContest: (data) => dispatch(saveContestToStore(data)),
+    clearDataForContest: () => dispatch(clearDataForContest())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContestCreationPage);
 

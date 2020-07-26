@@ -14,10 +14,6 @@ class WebSocket {
             this.anotherSubscribes();
         });
     };
-
-    anotherSubscribes = () => {
-
-    };
 }
 
 export default WebSocket;

@@ -158,40 +158,46 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 };
 
 const resolveOffer = async (contestId, creatorId, orderId, offerId, priority, transaction) => {
+    const {CONTEST_STATUS_ACTIVE, CONTEST_STATUS_PENDING, CONTEST_STATUS_FINISHED, OFFER_STATUS_WON, OFFER_STATUS_REJECTED} = constants;
     const finishedContest = await contestQueries.updateContestStatus({
         status: db.sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${constants.CONTEST_STATUS_FINISHED}'
+            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${CONTEST_STATUS_FINISHED}'
             WHEN "orderId"='${orderId}' AND "priority"=${priority +
-        1}  THEN '${constants.CONTEST_STATUS_ACTIVE}'
-            ELSE '${constants.CONTEST_STATUS_PENDING}'
+        1}  THEN '${CONTEST_STATUS_ACTIVE}'
+            ELSE '${CONTEST_STATUS_PENDING}'
             END
     `),
-    }, {orderId: orderId}, transaction);
+    }, {orderId}, transaction);
     const prizeToMoney = money.floatToAmount(finishedContest.prize);
     await userQueries.updateUser(
         {balance: db.sequelize.literal(`balance+${prizeToMoney}`)},
         creatorId, transaction);
     const updatedOffers = await contestQueries.updateOfferStatus({
         status: db.sequelize.literal(` CASE
-            WHEN "id"=${offerId} THEN '${constants.OFFER_STATUS_WON}'
-            ELSE '${constants.OFFER_STATUS_REJECTED}'
+            WHEN "id"=${offerId} THEN '${OFFER_STATUS_WON}'
+            ELSE '${OFFER_STATUS_REJECTED}'
             END
     `),
     }, {
         contestId,
     }, transaction);
+
     const arrayRoomsId = [];
+    let winingOffer;
     updatedOffers.forEach(offer => {
-        if (offer.status === constants.OFFER_STATUS_REJECTED && creatorId !==
+        if (offer.status === OFFER_STATUS_REJECTED && creatorId !==
             offer.userId) {
             arrayRoomsId.push(offer.userId);
+        }
+        if (offer.status === OFFER_STATUS_WON) {
+            winingOffer = offer;
         }
     });
     controller.controller.notificationController.emitChangeOfferStatus(arrayRoomsId,
         'Someone of yours offers was rejected', contestId);
     controller.controller.notificationController.emitChangeOfferStatus(creatorId,
         'Someone of your offers WIN', contestId, prizeToMoney);
-    return {...updatedOffers[0].dataValues, prize: prizeToMoney};
+    return {...winingOffer.dataValues, prize: prizeToMoney};
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
@@ -247,14 +253,15 @@ module.exports.getOffersForModerator = async (req, res, next) => {
 module.exports.getCustomersContests = async (req, res, next) => {
     try {
         const {headers: {status}, tokenData: {id}, body: {limit, offset}} = req;
+        const {CONTEST_STATUS_ACTIVE, CONTEST_STATUS_PENDING, MODERATION_STATUS_RESOLVED} = constants;
         let contests = await contestQueries.getContests({
             where: {
                 status,
                 userId: id,
-                ...(status === constants.CONTEST_STATUS_ACTIVE && {moderationStatus: constants.MODERATION_STATUS_RESOLVED}),
-                ...(status === constants.CONTEST_STATUS_PENDING && {
+                ...(status === CONTEST_STATUS_ACTIVE && {moderationStatus: MODERATION_STATUS_RESOLVED}),
+                ...(status === CONTEST_STATUS_PENDING && {
                     status: {
-                        [db.Sequelize.Op.or]: [constants.CONTEST_STATUS_ACTIVE, constants.CONTEST_STATUS_PENDING]
+                        [db.Sequelize.Op.or]: [CONTEST_STATUS_ACTIVE, CONTEST_STATUS_PENDING]
                     },
                 })
             },
@@ -269,10 +276,10 @@ module.exports.getCustomersContests = async (req, res, next) => {
                 },
             ],
         });
-        if (status === constants.CONTEST_STATUS_PENDING) {
-            contests = contests.filter(({status, moderationStatus}) => !(status === constants.CONTEST_STATUS_ACTIVE && moderationStatus === constants.MODERATION_STATUS_RESOLVED));
+        if (status === CONTEST_STATUS_PENDING) {
+            contests = contests.filter(({status, moderationStatus}) => !(status === CONTEST_STATUS_ACTIVE && moderationStatus === MODERATION_STATUS_RESOLVED));
         }
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);
@@ -305,6 +312,7 @@ module.exports.getContestsForModerator = async (req, res, next) => {
 module.exports.getContestsForCreative = async (req, res, next) => {
     try {
         const {body: {selectedContestTypes, contestId, industry, awardSort, limit, offset, ownEntries}, tokenData: {id}} = req;
+        const {CONTEST_STATUS_FINISHED, CONTEST_STATUS_ACTIVE, MODERATION_STATUS_RESOLVED} = constants;
         let contests = await contestQueries.getContests({
             where: {
                 ...(selectedContestTypes && {contestType: {[db.Sequelize.Op.or]: selectedContestTypes}}),
@@ -312,11 +320,11 @@ module.exports.getContestsForCreative = async (req, res, next) => {
                 ...(industry && {industry}),
                 status: {
                     [db.Sequelize.Op.or]: [
-                        constants.CONTEST_STATUS_FINISHED,
-                        constants.CONTEST_STATUS_ACTIVE,
+                        CONTEST_STATUS_FINISHED,
+                        CONTEST_STATUS_ACTIVE,
                     ],
                 },
-                moderationStatus: constants.MODERATION_STATUS_RESOLVED,
+                moderationStatus: MODERATION_STATUS_RESOLVED,
             },
             order: [['status', 'asc'], (awardSort && ['prize', awardSort]), ['id', 'desc']],
             limit,
@@ -336,10 +344,10 @@ module.exports.getContestsForCreative = async (req, res, next) => {
             if (Offers.some(({userId}) => userId === id)) {
                 return true;
             } else {
-                return status !== constants.CONTEST_STATUS_FINISHED;
+                return status !== CONTEST_STATUS_FINISHED;
             }
         });
-        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === constants.MODERATION_STATUS_RESOLVED).length);
+        contests.forEach(contest => contest.dataValues.count = contest.Offers.filter(({moderationStatus}) => moderationStatus === MODERATION_STATUS_RESOLVED).length);
         res.send({contests, haveMore: contests.length >= limit});
     } catch (e) {
         next(e);

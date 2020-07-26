@@ -7,8 +7,13 @@ import styles from './Brief.module.sass';
 import {submit} from 'redux-form';
 import ContestInfo from '../Contest/ContestInfo/ContestInfo';
 import Error from '../Error/Error';
+import PropTypes from 'prop-types';
 
-const Brief = (props) => {
+const Brief = ({update, changeEditContest, updateContest, clearUpdateContestStore, updateContestStore, userStore, isEditContest, contestData, role, goChat}) => {
+
+    const {focusOfWork, industry, nameVenture, styleName, targetCustomer, title, brandStyle, typeOfName, typeOfTagline, originalFileName, contestType} = contestData;
+    const {error} = updateContestStore;
+    const {data: {id}} = userStore;
 
     const setNewContestData = (values) => {
         const data = new FormData();
@@ -16,15 +21,14 @@ const Brief = (props) => {
             if (key !== 'file' && values[key])
                 data.append(key, values[key]);
         });
-        if (values.file instanceof File)
+        if (values.file instanceof File) {
             data.append('file', values.file);
-        data.append('contestId', props.contestData.id);
-        props.update(data);
+        }
+        data.append('contestId', contestData.id);
+        update(data);
     };
 
-
     const getContestObjInfo = () => {
-        const {focusOfWork, industry, nameVenture, styleName, targetCustomer, title, brandStyle, typeOfName, typeOfTagline, originalFileName, contestType} = props.contestData;
         const data = {
             focusOfWork,
             industry,
@@ -52,9 +56,6 @@ const Brief = (props) => {
     };
 
 
-    const {isEditContest, contestData, changeEditContest, updateContest, role, goChat, clearUpdateContestStore} = props;
-    const {error} = props.updateContestStore;
-    const {id} = props.userStore.data;
     if (!isEditContest) {
         return <ContestInfo userId={id} contestData={contestData} changeEditContest={changeEditContest} role={role}
                             goChat={goChat}/>
@@ -62,7 +63,7 @@ const Brief = (props) => {
         return (
             <div className={styles.contestForm}>
                 {error && <Error error={error} clearError={clearUpdateContestStore}/>}
-                <ContestForm contestType={contestData.contestType}
+                <ContestForm contestType={contestType}
                              defaultData={getContestObjInfo()} submitData={setNewContestData}/>
                 {isEditContest ?
                     <div onClick={() => updateContest()} className={styles.changeData}>Set Data</div> : null}
@@ -71,21 +72,22 @@ const Brief = (props) => {
     }
 };
 
-
 const mapStateToProps = (state) => {
-    const {isEditContest} = state.contestByIdStore;
-    const {updateContestStore, userStore} = state;
+    const {contestByIdStore: {isEditContest}, updateContestStore, userStore} = state;
     return {updateContestStore, userStore, isEditContest};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        update: (data) => dispatch(updateContest(data)),
-        changeEditContest: (data) => dispatch(changeEditContest(data)),
-        updateContest: () => dispatch(submit('contestForm')),
-        clearUpdateContestStore: () => dispatch(clearUpdateContestStore())
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    update: (data) => dispatch(updateContest(data)),
+    changeEditContest: (data) => dispatch(changeEditContest(data)),
+    updateContest: () => dispatch(submit('contestForm')),
+    clearUpdateContestStore: () => dispatch(clearUpdateContestStore())
+});
 
+Brief.propTypes = {
+    contestData: PropTypes.object.isRequired,
+    role: PropTypes.string.isRequired,
+    goChat: PropTypes.func.isRequired,
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Brief));

@@ -29,7 +29,6 @@ export  function* customerContestsSaga(action){
     }
 }
 
-
 export  function* updateContestSaga(action) {
     yield put({type: ACTION.UPDATE_CONTEST_REQUEST});
     try {
@@ -39,7 +38,6 @@ export  function* updateContestSaga(action) {
         yield put({type: ACTION.UPDATE_CONTEST_ERROR, error: e.response});
     }
 }
-
 
 export  function* dataForContestSaga(action){
     yield put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_REQUEST});
@@ -51,8 +49,6 @@ export  function* dataForContestSaga(action){
         yield put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_ERROR, error: e.response});
     }
 }
-
-
 
 export function* getContestByIdSaga(action){
     yield put({type: ACTION.GET_CONTEST_BY_ID_REQUEST});
@@ -66,8 +62,6 @@ export function* getContestByIdSaga(action){
         yield put({type: ACTION.GET_CONTEST_BY_ID_ERROR, error: e.response});
     }
 }
-
-
 
 export  function* downloadContestFileSaga(action){
     yield put({type: ACTION.DOWNLOAD_CONTEST_FILE_REQUEST});

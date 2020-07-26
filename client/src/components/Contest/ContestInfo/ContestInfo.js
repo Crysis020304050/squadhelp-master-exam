@@ -4,15 +4,17 @@ import constants from "../../../constants/constants";
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
 import TaglineContestSpecialInfo from './TaglineContestSpecialInfo';
+import PropTypes from 'prop-types';
 
+const ContestInfo = ({changeEditContest, userId, contestData, role, goChat}) => {
 
-const ContestInfo = (props) => {
-    const {changeEditContest, userId, contestData, role, goChat} = props;
     const {
         typeOfTagline, brandStyle, typeOfName, styleName, contestType,
         title, focusOfWork, targetCustomer, industry, originalFileName,
-        fileName, User, status
+        fileName, User, status, nameVenture
     } = contestData;
+
+    const {CONTEST_STATUS_FINISHED, CREATOR, NAME_CONTEST, TAGLINE_CONTEST, publicURL} = constants;
 
     return (
         <div className={styles.mainContestInfoContainer}>
@@ -23,12 +25,12 @@ const ContestInfo = (props) => {
                         <span className={styles.data}>{contestType}</span>
                     </div>
                     {
-                        (User.id === userId && status !== constants.CONTEST_STATUS_FINISHED)
+                        (User.id === userId && status !== CONTEST_STATUS_FINISHED)
                         &&
                         <div onClick={() => changeEditContest(true)} className={styles.editBtn}>Edit</div>
                     }
                     {
-                        role === constants.CREATOR
+                        role === CREATOR
                         &&
                         <i onClick={goChat} className='fas fa-comments'/>
                     }
@@ -38,15 +40,15 @@ const ContestInfo = (props) => {
                     <span className={styles.data}>{title}</span>
                 </div>
                 {
-                    contestType === constants.NAME_CONTEST ?
+                    contestType === NAME_CONTEST ?
                         <NameContestSpecialInfo typeOfName={typeOfName} styleName={styleName}/>
                         :
                         (
-                            contestType === constants.TAGLINE_CONTEST ?
+                            contestType === TAGLINE_CONTEST ?
                                 <TaglineContestSpecialInfo typeOfTagline={typeOfTagline}
-                                                           nameVenture={contestData.nameVenture}/>
+                                                           nameVenture={nameVenture}/>
                                 :
-                                <LogoContestSpecialInfo brandStyle={brandStyle} nameVenture={contestData.nameVenture}/>
+                                <LogoContestSpecialInfo brandStyle={brandStyle} nameVenture={nameVenture}/>
                         )
                 }
                 <div className={styles.dataContainer}>
@@ -64,12 +66,20 @@ const ContestInfo = (props) => {
                 {originalFileName && <div className={styles.dataContainer}>
                     <span className={styles.label}>Additional File</span>
                     <a target="_blank" className={styles.file}
-                       href={`${constants.publicURL}${fileName}`}
+                       href={`${publicURL}${fileName}`}
                        download={originalFileName}>{originalFileName}</a>
                 </div>}
             </div>
         </div>
     )
+};
+
+ContestInfo.propTypes = {
+    changeEditContest: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
+    contestData: PropTypes.object.isRequired,
+    role: PropTypes.string.isRequired,
+    goChat: PropTypes.func.isRequired,
 };
 
 export default ContestInfo;
