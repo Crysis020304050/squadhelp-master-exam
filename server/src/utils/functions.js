@@ -1,1 +1,1 @@
-module.exports.prepareUserToSending = ({password, accessToken, ...rest}) => rest;
+module.exports.prepareUserToSending = ({password, iat, exp, ...rest}) => rest;

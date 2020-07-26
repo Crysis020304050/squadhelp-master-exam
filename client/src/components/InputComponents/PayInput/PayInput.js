@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import InputMask from 'react-input-mask';
 
 
-const PayInput = (props) => {
-    const {label, input: {name}, input, changeFocus, type, classes, meta: {touched, error}, isInputMask, mask} = props;
+const PayInput = ({label, input: {name}, input, changeFocus, type, classes, meta: {touched, error}, isInputMask, mask}) => {
+
     if (name === 'sum') {
         return (
             <div className={classes.container}>

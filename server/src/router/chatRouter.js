@@ -1,50 +1,54 @@
 const chatController = require("../controllers/chatController");
+const validators = require("../middlewares/validators");
 
 const chatRouter = require('express')();
 
 chatRouter.post(
     '/newMessage',
+    validators.validateAddingMessageToConversation,
     chatController.addMessage,
 );
 
 chatRouter.post(
-    '/getChat',
-    chatController.getChat,
+    '/getConversation',
+    chatController.getConversation,
 );
 
 chatRouter.post(
-    '/getPreview',
+  '/getPreview',
     chatController.getPreview,
 );
 
 chatRouter.post(
-    '/blackList',
-    chatController.blackList,
+    '/changeBlockedUserStatus',
+    chatController.changeBlockedUserStatus,
 );
 
 chatRouter.post(
-    '/favorite',
-    chatController.favoriteChat,
+    '/changeFavoriteUserStatus',
+    chatController.changeFavoriteUserStatus,
 );
 
 chatRouter.post(
     '/createCatalog',
+    validators.validateSettingCatalogName,
     chatController.createCatalog,
 );
 
 chatRouter.post(
     '/updateNameCatalog',
-    chatController.updateNameCatalog,
+    validators.validateSettingCatalogName,
+    chatController.updateCatalogName,
 );
 
 chatRouter.post(
-    '/addNewChatToCatalog',
-    chatController.addNewChatToCatalog,
+    '/addNewConversationToCatalog',
+    chatController.addNewConversationToCatalog,
 );
 
 chatRouter.post(
-    '/removeChatFromCatalog',
-    chatController.removeChatFromCatalog,
+    '/removeConversationFromCatalog',
+    chatController.removeConversationFromCatalog,
 );
 
 chatRouter.post(

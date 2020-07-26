@@ -5,30 +5,19 @@ import {Field, reduxForm} from 'redux-form';
 import styles from './ChatInput.module.sass';
 import constants from '../../../../constants/constants';
 import FormField from "../../../FormField";
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
+const ChatInput = ({reset, sendMessage, handleSubmit, valid, interlocutor, conversationData}) => {
 
-const validate = (values) => {
-    const errors = {};
-    if (!values.message || !values.message.trim().length) {
-        errors.message = 'Cannot be empty';
-    }
-    return errors;
-};
-
-const ChatInput = (props) => {
-
-    const clickButton = (values) => {
-        const {reset} = props;
-        props.sendMessage({
-            messageBody: values.message,
-            recipient: props.interlocutor.id,
-            interlocutor: props.interlocutor
+    const onSubmit = ({message}) => {
+        sendMessage({
+            body: message,
+            conversationId: conversationData && conversationData.id || null,
+            interlocutor,
         });
         reset();
     };
-
-
-    const {handleSubmit, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -39,7 +28,7 @@ const ChatInput = (props) => {
 
     return (
         <div className={styles.inputContainer}>
-            <form onSubmit={handleSubmit(clickButton)} className={styles.form}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <Field
                     name='message'
                     {...formInputClasses}
@@ -56,19 +45,16 @@ const ChatInput = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const {interlocutor} = state.chatStore;
+    const {interlocutor, conversationData} = state.chatStore;
     const {data} = state.userStore;
-    return {interlocutor, data};
+    return {interlocutor, data, conversationData};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage: (data) => dispatch(sendMessageAction(data))
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+    sendMessage: (data) => dispatch(sendMessageAction(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'messageForm',
-    validate
+    validate: customValidator(Schems.SendMessageSchema),
 })(ChatInput));

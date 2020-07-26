@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from './ResetPasswordPage.module.sass';
 import {connect} from 'react-redux';
 import Error from "../../components/Error/Error";
@@ -8,7 +8,13 @@ import Logo from "../../components/Logo";
 import constants from "../../constants/constants";
 import {Link} from "react-router-dom";
 
-const ResetPasswordPage = ({error, clearError}) => {
+const ResetPasswordPage = ({error, clearError, isFetching}) => {
+
+    useEffect(() => {
+        if (error) {
+            clearError();
+        }
+    }, []);
 
     return (
       <div className={styles.mainContainer}>
@@ -20,8 +26,8 @@ const ResetPasswordPage = ({error, clearError}) => {
           </header>
           <div className={styles.resetPasswordFormContainer}>
               <h2>RESET YOUR PASSWORD</h2>
-              {error && <Error data={error.data} status={error.status} clearError={clearError}/>}
-              <ResetPasswordForm/>
+              {error && error.status !== 400 && error.status !== 404 && <Error error={error} clearError={clearError}/>}
+              <ResetPasswordForm isFetching={isFetching} responseError={error}/>
           </div>
       </div>
     );

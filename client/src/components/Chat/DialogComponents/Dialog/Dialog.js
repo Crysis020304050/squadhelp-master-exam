@@ -1,115 +1,102 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
-import {getDialogMessages, clearMessageList} from "../../../../actions/actionCreator";
+import {
+    getConversationMessages,
+    newUnreadMessage,
+    clearUnreadMessages
+} from "../../../../actions/actionCreator";
 import ChatHeader from '../../ChatComponents/ChatHeader/ChatHeader';
-import moment from 'moment';
-import className from 'classnames';
 import styles from './Dialog.module.sass';
 import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
+import UnreadMessagesCircle from "../UnreadMessagesCircle";
+import {usePrevious} from "../../../../utils";
+import MainDialogView from "../MainDialogView";
+import BlockMessage from "../BlockMessage";
 
 
-class Dialog extends React.Component {
+const Dialog = ({getConversation, newUnreadMessage, clearUnreadMessages, chatStore, userId}) => {
 
-    constructor(props) {
-        super(props);
-        this.messagesEnd = React.createRef();
-    }
+    const {messages, isFetching, haveMoreMessages, conversationUnreadMessages, interlocutor: {id}, conversationData} = chatStore;
 
-    componentDidMount() {
-        this.props.getDialog({interlocutorId: this.props.interlocutor.id});
-        this.scrollToBottom();
-    }
+    const messagesEnd = useRef();
+    const messagesContainer = useRef();
+    const visibleMessage = useRef();
 
+    const prevProps = usePrevious({
+        prevIsFetching: isFetching,
+        prevMessagesLength: messages.length,
+        prevHaveMoreMessages: haveMoreMessages
+    });
 
-    scrollToBottom = () => {
-        this.messagesEnd.current.scrollIntoView({behavior: 'smooth'})
-    };
-
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.interlocutor.id !== this.props.interlocutor.id)
-            this.props.getDialog({interlocutorId: nextProps.interlocutor.id});
-    }
-
-    componentWillUnmount() {
-        this.props.clearMessageList();
-    }
-
-    componentDidUpdate() {
-        if (this.messagesEnd.current)
-            this.scrollToBottom();
-    }
-
-    renderMainDialog = () => {
-        const messagesArray = [];
-        const {messages, userId} = this.props;
-        let currentTime = moment();
-        messages.forEach((message, i) => {
-            if (!currentTime.isSame(message.createdAt, 'date')) {
-                messagesArray.push(
-                    <div key={message.createdAt} className={styles.date}>
-                        {moment(message.createdAt).format('MMMM DD, YYYY')}
-                    </div>
-                );
-                currentTime = moment(message.createdAt);
-            }
-            messagesArray.push(
-                <div key={i}
-                     className={className(userId === message.sender ? styles.ownMessage : styles.message)}>
-                    <span>{message.body}</span>
-                    <span className={styles.messageTime}>{moment(message.createdAt).format('HH:mm')}</span>
-                    <div ref={this.messagesEnd}/>
-                </div>
-            )
-        });
-        return (
-            <div className={styles.messageList}>
-                {messagesArray}
-            </div>
-        )
-    };
-
-
-    blockMessage = () => {
-        const {userId, chatData} = this.props;
-        const {blackList, participants} = chatData;
-        const userIndex = participants.indexOf(userId);
-        let message;
-        if (chatData && blackList[userIndex]) {
-            message = 'You block him';
-        } else if (chatData && chatData.blackList && blackList.includes(true)) {
-            message = 'He block you';
+    const scrollToBottom = () => {
+        if (conversationUnreadMessages && conversationUnreadMessages.length) {
+            clearUnreadMessages();
         }
-        return (
-            <span className={styles.messageBlock}>{message}</span>
-        )
+        messagesEnd.current.scrollIntoView({behavior: 'smooth'});
     };
 
+    useEffect(() => {
+        if (prevProps) {
+            const {prevIsFetching, prevMessagesLength, prevHaveMoreMessages} = prevProps;
+            const messagesLength = messages.length;
+            if (messagesEnd.current && prevIsFetching && !isFetching && !prevMessagesLength && messagesLength) {
+                scrollToBottom();
+            } else if (messagesEnd.current && messagesContainer.current && messagesLength > prevMessagesLength) {
+                const {current: {infinteRef: {current: {scrollTop, offsetHeight, children}}}} = messagesContainer;
+                const {current} = messagesEnd;
+                if (current.offsetTop - scrollTop - offsetHeight > 0 && current.offsetTop - scrollTop - offsetHeight < 200) {
+                    scrollToBottom();
+                } else if (messagesLength - prevMessagesLength === 1 && prevHaveMoreMessages === haveMoreMessages && messages[messagesLength - 1].userId === userId) {
+                    scrollToBottom();
+                } else if (messagesLength - prevMessagesLength === 1 && prevHaveMoreMessages === haveMoreMessages && messages[messagesLength - 1].userId !== userId && messagesLength > 10) {
+                    newUnreadMessage(messages[messagesLength - 1].id);
+                    if (conversationUnreadMessages.length < 1) {
+                        visibleMessage.current = children[children.length - 1];
+                    }
+                }
+            }
+        }
+    });
 
-    render() {
-        const {chatData, userId} = this.props;
-        return (
-            <>
-                <ChatHeader userId={userId}/>
-                {this.renderMainDialog()}
-                <div ref={this.messagesEnd}/>
-                {(chatData && chatData.blackList && chatData.blackList.includes(true)) ? this.blockMessage() : <ChatInput/>}
-            </>
-        )
-    }
+    const loadMoreMessages = (startFrom) => {
+        if (!isFetching) {
+            getConversation({
+                interlocutorId: id,
+                conversationId: conversationData && conversationData.id || null,
+                limit: 20,
+                offset: startFrom
+            });
+        }
+    };
 
-}
-
-
-const mapStateToProps = (state) => {
-    return state.chatStore;
+    return (
+        <>
+            <ChatHeader userId={userId}/>
+            <MainDialogView messages={messages} userId={userId} haveMoreMessages={haveMoreMessages}
+                            isFetching={isFetching} loadMoreMessages={loadMoreMessages}
+                            refLinkMessagesContainer={messagesContainer} refLinkMessagesEnd={messagesEnd}/>
+            <div ref={messagesEnd}/>
+            {(conversationData && conversationData.blackList && conversationData.blackList.includes(true))
+                ? <BlockMessage userId={userId} conversationData={conversationData} className={styles.messageBlock}/>
+                : <>
+                    {(conversationUnreadMessages && !!conversationUnreadMessages.length) &&
+                    <UnreadMessagesCircle clearUnreadMessages={clearUnreadMessages} unreadMessageRef={visibleMessage}
+                                          conversationUnreadMessages={conversationUnreadMessages}
+                                          scrollToBottom={scrollToBottom}
+                                          className={styles.unreadMessagesCircle}/>}
+                    <ChatInput/>
+                </>
+            }
+        </>
+    );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getDialog: (data) => dispatch(getDialogMessages(data)),
-        clearMessageList: () => dispatch(clearMessageList())
-    }
-};
+const mapStateToProps = (state) => ({chatStore: state.chatStore});
+
+const mapDispatchToProps = (dispatch) => ({
+    getConversation: (data) => dispatch(getConversationMessages(data)),
+    newUnreadMessage: (id) => dispatch(newUnreadMessage(id)),
+    clearUnreadMessages: () => dispatch(clearUnreadMessages()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dialog);

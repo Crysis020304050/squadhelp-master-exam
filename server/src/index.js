@@ -1,4 +1,3 @@
-require('./dbMongo/mongoose');
 const http = require('http');
 const express = require('express');
 const router = require('./router');
@@ -48,8 +47,8 @@ app.use(handlerError);
 
 schedule.scheduleJob('0 0 * * *', loggerSchedule);
 const server = http.createServer(app);
-server.listen(PORT/*,
-  () => console.log(`Example app listening on port ${ PORT }!`)*/);
+server.listen(PORT,
+  () => console.log(`Example app listening on port ${ PORT }!`));
 const controller = new ConnectionController(server);
 
 module.exports.controller = controller;

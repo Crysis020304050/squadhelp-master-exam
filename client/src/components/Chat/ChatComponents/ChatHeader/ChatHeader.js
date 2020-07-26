@@ -5,31 +5,22 @@ import styles from './ChatHeader.module.sass';
 import constants from '../../../../constants/constants';
 import classNames from 'classnames';
 
-const ChatHeader = (props) => {
+const ChatHeader = ({interlocutor: {id, avatar, firstName}, backToDialogList, conversationData, userId, changeChatFavorite, changeChatBlock, isFetching}) => {
+
     const changeFavorite = (data, event) => {
-        props.changeChatFavorite(data);
+        changeChatFavorite(data);
         event.stopPropagation();
     };
 
     const changeBlackList = (data, event) => {
-        props.changeChatBlock(data);
+        changeChatBlock(data);
         event.stopPropagation();
     };
 
+    const isFavorite = (userId) => conversationData.favoriteList[conversationData.participants.indexOf(userId)];
 
-    const isFavorite = (chatData, userId) => {
-        const {favoriteList, participants} = chatData;
-        return favoriteList[participants.indexOf(userId)];
-    };
+    const isBlocked = (userId) => conversationData.blackList[conversationData.participants.indexOf(userId)];
 
-    const isBlocked = (chatData, userId) => {
-        const {participants, blackList} = chatData;
-        return blackList[participants.indexOf(userId)];
-    };
-
-
-    const {avatar, firstName} = props.interlocutor;
-    const {backToDialogList, chatData, userId} = props;
     return (
         <div className={styles.chatHeader}>
             <div className={styles.buttonContainer} onClick={() => backToDialogList()}>
@@ -40,23 +31,35 @@ const ChatHeader = (props) => {
                     <img src={avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${avatar}`} alt='user'/>
                     <span>{firstName}</span>
                 </div>
-                {chatData &&
+                {conversationData &&
                 <div>
-                    <i onClick={(event) => changeFavorite({
-                        participants: chatData.participants,
-                        favoriteFlag: !isFavorite(chatData, userId)
-                    }, event)}
+                    <i onClick={(event) => {
+                        if (!isFetching) {
+                            changeFavorite({
+                                conversationId: conversationData.id,
+                                participantsToFavoriteListPair: [{id: conversationData.participants[0], flag: conversationData.favoriteList[0]}, {id: conversationData.participants[1], flag: conversationData.favoriteList[1]}],
+                                favoriteFlag: !isFavorite(userId),
+                                interlocutorId: id,
+                            }, event)
+                        }
+                    }}
                        className={classNames({
-                           ['far fa-heart']: !isFavorite(chatData, userId),
-                           ['fas fa-heart']: isFavorite(chatData, userId)
+                           ['far fa-heart']: !isFavorite(userId),
+                           ['fas fa-heart']: isFavorite(userId)
                        })}/>
-                    <i onClick={(event) => changeBlackList({
-                        participants: chatData.participants,
-                        blackListFlag: !isBlocked(chatData, userId)
-                    }, event)}
+                    <i onClick={(event) => {
+                        if (!isFetching) {
+                            changeBlackList({
+                                conversationId: conversationData.id,
+                                participantsToBlackListPair: [{id: conversationData.participants[0], flag: conversationData.blackList[0]}, {id: conversationData.participants[1], flag: conversationData.blackList[1]}],
+                                blackListFlag: !isBlocked(userId),
+                                interlocutorId: id,
+                            }, event)
+                        }
+                    }}
                        className={classNames({
-                           ['fas fa-user-lock']: !isBlocked(chatData, userId),
-                           ['fas fa-unlock']: isBlocked(chatData, userId)
+                           ['fas fa-user-lock']: !isBlocked(userId),
+                           ['fas fa-unlock']: isBlocked(userId)
                        })}/>
                 </div>
                 }
@@ -65,18 +68,15 @@ const ChatHeader = (props) => {
     )
 };
 
-
 const mapStateToProps = (state) => {
-    const {interlocutor, chatData} = state.chatStore;
-    return {interlocutor, chatData};
+    const {interlocutor, conversationData, isFetching} = state.chatStore;
+    return {interlocutor, conversationData, isFetching};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        backToDialogList: () => dispatch(backToDialogList()),
-        changeChatFavorite: (data) => dispatch(changeChatFavorite(data)),
-        changeChatBlock: (data) => dispatch(changeChatBlock(data))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    backToDialogList: () => dispatch(backToDialogList()),
+    changeChatFavorite: (data) => dispatch(changeChatFavorite(data)),
+    changeChatBlock: (data) => dispatch(changeChatBlock(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatHeader);

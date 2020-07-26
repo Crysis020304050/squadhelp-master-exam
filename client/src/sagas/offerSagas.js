@@ -22,7 +22,6 @@ export function* changeMarkSaga(action) {
     }
 }
 
-
 export function* addOfferSaga(action) {
     try {
         const {data} = yield restController.setNewOffer(action.data);
@@ -34,18 +33,18 @@ export function* addOfferSaga(action) {
     }
 }
 
-
-
-
 export function* setOfferStatusSaga(action) {
     try {
+        const {OFFER_STATUS_WON, CONTEST_STATUS_FINISHED, OFFER_STATUS_REJECTED} = constants;
         const {data} = yield  restController.setOfferStatus(action.data);
         const offers = yield  select(state => state.contestByIdStore.offers);
+        const contestData = yield  select(state => state.contestByIdStore.contestData);
         offers.forEach(offer => {
-            if (data.status === constants.OFFER_STATUS_WON) {
-                offer.status = data.id === offer.id ? constants.OFFER_STATUS_WON : constants.OFFER_STATUS_REJECTED;
+            if (data.status === OFFER_STATUS_WON) {
+                contestData.status = CONTEST_STATUS_FINISHED;
+                offer.status = data.id === offer.id ? OFFER_STATUS_WON : OFFER_STATUS_REJECTED;
             } else if (data.id === offer.id) {
-                offer.status = constants.OFFER_STATUS_REJECTED;
+                offer.status = OFFER_STATUS_REJECTED;
             }
         });
         yield  put({type: ACTION.CHANGE_STORE_FOR_STATUS, data: offers});

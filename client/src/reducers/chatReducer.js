@@ -2,37 +2,55 @@ import ACTION from '../actions/actionTypes';
 import constants from '../constants/constants';
 
 
-
 const initialState = {
-    isFetching: true,
-    addChatId: null,
+    isFetching: false,
+    addConversationId: null,
     isShowCatalogCreation: false,
     currentCatalog: null,
-    chatData: null,
+    conversationData: null,
     messages: [],
     error: null,
     isExpanded: false,
-    interlocutor: [],
+    interlocutor: null,
     messagesPreview: [],
     isShow: false,
     chatMode: constants.NORMAL_PREVIEW_CHAT_MODE,
     catalogList: [],
     isRenameCatalog: false,
     isShowChatsInCatalog: false,
-    catalogCreationMode:    constants.ADD_CHAT_TO_OLD_CATALOG
+    catalogCreationMode: constants.ADD_CHAT_TO_OLD_CATALOG,
+    haveMoreMessages: true,
+    isCatalogsLoaded: false,
+    conversationUnreadMessages: [],
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case ACTION.GET_PREVIEW_CHAT_ASYNC:
+        case ACTION.GET_DIALOG_MESSAGES_ASYNC:
+        case ACTION.SEND_MESSAGE_ACTION:
+        case ACTION.SET_CHAT_FAVORITE_FLAG:
+        case ACTION.SET_CHAT_BLOCK_FLAG:
+        case ACTION.GET_CATALOG_LIST_ASYNC:
+        case ACTION.ADD_CHAT_TO_CATALOG_ASYNC:
+        case ACTION.CREATE_CATALOG_REQUEST:
+        case ACTION.DELETE_CATALOG_REQUEST:
+        case ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST:
+        case ACTION.CHANGE_CATALOG_NAME_REQUEST: {
+            return {
+                ...state,
+                isFetching: true,
+            }
+        }
         case ACTION.GET_PREVIEW_CHAT: {
             return {
                 ...state,
                 messagesPreview: action.data,
-                error: null,
+                isFetching: false,
             }
         }
-        case ACTION.RECEIVE_CATALOG_LIST_ERROR:{
-            return{
+        case ACTION.RECEIVE_CATALOG_LIST_ERROR: {
+            return {
                 ...state,
                 isFetching: false,
                 error: action.error
@@ -42,49 +60,59 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: action.error,
-                messagesPreview: []
+                messagesPreview: [],
+                isFetching: false,
             }
         }
         case ACTION.SET_CHAT_BLOCK_ERROR: {
-            return{
-                ...state,
-                error: action.error
-            }
-        }
-        case ACTION.ADD_CHAT_TO_CATALOG_ERROR:{
-            return{
+            return {
                 ...state,
                 error: action.error,
-                isShowCatalogCreation: false
+                isFetching: false,
             }
         }
-        case ACTION.SET_CHAT_FAVORITE_ERROR:{
-            return{
+        case ACTION.ADD_CHAT_TO_CATALOG_ERROR: {
+            return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isShowCatalogCreation: false,
+                isFetching: false,
+            }
+        }
+        case ACTION.SET_CHAT_FAVORITE_ERROR: {
+            return {
+                ...state,
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.BACK_TO_DIALOG_LIST: {
             return {
                 ...state,
-                isExpanded: false
+                isExpanded: false,
             }
         }
         case ACTION.GO_TO_EXPANDED_DIALOG: {
+            const {data: {interlocutor, conversationData}} = action;
             return {
                 ...state,
-                interlocutor: {...state.interlocutor,...action.data.interlocutor},
-                chatData: action.data.conversationData,
+                interlocutor,
+                conversationData,
                 isShow: true,
                 isExpanded: true,
-                messages: []
+                messages: [],
+                haveMoreMessages: true,
+                conversationUnreadMessages: [],
             }
         }
         case ACTION.GET_DIALOG_MESSAGES: {
+            const {data: {messages, interlocutor, haveMore}} = action;
             return {
                 ...state,
-                messages: action.data.messages,
-                interlocutor: action.data.interlocutor
+                ...(messages && {messages: [...messages, ...state.messages]}),
+                ...(interlocutor && {interlocutor}),
+                ...(haveMore !== undefined && {haveMoreMessages: haveMore}),
+                isFetching: false,
             }
         }
         case ACTION.GET_DIALOG_MESSAGES_ERROR: {
@@ -92,155 +120,209 @@ export default function (state = initialState, action) {
                 ...state,
                 messages: [],
                 interlocutor: null,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
         case ACTION.SEND_MESSAGE: {
+            const {data: {message, chatPreview, isSocketMessage}} = action;
+            const updatedPreview = [...state.messagesPreview];
+            let updatedConversationData;
+            if (chatPreview) {
+                const prepareChatData = ({body, createdAt, userId, interlocutor, ...rest}) => rest;
+                updatedPreview.push(chatPreview);
+                updatedConversationData = !state.conversationData && !isSocketMessage && prepareChatData(chatPreview);
+            }
+            updatedPreview.forEach(preview => {
+                if (preview.id === message.conversationId) {
+                    preview.userId = message.userId;
+                    preview.body = message.body;
+                    preview.createdAt = message.createdAt;
+                }
+            });
             return {
                 ...state,
-                chatData: {...state.chatData,...action.data.chatData},
-                messagesPreview: action.data.messagesPreview,
-                messages: [...state.messages, action.data.message]
+                messagesPreview: updatedPreview,
+                ...((!state.messages[0] || state.messages[0].conversationId === message.conversationId) && {messages: [...state.messages, message]}),
+                ...(updatedConversationData && {conversationData: updatedConversationData}),
+                isFetching: false,
             }
         }
         case ACTION.SEND_MESSAGE_ERROR: {
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
-        case ACTION.CLEAR_MESSAGE_LIST: {
+        case ACTION.NEW_UNREAD_MESSAGE: {
             return {
                 ...state,
-                messages: []
+                conversationUnreadMessages: [...state.conversationUnreadMessages, action.id],
             }
         }
-        case ACTION.CHANGE_CHAT_SHOW:{
-            return{
+        case ACTION.CLEAR_UNREAD_MESSAGES: {
+            return {
+                ...state,
+                conversationUnreadMessages: [],
+            }
+        }
+        case ACTION.CHANGE_CHAT_SHOW: {
+            return {
                 ...state,
                 isShowCatalogCreation: false,
                 isShow: !state.isShow
             }
         }
-        case ACTION.SET_CHAT_PREVIEW_MODE:{
+        case ACTION.SET_CHAT_PREVIEW_MODE: {
             return {
                 ...state,
                 chatMode: action.mode
             }
         }
-        case ACTION.CHANGE_CHAT_FAVORITE:{
-            return{
-                ...state,
-                chatData: action.data.changedPreview,
-                messagesPreview: action.data.messagesPreview
-            }
-        }
-        case ACTION.CHANGE_CHAT_BLOCK:{
+        case ACTION.CHANGE_CHAT_FAVORITE: {
+            const {data: {messagesPreview, conversationData}} = action;
             return {
                 ...state,
-                chatData: action.data.chatData,
-                messagesPreview: action.data.messagesPreview
+                messagesPreview,
+                ...(conversationData && {conversationData}),
+                isFetching: false,
+            }
+        }
+        case ACTION.CHANGE_CHAT_BLOCK: {
+            const {data: {conversationId, blackList}} = action;
+            const updatedPreview = [...state.messagesPreview];
+            updatedPreview.forEach(preview => {
+                if (preview.id === conversationId) {
+                    preview.blackList = blackList;
+                }
+            });
+            const updatedConversationData = (state.conversationData && state.conversationData.id === conversationId) ? {...state.conversationData, blackList} : null;
+            return {
+                ...state,
+                messagesPreview: updatedPreview,
+                ...(updatedConversationData && {conversationData: updatedConversationData}),
+                isFetching: false,
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST: {
-            return{
+            return {
                 ...state,
                 isFetching: false,
-                catalogList: [...action.data]
+                catalogList: [...action.data],
+                isCatalogsLoaded: true,
             }
         }
         case ACTION.CHANGE_SHOW_MODE_CATALOG: {
-            return{
+            return {
                 ...state,
-                currentCatalog: {...state.currentCatalog,...action.data},
+                currentCatalog: {...state.currentCatalog, ...action.data},
                 isShowChatsInCatalog: !state.isShowChatsInCatalog,
                 isRenameCatalog: false
             }
         }
-        case ACTION.CHANGE_TYPE_ADDING_CHAT_IN_CATALOG:{
-            return{
+        case ACTION.CHANGE_TYPE_ADDING_CHAT_IN_CATALOG: {
+            return {
                 ...state,
                 catalogCreationMode: action.data
             }
         }
         case ACTION.CHANGE_SHOW_ADD_CHAT_TO_CATALOG: {
-            return{
+            return {
                 ...state,
-                addChatId: action.data,
+                addConversationId: action.data,
                 isShowCatalogCreation: !state.isShowCatalogCreation
             }
         }
         case ACTION.ADD_CHAT_TO_CATALOG: {
-            return{
+            const {data: {catalogList}} = action;
+            return {
                 ...state,
                 isShowCatalogCreation: false,
-                catalogList: [...action.data]
+                catalogList,
+                isFetching: false,
             }
         }
-        case ACTION.CREATE_CATALOG_ERROR:{
-            return{
+        case ACTION.CREATE_CATALOG_ERROR: {
+            return {
                 ...state,
                 isShowCatalogCreation: false,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
-        case ACTION.CREATE_CATALOG_SUCCESS:{
-            return{
+        case ACTION.CREATE_CATALOG_SUCCESS: {
+            return {
                 ...state,
-                catalogList: [...state.catalogList,action.data],
-                isShowCatalogCreation: false
+                catalogList: [...state.catalogList, action.data],
+                isShowCatalogCreation: false,
+                isFetching: false,
             }
         }
-        case ACTION.DELETE_CATALOG_ERROR:{
-            return{
+        case ACTION.DELETE_CATALOG_ERROR: {
+            return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
-        case ACTION.DELETE_CATALOG_SUCCESS:{
-            return{
+        case ACTION.DELETE_CATALOG_SUCCESS: {
+            const {data: {catalogList}} = action;
+            return {
                 ...state,
-                catalogList: [...action.data]
+                catalogList,
+                isFetching: false,
             }
         }
-        case ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR:{
-            return{
+        case ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR: {
+            return {
                 ...state,
-                error: action.error
+                error: action.error,
+                isFetching: false,
             }
         }
-        case ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS:{
-            return{
+        case ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS: {
+            const {data: {catalogList, currentCatalog}} = action;
+            return {
                 ...state,
-                currentCatalog: action.data.currentCatalog,
-                catalogList: [...action.data.catalogList]
+                catalogList,
+                currentCatalog,
+                isFetching: false,
             }
         }
-        case ACTION.CHANGE_RENAME_CATALOG_MODE:{
-            return{
+        case ACTION.CHANGE_RENAME_CATALOG_MODE: {
+            return {
                 ...state,
                 isRenameCatalog: !state.isRenameCatalog
             }
         }
-        case ACTION.CHANGE_CATALOG_NAME_ERROR:{
-            return{
+        case ACTION.CHANGE_CATALOG_NAME_ERROR: {
+            return {
                 ...state,
-                isRenameCatalog: false
+                isRenameCatalog: false,
+                error: action.error,
+                isFetching: false,
             }
         }
-        case ACTION.CHANGE_CATALOG_NAME_SUCCESS:{
-            return{
+        case ACTION.CHANGE_CATALOG_NAME_SUCCESS: {
+            const {data: {catalogList, currentCatalog}} = action;
+            return {
                 ...state,
-                catalogList: [...action.data.catalogList],
-                currentCatalog: action.data.currentCatalog,
-                isRenameCatalog: false
+                catalogList,
+                currentCatalog,
+                isRenameCatalog: false,
+                isFetching: false,
             }
         }
-        case ACTION.CLEAR_CHAT_ERROR:{
-            return{
+        case ACTION.CLEAR_CHAT_ERROR: {
+            return {
                 ...state,
-                error: null
+                error: null,
+                isCatalogsLoaded: false,
             }
+        }
+        case ACTION.LOGOUT_RESPONSE: {
+            return initialState;
         }
         default:
             return state;

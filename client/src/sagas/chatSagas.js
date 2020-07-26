@@ -1,24 +1,21 @@
 import {put, select} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import * as restController from '../api/rest/restController';
-import remove from 'lodash/remove';
-import isEqual from 'lodash/isEqual';
 
 
 export function* previewSaga() {
     try {
-        const {data} = yield  restController.getPreviewChat();
+        const {data} = yield  restController.getPreview();
         yield  put({type: ACTION.GET_PREVIEW_CHAT, data: data});
     } catch (err) {
         yield  put({type: ACTION.GET_PREVIEW_CHAT_ERROR, error: err.response});
     }
 }
 
-
-export function* getDialog(action) {
+export function* getConversation(action) {
     try {
-        const {data} = yield  restController.getDialog(action.data);
-        yield put({type: ACTION.GET_DIALOG_MESSAGES, data: data});
+        const {data} = yield  restController.getConversation(action.data);
+        yield put({type: ACTION.GET_DIALOG_MESSAGES, data});
     } catch (err) {
         yield put({type: ACTION.GET_DIALOG_MESSAGES_ERROR, error: err.response});
     }
@@ -27,46 +24,40 @@ export function* getDialog(action) {
 export function* sendMessage(action) {
     try {
         const {data} = yield restController.newMessage(action.data);
-        const {messagesPreview} = yield select(state => state.chatStore);
-        let isNew = true;
-        messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.message.participants)) {
-                preview.text = data.message.body;
-                preview.sender = data.message.sender;
-                preview.createAt = data.message.createdAt;
-                isNew = false;
-            }
-        });
-        if (isNew) {
-            messagesPreview.push(data.preview);
-        }
-        yield put({
-            type: ACTION.SEND_MESSAGE,
-            data: {
-                message: data.message,
-                messagesPreview,
-                chatData: {
-                    _id: data.preview._id,
-                    participants: data.preview.participants,
-                    favoriteList: data.preview.favoriteList,
-                    blackList: data.preview.blackList
-                }
-            }
-        });
+        yield put({type: ACTION.SEND_MESSAGE, data});
     } catch (err) {
         yield put({type: ACTION.SEND_MESSAGE_ERROR, error: err.response});
     }
 }
 
-export function* changeChatFavorite(action) {
+export function* changeChatFavorite({data}) {
     try {
-        const {data} = yield restController.changeChatFavorite(action.data);
-        const {messagesPreview} = yield select(state => state.chatStore);
-        messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.participants))
-                preview.favoriteList = data.favoriteList;
+        yield restController.changeChatFavorite(data);
+        const {conversationId, participantsToFavoriteListPair, favoriteFlag, interlocutorId} = data;
+        const [firstParticipantData, secondParticipantData] = participantsToFavoriteListPair;
+        let favoriteList;
+        if (favoriteFlag) {
+            if (firstParticipantData.id === interlocutorId) {
+                favoriteList = [firstParticipantData.flag, true]
+            } else {
+                favoriteList = [true, secondParticipantData.flag];
+            }
+        } else {
+            if (firstParticipantData.id === interlocutorId) {
+                favoriteList = [firstParticipantData.flag, false]
+            } else {
+                favoriteList = [false, secondParticipantData.flag];
+            }
+        }
+        const {messagesPreview, conversationData} = yield select(state => state.chatStore);
+        const updatedMessagesPreview = [...messagesPreview];
+        const updatedConversationData = (conversationData && conversationData.id === conversationId) ? {...conversationData, favoriteList} : null;
+        updatedMessagesPreview.forEach(preview => {
+            if (preview.id === conversationId) {
+                preview.favoriteList = favoriteList;
+            }
         });
-        yield put({type: ACTION.CHANGE_CHAT_FAVORITE, data: {changedPreview: data, messagesPreview}});
+        yield put({type: ACTION.CHANGE_CHAT_FAVORITE, data: {messagesPreview: updatedMessagesPreview, conversationData: updatedConversationData}});
     } catch (err) {
         yield put({type: ACTION.SET_CHAT_FAVORITE_ERROR, error: err.response});
     }
@@ -75,17 +66,11 @@ export function* changeChatFavorite(action) {
 export function* changeChatBlock(action) {
     try {
         const {data} = yield restController.changeChatBlock(action.data);
-        const {messagesPreview} = yield select(state => state.chatStore);
-        messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.participants))
-                preview.blackList = data.blackList
-        });
-        yield put({type: ACTION.CHANGE_CHAT_BLOCK, data: {messagesPreview, chatData: data}});
+        yield put({type: ACTION.CHANGE_CHAT_BLOCK, data});
     } catch (err) {
         yield put({type: ACTION.SET_CHAT_BLOCK_ERROR, error: err.response})
     }
 }
-
 
 export function* getCatalogListSaga(action) {
     try {
@@ -96,22 +81,21 @@ export function* getCatalogListSaga(action) {
     }
 }
 
-export function* addChatToCatalog(action) {
+export function* addConversationToCatalog({data}) {
     try {
-        const {data} = yield restController.addChatToCatalog(action.data);
+        yield restController.addConversationToCatalog(data);
         const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
-                break;
+        const updatedCatalogList = [...catalogList];
+        updatedCatalogList.forEach(catalog => {
+            if (catalog.id === data.catalogId) {
+                catalog.conversations = [...catalog.conversations, data.conversationId];
             }
-        }
-        yield put({type: ACTION.ADD_CHAT_TO_CATALOG, data: catalogList});
+        });
+        yield put({type: ACTION.ADD_CHAT_TO_CATALOG, data: {catalogList: updatedCatalogList}});
     } catch (err) {
         yield put({type: ACTION.ADD_CHAT_TO_CATALOG_ERROR, error: err.response});
     }
 }
-
 
 export function* createCatalog(action) {
     try {
@@ -126,41 +110,45 @@ export function* deleteCatalog(action) {
     try {
         yield restController.deleteCatalog(action.data);
         const {catalogList} = yield select(state => state.chatStore);
-        const newCatalogList = remove(catalogList, (catalog) => action.data.catalogId !== catalog._id);
-        yield put({type: ACTION.DELETE_CATALOG_SUCCESS, data: newCatalogList});
+        const updatedCatalogList = catalogList.filter(catalog => action.data.catalogId !== catalog.id);
+        yield put({type: ACTION.DELETE_CATALOG_SUCCESS, data: {catalogList: updatedCatalogList}});
     } catch (err) {
         yield put({type: ACTION.DELETE_CATALOG_ERROR, error: err.response});
     }
 }
 
-export function* removeChatFromCatalogSaga(action) {
+export function* removeConversationFromCatalogSaga({data}) {
     try {
-        const {data} = yield restController.removeChatFromCatalog(action.data);
-        const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
-                break;
+        yield restController.removeConversationFromCatalog(data);
+        const {catalogList, currentCatalog} = yield select(state => state.chatStore);
+        const updatedCurrentCatalog = {...currentCatalog};
+        const updatedCatalogList = [...catalogList];
+        updatedCatalogList.forEach(catalog => {
+            if (catalog.id === data.catalogId) {
+                const updatedConversations = catalog.conversations.filter(conversation => conversation !== data.conversationId);
+                catalog.conversations = updatedConversations;
+                updatedCurrentCatalog.conversations = updatedConversations;
             }
-        }
-        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList, currentCatalog: data}});
+        });
+        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList: updatedCatalogList, currentCatalog: updatedCurrentCatalog}});
     } catch (err) {
         yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR, error: err.response});
     }
 }
 
-
-export function* changeCatalogName(action) {
+export function* changeCatalogName({data}) {
     try {
-        const {data} = yield restController.changeCatalogName(action.data);
-        const {catalogList} = yield select(state => state.chatStore);
-        for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].catalogName = data.catalogName;
-                break;
-            }
-        }
-        yield put({type: ACTION.CHANGE_CATALOG_NAME_SUCCESS, data: {catalogList, currentCatalog: data}});
+        yield restController.changeCatalogName(data);
+        const {catalogList, currentCatalog} = yield select(state => state.chatStore);
+        const updatedCurrentCatalog = {...currentCatalog};
+        const updatedCatalogList = [...catalogList];
+        updatedCatalogList.forEach(catalog => {
+           if (catalog.id === data.catalogId) {
+               catalog.name = data.name;
+               updatedCurrentCatalog.name = data.name;
+           }
+        });
+        yield put({type: ACTION.CHANGE_CATALOG_NAME_SUCCESS, data: {catalogList: updatedCatalogList, currentCatalog: updatedCurrentCatalog}});
     } catch (err) {
         yield put({type: ACTION.CHANGE_CATALOG_NAME_ERROR, error: err.response});
     }

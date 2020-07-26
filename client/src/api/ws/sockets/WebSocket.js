@@ -1,7 +1,6 @@
 import constants from '../../../constants/constants';
 import socketIoClient from 'socket.io-client';
 
-
 class WebSocket {
     constructor(dispatch, getState, room) {
         this.dispatch = dispatch;
@@ -15,11 +14,6 @@ class WebSocket {
             this.anotherSubscribes();
         });
     };
-
-    anotherSubscribes = () => {
-
-    };
 }
-
 
 export default WebSocket;

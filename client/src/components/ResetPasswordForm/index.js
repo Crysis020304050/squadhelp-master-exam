@@ -1,21 +1,26 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {resetPasswordRequest, clearResetPasswordError} from '../../actions/actionCreator';
+import {resetPasswordRequest} from '../../actions/actionCreator';
 import styles from './ResetPasswordForm.module.sass';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
+import PropTypes from 'prop-types';
 
-const ResetPasswordForm = ({handleSubmit, isFetching, resetPassword, clearError}) => {
+const ResetPasswordForm = ({handleSubmit, isFetching, responseError, resetPassword, dispatch}) => {
 
     useEffect(() => {
-        clearError();
-    }, []);
+        if (responseError && (responseError.status === 400 || responseError.status === 404)) {
+            const {status, data} = responseError;
+            dispatch(updateSyncErrors('resetPassword', {
+                ...(status === 400 && {newPassword: data}),
+                ...(status === 404 && {email: data}),
+            }));
+        }
+    }, [responseError]);
 
-    const onSubmit = (values) => {
-        resetPassword(values);
-    };
+    const onSubmit = (values) => resetPassword(values);
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -53,15 +58,16 @@ const ResetPasswordForm = ({handleSubmit, isFetching, resetPassword, clearError}
     );
 };
 
-
-const mapStateToProps = state => state.resetPasswordStore;
-
 const mapDispatchToProps = dispatch => ({
     resetPassword: (data) => dispatch(resetPasswordRequest(data)),
-    clearError: () => dispatch(clearResetPasswordError()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+ResetPasswordForm.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    responseError: PropTypes.any,
+};
+
+export default connect(null, mapDispatchToProps)(reduxForm({
     form: 'resetPassword',
     validate: customValidator(Schems.ResetPasswordSchema),
 })(ResetPasswordForm));

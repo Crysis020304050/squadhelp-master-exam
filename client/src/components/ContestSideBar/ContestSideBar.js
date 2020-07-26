@@ -1,78 +1,74 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styles from './ContestSideBar.module.sass';
-import {withRouter} from 'react-router-dom';
 import constants from '../../constants/constants';
 import moment from 'moment';
+import money from 'money-math';
 
 
-const ContestSideBar = (props) => {
+const ContestSideBar = ({contestData: {createdAt, User: {id, avatar, firstName, lastName, displayName}, prize, status}, data, totalEntries}) => {
+
+    const {CONTEST_STATUS_FINISHED, STATIC_IMAGES_PATH, MODERATOR, ANONYM_IMAGE_PATH, publicURL} = constants;
+
     const getTimeStr = () => {
-        const diff = (moment.duration(moment().diff(moment(props.contestData.createdAt))));
-        let str = '';
-        if (diff._data.days !== 0)
-            str = `${diff._data.days} days `;
-        if (diff._data.hours !== 0)
-            str += `${diff._data.hours} hours`;
-        if (str.length === 0)
-            str = 'less than one hour';
-        return str;
+        if (status === CONTEST_STATUS_FINISHED) {
+            return 'Finished';
+        } else {
+            const diff = (moment.duration(moment().diff(moment(createdAt))));
+            if (diff.asHours() < 1) {
+                return 'Less than one hour';
+            } else if (diff.asHours() < 24) {
+                return `${diff.hours()} hours`;
+            } else if (diff.asDays() > 1) {
+                return `${Math.floor(diff.asDays())} days ${diff.hours()} hours`
+            }
+        }
     };
 
-
-    const renderContestInfo = () => {
-        const {totalEntries} = props;
-        const {User, prize} = props.contestData;
-        return (
-            <div className={styles.contestSideBarInfo}>
-                <div className={styles.contestInfo}>
-                    <div className={styles.awardAndTimeContainer}>
-                        <div className={styles.prizeContainer}>
-                            <img src={`${constants.STATIC_IMAGES_PATH}big-diamond.png`} alt='diamond'/>
-                            <span>{`$ ${prize}`}</span>
-                        </div>
-                        <div className={styles.timeContainer}>
-                            <div className={styles.timeDesc}>
-                                <img src={`${constants.STATIC_IMAGES_PATH}clock.png`} alt='clock'/>
-                                <span>Going</span>
-                            </div>
-                            <span className={styles.time}>{getTimeStr()}</span>
-                        </div>
-                        <div className={styles.guaranteedPrize}>
-                            <div>
-                                <img src={`${constants.STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
-                            </div>
-                            <span>Guaranteed prize</span>
-                        </div>
+    return (
+        <div className={styles.contestSideBarInfo}>
+            <div className={styles.contestInfo}>
+                <div className={styles.awardAndTimeContainer}>
+                    <div className={styles.prizeContainer}>
+                        <img src={`${STATIC_IMAGES_PATH}big-diamond.png`} alt='diamond'/>
+                        <span>{`$ ${money.floatToAmount(prize)}`}</span>
                     </div>
-                    <div className={styles.contestStats}>
-                        <span>Contest Stats</span>
-                        <div className={styles.totalEntrie}>
-                            <span className={styles.totalEntriesLabel}>Total Entries</span>
-                            <span>{totalEntries}</span>
+                    <div className={styles.timeContainer}>
+                        <div className={styles.timeDesc}>
+                            <img src={`${STATIC_IMAGES_PATH}clock.png`} alt='clock'/>
+                            <span>Going</span>
                         </div>
+                        <span className={styles.time}>{getTimeStr()}</span>
+                    </div>
+                    <div className={styles.guaranteedPrize}>
+                        <div>
+                            <img src={`${STATIC_IMAGES_PATH}smallCheck.png`} alt='check'/>
+                        </div>
+                        <span>Guaranteed prize</span>
                     </div>
                 </div>
-                {props.data.id !== User.id && props.data.role !== constants.MODERATOR && <div className={styles.infoCustomerContainer}>
-                    <span className={styles.labelCustomerInfo}>About Contest Holder</span>
-                    <div className={styles.customerInfo}>
-                        <img src={User.avatar === 'anon.png' ? constants.ANONYM_IMAGE_PATH : `${constants.publicURL}${User.avatar}`} alt='user'/>
-                        <div className={styles.customerNameContainer}>
-                            <span>{User.firstName + ' ' + User.lastName}</span>
-                            <span>{User.displayName}</span>
-                        </div>
+                <div className={styles.contestStats}>
+                    <span>Contest Stats</span>
+                    <div className={styles.totalEntrie}>
+                        <span className={styles.totalEntriesLabel}>Total Entries</span>
+                        <span>{totalEntries}</span>
                     </div>
-                </div>}
+                </div>
             </div>
-        )
-    };
-
-    return renderContestInfo();
+            {data.id !== id && data.role !== MODERATOR && <div className={styles.infoCustomerContainer}>
+                <span className={styles.labelCustomerInfo}>About Contest Holder</span>
+                <div className={styles.customerInfo}>
+                    <img src={avatar === 'anon.png' ? ANONYM_IMAGE_PATH : `${publicURL}${avatar}`} alt='user'/>
+                    <div className={styles.customerNameContainer}>
+                        <span>{`${firstName} ${lastName}`}</span>
+                        <span>{displayName}</span>
+                    </div>
+                </div>
+            </div>}
+        </div>
+    );
 };
 
-const mapStateToProps = (state) => {
-    return state.userStore;
-};
-
+const mapStateToProps = (state) => state.userStore;
 
 export default connect(mapStateToProps, null)(ContestSideBar);

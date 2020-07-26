@@ -60,24 +60,19 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = function (models) {
         User.hasMany(models.Order, {foreignKey: 'user_id', targetKey: 'id'});
-    };
-
-    User.associate = function (models) {
-        User.hasMany(models.Participant,
-            {foreignKey: 'user_id', targetKey: 'id'});
-    };
-
-    User.associate = function (models) {
+        User.hasMany(models.Participant, {foreignKey: 'user_id', targetKey: 'id'});
         User.hasMany(models.Offer, {foreignKey: 'user_id', targetKey: 'id'});
-    };
-
-    User.associate = function (models) {
-        User.hasMany(models.RefreshToken,
-            {foreignKey: 'user_id', targetKey: 'id'});
-    };
-
-    User.associate = function (models) {
+        User.hasMany(models.RefreshToken, {foreignKey: 'user_id', targetKey: 'id'});
         User.hasMany(models.TransactionHistory, {foreignKey: 'user_id', targetKey: 'id'});
+        User.hasMany(models.Conversation, {as: 'owner', foreignKey: 'participantFirstId', targetKey: 'id'});
+        User.hasMany(models.Conversation, {as: 'interlocutor', foreignKey: 'participantSecondId', targetKey: 'id'});
+        User.hasMany(models.Catalog, {foreignKey: 'userId', targetKey: 'id'});
+        User.hasMany(models.Message, {as: 'userMessages', foreignKey: 'userId', targetKey: 'id'});
+        User.hasMany(models.BlackList, {as: 'blackListOwner', foreignKey: 'userId', targetKey: 'id'});
+        User.hasMany(models.BlackList, {as: 'blockedUser', foreignKey: 'blockedUserId', targetKey: 'id'});
+        User.hasMany(models.FavoriteList, {as: 'favoriteListOwner', foreignKey: 'userId', targetKey: 'id'});
+        User.hasMany(models.FavoriteList, {as: 'favoriteUser', foreignKey: 'favoriteUserId', targetKey: 'id'});
+        User.hasMany(models.Event, {foreignKey: 'userId', targetKey: 'id'});
     };
 
     return User;

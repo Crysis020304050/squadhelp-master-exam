@@ -6,7 +6,7 @@ const OnlyNotAuthorizedUserHoc = (Component) => {
 
     const mapStateToProps = state => state.userStore;
 
-    const Hoc = ({data, history, match, isFetching}) => {
+    const Hoc = ({data, history, match}) => {
 
         useEffect(() => {
             if (data) {
@@ -17,7 +17,7 @@ const OnlyNotAuthorizedUserHoc = (Component) => {
         return (
             <>
                 {
-                    !data && !isFetching
+                    !data
                     ? <Component history={history} match={match}/>
                     : <Spinner/>
                 }

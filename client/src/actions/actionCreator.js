@@ -3,11 +3,12 @@ import ACTION from './actionTypes';
 
 export const authActionRequest = data => ({
     type: ACTION.AUTH_ACTION_REQUEST,
-    data
+    data,
 });
 
-export const authActionSuccess = () => ({
+export const authActionSuccess = (data) => ({
     type: ACTION.AUTH_ACTION_SUCCESS,
+    data,
 });
 
 export const authActionError = error => ({
@@ -15,12 +16,13 @@ export const authActionError = error => ({
     error
 });
 
-export const clearErrorSignUpAndLogin = () => ({
-    type: ACTION.AUTH_ACTION_CLEAR_ERROR
+export const logoutRequest = (data) => ({
+    type: ACTION.LOGOUT_REQUEST,
+    data,
 });
 
-export const clearUserStore = () => ({
-    type: ACTION.CLEAR_USER_STORE
+export const logoutResponse = () => ({
+    type: ACTION.LOGOUT_RESPONSE,
 });
 
 export const clearAddOfferError = () => ({
@@ -35,9 +37,9 @@ export const clearSetOfferStatusError = () => ({
     type: ACTION.CLEAR_SET_OFFER_STATUS_ERROR
 });
 
-export const getUserSuccess = data => ({
-    type: ACTION.GET_USER_SUCCESS,
-    data,
+export const updateUserBalance = prize => ({
+    type: ACTION.UPDATE_USER_BALANCE,
+    prize,
 });
 
 export const getDataForContest = data => ({
@@ -74,10 +76,6 @@ export const selectBundle = bundle => ({
     bundle
 });
 
-export const clearBundle = () => ({
-    type: ACTION.CLEAR_BUNDLE_ACTION
-});
-
 export const updateContest = data => ({
     type: ACTION.UPDATE_CONTEST_ACTION,
     data
@@ -109,7 +107,7 @@ export const createCatalog = data => ({
 });
 
 export const updateUserData = data => ({
-    type: ACTION.UPDATE_USER_DATA,
+    type: ACTION.UPDATE_USER_DATA_REQUEST,
     data
 });
 
@@ -122,11 +120,7 @@ export const clearContestList = () => ({
     type: ACTION.CLEAR_CONTESTS_LIST
 });
 
-export const clearAuth = () => ({
-    type: ACTION.AUTH_ACTION_CLEAR
-});
-
-export const getPreviewChat = () => ({
+export const getPreview = () => ({
     type: ACTION.GET_PREVIEW_CHAT_ASYNC
 });
 
@@ -139,7 +133,7 @@ export const goToExpandedDialog = data => ({
     data
 });
 
-export const getDialogMessages = data => ({
+export const getConversationMessages = data => ({
     type: ACTION.GET_DIALOG_MESSAGES_ASYNC,
     data
 });
@@ -154,8 +148,13 @@ export const addMessage = data => ({
     data
 });
 
-export const clearMessageList = () => ({
-    type: ACTION.CLEAR_MESSAGE_LIST
+export const newUnreadMessage = (id) => ({
+   type: ACTION.NEW_UNREAD_MESSAGE,
+   id,
+});
+
+export const clearUnreadMessages = () => ({
+   type: ACTION.CLEAR_UNREAD_MESSAGES,
 });
 
 export const changeChatShow = () => ({
@@ -213,7 +212,7 @@ export const changeShowAddChatToCatalogMenu = data => ({
     data
 });
 
-export const addChatToCatalog = data => ({
+export const addConversationToCatalog = data => ({
     type: ACTION.ADD_CHAT_TO_CATALOG_ASYNC,
     data
 });
@@ -223,7 +222,7 @@ export const deleteCatalog = data => ({
     data
 });
 
-export const removeChatFromCatalog = data => ({
+export const removeConversationFromCatalog = data => ({
     type: ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST,
     data
 });
@@ -283,11 +282,6 @@ export const clearChatError = () => ({
     type: ACTION.CLEAR_CHAT_ERROR
 });
 
-export const changeModalShow = data => ({
-    type: ACTION.CHANGE_SHOW_MODAL,
-    data
-});
-
 export const selectContestType = data => ({
     type: ACTION.SELECT_CONTEST_TYPE,
     data,
@@ -330,14 +324,42 @@ export const clearTransactionsStoreError = () => ({
     type: ACTION.CLEAR_TRANSACTIONS_STORE_ERROR,
 });
 
-export const createNewEvent = event => ({
-    type: ACTION.CREATE_NEW_EVENT,
+export const createNewEventRequest = data => ({
+    type: ACTION.CREATE_EVENT_REQUEST,
+    data,
+});
+
+export const createNewEventSuccess = event => ({
+    type: ACTION.CREATE_EVENT_SUCCESS,
     event,
 });
 
-export const setStartedEvent = timestamp => ({
+export const createNewEventError = error => ({
+    type: ACTION.CREATE_EVENT_ERROR,
+    error,
+});
+
+export const getUserEventsRequest = () => ({
+    type: ACTION.GET_USER_EVENTS_REQUEST,
+});
+
+export const getUserEventsSuccess = events => ({
+    type: ACTION.GET_USER_EVENTS_SUCCESS,
+    events,
+});
+
+export const getUserEventsError = error => ({
+    type: ACTION.GET_USER_EVENTS_ERROR,
+    error,
+});
+
+export const setStartedEvent = id => ({
     type: ACTION.SET_STARTED_EVENT,
-    timestamp,
+    id,
+});
+
+export const clearEventsStoreError = () => ({
+   type: ACTION.CLEAR_EVENTS_STORE_ERROR,
 });
 
 export const resetPasswordRequest = data => ({

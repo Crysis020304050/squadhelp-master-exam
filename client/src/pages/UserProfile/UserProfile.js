@@ -8,14 +8,14 @@ import PayForm from '../../components/PayForm/PayForm';
 import classNames from 'classnames';
 import {cashOut, changeProfileModeView, clearPaymentStore} from '../../actions/actionCreator';
 import Error from '../../components/Error/Error';
+import money from 'money-math';
 
-const UserProfile = (props) => {
-    const pay = (values) => {
-        const {number, expiry, cvc, sum} = values;
-        props.cashOut({number, expiry, cvc, sum});
-    };
+const UserProfile = ({balance, role, profileModeView, changeProfileModeView, error, clearPaymentStore, cashOut}) => {
 
-    const {balance, role, profileModeView, changeProfileModeView, error, clearPaymentStore} = props;
+    const {USER_INFO_MODE, CREATOR, CASHOUT_MODE} = constants;
+
+    const onPaySubmit = ({number, expiry, cvc, sum}) => cashOut({number, expiry, cvc, sum: money.floatToAmount(sum)});
+
     return (
         <div>
             <Header/>
@@ -24,26 +24,26 @@ const UserProfile = (props) => {
                     <span className={styles.headerAside}>Select Option</span>
                     <div className={styles.optionsContainer}>
                         <div
-                            className={classNames(styles.optionContainer, {[styles.currentOption]: profileModeView === constants.USER_INFO_MODE})}
-                            onClick={() => changeProfileModeView(constants.USER_INFO_MODE)}>UserInfo
+                            className={classNames(styles.optionContainer, {[styles.currentOption]: profileModeView === USER_INFO_MODE})}
+                            onClick={() => changeProfileModeView(USER_INFO_MODE)}>UserInfo
                         </div>
-                        {role === constants.CREATOR && <div
-                            className={classNames(styles.optionContainer, {[styles.currentOption]: profileModeView === constants.CASHOUT_MODE})}
-                            onClick={() => changeProfileModeView(constants.CASHOUT_MODE)}>Cashout</div>}
+                        {role === CREATOR && <div
+                            className={classNames(styles.optionContainer, {[styles.currentOption]: profileModeView === CASHOUT_MODE})}
+                            onClick={() => changeProfileModeView(CASHOUT_MODE)}>Cashout</div>}
                     </div>
                 </div>
                 {
-                    profileModeView === constants.USER_INFO_MODE ?
+                    profileModeView === USER_INFO_MODE ?
                         <UserInfo/>
                         :
                         <div className={styles.container}>
-                            {parseInt(balance) === 0 ?
+                            {money.isZero(balance) ?
                                 <span className={styles.notMoney}>There is no money on your balance</span>
                                 :
                                 <div>
-                                    {error &&
-                                    <Error data={error.data} status={error.status} clearError={clearPaymentStore}/>}
-                                    <PayForm sendRequest={pay}/>
+                                    {error && error.status !== 402 &&
+                                    <Error error={error} clearError={clearPaymentStore}/>}
+                                    <PayForm onSubmit={onPaySubmit}/>
                                 </div>
                             }
                         </div>
@@ -54,19 +54,14 @@ const UserProfile = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const {balance, role} = state.userStore.data;
-    const {profileModeView} = state.userProfile;
-    const {error} = state.payment;
+    const {userStore: {data: {balance, role}}, userProfile: {profileModeView}, payment: {error}} = state;
     return {balance, role, profileModeView, error}
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        cashOut: (data) => dispatch(cashOut(data)),
-        changeProfileModeView: (data) => dispatch(changeProfileModeView(data)),
-        clearPaymentStore: () => dispatch(clearPaymentStore())
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+    cashOut: (data) => dispatch(cashOut(data)),
+    changeProfileModeView: (data) => dispatch(changeProfileModeView(data)),
+    clearPaymentStore: () => dispatch(clearPaymentStore())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

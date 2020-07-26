@@ -74,6 +74,9 @@ export default function (state = initialState, action) {
                 moderateActionIsFetching: false,
                 error: action.error,
             };
+        case ACTION.LOGOUT_RESPONSE: {
+            return initialState;
+        }
         default: {
             return state
         }

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import constants from '../constants/constants';
-import {refreshTokens} from './rest/restController';
+import {refreshTokens} from './rest/auth';
 import history from "../browserHistory";
-import {clearStorage} from '../utils';
+import {clearStorage, setTokens} from '../utils';
 
 const instance = axios.create({
     baseURL: constants.BASE_URL
@@ -22,8 +22,8 @@ instance.interceptors.response.use(response => response, async err => {
                 refreshToken: localStorage.getItem(constants.REFRESH_TOKEN)
             });
             if (data) {
-                sessionStorage.setItem(constants.ACCESS_TOKEN, data.accessToken);
-                localStorage.setItem(constants.REFRESH_TOKEN, data.refreshToken);
+                const {accessToken, refreshToken} = data;
+                setTokens(accessToken, refreshToken);
                 return instance.request(config);
             } else {
                 clearStorage();

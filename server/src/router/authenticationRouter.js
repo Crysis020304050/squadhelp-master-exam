@@ -10,7 +10,6 @@ const authenticationRouter = require('express')();
 authenticationRouter.post(
     '/registration',
     validators.validateRegistrationData,
-    userController.checkIfUserExist,
     hashPass,
     userController.createUser,
     tokensController.signRefreshToken,
@@ -34,7 +33,6 @@ authenticationRouter.post(
     '/refreshTokens',
     tokensController.verifyRefreshToken,
     tokensController.findRefreshToken,
-    tokensController.getUserByRefreshToken,
     tokensController.signRefreshToken,
     tokensController.updateRefreshToken,
     tokensController.signAccessToken,
@@ -52,7 +50,14 @@ authenticationRouter.post(
     basicMiddlewares.sendAuthData,
 );
 
-authenticationRouter.post('/resetUserPasswordRequest',
+authenticationRouter.post(
+  '/logout',
+    tokensController.verifyRefreshToken,
+    tokensController.deleteRefreshToken,
+);
+
+authenticationRouter.post(
+    '/resetUserPasswordRequest',
     validators.validateResetPassword,
     userController.findUserByEmailOrId,
     userController.compareUserPasswords,

@@ -1,26 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {changeShowModeCatalog, changeRenameCatalogMode, changeCatalogName} from "../../../../actions/actionCreator";
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CatalogHeader.module.sass';
 import FormField from "../../../FormField";
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
 
-const validate = (values) => {
-    const errors = {};
-    if (!values.catalogName || !values.catalogName.trim().length) {
-        errors.catalogName = 'Cannot be empty';
-    }
-    return errors;
-};
+const CatalogListHeader = ({changeCatalogName, id, handleSubmit, name, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid, catalogList, dispatch}) => {
 
-
-const CatalogListHeader = (props) => {
-    const changeCatalogName = (values) => {
-        const {changeCatalogName, _id} = props;
-        changeCatalogName({catalogName: values.catalogName, catalogId: _id});
+    const onSubmit = ({name}) => {
+        if (catalogList.some(catalog => catalog.name === name)) {
+            dispatch(updateSyncErrors('catalogRename', {name: `Catalog with this name already exists`}));
+        } else {
+            changeCatalogName({name, catalogId: id});
+        }
     };
-    const {handleSubmit, catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -33,13 +29,13 @@ const CatalogListHeader = (props) => {
         <div className={styles.headerContainer}>
             <i className='fas fa-long-arrow-alt-left' onClick={() => changeShowModeCatalog()}/>
             {!isRenameCatalog && <div className={styles.infoContainer}>
-                <span>{catalogName}</span>
+                <span>{name}</span>
                 <i className='fas fa-edit' onClick={() => changeRenameCatalogMode()}/>
             </div>}
             {isRenameCatalog && <div className={styles.changeContainer}>
-                <form onSubmit={handleSubmit(changeCatalogName)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Field
-                        name='catalogName'
+                        name='name'
                         {...formInputClasses}
                         component={FormField}
                         type='text'
@@ -54,29 +50,27 @@ const CatalogListHeader = (props) => {
 
 
 const mapStateToProps = (state) => {
-    const {isRenameCatalog} = state.chatStore;
-    const {catalogName, _id} = state.chatStore.currentCatalog;
+    const {isRenameCatalog, catalogList} = state.chatStore;
+    const {name, id} = state.chatStore.currentCatalog;
     return {
-        _id,
-        catalogName,
+        id,
+        name,
         isRenameCatalog,
+        catalogList,
         initialValues: {
-            catalogName: catalogName
+            name,
         }
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
-        changeRenameCatalogMode: () => dispatch(changeRenameCatalogMode()),
-        changeCatalogName: (data) => dispatch(changeCatalogName(data))
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+    changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
+    changeRenameCatalogMode: () => dispatch(changeRenameCatalogMode()),
+    changeCatalogName: (data) => dispatch(changeCatalogName(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'catalogRename',
-    validate
+    validate: customValidator(Schems.CatalogNameSchema)
 })(CatalogListHeader));
 

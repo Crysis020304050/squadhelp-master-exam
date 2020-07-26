@@ -1,5 +1,4 @@
 const schems = require('../validationSchemes/schems');
-const ServerError = require('../errors/ServerError');
 const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.validateRegistrationData = async (req, res, next) => {
@@ -30,7 +29,6 @@ module.exports.validateResetPassword = async (req, res, next) => {
 };
 
 module.exports.validateGetOffersFilesData = async (req, res, next) => {
-
   const validationResult = await schems.getOffersFilesDataSchem.isValid(req.body);
   if (validationResult) {
     return next();
@@ -55,4 +53,28 @@ module.exports.validateContestCreation = (req, res, next) => {
     .catch(err => {
       next(err);
     });
+};
+
+module.exports.validateAddingMessageToConversation = async (req, res, next) => {
+  const validationResult = await schems.sendMessageSchema.isValid(req.body);
+  if (validationResult) {
+    return next();
+  }
+  return next(new BadRequestError('Invalid message value'));
+};
+
+module.exports.validateSettingCatalogName = async (req, res, next) => {
+  const validationResult = await schems.settingCatalogNameSchema.isValid(req.body);
+  if (validationResult) {
+    return next();
+  }
+  return next(new BadRequestError('Invalid catalog name value'));
+};
+
+module.exports.validateEventCreating = async (req, res, next) => {
+  const validationResult = await schems.eventSchema.isValid(req.body);
+  if (validationResult) {
+    return next();
+  }
+  return next(new BadRequestError('Invalid data for event creating'));
 };

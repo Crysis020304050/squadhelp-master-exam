@@ -6,20 +6,20 @@ import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
 import DatePickerField from "../DatePickerField";
-import {createNewEvent} from '../../actions/actionCreator';
+import {createNewEventRequest} from '../../actions/actionCreator';
 
 const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
 
     const onSubmit = (values) => {
-        const {endTime, reminderTime} = values;
+        const {endDate, reminderDate} = values;
         const now = new Date();
-        if (endTime > now && reminderTime > now) {
-            createEvent({...values, startDate: now, timestamp: Date.now()});
+        if (endDate > now && reminderDate > now) {
+            createEvent(values);
             reset();
         } else {
             dispatch(updateSyncErrors('event', {
-                ...(endTime < now && {endTime: 'End event time must be greater than now'}),
-                ...(reminderTime < now && {reminderTime: 'Reminder time must be greater than now'}),
+                ...(endDate < now && {endDate: 'End event date must be greater than now'}),
+                ...(reminderDate < now && {reminderDate: 'Reminder date must be greater than now'}),
             }));
         }
     };
@@ -35,20 +35,20 @@ const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.eventForm}>
             <Field
-                name='eventName'
+                name='name'
                 {...formInputClasses}
                 component={FormField}
                 type='text'
                 label='Event Name'
             />
             <Field
-                name='endTime'
+                name='endDate'
                 {...formInputClasses}
                 component={DatePickerField}
                 label='End Date'
             />
             <Field
-                name='reminderTime'
+                name='reminderDate'
                 {...formInputClasses}
                 component={DatePickerField}
                 label='Reminder Date'
@@ -62,7 +62,7 @@ const CreateEventForm = ({handleSubmit, createEvent, reset, dispatch}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    createEvent: (event) => dispatch(createNewEvent(event)),
+    createEvent: (data) => dispatch(createNewEventRequest(data)),
 });
 
 export default connect(null, mapDispatchToProps)(reduxForm({

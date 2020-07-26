@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Logo from '../../components/Logo';
 import RegistrationForm
     from '../../components/RegistrationForm/RegistrationForm';
 import styles from './RegistrationPage.module.sass';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {clearAuth} from '../../actions/actionCreator';
+import {clearUserError} from '../../actions/actionCreator';
 import constants from '../../constants/constants';
 import Article from "../../components/Article";
 import articlesData from './articlesData';
 import Error from "../../components/Error/Error";
 
-const RegistrationPage = (props) => {
-    const {error, authClear} = props;
+const RegistrationPage = ({error, isFetching, clearError}) => {
+
+    useEffect(() => {
+        if (error) {
+            clearError();
+        }
+    }, []);
 
     return (
         <div className={styles.signUpPage}>
@@ -30,10 +35,9 @@ const RegistrationPage = (props) => {
                     <h4>
                         We always keep your name and email address private.
                     </h4>
-                    { error && <Error data={ error.data } status={ error.status }
-                                      clearError={ authClear }/> }
+                    { error && error.status !== 409 && <Error error={error} clearError={ clearError }/> }
                 </div>
-                <RegistrationForm/>
+                <RegistrationForm isFetching={isFetching} responseError={error}/>
             </div>
             <div className={styles.footer}>
                 <div className={styles.articlesMainContainer}>
@@ -70,15 +74,13 @@ const RegistrationPage = (props) => {
                 </div>
             </div>
         </div>
-    );
+    )
 };
 
-const mapStateToProps = state => state.auth;
+const mapStateToProps = state => state.userStore;
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        authClear: () => dispatch(clearAuth()),
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    clearError: () => dispatch(clearUserError()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage);

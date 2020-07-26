@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {authActionRequest, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {authActionRequest} from '../../actions/actionCreator';
 import styles from './RegistrationForm.module.sass';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput
     from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
@@ -10,25 +10,17 @@ import constants from '../../constants/constants';
 import customValidator from '../../validators/validator';
 import Schems from '../../validators/validationSchems';
 import FormField from "../FormField";
+import PropTypes from 'prop-types';
 
-const RegistrationForm = props => {
-
-    const {handleSubmit, submitting, register, clearError} = props;
+const RegistrationForm = ({handleSubmit, isFetching, register, responseError, dispatch}) => {
 
     useEffect(() => {
-        clearError();
-    }, []);
+        if (responseError && responseError.status === 409) {
+            dispatch(updateSyncErrors('registration', {email: 'This email is already in use'}));
+        }
+    }, [responseError]);
 
-    const clicked = (values) => {
-        register({
-            firstName: values.firstName,
-            lastName: values.lastName,
-            displayName: values.displayName,
-            email: values.email,
-            password: values.password,
-            role: values.role,
-        });
-    };
+    const onSubmit = ({confirmPassword, agreeOfTerms, ...rest}) => register(rest);
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -40,7 +32,7 @@ const RegistrationForm = props => {
 
     return (
         <div className={styles.signUpFormContainer}>
-            <form onSubmit={handleSubmit(clicked)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.row}>
                     <Field
                         name='firstName'
@@ -112,31 +104,33 @@ const RegistrationForm = props => {
                     />
 
                 </div>
-                <button type='submit' disabled={submitting}
+                <button type='submit' disabled={isFetching}
                         className={styles.submitContainer}>
-                    <span className={styles.inscription}>Create Account</span>
+                    <span className={styles.inscription}>{isFetching
+                        ? 'Submitting...'
+                        : 'Create Account'}</span>
                 </button>
             </form>
         </div>
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        initialValues: {
-            role: constants.CUSTOMER,
-        },
-    };
+const mapStateToProps = (state) => ({
+    initialValues: {
+        role: constants.CUSTOMER,
+    },
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    register: (data) => dispatch(authActionRequest(data)),
+});
+
+RegistrationForm.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    responseError: PropTypes.any,
 };
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        register: (data) => dispatch(authActionRequest(data)),
-        clearError: () => dispatch(clearErrorSignUpAndLogin()),
-    }
-);
-
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'login',
+    form: 'registration',
     validate: customValidator(Schems.RegistrationSchem),
 })(RegistrationForm));

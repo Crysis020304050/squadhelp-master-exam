@@ -1,66 +1,73 @@
-const bd = require('../../models');
+const db = require('../../models');
 const ServerError = require('../../errors/ServerError');
-const NotFoundError = require('../../errors/UserNotFoundError');
+const NotFoundError = require('../../errors/NotFoundError');
+const uuid = require('uuid/v1');
+const {CONTEST_STATUS_ACTIVE, CONTEST_STATUS_PENDING} = require('../../constants/constants');
+const money = require('money-math');
+const moment = require('moment');
+
+module.exports.createContestOrContests = async (contestsArr, price, userId, transaction) => {
+    const orderId = uuid();
+    const preparedContests = contestsArr.map((contest, index) => ({
+        ...contest,
+        status: index === 0 ? CONTEST_STATUS_ACTIVE : CONTEST_STATUS_PENDING,
+        userId,
+        priority: index + 1,
+        orderId,
+        createdAt: moment().format('YYYY-MM-DD HH:mm'),
+        prize: money.floatToAmount(money.div(price, money.floatToAmount(contestsArr.length))),
+    }));
+    return await db.Contests.bulkCreate(preparedContests, {transaction});
+};
 
 module.exports.updateContest = async (data, predicate, transaction) => {
-    const [updatedCount, [updatedContest]] = await bd.Contests.update(data,
-        {where: predicate, returning: true, transaction});
-    if (updatedCount !== 1) {
-        throw new ServerError('cannot update Contest');
-    } else {
-        return updatedContest.dataValues;
+    const [updatedRowsCount, [updatedContest]] = await db.Contests.update(data,
+        {where: predicate, returning: true, transaction, raw: true});
+    if (updatedRowsCount) {
+        return updatedContest;
     }
+    throw new ServerError('Cannot update contest');
 };
 
 module.exports.updateContestStatus = async (data, predicate, transaction) => {
-    const updateResult = await bd.Contests.update(data,
-        {where: predicate, returning: true, transaction});
-    if (updateResult[0] < 1) {
-        throw new ServerError('cannot update Contest');
-    } else {
-        return updateResult[1][0].dataValues;
+    const [updatedRowsCount, [updatedContest]] = await db.Contests.update(data,
+        {where: predicate, returning: true, transaction, raw: true});
+    if (updatedRowsCount) {
+        return updatedContest;
     }
+    throw new ServerError('Cannot update contest');
 };
 
 module.exports.updateOffer = async (data, predicate, transaction) => {
-    const [updatedCount, [updatedOffer]] = await bd.Offers.update(data,
-        {where: predicate, returning: true, transaction});
-    if (updatedCount !== 1) {
-        throw new ServerError('cannot update offer!');
-    } else {
-        return updatedOffer.dataValues;
+    const [updatedRowsCount, [updatedOffer]] = await db.Offers.update(data,
+        {where: predicate, returning: true, transaction, raw: true});
+    if (updatedRowsCount) {
+        return updatedOffer;
     }
+    throw new ServerError('Cannot update offer');
 };
 
 module.exports.updateOfferStatus = async (data, predicate, transaction) => {
-    const result = await bd.Offers.update(data,
+    const [updatedRowsCount, updatedOffers] = await db.Offers.update(data,
         {where: predicate, returning: true, transaction});
-    if (result[0] < 1) {
-        throw new ServerError('cannot update offer!');
-    } else {
-        return result[1];
+    if (updatedRowsCount) {
+        return updatedOffers;
     }
+    throw new ServerError('Cannot set offer status');
 };
 
 module.exports.createOffer = async (data) => {
-    const result = await bd.Offers.create(data);
-    if (!result) {
-        throw new ServerError('cannot create new Offer');
-    } else {
+    const result = await db.Offers.create(data);
+    if (result) {
         return result.get({plain: true});
     }
+    throw new ServerError('Cannot create new Offer');
 };
 
-module.exports.getOffersData = async (filter) => {
-    const result = await bd.Offers.findAll(filter);
-    if (result.length > 0) {
-        return result;
-    }
-    throw new NotFoundError('cannot get offers files');
-};
+module.exports.getOffersData = async (filter) => await db.Offers.findAll(filter);
 
 module.exports.getUserIdByContestId = async (contestId) => {
-    const result = await bd.Contests.findOne({
+    const result = await db.Contests.findOne({
         where: {
             id: contestId,
         },
@@ -71,3 +78,21 @@ module.exports.getUserIdByContestId = async (contestId) => {
     }
     throw new NotFoundError('Cannot find user by contest id');
 };
+
+module.exports.getSelectsData = async (filter) => {
+    const result = await db.Selects.findAll(filter);
+    if (result.length) {
+        return result;
+    }
+    throw new ServerError('Cannot get contest preferences');
+};
+
+module.exports.getContest = async (filter) => {
+    const result = await db.Contests.findOne(filter);
+    if (result) {
+        return result.get({plain: true});
+    }
+    throw new NotFoundError('Cannot get contest');
+};
+
+module.exports.getContests = async (filter) => await db.Contests.findAll(filter);

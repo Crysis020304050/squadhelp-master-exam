@@ -1,26 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, updateSyncErrors} from 'redux-form';
 import styles from './CreateCatalog.module.sass';
 import {createCatalog} from '../../../../actions/actionCreator';
 import FormField from "../../../FormField";
+import customValidator from '../../../../validators/validator';
+import Schems from '../../../../validators/validationSchems';
 
-const validate = (values) => {
-    const errors = {};
-    if (!values.catalogName || !values.catalogName.trim().length) {
-        errors.catalogName = 'Cannot be empty';
-    }
-    return errors;
-};
+const CreateCatalog = ({createCatalog, addConversationId, handleSubmit, valid, catalogList, dispatch}) => {
 
-
-const CreateCatalog = (props) => {
-    const click = (values) => {
-        const {createCatalog} = props;
-        const {addChatId} = props;
-        createCatalog({catalogName: values.catalogName, chatId: addChatId});
+    const onSubmit = ({name}) => {
+        if (catalogList.some(catalog => catalog.name === name)) {
+            dispatch(updateSyncErrors('createCatalog', {name: 'Catalog with this name already exists'}));
+        } else {
+            createCatalog({name, conversationId: addConversationId});
+        }
     };
-    const {handleSubmit, valid} = props;
 
     const formInputClasses = {
         containerStyle: styles.inputContainer,
@@ -30,9 +25,9 @@ const CreateCatalog = (props) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(click)} className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <Field
-                name='catalogName'
+                name='name'
                 {...formInputClasses}
                 component={FormField}
                 type='text'
@@ -43,18 +38,13 @@ const CreateCatalog = (props) => {
     )
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    createCatalog: (data) => dispatch(createCatalog(data))
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createCatalog: (data) => dispatch(createCatalog(data))
-    }
-};
-
-const mapStateToProps = (state) => {
-    return state.chatStore;
-};
+const mapStateToProps = (state) => state.chatStore;
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'createCatalog',
-    validate
+    validate: customValidator(Schems.CatalogNameSchema),
 })(CreateCatalog));

@@ -2,41 +2,40 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import SelectInput from '../../../SelectInput/SelectInput';
-import {addChatToCatalog} from '../../../../actions/actionCreator';
+import {addConversationToCatalog} from '../../../../actions/actionCreator';
 import styles from './AddToCatalog.module.sass';
 
 
-const AddToCatalog = (props) => {
+const AddToCatalog = ({catalogList, addConversationId, addConversationToCatalog, handleSubmit}) => {
 
     const getCatalogsNames = () => {
-        const {catalogList} = props;
         const namesArray = [];
-        catalogList.forEach((catalog) => {
-            namesArray.push(catalog.catalogName);
+        catalogList.forEach(({conversations, name}) => {
+            if (!conversations.some(conversationId => conversationId === addConversationId)) {
+                namesArray.push(name);
+            }
         });
         return namesArray;
     };
 
     const getValueArray = () => {
-        const {catalogList} = props;
         const valueArray = [];
-        catalogList.forEach((catalog) => {
-            valueArray.push(catalog._id);
+        catalogList.forEach(({conversations, id}) => {
+            if (!conversations.some(conversationId => conversationId === addConversationId)) {
+                valueArray.push(id);
+            }
         });
         return valueArray;
     };
 
-    const click = (values) => {
-        const {addChatId} = props;
-        props.addChatToCatalog({chatId: addChatId, catalogId: values.catalogId});
+    const onSubmit = ({catalogId}) => {
+        addConversationToCatalog({conversationId: addConversationId, catalogId: +catalogId});
     };
 
-
-    const {handleSubmit} = props;
     const selectArray = getCatalogsNames();
     return (<>
             {selectArray.length !== 0 ?
-                <form onSubmit={handleSubmit(click)} className={styles.form}>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                     <Field
                         name='catalogId'
                         component={SelectInput}
@@ -52,24 +51,19 @@ const AddToCatalog = (props) => {
                     <button type='submit'>Add</button>
                 </form>
                 :
-                <div className={styles.notFound}>You have not created any directories.</div>
+                <div className={styles.notFound}>You do not have any available catalogs.</div>
             }
 
         </>
     )
 };
 
+const mapStateToProps = (state) => state.chatStore;
 
-const mapStateToProps = (state) => {
-    return state.chatStore
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addChatToCatalog: (data) => dispatch(addChatToCatalog(data))
-    }
-};
+const mapDispatchToProps = (dispatch) => ({
+    addConversationToCatalog: (data) => dispatch(addConversationToCatalog(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'addChatToCatalog'
+    form: 'addConversationToCatalog'
 })(AddToCatalog));

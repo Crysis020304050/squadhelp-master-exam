@@ -4,16 +4,16 @@ module.exports = {
       {
         cardNumber: '4564654564564564',
         name: 'SquadHelp',
-        expiry: '11/20',
+        expiry: '11/29',
         cvc: '453',
-        balance: 0,
+        balance: 0.00,
       },
       {
         cardNumber: '4111111111111111',
         name: 'yriy',
         expiry: '09/29',
         cvc: '043',
-        balance: 500000,
+        balance: 500000.00,
       },
     ], {});
   },

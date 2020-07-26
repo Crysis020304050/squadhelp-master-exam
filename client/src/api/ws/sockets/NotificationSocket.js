@@ -2,6 +2,7 @@ import WebSocket from './WebSocket';
 import React from 'react';
 import Notification from '../../../components/Notification/Notification';
 import {toast} from 'react-toastify';
+import {updateUserBalance} from "../../../actions/actionCreator";
 
 class NotificationSocket extends WebSocket {
     constructor(dispatch, getState, room) {
@@ -13,6 +14,7 @@ class NotificationSocket extends WebSocket {
         this.onChangeMark();
         this.onChangeOfferStatus();
     };
+
     onChangeMark = () => {
         this.socket.on('changeMark', () => {
             toast('Someone liked your offer');
@@ -20,8 +22,11 @@ class NotificationSocket extends WebSocket {
     };
 
     onChangeOfferStatus = () => {
-        this.socket.on('changeOfferStatus', (message) => {
-            toast(<Notification message={message.message} contestId={message.contestId}/>);
+        this.socket.on('changeOfferStatus', ({message, contestId, prize}) => {
+            toast(<Notification message={message} contestId={contestId}/>);
+            if (prize) {
+                this.dispatch(updateUserBalance(prize));
+            }
         })
     };
 
@@ -34,7 +39,8 @@ class NotificationSocket extends WebSocket {
     subscribe = (id) => {
         this.socket.emit('subscribe', id);
     };
-    unsubsctibe = (id) => {
+
+    unsubscribe = (id) => {
         this.socket.emit('unsubscribe', id);
     }
 }

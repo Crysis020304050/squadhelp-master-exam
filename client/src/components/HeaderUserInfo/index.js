@@ -19,7 +19,7 @@ const HeaderUserInfo = ({className, logOut, data}) => {
                             <li><Link to='/dashboard'>View Dashboard</Link></li>
                             <li><Link to='/account'>My Account</Link></li>
                             {data.role !== constants.MODERATOR && <>
-                                <li><Link to='/transactions'>My Transactions</Link></li>
+                                {data.role === constants.CREATOR && <li><Link to='/transactions'>My Transactions</Link></li>}
                                 <li><Link to='/events'>My Events</Link></li>
                                 <li><Link to='/'>Messages</Link></li>
                                 <li><Link to='/'>Affiliate Dashboard</Link></li>
