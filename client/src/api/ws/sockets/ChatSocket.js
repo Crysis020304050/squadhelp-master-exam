@@ -1,5 +1,5 @@
 import WebSocket from './WebSocket';
-import CONTANTS from "../../../constants/constants";
+import constants from "../../../constants/constants";
 import {addMessage, changeBlockStatusInStore} from "../../../actions/actionCreator";
 
 class ChatSocket extends WebSocket {
@@ -7,31 +7,32 @@ class ChatSocket extends WebSocket {
         super(dispatch, getState, room);
     }
 
+    /**@override*/
     anotherSubscribes = () => {
         this.onNewMessage();
         this.onChangeBlockStatus();
     };
 
     onChangeBlockStatus = () => {
-        this.socket.on(CONTANTS.CHANGE_BLOCK_STATUS, (data) => {
+        this.socket.on(constants.CHANGE_BLOCK_STATUS, (data) => {
             const {message: {conversationId, blackList}} = data;
             this.dispatch(changeBlockStatusInStore({conversationId, blackList}));
         })
     };
 
     onNewMessage = () => {
-        this.socket.on('newMessage', (data) => {
+        this.socket.on(constants.NEW_MESSAGE, (data) => {
             const {message: {message, chatPreview}} = data;
             this.dispatch(addMessage({message, chatPreview, isSocketMessage: true}));
         })
     };
 
     subscribeChat = (id) => {
-        this.socket.emit('subscribeChat', id);
+        this.socket.emit(constants.SUBSCRIBE_CHAT, id);
     };
 
     unsubscribeChat = (id) => {
-        this.socket.emit('unsubscribeChat', id);
+        this.socket.emit(constants.UNSUBSCRIBE_CHAT, id);
     };
 }
 

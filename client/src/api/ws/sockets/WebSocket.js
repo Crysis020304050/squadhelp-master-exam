@@ -10,10 +10,15 @@ class WebSocket {
     }
 
     listen = () => {
-        this.socket.on('connect', () => {
+        this.socket.on(constants.SOCKET_CONNECTION, () => {
             this.anotherSubscribes();
         });
     };
+
+    //this method should be overridden
+    anotherSubscribes (socket) {
+
+    }
 }
 
 export default WebSocket;

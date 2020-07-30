@@ -14,6 +14,7 @@ class WebSocket{
     });
   }
 
+  //this method should be overridden
   anotherSubscribes (socket) {
 
   }

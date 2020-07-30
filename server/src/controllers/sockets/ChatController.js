@@ -3,19 +3,20 @@ const constants = require('../../constants/constants');
 
 class ChatController extends WebSocket{
 
+  /**@override*/
   anotherSubscribes (socket) {
     this.onSubscribeChat(socket);
     this.onUnsubscribeChat(socket);
   }
 
   onSubscribeChat (socket) {
-    socket.on('subscribeChat', (id) => {
+    socket.on(constants.SUBSCRIBE_CHAT, (id) => {
       socket.join(id);
     });
   }
 
   onUnsubscribeChat (socket) {
-    socket.on('unsubscribeChat', (id) => {
+    socket.on(constants.UNSUBSCRIBE_CHAT, (id) => {
       socket.leave(id);
     });
   }
